@@ -1,0 +1,1740 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2024-11",
+  "sources": [
+    "NEOFAX 2024 (Micromedex)",
+    "Guía Farmacoterapéutica SEGNNEO 2019",
+    "Tabla Antimicrobianos NEO 2024"
+  ],
+  "drugs": [
+    {
+      "id": "ampicilina",
+      "name": "Ampicilina",
+      "genericName": "Ampicillin",
+      "category": ["antibiotico"],
+      "indications": [
+        "Sepsis neonatal temprana",
+        "Meningitis bacteriana (EGB, Listeria)",
+        "Infección urinaria",
+        "Profilaxis intraparto"
+      ],
+      "dosingRules": [
+        {
+          "label": "< 2000 g, 0–7 días",
+          "weightMaxG": 2000,
+          "dolMin": 0,
+          "dolMax": 7,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV", "IM"],
+          "notes": "Meningitis: 100 mg/kg/dosis c/12h"
+        },
+        {
+          "label": "< 2000 g, 8–28 días",
+          "weightMaxG": 2000,
+          "dolMin": 8,
+          "dolMax": 28,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV", "IM"],
+          "notes": "Meningitis: 100 mg/kg/dosis c/8h"
+        },
+        {
+          "label": "≥ 2000 g, 0–7 días",
+          "weightMinG": 2000,
+          "dolMin": 0,
+          "dolMax": 7,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV", "IM"],
+          "notes": "Meningitis: 100 mg/kg/dosis c/8h"
+        },
+        {
+          "label": "≥ 2000 g, > 7 días",
+          "weightMinG": 2000,
+          "dolMin": 8,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6h",
+          "routes": ["IV", "IM"],
+          "notes": "Meningitis: 100 mg/kg/dosis c/6h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg o 1 g (polvo liofilizado)",
+        "reconstitution": "Disolver 500 mg en 10 mL de agua bidestilada → 50 mg/mL",
+        "concentrationMgMl": 50,
+        "diluent": "SF 0.9% o agua bidestilada",
+        "dilutionInstructions": [
+          "Reconstituir vial 500 mg con 10 mL agua bidestilada → 50 mg/mL",
+          "Extraer la dosis calculada y diluir en 10–20 mL SF 0.9%",
+          "Concentración final máxima recomendada: 50 mg/mL"
+        ],
+        "stability": "8 h temperatura ambiente | 72 h refrigerado (2–8 °C)"
+      },
+      "administration": {
+        "routes": ["IV", "IM"],
+        "ivRate": "Infundir en 15–30 min (velocidad máx. 100 mg/min)",
+        "incompatibleWith": ["Gentamicina (misma vía)", "Amikacina (misma vía)"]
+      },
+      "monitoring": ["Función renal (clearance)", "Hemograma", "Cultivos de seguimiento"],
+      "references": ["NEOFAX 2024 p. 97", "SEGNNEO 2019"]
+    },
+    {
+      "id": "gentamicina",
+      "name": "Gentamicina",
+      "genericName": "Gentamicin",
+      "category": ["antibiotico"],
+      "indications": [
+        "Sepsis neonatal por gram negativos",
+        "Sinergia con ampicilina (EGB, Listeria)",
+        "Infección urinaria"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem",
+          "gaMax": 30,
+          "dosePerKg": 5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/48h",
+          "routes": ["IV", "IM"],
+          "notes": "Monitorizar niveles: pico 5–10 μg/mL (1 h post-dosis), valle < 1 μg/mL (pre-dosis)"
+        },
+        {
+          "label": "EG 30–34 sem",
+          "gaMin": 30,
+          "gaMax": 35,
+          "dosePerKg": 4.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/36h",
+          "routes": ["IV", "IM"],
+          "notes": "Monitorizar niveles: pico 5–10 μg/mL, valle < 1 μg/mL"
+        },
+        {
+          "label": "EG ≥ 35 sem",
+          "gaMin": 35,
+          "dosePerKg": 4,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": ["IV", "IM"],
+          "notes": "Monitorizar niveles: pico 5–10 μg/mL, valle < 1 μg/mL"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 80 mg/2 mL (40 mg/mL) o 10 mg/mL pediátrico",
+        "concentrationMgMl": 10,
+        "diluent": "SF 0.9% o D5%",
+        "dilutionInstructions": [
+          "Usar ampolla pediátrica 10 mg/mL directamente",
+          "Extraer dosis y diluir en 5–10 mL SF 0.9%",
+          "Concentración final máx. recomendada: 10 mg/mL"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV", "IM"],
+        "ivRate": "Infundir en 30 min",
+        "incompatibleWith": ["Ampicilina (misma vía)", "Beta-lactámicos (misma vía)"]
+      },
+      "monitoring": [
+        "Nivel pico (1 h post-dosis): 5–10 μg/mL",
+        "Nivel valle (pre-dosis): < 1 μg/mL",
+        "Función renal",
+        "Audición (control al alta)"
+      ],
+      "contraindications": ["Hipersensibilidad a aminoglucósidos"],
+      "references": ["NEOFAX 2024 p. 441", "SEGNNEO 2019"]
+    },
+    {
+      "id": "vancomicina",
+      "name": "Vancomicina",
+      "genericName": "Vancomycin",
+      "category": ["antibiotico"],
+      "indications": [
+        "Sepsis por Staphylococcus aureus meticilino-resistente (SAMR)",
+        "Meningitis por SAMR o Enterococo",
+        "Infección por Staphylococcus coagulasa negativo",
+        "Profilaxis en cirugía cuando está indicado"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 29 sem, 0–14 días",
+          "gaMax": 29,
+          "dolMax": 14,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": ["IV"],
+          "notes": "Monitorizar valle 5–15 μg/mL (infecciones graves: 15–20)"
+        },
+        {
+          "label": "EG < 29 sem, > 14 días",
+          "gaMax": 29,
+          "dolMin": 15,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/18h",
+          "routes": ["IV"]
+        },
+        {
+          "label": "EG 29–36 sem, 0–14 días",
+          "gaMin": 29,
+          "gaMax": 37,
+          "dolMax": 14,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/18h",
+          "routes": ["IV"]
+        },
+        {
+          "label": "EG 29–36 sem, > 14 días",
+          "gaMin": 29,
+          "gaMax": 37,
+          "dolMin": 15,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV"]
+        },
+        {
+          "label": "EG ≥ 37 sem",
+          "gaMin": 37,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8–12h",
+          "routes": ["IV"]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg o 1 g (polvo)",
+        "reconstitution": "Disolver 500 mg en 10 mL agua bidestilada → 50 mg/mL",
+        "concentrationMgMl": 5,
+        "diluent": "SF 0.9% o D5%",
+        "dilutionInstructions": [
+          "Reconstituir 500 mg en 10 mL agua bidestilada → 50 mg/mL",
+          "Diluir la dosis en SF 0.9% hasta concentración 5 mg/mL",
+          "Ejemplo: 75 mg en 15 mL SF 0.9%"
+        ],
+        "stability": "24 h temperatura ambiente | 14 días refrigerado"
+      },
+      "administration": {
+        "routes": ["IV"],
+        "ivRate": "Infundir en 60 min (máx. 10 mg/min para evitar síndrome del hombre rojo)",
+        "incompatibleWith": ["Heparina (misma vía)"]
+      },
+      "monitoring": [
+        "Nivel valle (pre-dosis 3a o 4a): 5–15 μg/mL (infecciones graves: 15–20)",
+        "Función renal semanal",
+        "Audición al alta"
+      ],
+      "adverseEffects": ["Síndrome del hombre rojo (infusión rápida)", "Nefrotoxicidad", "Ototoxicidad"],
+      "references": ["NEOFAX 2024 p. 898", "SEGNNEO 2019"]
+    },
+    {
+      "id": "amikacina",
+      "name": "Amikacina",
+      "genericName": "Amikacin",
+      "category": ["antibiotico"],
+      "indications": [
+        "Gram negativos resistentes a gentamicina",
+        "Sepsis neonatal tardía por gérmenes hospitalarios",
+        "Infecciones por Enterobacterias multirresistentes"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem",
+          "gaMax": 30,
+          "dosePerKg": 18,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/48h",
+          "routes": ["IV", "IM"],
+          "notes": "Pico (1 h): 20–30 μg/mL | Valle (pre): < 5 μg/mL"
+        },
+        {
+          "label": "EG 30–34 sem",
+          "gaMin": 30,
+          "gaMax": 35,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/36h",
+          "routes": ["IV", "IM"]
+        },
+        {
+          "label": "EG ≥ 35 sem",
+          "gaMin": 35,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": ["IV", "IM"]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 100 mg/2 mL (50 mg/mL) o 500 mg/2 mL",
+        "concentrationMgMl": 50,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Extraer dosis del vial (50 mg/mL)",
+          "Diluir en 5–10 mL SF 0.9% hasta 5–10 mg/mL final"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV", "IM"],
+        "ivRate": "Infundir en 30 min",
+        "incompatibleWith": ["Beta-lactámicos (misma vía)"]
+      },
+      "monitoring": [
+        "Nivel pico (1 h post-dosis): 20–30 μg/mL",
+        "Nivel valle (pre-dosis): < 5 μg/mL",
+        "Función renal",
+        "Audición"
+      ],
+      "references": ["NEOFAX 2024 p. 48", "SEGNNEO 2019"]
+    },
+    {
+      "id": "cefotaxima",
+      "name": "Cefotaxima",
+      "genericName": "Cefotaxime",
+      "category": ["antibiotico"],
+      "indications": [
+        "Meningitis por gram negativos",
+        "Sepsis neonatal tardía",
+        "Infección urinaria"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 29 sem, 0–28 días",
+          "gaMax": 29,
+          "dolMax": 28,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV", "IM"]
+        },
+        {
+          "label": "EG < 29 sem, > 28 días",
+          "gaMax": 29,
+          "dolMin": 29,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV", "IM"]
+        },
+        {
+          "label": "EG 29–36 sem, 0–7 días",
+          "gaMin": 29,
+          "gaMax": 37,
+          "dolMax": 7,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV", "IM"]
+        },
+        {
+          "label": "EG 29–36 sem, > 7 días",
+          "gaMin": 29,
+          "gaMax": 37,
+          "dolMin": 8,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV", "IM"]
+        },
+        {
+          "label": "EG ≥ 37 sem",
+          "gaMin": 37,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6–8h",
+          "routes": ["IV", "IM"],
+          "notes": "Meningitis: 50 mg/kg c/6h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg o 1 g (polvo)",
+        "reconstitution": "Disolver 500 mg en 10 mL agua bidestilada → 50 mg/mL",
+        "concentrationMgMl": 50,
+        "diluent": "SF 0.9% o agua bidestilada",
+        "dilutionInstructions": [
+          "Reconstituir 500 mg en 10 mL agua bidestilada → 50 mg/mL",
+          "Diluir dosis en 10–20 mL SF 0.9%"
+        ],
+        "stability": "12 h temperatura ambiente | 5 días refrigerado"
+      },
+      "administration": {
+        "routes": ["IV", "IM"],
+        "ivRate": "Infundir en 15–30 min"
+      },
+      "monitoring": ["Función renal", "Hemograma"],
+      "references": ["NEOFAX 2024 p. 209", "SEGNNEO 2019"]
+    },
+    {
+      "id": "meropenem",
+      "name": "Meropenem",
+      "genericName": "Meropenem",
+      "category": ["antibiotico"],
+      "indications": [
+        "Infecciones por bacilos gram negativos multirresistentes",
+        "Meningitis por gram negativos resistentes",
+        "Sepsis con sospecha de Pseudomonas o Enterobacter"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 32 sem, 0–14 días",
+          "gaMax": 32,
+          "dolMax": 14,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV"]
+        },
+        {
+          "label": "EG < 32 sem, > 14 días",
+          "gaMax": 32,
+          "dolMin": 15,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV"]
+        },
+        {
+          "label": "EG ≥ 32 sem",
+          "gaMin": 32,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV"],
+          "notes": "Meningitis: 40 mg/kg c/8h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg o 1 g (polvo)",
+        "reconstitution": "Disolver 500 mg en 10 mL SF 0.9% → 50 mg/mL",
+        "concentrationMgMl": 50,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Reconstituir 500 mg en 10 mL SF 0.9% → 50 mg/mL",
+          "Extraer dosis, diluir en 10–20 mL SF 0.9%"
+        ],
+        "stability": "4 h temperatura ambiente | 24 h refrigerado (reconstituido)"
+      },
+      "administration": {
+        "routes": ["IV"],
+        "ivRate": "Infundir en 15–30 min (o hasta 3 h para infusión extendida)"
+      },
+      "monitoring": ["Función renal", "Hemograma", "Función hepática"],
+      "references": ["NEOFAX 2024 p. 596", "SEGNNEO 2019"]
+    },
+    {
+      "id": "aciclovir",
+      "name": "Aciclovir",
+      "genericName": "Acyclovir",
+      "category": ["antiviral"],
+      "indications": [
+        "Herpes simplex neonatal (piel/ojos/boca, SNC, diseminado)",
+        "Sospecha de infección herpética en recién nacido"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infección SEM (piel, ojos, boca)",
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h × 14 días",
+          "routes": ["IV"],
+          "notes": "SEM = Skin, Eyes, Mouth"
+        },
+        {
+          "label": "Infección SNC o diseminada",
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h × 21 días",
+          "routes": ["IV"]
+        },
+        {
+          "label": "Prematuro EG < 34 sem",
+          "gaMax": 34,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV"]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 250 mg o 500 mg (polvo liofilizado)",
+        "reconstitution": "Disolver 250 mg en 5 mL agua bidestilada → 50 mg/mL",
+        "concentrationMgMl": 7,
+        "diluent": "SF 0.9% o D5%",
+        "dilutionInstructions": [
+          "Reconstituir 250 mg en 5 mL agua bidestilada → 50 mg/mL",
+          "Diluir dosis hasta concentración final ≤ 7 mg/mL",
+          "Ejemplo: 40 mg en 6 mL SF 0.9%"
+        ],
+        "stability": "12 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV"],
+        "ivRate": "Infundir en 60 min (NUNCA en bolo – nefrotóxico)",
+        "incompatibleWith": ["Dobutamina", "Dopamina"]
+      },
+      "monitoring": ["Función renal pre-dosis y c/48h", "Hidratación adecuada"],
+      "adverseEffects": ["Nefrotoxicidad (si infusión rápida o mal hidratado)", "Flebitis"],
+      "references": ["NEOFAX 2024 p. 20", "SEGNNEO 2019"]
+    },
+    {
+      "id": "fluconazol",
+      "name": "Fluconazol",
+      "genericName": "Fluconazole",
+      "category": ["antifungico"],
+      "indications": [
+        "Candidiasis invasiva neonatal",
+        "Profilaxis antifúngica en RNMBPN (< 28 sem o < 1000 g)"
+      ],
+      "dosingRules": [
+        {
+          "label": "Profilaxis (< 28 sem / < 1000 g)",
+          "gaMax": 28,
+          "dosePerKg": 3,
+          "unit": "mg/kg/dosis",
+          "frequency": "2 × semana × 6 semanas",
+          "routes": ["IV", "VO"],
+          "notes": "Comenzar a las 24–48 h de vida"
+        },
+        {
+          "label": "Tratamiento EG < 29 sem",
+          "gaMax": 29,
+          "dosePerKg": 6,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/48h",
+          "routes": ["IV", "VO"],
+          "notes": "Candidiasis invasiva. Mínimo 14 días post cultivos negativos"
+        },
+        {
+          "label": "Tratamiento EG ≥ 29 sem",
+          "gaMin": 29,
+          "dosePerKg": 12,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": ["IV", "VO"]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 200 mg/100 mL (2 mg/mL) lista para usar",
+        "concentrationMgMl": 2,
+        "diluent": "Uso directo (ya diluido)",
+        "dilutionInstructions": [
+          "Presentación lista para usar: 2 mg/mL",
+          "Extraer el volumen correspondiente a la dosis",
+          "No requiere dilución adicional"
+        ],
+        "stability": "Según fecha de vencimiento del vial"
+      },
+      "administration": {
+        "routes": ["IV", "VO"],
+        "ivRate": "Infundir en 30–60 min (máx. 10 mL/h en neonatos)"
+      },
+      "monitoring": ["Función hepática", "Función renal", "Cultivos fúngicos"],
+      "references": ["NEOFAX 2024 p. 406", "SEGNNEO 2019"]
+    },
+    {
+      "id": "dopamina",
+      "name": "Dopamina",
+      "genericName": "Dopamine",
+      "category": ["cardiovascular"],
+      "indications": [
+        "Hipotensión arterial neonatal refractaria a volumen",
+        "Soporte inotrópico y vasopresivo",
+        "Shock cardiogénico"
+      ],
+      "infusionRules": [
+        {
+          "label": "Dosis renal / dopaminérgica",
+          "doseMin": 2,
+          "doseMax": 5,
+          "startDose": 5,
+          "unit": "mcg/kg/min",
+          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "notes": "Vasodilatación renal y esplácnica"
+        },
+        {
+          "label": "Dosis inotrópica",
+          "doseMin": 5,
+          "doseMax": 10,
+          "startDose": 5,
+          "unit": "mcg/kg/min",
+          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "notes": "Efecto β1: aumenta inotropía y FC"
+        },
+        {
+          "label": "Dosis vasopresiva",
+          "doseMin": 10,
+          "doseMax": 20,
+          "startDose": 10,
+          "unit": "mcg/kg/min",
+          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "notes": "Efecto α: vasoconstricción. Titular con cautela"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 200 mg/5 mL (40 mg/mL)",
+        "concentrationMgMl": 40,
+        "diluent": "D5% o SF 0.9%",
+        "dilutionInstructions": [
+          "REGLA DE 3: (3 × peso en kg) mg de Dopamina en 50 mL de D5%",
+          "Ejemplo (1.2 kg): 3 × 1.2 = 3.6 mg → diluir hasta 50 mL con D5%",
+          "Con esta concentración: 1 mL/h = 1 mcg/kg/min"
+        ],
+        "stability": "24 h temperatura ambiente (proteger de luz)"
+      },
+      "administration": {
+        "routes": ["IV central (preferencia)", "IV periférica (temporario)"],
+        "ivRate": "Infusión continua. Usar bomba de jeringa.",
+        "incompatibleWith": ["Bicarbonato de sodio (misma vía)", "Ampicilina (misma vía)"]
+      },
+      "monitoring": [
+        "Presión arterial invasiva (idealmente)",
+        "Frecuencia cardíaca",
+        "Diuresis horaria",
+        "Perfusión periférica"
+      ],
+      "adverseEffects": ["Taquicardia", "Arritmias", "Vasoconstricción periférica (dosis altas)", "Necrosis si extravasación"],
+      "references": ["NEOFAX 2024 p. 305"]
+    },
+    {
+      "id": "dobutamina",
+      "name": "Dobutamina",
+      "genericName": "Dobutamine",
+      "category": ["cardiovascular"],
+      "indications": [
+        "Disfunción miocárdica con gasto cardíaco bajo",
+        "Shock cardiogénico neonatal",
+        "Post-asfixia perinatal con falla cardíaca"
+      ],
+      "infusionRules": [
+        {
+          "label": "Dosis inotrópica",
+          "doseMin": 5,
+          "doseMax": 20,
+          "startDose": 5,
+          "unit": "mcg/kg/min",
+          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "notes": "Efecto principalmente β1. Menor efecto vasopresivo que dopamina"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 250 mg/20 mL (12.5 mg/mL)",
+        "concentrationMgMl": 12.5,
+        "diluent": "D5% o SF 0.9%",
+        "dilutionInstructions": [
+          "REGLA DE 3: (3 × peso en kg) mg de Dobutamina en 50 mL D5%",
+          "Ejemplo (1.2 kg): 3.6 mg en 50 mL D5%",
+          "Con esta preparación: 1 mL/h = 1 mcg/kg/min"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV central (preferencia)"],
+        "ivRate": "Infusión continua. Usar bomba de jeringa.",
+        "incompatibleWith": ["Bicarbonato", "Heparina (misma vía)"]
+      },
+      "monitoring": ["Frecuencia cardíaca", "Presión arterial", "Ecocardiograma"],
+      "references": ["NEOFAX 2024 p. 300"]
+    },
+    {
+      "id": "adrenalina_infusion",
+      "name": "Adrenalina (infusión)",
+      "genericName": "Epinephrine infusion",
+      "category": ["cardiovascular", "emergencia"],
+      "indications": [
+        "Shock refractario a dopamina/dobutamina",
+        "PCR post-reanimación",
+        "Hipotensión severa"
+      ],
+      "infusionRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.01,
+          "doseMax": 1,
+          "startDose": 0.05,
+          "unit": "mcg/kg/min",
+          "ruleOf3": { "multiplier": 0.3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "notes": "Regla de 3 Adrenalina: 0.3 × kg mg en 50 mL → 1 mL/h = 0.1 mcg/kg/min"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 1 mg/1 mL (1:1000) o 0.1 mg/mL (1:10.000)",
+        "concentrationMgMl": 1,
+        "diluent": "D5% o SF 0.9%",
+        "dilutionInstructions": [
+          "REGLA DE 3 (Adrenalina): 0.3 × peso (kg) mg en 50 mL D5%",
+          "Con esta preparación: 1 mL/h = 0.1 mcg/kg/min",
+          "Ejemplo (1.2 kg): 0.3 × 1.2 = 0.36 mg → 360 mcg en 50 mL D5%"
+        ],
+        "stability": "24 h temperatura ambiente (proteger de luz)"
+      },
+      "administration": {
+        "routes": ["IV central exclusivamente"],
+        "ivRate": "Infusión continua. Nunca bolo IV directo excepto emergencia.",
+        "incompatibleWith": ["Bicarbonato (misma vía)", "Aminofilina"]
+      },
+      "monitoring": ["Presión arterial invasiva", "FC continua", "Glucemia horaria"],
+      "adverseEffects": ["Taquicardia severa", "Hipertensión", "Isquemia periférica", "Hiperglucemia"],
+      "references": ["NEOFAX 2024 p. 340"]
+    },
+    {
+      "id": "adrenalina_reanimacion",
+      "name": "Adrenalina (reanimación)",
+      "genericName": "Epinephrine resuscitation",
+      "category": ["emergencia"],
+      "indications": [
+        "PCR neonatal: FC < 60 lpm luego de 30 s de VPP + compresiones",
+        "Reanimación cardiopulmonar neonatal"
+      ],
+      "dosingRules": [
+        {
+          "label": "Vía IV o IO (primera elección)",
+          "dosePerKg": 0.01,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/3–5 min si necesario",
+          "routes": ["IV", "IO"],
+          "notes": "Usar solución 1:10.000 (0.1 mg/mL). Volumen: 0.1 mL/kg. Máx. 0.03 mg/kg (0.3 mL/kg)"
+        },
+        {
+          "label": "Vía endotraqueal (si no hay acceso IV/IO)",
+          "dosePerKg": 0.05,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/3–5 min si necesario",
+          "routes": ["ET"],
+          "notes": "Usar solución 1:10.000. Volumen ET: 0.5 mL/kg. Seguido de 1 mL SF 0.9%"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 1 mg/1 mL (1:1000) → DILUIR × 10 para obtener 1:10.000",
+        "concentrationMgMl": 0.1,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Diluir 1 mL de adrenalina 1:1000 (1 mg/mL) + 9 mL SF 0.9%",
+          "Resultado: 10 mL de solución 1:10.000 (0.1 mg/mL)",
+          "Dosis IV: 0.1 mL/kg de esta solución (= 0.01 mg/kg)",
+          "Dosis ET: 0.5 mL/kg de esta solución (= 0.05 mg/kg)"
+        ],
+        "stability": "Usar de inmediato. No conservar."
+      },
+      "administration": {
+        "routes": ["IV", "IO", "ET"],
+        "ivRate": "Bolo rápido IV/IO. Seguido de SF 0.9% 0.5–1 mL"
+      },
+      "references": ["NEOFAX 2024 p. 340", "NRP 8a edición AAP 2021"]
+    },
+    {
+      "id": "morfina",
+      "name": "Morfina",
+      "genericName": "Morphine",
+      "category": ["analgesico_sedante"],
+      "indications": [
+        "Analgesia en ventilación mecánica",
+        "Sedación post-quirúrgica",
+        "Síndrome de abstinencia neonatal (tratamiento)"
+      ],
+      "dosingRules": [
+        {
+          "label": "Bolo IV",
+          "dosePerKg": 0.05,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/4–6h según necesidad",
+          "routes": ["IV"],
+          "notes": "Dosis máxima en bolo: 0.1 mg/kg. Infundir lentamente en 5 min"
+        }
+      ],
+      "infusionRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.01,
+          "doseMax": 0.02,
+          "startDose": 0.01,
+          "unit": "mg/kg/h",
+          "notes": "Preparar: 0.5 × peso(kg) mg en 50 mL SF 0.9% → 1 mL/h = 0.01 mg/kg/h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 10 mg/mL",
+        "concentrationMgMl": 0.1,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Para infusión: 0.5 × peso(kg) mg en 50 mL SF 0.9%",
+          "Ejemplo (1.2 kg): 0.6 mg en 50 mL → 1 mL/h = 0.01 mg/kg/h",
+          "Para bolo: diluir dosis calculada en 5–10 mL SF 0.9%"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV"],
+        "ivRate": "Bolo: pasar en 5 min. Infusión: bomba de jeringa.",
+        "incompatibleWith": ["Aminofilina", "Fenobarbital"]
+      },
+      "monitoring": ["FR", "SpO2", "Escala de sedación NIPS o N-PASS", "Tránsito intestinal"],
+      "adverseEffects": ["Depresión respiratoria", "Hipotensión", "Íleo", "Retención urinaria"],
+      "contraindications": ["Depresión respiratoria sin soporte ventilatorio"],
+      "references": ["NEOFAX 2024 p. 640", "SEGNNEO 2019"]
+    },
+    {
+      "id": "fentanilo",
+      "name": "Fentanilo",
+      "genericName": "Fentanyl",
+      "category": ["analgesico_sedante"],
+      "indications": [
+        "Analgesia para procedimientos e intubación",
+        "Sedoanalgesia en ventilación mecánica",
+        "Dolor postoperatorio"
+      ],
+      "dosingRules": [
+        {
+          "label": "Bolo para procedimiento / intubación",
+          "dosePerKg": 2,
+          "unit": "mcg/kg/dosis",
+          "frequency": "dosis única o según necesidad",
+          "routes": ["IV"],
+          "notes": "Rango: 1–4 mcg/kg. Pasar en 3–5 min para evitar rigidez torácica"
+        }
+      ],
+      "infusionRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.5,
+          "doseMax": 5,
+          "startDose": 1,
+          "unit": "mcg/kg/h",
+          "notes": "Preparar: peso(kg) × 50 mcg en 50 mL SF 0.9% → 1 mL/h = 1 mcg/kg/h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 500 mcg/10 mL (50 mcg/mL)",
+        "concentrationMgMl": 0.05,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Para infusión: peso(kg) × 50 mcg en 50 mL SF 0.9%",
+          "Con esta preparación: 1 mL/h = 1 mcg/kg/h",
+          "Ejemplo (1.2 kg): 60 mcg en 50 mL SF 0.9%",
+          "Para bolo: diluir dosis en 5 mL SF 0.9%"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV"],
+        "ivRate": "Bolo: pasar en 3–5 min. Infusión: bomba de jeringa."
+      },
+      "monitoring": ["SpO2", "FR", "Rigidez torácica (bolo rápido)", "Sedación"],
+      "adverseEffects": ["Rigidez torácica (bolo rápido)", "Depresión respiratoria", "Bradicardia"],
+      "references": ["NEOFAX 2024 p. 394"]
+    },
+    {
+      "id": "midazolam",
+      "name": "Midazolam",
+      "genericName": "Midazolam",
+      "category": ["analgesico_sedante"],
+      "indications": [
+        "Sedación para procedimientos",
+        "Sedación en ventilación mecánica (corto plazo)",
+        "Status convulsivo refractario (segunda línea)"
+      ],
+      "dosingRules": [
+        {
+          "label": "Bolo IV para sedación / procedimiento",
+          "dosePerKg": 0.05,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/2–4h según necesidad",
+          "routes": ["IV"],
+          "notes": "Rango: 0.05–0.15 mg/kg. Pasar en 3–5 min"
+        }
+      ],
+      "infusionRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.01,
+          "doseMax": 0.06,
+          "startDose": 0.02,
+          "unit": "mg/kg/h",
+          "notes": "Evitar uso prolongado > 5–7 días: tolerancia y abstinencia"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 15 mg/3 mL (5 mg/mL)",
+        "concentrationMgMl": 1,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Diluir ampolla 5 mg/mL a concentración 1 mg/mL (1 mL + 4 mL SF 0.9%)",
+          "Para bolo: extraer dosis diluida, pasar en 3–5 min",
+          "Para infusión continua: consultar protocolo de unidad"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV", "IM", "intranasal"],
+        "ivRate": "Bolo: pasar en 3–5 min."
+      },
+      "monitoring": ["SpO2", "FR", "TA", "Escala de sedación", "Síndrome de abstinencia al suspender"],
+      "adverseEffects": ["Apnea (especialmente en prematuros)", "Hipotensión", "Mioclonías paradójicas"],
+      "references": ["NEOFAX 2024 p. 629"]
+    },
+    {
+      "id": "fenobarbital",
+      "name": "Fenobarbital",
+      "genericName": "Phenobarbital",
+      "category": ["analgesico_sedante"],
+      "indications": [
+        "Convulsiones neonatales (primera línea)",
+        "Profilaxis convulsiva post-asfixia perinatal",
+        "Síndrome de abstinencia neonatal (adjuvante)"
+      ],
+      "dosingRules": [
+        {
+          "label": "Dosis de carga (convulsiones)",
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "dosis única IV",
+          "routes": ["IV"],
+          "notes": "Si convulsiones persisten: agregar 5–10 mg/kg c/20 min hasta máx. 40 mg/kg total. Velocidad máx.: 1 mg/kg/min"
+        },
+        {
+          "label": "Mantenimiento",
+          "dosePerKg": 3,
+          "unit": "mg/kg/día",
+          "frequency": "c/12–24h (comenzar 24 h post-carga)",
+          "routes": ["IV", "VO"],
+          "notes": "Rango: 3–5 mg/kg/día. Nivel terapéutico: 20–40 μg/mL"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 200 mg/2 mL (100 mg/mL)",
+        "concentrationMgMl": 20,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Diluir ampolla 100 mg/mL hasta 20 mg/mL (1 mL + 4 mL SF 0.9%)",
+          "Velocidad máxima de infusión: 1 mg/kg/min",
+          "Ejemplo (1.2 kg, carga 24 mg): pasar en mínimo 24 min"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV", "IM", "VO"],
+        "ivRate": "Máx. 1 mg/kg/min (monitoreo de TA y FR durante infusión)",
+        "incompatibleWith": ["Morfina (misma vía)"]
+      },
+      "monitoring": [
+        "Nivel sérico (24 h post-carga): objetivo 20–40 μg/mL",
+        "FR y SpO2 durante la infusión",
+        "TA"
+      ],
+      "adverseEffects": ["Depresión respiratoria", "Hipotensión", "Sedación excesiva"],
+      "references": ["NEOFAX 2024 p. 749", "SEGNNEO 2019"]
+    },
+    {
+      "id": "cafeina_citrato",
+      "name": "Cafeína citrato",
+      "genericName": "Caffeine citrate",
+      "category": ["respiratorio"],
+      "indications": [
+        "Apnea del prematuro (EG < 34 sem)",
+        "Facilitación del destete ventilatorio",
+        "Post-extubación en prematuros"
+      ],
+      "dosingRules": [
+        {
+          "label": "Dosis de carga",
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "dosis única",
+          "routes": ["IV", "VO"],
+          "notes": "20 mg/kg de CITRATO DE CAFEÍNA = 10 mg/kg de BASE. Pasar IV en 30 min"
+        },
+        {
+          "label": "Mantenimiento",
+          "dosePerKg": 5,
+          "unit": "mg/kg/día",
+          "frequency": "c/24h (comenzar 24 h post-carga)",
+          "routes": ["IV", "VO"],
+          "notes": "Rango: 5–10 mg/kg/día. Nivel terapéutico: 8–20 μg/mL"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 20 mg/mL (lista para usar)",
+        "concentrationMgMl": 20,
+        "diluent": "Uso directo (ya preparada)",
+        "dilutionInstructions": [
+          "Presentación lista para usar: 20 mg/mL",
+          "Dosis de carga: 20 mg/kg → 1 mL/kg",
+          "Mantenimiento: 5–10 mg/kg → 0.25–0.5 mL/kg c/24h",
+          "Puede administrarse por SNG o VO"
+        ],
+        "stability": "Según vencimiento del vial"
+      },
+      "administration": {
+        "routes": ["IV", "VO", "SNG"],
+        "ivRate": "Carga: infundir en 30 min. Mantenimiento: 10–30 min."
+      },
+      "monitoring": [
+        "Registro de apneas",
+        "FC (buscar taquicardia > 180 lpm)",
+        "Nivel sérico c/2 semanas si prolongado"
+      ],
+      "adverseEffects": ["Taquicardia", "Irritabilidad", "Temblores", "Intolerancia digestiva"],
+      "references": ["NEOFAX 2024 p. 164", "SEGNNEO 2019"]
+    },
+    {
+      "id": "surfactante_beractant",
+      "name": "Surfactante Beractant",
+      "genericName": "Beractant (Survanta)",
+      "category": ["respiratorio", "surfactante"],
+      "indications": [
+        "Síndrome de dificultad respiratoria (SDR) neonatal",
+        "Tratamiento de rescate en RNP con SDR confirmado",
+        "Profilaxis / técnica INSURE o LISA en < 30 sem"
+      ],
+      "dosingRules": [
+        {
+          "label": "Dosis estándar",
+          "dosePerKg": 100,
+          "unit": "mg/kg/dosis",
+          "frequency": "Hasta 4 dosis en 48 h (mín. 6 h entre dosis)",
+          "routes": ["IT"],
+          "notes": "100 mg/kg = 4 mL/kg. Calentar a temperatura corporal antes de usar"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 200 mg/8 mL (25 mg/mL). Aspecto beige cremoso.",
+        "concentrationMgMl": 25,
+        "diluent": "No requiere dilución",
+        "dilutionInstructions": [
+          "Sacar del refrigerador 20 min antes o calentar en mano 8 min",
+          "NO agitar (invertir suavemente si necesario)",
+          "Dosis = peso(kg) × 4 mL/kg",
+          "Instilación IT: dividir en 4 posiciones (OD supino, OI supino, OD decúbito, OI decúbito)",
+          "Ventilar manualmente entre cada posición"
+        ],
+        "stability": "Refrigerado hasta fecha de vencimiento. Una vez abierto: usar de inmediato."
+      },
+      "administration": {
+        "routes": ["IT (intratraqueal)"],
+        "ivRate": "Instilación lenta durante 2 min por posición"
+      },
+      "monitoring": [
+        "SpO2 y FiO2 antes y post-dosis",
+        "Rx tórax post-dosis",
+        "Ajustar parámetros ventilatorios post-dosis (riesgo sobredistensión)"
+      ],
+      "references": ["NEOFAX 2024 p. 135", "SEGNNEO 2019"]
+    },
+    {
+      "id": "surfactante_poractant",
+      "name": "Surfactante Poractant",
+      "genericName": "Poractant alfa (Curosurf)",
+      "category": ["respiratorio", "surfactante"],
+      "indications": [
+        "SDR neonatal: tratamiento de rescate",
+        "Profilaxis / INSURE / LISA en < 30 sem"
+      ],
+      "dosingRules": [
+        {
+          "label": "Primera dosis",
+          "dosePerKg": 200,
+          "unit": "mg/kg/dosis",
+          "frequency": "Primera dosis",
+          "routes": ["IT"],
+          "notes": "200 mg/kg = 2.5 mL/kg de Curosurf (80 mg/mL)"
+        },
+        {
+          "label": "Dosis subsiguientes",
+          "dosePerKg": 100,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h si persiste SDR (máx. 2 dosis adicionales)",
+          "routes": ["IT"],
+          "notes": "100 mg/kg = 1.25 mL/kg"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 120 mg/1.5 mL o 240 mg/3 mL (80 mg/mL)",
+        "concentrationMgMl": 80,
+        "diluent": "No requiere dilución",
+        "dilutionInstructions": [
+          "Calentar a temperatura corporal antes de usar",
+          "Primera dosis: 2.5 mL/kg",
+          "Dosis siguiente: 1.25 mL/kg",
+          "Instilación IT en bolo o mediante técnica LISA/MIST"
+        ],
+        "stability": "Refrigerado hasta vencimiento. Una vez abierto: descartar sobrante."
+      },
+      "administration": {
+        "routes": ["IT (intratraqueal)"],
+        "ivRate": "Bolo único IT (INSURE) o instilación lenta (LISA)"
+      },
+      "monitoring": ["SpO2", "FiO2", "Rx tórax post-dosis", "Parámetros ventilatorios"],
+      "references": ["NEOFAX 2024 p. 780"]
+    },
+    {
+      "id": "furosemida",
+      "name": "Furosemida",
+      "genericName": "Furosemide",
+      "category": ["diuretico"],
+      "indications": [
+        "Edema por insuficiencia cardíaca",
+        "Sobrecarga de volumen",
+        "Displasia broncopulmonar (DBP)"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV / IM",
+          "dosePerKg": 1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12–24h",
+          "routes": ["IV", "IM"],
+          "notes": "Rango: 1–2 mg/kg/dosis"
+        },
+        {
+          "label": "Oral",
+          "dosePerKg": 2,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["VO"],
+          "notes": "Rango oral: 1–4 mg/kg/dosis. Biodisponibilidad ~50% vía oral"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 20 mg/2 mL (10 mg/mL)",
+        "concentrationMgMl": 10,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Usar directamente de la ampolla (10 mg/mL)",
+          "O diluir en 5–10 mL SF 0.9% para facilitar administración"
+        ],
+        "stability": "Proteger de luz. 24 h temperatura ambiente.",
+        "lightSensitive": true
+      },
+      "administration": {
+        "routes": ["IV", "IM", "VO"],
+        "ivRate": "Pasar en 1–2 min IV (máx. 4 mg/min)"
+      },
+      "monitoring": [
+        "Diuresis horaria",
+        "Electrolitos séricos (Na, K, Cl)",
+        "Peso diario",
+        "TA"
+      ],
+      "adverseEffects": ["Hipokalemia", "Hiponatremia", "Ototoxicidad (dosis altas)", "Alcalosis metabólica"],
+      "references": ["NEOFAX 2024 p. 432", "SEGNNEO 2019"]
+    },
+    {
+      "id": "indometacina",
+      "name": "Indometacina",
+      "genericName": "Indomethacin",
+      "category": ["cardiovascular"],
+      "indications": [
+        "Cierre farmacológico de ductus arterioso persistente (DAP) hemodinámicamente significativo",
+        "EG < 32 semanas, primera línea"
+      ],
+      "dosingRules": [
+        {
+          "label": "DAP, DOL < 48 h",
+          "dolMax": 2,
+          "dosePerKg": 0.2,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12–24h × 3 dosis",
+          "routes": ["IV"],
+          "notes": "Esquema: 0.2 – 0.1 – 0.1 mg/kg"
+        },
+        {
+          "label": "DAP, DOL 2–7",
+          "dolMin": 2,
+          "dolMax": 7,
+          "dosePerKg": 0.2,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12–24h × 3 dosis",
+          "routes": ["IV"],
+          "notes": "Esquema: 0.2 – 0.2 – 0.2 mg/kg"
+        },
+        {
+          "label": "DAP, DOL > 7",
+          "dolMin": 7,
+          "dosePerKg": 0.2,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12–24h × 3 dosis",
+          "routes": ["IV"],
+          "notes": "Esquema: 0.2 – 0.25 – 0.25 mg/kg"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 mg (polvo liofilizado)",
+        "reconstitution": "Disolver 1 mg en 1 mL SF 0.9% → 1 mg/mL",
+        "concentrationMgMl": 1,
+        "diluent": "SF 0.9% o agua bidestilada",
+        "dilutionInstructions": [
+          "Reconstituir 1 mg con 1 mL SF 0.9% → concentración 1 mg/mL",
+          "Extraer el volumen correspondiente a la dosis calculada"
+        ],
+        "stability": "Usar de inmediato post-reconstitución"
+      },
+      "administration": {
+        "routes": ["IV"],
+        "ivRate": "Pasar en 20–30 min. NO IM ni SC."
+      },
+      "monitoring": [
+        "Función renal (creatinina, diuresis) antes de cada dosis",
+        "Electrolitos",
+        "Plaquetas",
+        "Ecocardiograma post-tratamiento"
+      ],
+      "contraindications": [
+        "Creatinina > 1.7 mg/dL o diuresis < 0.5 mL/kg/h",
+        "Plaquetas < 60.000/mm³",
+        "Enterocolitis necrosante activa",
+        "Sangrado activo",
+        "Ductus dependiente (p. ej. atresia pulmonar)"
+      ],
+      "references": ["NEOFAX 2024 p. 504"]
+    },
+    {
+      "id": "gluconato_calcio",
+      "name": "Gluconato de calcio 10%",
+      "genericName": "Calcium gluconate 10%",
+      "category": ["vitaminas_electrolitos", "emergencia"],
+      "indications": [
+        "Hipocalcemia neonatal (Ca iónico < 1.1 mmol/L o Ca total < 7.5 mg/dL)",
+        "Emergencia hipocalcémica (tetania, convulsiones)",
+        "Hiperpotasemia cardiotóxica"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hipocalcemia sintomática / emergencia",
+          "dosePerKg": 100,
+          "unit": "mg/kg/dosis",
+          "frequency": "Dosis única. Repetir c/6–8h si necesario",
+          "routes": ["IV"],
+          "notes": "100 mg/kg = 1 mL/kg de gluconato 10%. Pasar en 10–15 min con monitoreo cardíaco continuo"
+        },
+        {
+          "label": "Hipocalcemia asintomática",
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6h",
+          "routes": ["IV"],
+          "notes": "O agregar al aporte parenteral: 200–500 mg/kg/día"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 1 g/10 mL (100 mg/mL = 9 mg Ca elemental/mL)",
+        "concentrationMgMl": 100,
+        "diluent": "D5% o SF 0.9%",
+        "dilutionInstructions": [
+          "Puede usarse directo (100 mg/mL) para emergencia IV lenta",
+          "O diluir 1:1 con D5% para mejor tolerabilidad venosa",
+          "Dosis = 1 mL/kg de gluconato 10% (para 100 mg/kg)"
+        ],
+        "stability": "Temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV", "VO (solución oral)"],
+        "ivRate": "IV lento en 10–15 min con ECG. NUNCA bolo rápido.",
+        "incompatibleWith": ["Bicarbonato (precipita)", "Fosfato (precipita)"]
+      },
+      "monitoring": [
+        "ECG continuo durante infusión IV",
+        "Calcio iónico post-dosis",
+        "Signos de extravasación (necrosis tisular)"
+      ],
+      "adverseEffects": ["Bradicardia", "Arritmias (infusión rápida)", "Necrosis por extravasación"],
+      "references": ["NEOFAX 2024 p. 172-177", "SEGNNEO 2019"]
+    },
+    {
+      "id": "bicarbonato_sodio",
+      "name": "Bicarbonato de sodio 8.4%",
+      "genericName": "Sodium bicarbonate",
+      "category": ["emergencia", "vitaminas_electrolitos"],
+      "indications": [
+        "Acidosis metabólica severa (pH < 7.15, HCO3 < 12)",
+        "Hiperpotasemia severa",
+        "Reanimación cardiopulmonar (excepcional)"
+      ],
+      "dosingRules": [
+        {
+          "label": "Corrección de acidosis (fórmula)",
+          "dosePerKg": 1,
+          "unit": "mEq/kg/dosis",
+          "frequency": "Única, según cálculo",
+          "routes": ["IV"],
+          "notes": "Fórmula: mEq = (BE × peso kg × 0.3) ÷ 2. Corregir 50%, revalorar. SIEMPRE diluir 1:1 con D5%"
+        },
+        {
+          "label": "Bolo empírico (reanimación)",
+          "dosePerKg": 1,
+          "unit": "mEq/kg/dosis",
+          "frequency": "Según evolución",
+          "routes": ["IV"],
+          "notes": "1–2 mEq/kg. Diluir 1:1 con D5%. Pasar en 5–10 min. Solo con ventilación asegurada."
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 8.4% = 1 mEq/mL (84 mg/mL)",
+        "concentrationMgMl": 84,
+        "diluent": "D5% (diluir 1:1)",
+        "dilutionInstructions": [
+          "Ampolla 8.4% (1 mEq/mL): 10 mL = 10 mEq",
+          "SIEMPRE diluir 1:1 con D5% en neonatos (hiperosmolaridad)",
+          "Ejemplo: 3 mEq → 3 mL bicarbonato + 3 mL D5% = 6 mL al 4.2%"
+        ],
+        "stability": "Temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV"],
+        "ivRate": "Pasar en 5–10 min (emergencia) o 30–60 min. NUNCA bolo rápido.",
+        "incompatibleWith": ["Calcio (precipita)", "Dopamina (inactiva)", "Adrenalina (inactiva)"]
+      },
+      "monitoring": [
+        "Gases en sangre 30 min post-dosis",
+        "Electrolitos (Na)",
+        "Osmolaridad sérica"
+      ],
+      "adverseEffects": ["Alcalosis metabólica", "Hipernatremia", "Hipocalcemia", "Hipervolemia"],
+      "contraindications": ["Hipercapnia sin ventilación asegurada"],
+      "references": ["NEOFAX 2024 p. 839", "SEGNNEO 2019"]
+    },
+    {
+      "id": "vitamina_k1",
+      "name": "Vitamina K1",
+      "genericName": "Phytomenadione (Vitamin K1)",
+      "category": ["vitaminas_electrolitos"],
+      "indications": [
+        "Profilaxis de enfermedad hemorrágica del recién nacido (EHRN)",
+        "Tratamiento de EHRN establecida",
+        "Deficiencia de vitamina K"
+      ],
+      "dosingRules": [
+        {
+          "label": "Profilaxis ≥ 1500 g",
+          "weightMinG": 1500,
+          "dosePerKg": 1,
+          "unit": "mg (dosis fija)",
+          "frequency": "Dosis única al nacer",
+          "routes": ["IM"],
+          "notes": "Dosis FIJA 1 mg IM (no ajustar por peso exacto si ≥ 1500 g)"
+        },
+        {
+          "label": "Profilaxis < 1500 g",
+          "weightMaxG": 1500,
+          "dosePerKg": 0.5,
+          "unit": "mg (dosis fija)",
+          "frequency": "Dosis única al nacer",
+          "routes": ["IM"],
+          "notes": "Dosis FIJA 0.5 mg IM"
+        },
+        {
+          "label": "Tratamiento / EHRN",
+          "dosePerKg": 1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h × 3 dosis si no responde",
+          "routes": ["IV", "IM"],
+          "notes": "IV: diluir en D5%, pasar en 15–30 min. Máx. 1 mg en < 1500 g"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 10 mg/mL",
+        "concentrationMgMl": 10,
+        "diluent": "D5% para administración IV",
+        "dilutionInstructions": [
+          "Profilaxis IM: usar directamente (0.05 mL para 0.5 mg, 0.1 mL para 1 mg)",
+          "Para IV: diluir dosis en 5–10 mL D5%"
+        ],
+        "stability": "Proteger de luz"
+      },
+      "administration": {
+        "routes": ["IM", "IV"],
+        "imNotes": "IM en cara lateral del muslo. Aguja 25G × 5/8\"",
+        "ivRate": "Pasar en 15–30 min"
+      },
+      "references": ["NEOFAX 2024 p. 927", "SEGNNEO 2019"]
+    },
+    {
+      "id": "naloxona",
+      "name": "Naloxona",
+      "genericName": "Naloxone",
+      "category": ["emergencia"],
+      "indications": [
+        "Depresión respiratoria neonatal por opioides maternos",
+        "Reversión de sedación opioide en neonatos"
+      ],
+      "dosingRules": [
+        {
+          "label": "Depresión por opioides",
+          "dosePerKg": 0.1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/2–3 min si necesario",
+          "routes": ["IV", "IM", "SC", "ET"],
+          "notes": "CONTRAINDICADO si madre adicta a opioides (abstinencia aguda). Vida media corta: vigilar rebote."
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 0.4 mg/mL o 1 mg/mL",
+        "concentrationMgMl": 0.4,
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Concentración preferida en neonatos: 0.4 mg/mL",
+          "Si solo hay 1 mg/mL: diluir 1 mL + 1.5 mL SF 0.9% → 0.4 mg/mL",
+          "Dosis = 0.25 mL/kg de solución 0.4 mg/mL"
+        ],
+        "stability": "Temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV", "IM", "SC", "ET"],
+        "ivRate": "Bolo rápido IV"
+      },
+      "monitoring": ["FR y SpO2 post-dosis", "Signos de abstinencia", "Rebote sedación (vida media corta)"],
+      "references": ["NEOFAX 2024 p. 658"]
+    },
+    {
+      "id": "alprostadil",
+      "name": "Alprostadil (PGE1)",
+      "genericName": "Alprostadil (Prostaglandin E1)",
+      "category": ["cardiovascular"],
+      "indications": [
+        "Cardiopatías congénitas ductus-dependientes (atresia pulmonar, CoAo crítica, TGA, DVPAT, SHCI)",
+        "Mantenimiento de permeabilidad ductal hasta corrección quirúrgica"
+      ],
+      "infusionRules": [
+        {
+          "label": "Dosis de inicio",
+          "doseMin": 0.05,
+          "doseMax": 0.1,
+          "startDose": 0.05,
+          "unit": "mcg/kg/min",
+          "notes": "Reducir a dosis mínima efectiva lo antes posible"
+        },
+        {
+          "label": "Mantenimiento",
+          "doseMin": 0.01,
+          "doseMax": 0.05,
+          "startDose": 0.01,
+          "unit": "mcg/kg/min",
+          "notes": "Dosis máxima absoluta: 0.4 mcg/kg/min"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 500 mcg/mL",
+        "concentrationMgMl": 0.5,
+        "diluent": "D5% o SF 0.9%",
+        "dilutionInstructions": [
+          "Preparar dilución de trabajo: 1 mcg/mL en D5%",
+          "Tomar 0.1 mL de ampolla (50 mcg) + 49.9 mL D5% → 1 mcg/mL",
+          "Velocidad (mL/h) = dosis (mcg/kg/min) × peso(kg) × 60"
+        ],
+        "stability": "24 h temperatura ambiente"
+      },
+      "administration": {
+        "routes": ["IV central (preferencia)", "IV periférica"],
+        "ivRate": "Infusión continua. Bomba de jeringa."
+      },
+      "monitoring": [
+        "SpO2 (objetivo según diagnóstico)",
+        "FR (apnea en 15–20% casos – preparar manejo de vía aérea)",
+        "TA",
+        "Temperatura corporal"
+      ],
+      "adverseEffects": ["Apnea (15–20%)", "Fiebre", "Hipotensión", "Hipoglucemia", "Convulsiones (dosis altas)"],
+      "references": ["NEOFAX 2024 p. 47"]
+    }
+  ],
+  "procedures": [
+    {
+      "id": "uac",
+      "name": "Catéter Arterial Umbilical (CAU)",
+      "category": "cateter",
+      "description": "Cálculo de la longitud de inserción del catéter arterial umbilical según el peso de nacimiento",
+      "formulas": [
+        {
+          "label": "Posición alta (T6–T9)",
+          "description": "Extremo del catéter entre T6 y T9 (encima del diafragma). Posición estándar.",
+          "formula": "3 × peso(kg) + 9",
+          "variableLabel": "Peso de nacimiento",
+          "variableUnit": "kg",
+          "resultUnit": "cm desde el ombligo",
+          "reference": "Fórmula de Shukla. NEOFAX 2024."
+        },
+        {
+          "label": "Posición baja (L3–L4)",
+          "description": "Extremo del catéter entre L3 y L4 (debajo de las arterias renales).",
+          "formula": "peso(kg) + 7",
+          "variableLabel": "Peso de nacimiento",
+          "variableUnit": "kg",
+          "resultUnit": "cm desde el ombligo",
+          "reference": "NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        { "step": "Lavado de manos. Técnica estéril estricta." },
+        { "step": "Preparar campo estéril, cortar cordón a 1–2 cm del abdomen." },
+        { "step": "Identificar las 2 arterias umbilicales (redondas, paredes gruesas)." },
+        { "step": "Dilatar el lumen con pinza curva estéril." },
+        { "step": "Introducir el catéter hasta la longitud calculada sin forzar." },
+        { "step": "Verificar flujo pulsátil de sangre arterial." },
+        { "step": "Fijar el catéter con sutura y apósito estéril." },
+        { "step": "Confirmar posición con Rx tórax-abdomen (T6–T9 o L3–L4).", "note": "No usar hasta confirmar posición radiológica" }
+      ],
+      "materials": ["Catéter umbilical 3.5 Fr (< 1500 g) o 5 Fr (> 1500 g)", "Llave de 3 vías", "SF 0.9% heparinizado (0.5 U/mL)", "Campo estéril", "Sutura no reabsorbible", "Tijera"],
+      "warnings": ["Verificar posición con Rx antes de usar", "No introducir si resistencia → vaso falso"],
+      "references": ["NEOFAX 2024", "Shukla H, Ferrara A. Pediatrics 1986"]
+    },
+    {
+      "id": "uvc",
+      "name": "Catéter Venoso Umbilical (CVU)",
+      "category": "cateter",
+      "description": "Cálculo de la longitud de inserción del catéter venoso umbilical",
+      "formulas": [
+        {
+          "label": "Longitud CVU (estándar)",
+          "description": "Extremo en unión cava inferior / aurícula derecha (T8–T9). Fórmula basada en CAU alta.",
+          "formula": "(3 × peso(kg) + 9) / 2 + 1",
+          "variableLabel": "Peso de nacimiento",
+          "variableUnit": "kg",
+          "resultUnit": "cm desde el ombligo",
+          "reference": "NEOFAX 2024. (½ del CAU alta + 1 cm)"
+        }
+      ],
+      "steps": [
+        { "step": "Técnica estéril estricta." },
+        { "step": "Identificar la vena umbilical (lumen grande, paredes delgadas, única)." },
+        { "step": "Introducir catéter hasta longitud calculada." },
+        { "step": "Verificar aspiración de sangre venosa libre." },
+        { "step": "Confirmar posición con Rx (extremo en T8–T9).", "note": "No usar hasta confirmar posición radiológica" }
+      ],
+      "materials": ["Catéter umbilical venoso 3.5 Fr o 5 Fr", "Llave de 3 vías", "SF 0.9% heparinizado", "Campo estéril"],
+      "warnings": [
+        "No dejar el catéter con la punta en el portal hepático (hepatotoxicidad)",
+        "Confirmar posición antes de infundir medicamentos o nutrición parenteral"
+      ],
+      "references": ["NEOFAX 2024"]
+    },
+    {
+      "id": "tiot",
+      "name": "Tubo Endotraqueal (TET)",
+      "category": "via_aerea",
+      "description": "Tamaño y profundidad de inserción del tubo endotraqueal en neonatos",
+      "formulas": [
+        {
+          "label": "Profundidad labio–medio traqueal",
+          "description": "Estimación de la profundidad de inserción desde el labio superior.",
+          "formula": "peso(kg) + 6",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "cm en el labio",
+          "reference": "Fórmula estándar. NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        { "step": "Seleccionar tamaño del TET según peso." },
+        { "step": "Preoxigenar con VPP o CPAP." },
+        { "step": "Laringoscopía directa, visualizar glotis." },
+        { "step": "Introducir TET hasta la profundidad calculada." },
+        { "step": "Verificar posición: ascenso torácico simétrico, CO2 exhalado, SpO2." },
+        { "step": "Radiografía de tórax: extremo en T2–T3 (carina en T4–T5).", "note": "Cámara del TET: ligeramente encima de la carina" }
+      ],
+      "materials": [
+        "TET 2.5 mm DI (< 1000 g)",
+        "TET 3.0 mm DI (1000–2000 g)",
+        "TET 3.5 mm DI (2000–3500 g)",
+        "TET 3.5–4.0 mm DI (> 3500 g)",
+        "Laringoscopio neonatal hoja 0 (prematuros) o 1 (término)",
+        "Detector colorimétrico CO2"
+      ],
+      "warnings": ["Confirmar posición con Rx antes de aumentar parámetros ventilatorios"],
+      "references": ["NEOFAX 2024", "NRP 8a edición AAP"]
+    },
+    {
+      "id": "fluidos",
+      "name": "Requerimiento hídrico diario",
+      "category": "fluidos",
+      "description": "Cálculo del aporte hídrico diario según peso y día de vida",
+      "formulas": [
+        {
+          "label": "Día 1 de vida (< 1000 g)",
+          "description": "Prematuros extremos: pérdidas insensibles muy elevadas.",
+          "formula": "100 a 150 mL/kg/día",
+          "variableLabel": "Peso",
+          "variableUnit": "g",
+          "resultUnit": "mL/kg/día",
+          "reference": "SEGNNEO 2019"
+        },
+        {
+          "label": "Día 1–2 (1000–1500 g)",
+          "description": "Gran prematuro.",
+          "formula": "80 a 100 mL/kg/día",
+          "variableLabel": "Peso",
+          "variableUnit": "g",
+          "resultUnit": "mL/kg/día",
+          "reference": "SEGNNEO 2019"
+        },
+        {
+          "label": "Día 1–2 (> 1500 g o término)",
+          "description": "Pretérmino tardío y término.",
+          "formula": "60 a 80 mL/kg/día",
+          "variableLabel": "Peso",
+          "variableUnit": "g",
+          "resultUnit": "mL/kg/día",
+          "reference": "SEGNNEO 2019"
+        }
+      ],
+      "warnings": [
+        "Ajustar según diuresis (1–3 mL/kg/h), peso, y condición clínica",
+        "Incrementar 10–20 mL/kg/día por día hasta 150 mL/kg/día",
+        "Bajo fototerapia: aumentar 10–20 mL/kg/día"
+      ],
+      "references": ["SEGNNEO 2019"]
+    },
+    {
+      "id": "gir",
+      "name": "Velocidad de Infusión de Glucosa (VIG)",
+      "category": "calculo",
+      "description": "Cálculo de la velocidad de infusión de glucosa para mantener normoglucemia",
+      "formulas": [
+        {
+          "label": "VIG en mg/kg/min",
+          "description": "Fórmula para calcular la velocidad de infusión de glucosa.",
+          "formula": "VIG = (concentración dextrosa % × velocidad mL/h) / (peso kg × 6)",
+          "variableLabel": "Concentración de dextrosa",
+          "variableUnit": "%",
+          "resultUnit": "mg/kg/min",
+          "reference": "VIG objetivo neonatal: 4–8 mg/kg/min. Máx 12."
+        }
+      ],
+      "warnings": [
+        "VIG objetivo: 4–8 mg/kg/min",
+        "Hipoglucemia aguda: bolo D10% 2 mL/kg IV",
+        "Concentración máxima periférica: D10% (100 g/L)"
+      ],
+      "references": ["SEGNNEO 2019"]
+    }
+  ],
+  "scores": [
+    {
+      "id": "silverman",
+      "name": "Silverman-Andersen",
+      "subtitle": "Dificultad respiratoria neonatal",
+      "description": "Escala de evaluación del grado de dificultad respiratoria en el recién nacido. Cada ítem puntúa 0, 1 o 2. Mínimo: 0, Máximo: 10.",
+      "items": [
+        {
+          "id": "quejido",
+          "name": "Quejido espiratorio",
+          "values": [
+            { "score": 0, "label": "Ausente" },
+            { "score": 1, "label": "Audible con estetoscopio" },
+            { "score": 2, "label": "Audible sin estetoscopio" }
+          ]
+        },
+        {
+          "id": "aleteo",
+          "name": "Aleteo nasal",
+          "values": [
+            { "score": 0, "label": "Ausente" },
+            { "score": 1, "label": "Mínimo" },
+            { "score": 2, "label": "Marcado" }
+          ]
+        },
+        {
+          "id": "retraccion_xifoidea",
+          "name": "Retracción xifoidea",
+          "values": [
+            { "score": 0, "label": "Ausente" },
+            { "score": 1, "label": "Apenas visible" },
+            { "score": 2, "label": "Marcada" }
+          ]
+        },
+        {
+          "id": "retraccion_intercostal",
+          "name": "Retracción intercostal",
+          "values": [
+            { "score": 0, "label": "Ausente" },
+            { "score": 1, "label": "Leve" },
+            { "score": 2, "label": "Marcada" }
+          ]
+        },
+        {
+          "id": "disociacion",
+          "name": "Disociación tóraco-abdominal",
+          "values": [
+            { "score": 0, "label": "Sincrónico (normal)" },
+            { "score": 1, "label": "Tórax inmóvil" },
+            { "score": 2, "label": "Balancín (movimiento alternado)" }
+          ]
+        }
+      ],
+      "interpretation": [
+        { "min": 0, "max": 0, "label": "Sin dificultad", "action": "Observación de rutina", "color": "green" },
+        { "min": 1, "max": 3, "label": "Dificultad leve", "action": "CPAP o O₂ suplementario. Evaluar causa.", "color": "yellow" },
+        { "min": 4, "max": 6, "label": "Dificultad moderada", "action": "CPAP nasal. Valorar surfactante. Monitoreo continuo.", "color": "orange" },
+        { "min": 7, "max": 10, "label": "Dificultad severa", "action": "Intubación y ventilación mecánica urgente.", "color": "red" }
+      ],
+      "minScore": 0,
+      "maxScore": 10,
+      "references": ["Silverman WA, Andersen DH. Pediatrics 1956"]
+    },
+    {
+      "id": "apgar",
+      "name": "Apgar",
+      "subtitle": "Valoración del estado vital al nacer",
+      "description": "Evaluación del estado vital del recién nacido al 1 y 5 minutos de vida. Mínimo: 0, Máximo: 10.",
+      "items": [
+        {
+          "id": "fc",
+          "name": "Frecuencia cardíaca",
+          "values": [
+            { "score": 0, "label": "Ausente", "description": "Sin pulso" },
+            { "score": 1, "label": "< 100 lpm", "description": "Bradicardia" },
+            { "score": 2, "label": "≥ 100 lpm", "description": "Normal" }
+          ]
+        },
+        {
+          "id": "respiracion",
+          "name": "Esfuerzo respiratorio",
+          "values": [
+            { "score": 0, "label": "Ausente", "description": "Apnea" },
+            { "score": 1, "label": "Irregular / débil", "description": "Respiración débil o irregular" },
+            { "score": 2, "label": "Regular / llanto fuerte", "description": "Respiración normal" }
+          ]
+        },
+        {
+          "id": "tono",
+          "name": "Tono muscular",
+          "values": [
+            { "score": 0, "label": "Fláccido", "description": "Sin tono" },
+            { "score": 1, "label": "Algo de flexión", "description": "Flexión parcial de extremidades" },
+            { "score": 2, "label": "Flexión activa", "description": "Movimiento activo" }
+          ]
+        },
+        {
+          "id": "reflejo",
+          "name": "Irritabilidad refleja",
+          "values": [
+            { "score": 0, "label": "Sin respuesta", "description": "Ninguna respuesta a estimulación" },
+            { "score": 1, "label": "Mueca", "description": "Respuesta mínima" },
+            { "score": 2, "label": "Llanto / estornudo", "description": "Respuesta vigorosa" }
+          ]
+        },
+        {
+          "id": "color",
+          "name": "Color",
+          "values": [
+            { "score": 0, "label": "Cianótico o pálido", "description": "Cianosis generalizada o palidez" },
+            { "score": 1, "label": "Acrocianótico", "description": "Cuerpo rosado, extremidades cianóticas" },
+            { "score": 2, "label": "Completamente rosado", "description": "Buen color" }
+          ]
+        }
+      ],
+      "interpretation": [
+        { "min": 7, "max": 10, "label": "Normal", "action": "Cuidados de rutina", "color": "green" },
+        { "min": 4, "max": 6, "label": "Depresión moderada", "action": "VPP con O₂, estimulación, monitoreo continuo", "color": "yellow" },
+        { "min": 0, "max": 3, "label": "Depresión severa", "action": "Reanimación completa: intubación, masaje, drogas", "color": "red" }
+      ],
+      "minScore": 0,
+      "maxScore": 10,
+      "references": ["Apgar V. Curr Res Anesth Analg 1953", "NRP 8a edición AAP 2021"]
+    }
+  ]
+}
