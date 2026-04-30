@@ -1735,6 +1735,121 @@
       "minScore": 0,
       "maxScore": 10,
       "references": ["Apgar V. Curr Res Anesth Analg 1953", "NRP 8a edición AAP 2021"]
+    },
+    {
+      "id": "sarnat",
+      "name": "Sarnat",
+      "subtitle": "Encefalopatía hipóxico-isquémica neonatal",
+      "description": "Escala de evaluación neurológica para clasificar la severidad de encefalopatía hipóxico-isquémica (EHI). Evalúa el nivel de conciencia, actividad muscular, postura, reflejos y otras respuestas neurológicas. Mínimo: 0, Máximo: 30.",
+      "items": [
+        {
+          "id": "nivel_conciencia",
+          "name": "Nivel de conciencia",
+          "values": [
+            { "score": 0, "label": "Alerta", "description": "Despierto, responde normalmente" },
+            { "score": 1, "label": "Somnolencia moderada", "description": "Requiere estimulación para despertar" },
+            { "score": 2, "label": "Somnolencia severa", "description": "Despierta solo a estímulos intensos" },
+            { "score": 3, "label": "Coma", "description": "No despierta con estimulación" }
+          ]
+        },
+        {
+          "id": "actividad_muscular",
+          "name": "Actividad muscular",
+          "values": [
+            { "score": 0, "label": "Movimientos espontáneos activos", "description": "Actividad normal" },
+            { "score": 1, "label": "Disminución de actividad", "description": "Movimientos espontáneos reducidos" },
+            { "score": 2, "label": "Actividad focal", "description": "Solo movimientos localizados" },
+            { "score": 3, "label": "Sin actividad o flacidez", "description": "Parálisis o atonía" }
+          ]
+        },
+        {
+          "id": "postura",
+          "name": "Postura",
+          "values": [
+            { "score": 0, "label": "Flexión normal", "description": "Flexión de extremidades, postura normal" },
+            { "score": 1, "label": "Disminución de flexión", "description": "Extensión de extremidades inferiores" },
+            { "score": 2, "label": "Rigidez de descerebración", "description": "Extensión de todas las extremidades" },
+            { "score": 3, "label": "Flacidez", "description": "Flacidez completa, sin tono" }
+          ]
+        },
+        {
+          "id": "tono_muscular",
+          "name": "Tono muscular",
+          "values": [
+            { "score": 0, "label": "Normal", "description": "Tono normal, adecuado para la edad" },
+            { "score": 1, "label": "Hipotono leve", "description": "Disminución leve del tono" },
+            { "score": 2, "label": "Hipotono marcado", "description": "Disminución marcada del tono" },
+            { "score": 3, "label": "Rigidez", "description": "Aumento del tono, rigidez" }
+          ]
+        },
+        {
+          "id": "reflejo_succion",
+          "name": "Reflejo de succión",
+          "values": [
+            { "score": 0, "label": "Fuerte y normal", "description": "Succión coordinada" },
+            { "score": 1, "label": "Débil", "description": "Succión débil o incoordinada" },
+            { "score": 2, "label": "Ausente o muy débil", "description": "Succión muy pobre o ausente" },
+            { "score": 3, "label": "Ausente", "description": "No hay reflejo de succión" }
+          ]
+        },
+        {
+          "id": "reflejo_moro",
+          "name": "Reflejo de Moro",
+          "values": [
+            { "score": 0, "label": "Presente y vigoroso", "description": "Respuesta normal y simétrica" },
+            { "score": 1, "label": "Débil o incompleto", "description": "Respuesta reducida o asimétrica" },
+            { "score": 2, "label": "Muy débil", "description": "Respuesta mínima" },
+            { "score": 3, "label": "Ausente", "description": "Sin respuesta al reflejo de Moro" }
+          ]
+        },
+        {
+          "id": "convulsiones",
+          "name": "Convulsiones",
+          "values": [
+            { "score": 0, "label": "Ninguna", "description": "Sin actividad convulsiva" },
+            { "score": 1, "label": "Ocasionales", "description": "Convulsiones ocasionales" },
+            { "score": 2, "label": "Repetidas", "description": "Múltiples episodios convulsivos" },
+            { "score": 3, "label": "Status convulsivo", "description": "Convulsiones continuas o estado epiléptico" }
+          ]
+        },
+        {
+          "id": "fontanela",
+          "name": "Fontanela anterior",
+          "values": [
+            { "score": 0, "label": "Normal", "description": "Fontanela plana, normal" },
+            { "score": 1, "label": "Abombada moderada", "description": "Leve abombamiento" },
+            { "score": 2, "label": "Abombada marcada", "description": "Prominencia marcada" },
+            { "score": 3, "label": "Abombada severa o tensa", "description": "Tensor, posible HICP" }
+          ]
+        },
+        {
+          "id": "frecuencia_cardiaca",
+          "name": "Frecuencia cardíaca",
+          "values": [
+            { "score": 0, "label": "Normal (120–160 lpm)", "description": "FC normal para edad" },
+            { "score": 1, "label": "Bradicardia leve (100–119 lpm)", "description": "Disminución leve de FC" },
+            { "score": 2, "label": "Bradicardia severa (< 100 lpm)", "description": "FC significativamente baja" }
+          ]
+        },
+        {
+          "id": "patron_respiratorio",
+          "name": "Patrón respiratorio",
+          "values": [
+            { "score": 0, "label": "Normal", "description": "Patrón respiratorio regular y normal" },
+            { "score": 1, "label": "Irregularidades leves", "description": "Períodos de apnea ocasionales" },
+            { "score": 2, "label": "Irregularidades severas", "description": "Apnea frecuente o respiración irregular" }
+          ]
+        }
+      ],
+      "interpretation": [
+        { "min": 0, "max": 5, "label": "Normal", "action": "Cuidados de rutina. Seguimiento clínico estándar.", "color": "green" },
+        { "min": 6, "max": 15, "label": "Encefalopatía leve", "action": "Monitoreo continuo. Considerar hipotermia selectiva según protocolos. EEG si está disponible.", "color": "yellow" },
+        { "min": 16, "max": 25, "label": "Encefalopatía moderada", "action": "Hipotermia selectiva (32–34 °C × 72 h). Monitoreo intensivo. Evaluación neurológica frecuente.", "color": "orange" },
+        { "min": 26, "max": 30, "label": "Encefalopatía severa", "action": "Hipotermia sistémica indicada. Cuidados intensivos. Considerar derivación a ECMO o centro especializado.", "color": "red" }
+      ],
+      "minScore": 0,
+      "maxScore": 30,
+      "references": ["Sarnat HB, Sarnat MS. J Pediatr 1976", "SEGNNEO 2019"]
     }
   ]
 }
