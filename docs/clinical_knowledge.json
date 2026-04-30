@@ -11,7 +11,9 @@
       "id": "ampicilina",
       "name": "Ampicilina",
       "genericName": "Ampicillin",
-      "category": ["antibiotico"],
+      "category": [
+        "antibiotico"
+      ],
       "indications": [
         "Sepsis neonatal temprana",
         "Meningitis bacteriana (EGB, Listeria)",
@@ -27,7 +29,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Meningitis: 100 mg/kg/dosis c/12h"
         },
         {
@@ -38,7 +43,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Meningitis: 100 mg/kg/dosis c/8h"
         },
         {
@@ -49,7 +57,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Meningitis: 100 mg/kg/dosis c/8h"
         },
         {
@@ -59,7 +70,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/6h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Meningitis: 100 mg/kg/dosis c/6h"
         }
       ],
@@ -76,18 +90,33 @@
         "stability": "8 h temperatura ambiente | 72 h refrigerado (2–8 °C)"
       },
       "administration": {
-        "routes": ["IV", "IM"],
+        "routes": [
+          "IV",
+          "IM"
+        ],
         "ivRate": "Infundir en 15–30 min (velocidad máx. 100 mg/min)",
-        "incompatibleWith": ["Gentamicina (misma vía)", "Amikacina (misma vía)"]
+        "incompatibleWith": [
+          "Gentamicina (misma vía)",
+          "Amikacina (misma vía)"
+        ]
       },
-      "monitoring": ["Función renal (clearance)", "Hemograma", "Cultivos de seguimiento"],
-      "references": ["NEOFAX 2024 p. 97", "SEGNNEO 2019"]
+      "monitoring": [
+        "Función renal (clearance)",
+        "Hemograma",
+        "Cultivos de seguimiento"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 97",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "gentamicina",
       "name": "Gentamicina",
       "genericName": "Gentamicin",
-      "category": ["antibiotico"],
+      "category": [
+        "antibiotico"
+      ],
       "indications": [
         "Sepsis neonatal por gram negativos",
         "Sinergia con ampicilina (EGB, Listeria)",
@@ -100,7 +129,10 @@
           "dosePerKg": 5,
           "unit": "mg/kg/dosis",
           "frequency": "c/48h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Monitorizar niveles: pico 5–10 μg/mL (1 h post-dosis), valle < 1 μg/mL (pre-dosis)"
         },
         {
@@ -110,7 +142,10 @@
           "dosePerKg": 4.5,
           "unit": "mg/kg/dosis",
           "frequency": "c/36h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Monitorizar niveles: pico 5–10 μg/mL, valle < 1 μg/mL"
         },
         {
@@ -119,7 +154,10 @@
           "dosePerKg": 4,
           "unit": "mg/kg/dosis",
           "frequency": "c/24h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Monitorizar niveles: pico 5–10 μg/mL, valle < 1 μg/mL"
         }
       ],
@@ -135,9 +173,15 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV", "IM"],
+        "routes": [
+          "IV",
+          "IM"
+        ],
         "ivRate": "Infundir en 30 min",
-        "incompatibleWith": ["Ampicilina (misma vía)", "Beta-lactámicos (misma vía)"]
+        "incompatibleWith": [
+          "Ampicilina (misma vía)",
+          "Beta-lactámicos (misma vía)"
+        ]
       },
       "monitoring": [
         "Nivel pico (1 h post-dosis): 5–10 μg/mL",
@@ -145,14 +189,21 @@
         "Función renal",
         "Audición (control al alta)"
       ],
-      "contraindications": ["Hipersensibilidad a aminoglucósidos"],
-      "references": ["NEOFAX 2024 p. 441", "SEGNNEO 2019"]
+      "contraindications": [
+        "Hipersensibilidad a aminoglucósidos"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 441",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "vancomicina",
       "name": "Vancomicina",
       "genericName": "Vancomycin",
-      "category": ["antibiotico"],
+      "category": [
+        "antibiotico"
+      ],
       "indications": [
         "Sepsis por Staphylococcus aureus meticilino-resistente (SAMR)",
         "Meningitis por SAMR o Enterococo",
@@ -167,7 +218,9 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/24h",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Monitorizar valle 5–15 μg/mL (infecciones graves: 15–20)"
         },
         {
@@ -177,7 +230,9 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/18h",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         },
         {
           "label": "EG 29–36 sem, 0–14 días",
@@ -187,7 +242,9 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/18h",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         },
         {
           "label": "EG 29–36 sem, > 14 días",
@@ -197,7 +254,9 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         },
         {
           "label": "EG ≥ 37 sem",
@@ -205,7 +264,9 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/8–12h",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         }
       ],
       "preparation": {
@@ -221,23 +282,36 @@
         "stability": "24 h temperatura ambiente | 14 días refrigerado"
       },
       "administration": {
-        "routes": ["IV"],
+        "routes": [
+          "IV"
+        ],
         "ivRate": "Infundir en 60 min (máx. 10 mg/min para evitar síndrome del hombre rojo)",
-        "incompatibleWith": ["Heparina (misma vía)"]
+        "incompatibleWith": [
+          "Heparina (misma vía)"
+        ]
       },
       "monitoring": [
         "Nivel valle (pre-dosis 3a o 4a): 5–15 μg/mL (infecciones graves: 15–20)",
         "Función renal semanal",
         "Audición al alta"
       ],
-      "adverseEffects": ["Síndrome del hombre rojo (infusión rápida)", "Nefrotoxicidad", "Ototoxicidad"],
-      "references": ["NEOFAX 2024 p. 898", "SEGNNEO 2019"]
+      "adverseEffects": [
+        "Síndrome del hombre rojo (infusión rápida)",
+        "Nefrotoxicidad",
+        "Ototoxicidad"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 898",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "amikacina",
       "name": "Amikacina",
       "genericName": "Amikacin",
-      "category": ["antibiotico"],
+      "category": [
+        "antibiotico"
+      ],
       "indications": [
         "Gram negativos resistentes a gentamicina",
         "Sepsis neonatal tardía por gérmenes hospitalarios",
@@ -250,7 +324,10 @@
           "dosePerKg": 18,
           "unit": "mg/kg/dosis",
           "frequency": "c/48h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Pico (1 h): 20–30 μg/mL | Valle (pre): < 5 μg/mL"
         },
         {
@@ -260,7 +337,10 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/36h",
-          "routes": ["IV", "IM"]
+          "routes": [
+            "IV",
+            "IM"
+          ]
         },
         {
           "label": "EG ≥ 35 sem",
@@ -268,7 +348,10 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/24h",
-          "routes": ["IV", "IM"]
+          "routes": [
+            "IV",
+            "IM"
+          ]
         }
       ],
       "preparation": {
@@ -282,9 +365,14 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV", "IM"],
+        "routes": [
+          "IV",
+          "IM"
+        ],
         "ivRate": "Infundir en 30 min",
-        "incompatibleWith": ["Beta-lactámicos (misma vía)"]
+        "incompatibleWith": [
+          "Beta-lactámicos (misma vía)"
+        ]
       },
       "monitoring": [
         "Nivel pico (1 h post-dosis): 20–30 μg/mL",
@@ -292,13 +380,18 @@
         "Función renal",
         "Audición"
       ],
-      "references": ["NEOFAX 2024 p. 48", "SEGNNEO 2019"]
+      "references": [
+        "NEOFAX 2024 p. 48",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "cefotaxima",
       "name": "Cefotaxima",
       "genericName": "Cefotaxime",
-      "category": ["antibiotico"],
+      "category": [
+        "antibiotico"
+      ],
       "indications": [
         "Meningitis por gram negativos",
         "Sepsis neonatal tardía",
@@ -312,7 +405,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV", "IM"]
+          "routes": [
+            "IV",
+            "IM"
+          ]
         },
         {
           "label": "EG < 29 sem, > 28 días",
@@ -321,7 +417,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV", "IM"]
+          "routes": [
+            "IV",
+            "IM"
+          ]
         },
         {
           "label": "EG 29–36 sem, 0–7 días",
@@ -331,7 +430,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV", "IM"]
+          "routes": [
+            "IV",
+            "IM"
+          ]
         },
         {
           "label": "EG 29–36 sem, > 7 días",
@@ -341,7 +443,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV", "IM"]
+          "routes": [
+            "IV",
+            "IM"
+          ]
         },
         {
           "label": "EG ≥ 37 sem",
@@ -349,7 +454,10 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/6–8h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Meningitis: 50 mg/kg c/6h"
         }
       ],
@@ -365,17 +473,28 @@
         "stability": "12 h temperatura ambiente | 5 días refrigerado"
       },
       "administration": {
-        "routes": ["IV", "IM"],
+        "routes": [
+          "IV",
+          "IM"
+        ],
         "ivRate": "Infundir en 15–30 min"
       },
-      "monitoring": ["Función renal", "Hemograma"],
-      "references": ["NEOFAX 2024 p. 209", "SEGNNEO 2019"]
+      "monitoring": [
+        "Función renal",
+        "Hemograma"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 209",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "meropenem",
       "name": "Meropenem",
       "genericName": "Meropenem",
-      "category": ["antibiotico"],
+      "category": [
+        "antibiotico"
+      ],
       "indications": [
         "Infecciones por bacilos gram negativos multirresistentes",
         "Meningitis por gram negativos resistentes",
@@ -389,7 +508,9 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         },
         {
           "label": "EG < 32 sem, > 14 días",
@@ -398,7 +519,9 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         },
         {
           "label": "EG ≥ 32 sem",
@@ -406,7 +529,9 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Meningitis: 40 mg/kg c/8h"
         }
       ],
@@ -422,17 +547,28 @@
         "stability": "4 h temperatura ambiente | 24 h refrigerado (reconstituido)"
       },
       "administration": {
-        "routes": ["IV"],
+        "routes": [
+          "IV"
+        ],
         "ivRate": "Infundir en 15–30 min (o hasta 3 h para infusión extendida)"
       },
-      "monitoring": ["Función renal", "Hemograma", "Función hepática"],
-      "references": ["NEOFAX 2024 p. 596", "SEGNNEO 2019"]
+      "monitoring": [
+        "Función renal",
+        "Hemograma",
+        "Función hepática"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 596",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "aciclovir",
       "name": "Aciclovir",
       "genericName": "Acyclovir",
-      "category": ["antiviral"],
+      "category": [
+        "antiviral"
+      ],
       "indications": [
         "Herpes simplex neonatal (piel/ojos/boca, SNC, diseminado)",
         "Sospecha de infección herpética en recién nacido"
@@ -443,7 +579,9 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h × 14 días",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "SEM = Skin, Eyes, Mouth"
         },
         {
@@ -451,7 +589,9 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h × 21 días",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         },
         {
           "label": "Prematuro EG < 34 sem",
@@ -459,7 +599,9 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV"]
+          "routes": [
+            "IV"
+          ]
         }
       ],
       "preparation": {
@@ -475,19 +617,35 @@
         "stability": "12 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV"],
+        "routes": [
+          "IV"
+        ],
         "ivRate": "Infundir en 60 min (NUNCA en bolo – nefrotóxico)",
-        "incompatibleWith": ["Dobutamina", "Dopamina"]
+        "incompatibleWith": [
+          "Dobutamina",
+          "Dopamina"
+        ]
       },
-      "monitoring": ["Función renal pre-dosis y c/48h", "Hidratación adecuada"],
-      "adverseEffects": ["Nefrotoxicidad (si infusión rápida o mal hidratado)", "Flebitis"],
-      "references": ["NEOFAX 2024 p. 20", "SEGNNEO 2019"]
+      "monitoring": [
+        "Función renal pre-dosis y c/48h",
+        "Hidratación adecuada"
+      ],
+      "adverseEffects": [
+        "Nefrotoxicidad (si infusión rápida o mal hidratado)",
+        "Flebitis"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 20",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "fluconazol",
       "name": "Fluconazol",
       "genericName": "Fluconazole",
-      "category": ["antifungico"],
+      "category": [
+        "antifungico"
+      ],
       "indications": [
         "Candidiasis invasiva neonatal",
         "Profilaxis antifúngica en RNMBPN (< 28 sem o < 1000 g)"
@@ -499,7 +657,10 @@
           "dosePerKg": 3,
           "unit": "mg/kg/dosis",
           "frequency": "2 × semana × 6 semanas",
-          "routes": ["IV", "VO"],
+          "routes": [
+            "IV",
+            "VO"
+          ],
           "notes": "Comenzar a las 24–48 h de vida"
         },
         {
@@ -508,7 +669,10 @@
           "dosePerKg": 6,
           "unit": "mg/kg/dosis",
           "frequency": "c/48h",
-          "routes": ["IV", "VO"],
+          "routes": [
+            "IV",
+            "VO"
+          ],
           "notes": "Candidiasis invasiva. Mínimo 14 días post cultivos negativos"
         },
         {
@@ -517,7 +681,10 @@
           "dosePerKg": 12,
           "unit": "mg/kg/dosis",
           "frequency": "c/24h",
-          "routes": ["IV", "VO"]
+          "routes": [
+            "IV",
+            "VO"
+          ]
         }
       ],
       "preparation": {
@@ -532,17 +699,29 @@
         "stability": "Según fecha de vencimiento del vial"
       },
       "administration": {
-        "routes": ["IV", "VO"],
+        "routes": [
+          "IV",
+          "VO"
+        ],
         "ivRate": "Infundir en 30–60 min (máx. 10 mL/h en neonatos)"
       },
-      "monitoring": ["Función hepática", "Función renal", "Cultivos fúngicos"],
-      "references": ["NEOFAX 2024 p. 406", "SEGNNEO 2019"]
+      "monitoring": [
+        "Función hepática",
+        "Función renal",
+        "Cultivos fúngicos"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 406",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "dopamina",
       "name": "Dopamina",
       "genericName": "Dopamine",
-      "category": ["cardiovascular"],
+      "category": [
+        "cardiovascular"
+      ],
       "indications": [
         "Hipotensión arterial neonatal refractaria a volumen",
         "Soporte inotrópico y vasopresivo",
@@ -555,7 +734,11 @@
           "doseMax": 5,
           "startDose": 5,
           "unit": "mcg/kg/min",
-          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "ruleOf3": {
+            "multiplier": 3,
+            "volumeMl": 50,
+            "diluent": "D5% o SF 0.9%"
+          },
           "notes": "Vasodilatación renal y esplácnica"
         },
         {
@@ -564,7 +747,11 @@
           "doseMax": 10,
           "startDose": 5,
           "unit": "mcg/kg/min",
-          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "ruleOf3": {
+            "multiplier": 3,
+            "volumeMl": 50,
+            "diluent": "D5% o SF 0.9%"
+          },
           "notes": "Efecto β1: aumenta inotropía y FC"
         },
         {
@@ -573,7 +760,11 @@
           "doseMax": 20,
           "startDose": 10,
           "unit": "mcg/kg/min",
-          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "ruleOf3": {
+            "multiplier": 3,
+            "volumeMl": 50,
+            "diluent": "D5% o SF 0.9%"
+          },
           "notes": "Efecto α: vasoconstricción. Titular con cautela"
         }
       ],
@@ -589,9 +780,15 @@
         "stability": "24 h temperatura ambiente (proteger de luz)"
       },
       "administration": {
-        "routes": ["IV central (preferencia)", "IV periférica (temporario)"],
+        "routes": [
+          "IV central (preferencia)",
+          "IV periférica (temporario)"
+        ],
         "ivRate": "Infusión continua. Usar bomba de jeringa.",
-        "incompatibleWith": ["Bicarbonato de sodio (misma vía)", "Ampicilina (misma vía)"]
+        "incompatibleWith": [
+          "Bicarbonato de sodio (misma vía)",
+          "Ampicilina (misma vía)"
+        ]
       },
       "monitoring": [
         "Presión arterial invasiva (idealmente)",
@@ -599,14 +796,23 @@
         "Diuresis horaria",
         "Perfusión periférica"
       ],
-      "adverseEffects": ["Taquicardia", "Arritmias", "Vasoconstricción periférica (dosis altas)", "Necrosis si extravasación"],
-      "references": ["NEOFAX 2024 p. 305"]
+      "adverseEffects": [
+        "Taquicardia",
+        "Arritmias",
+        "Vasoconstricción periférica (dosis altas)",
+        "Necrosis si extravasación"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 305"
+      ]
     },
     {
       "id": "dobutamina",
       "name": "Dobutamina",
       "genericName": "Dobutamine",
-      "category": ["cardiovascular"],
+      "category": [
+        "cardiovascular"
+      ],
       "indications": [
         "Disfunción miocárdica con gasto cardíaco bajo",
         "Shock cardiogénico neonatal",
@@ -619,7 +825,11 @@
           "doseMax": 20,
           "startDose": 5,
           "unit": "mcg/kg/min",
-          "ruleOf3": { "multiplier": 3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "ruleOf3": {
+            "multiplier": 3,
+            "volumeMl": 50,
+            "diluent": "D5% o SF 0.9%"
+          },
           "notes": "Efecto principalmente β1. Menor efecto vasopresivo que dopamina"
         }
       ],
@@ -635,18 +845,32 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV central (preferencia)"],
+        "routes": [
+          "IV central (preferencia)"
+        ],
         "ivRate": "Infusión continua. Usar bomba de jeringa.",
-        "incompatibleWith": ["Bicarbonato", "Heparina (misma vía)"]
+        "incompatibleWith": [
+          "Bicarbonato",
+          "Heparina (misma vía)"
+        ]
       },
-      "monitoring": ["Frecuencia cardíaca", "Presión arterial", "Ecocardiograma"],
-      "references": ["NEOFAX 2024 p. 300"]
+      "monitoring": [
+        "Frecuencia cardíaca",
+        "Presión arterial",
+        "Ecocardiograma"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 300"
+      ]
     },
     {
       "id": "adrenalina_infusion",
       "name": "Adrenalina (infusión)",
       "genericName": "Epinephrine infusion",
-      "category": ["cardiovascular", "emergencia"],
+      "category": [
+        "cardiovascular",
+        "emergencia"
+      ],
       "indications": [
         "Shock refractario a dopamina/dobutamina",
         "PCR post-reanimación",
@@ -659,7 +883,11 @@
           "doseMax": 1,
           "startDose": 0.05,
           "unit": "mcg/kg/min",
-          "ruleOf3": { "multiplier": 0.3, "volumeMl": 50, "diluent": "D5% o SF 0.9%" },
+          "ruleOf3": {
+            "multiplier": 0.3,
+            "volumeMl": 50,
+            "diluent": "D5% o SF 0.9%"
+          },
           "notes": "Regla de 3 Adrenalina: 0.3 × kg mg en 50 mL → 1 mL/h = 0.1 mcg/kg/min"
         }
       ],
@@ -675,19 +903,37 @@
         "stability": "24 h temperatura ambiente (proteger de luz)"
       },
       "administration": {
-        "routes": ["IV central exclusivamente"],
+        "routes": [
+          "IV central exclusivamente"
+        ],
         "ivRate": "Infusión continua. Nunca bolo IV directo excepto emergencia.",
-        "incompatibleWith": ["Bicarbonato (misma vía)", "Aminofilina"]
+        "incompatibleWith": [
+          "Bicarbonato (misma vía)",
+          "Aminofilina"
+        ]
       },
-      "monitoring": ["Presión arterial invasiva", "FC continua", "Glucemia horaria"],
-      "adverseEffects": ["Taquicardia severa", "Hipertensión", "Isquemia periférica", "Hiperglucemia"],
-      "references": ["NEOFAX 2024 p. 340"]
+      "monitoring": [
+        "Presión arterial invasiva",
+        "FC continua",
+        "Glucemia horaria"
+      ],
+      "adverseEffects": [
+        "Taquicardia severa",
+        "Hipertensión",
+        "Isquemia periférica",
+        "Hiperglucemia"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 340"
+      ]
     },
     {
       "id": "adrenalina_reanimacion",
       "name": "Adrenalina (reanimación)",
       "genericName": "Epinephrine resuscitation",
-      "category": ["emergencia"],
+      "category": [
+        "emergencia"
+      ],
       "indications": [
         "PCR neonatal: FC < 60 lpm luego de 30 s de VPP + compresiones",
         "Reanimación cardiopulmonar neonatal"
@@ -698,7 +944,10 @@
           "dosePerKg": 0.01,
           "unit": "mg/kg/dosis",
           "frequency": "c/3–5 min si necesario",
-          "routes": ["IV", "IO"],
+          "routes": [
+            "IV",
+            "IO"
+          ],
           "notes": "Usar solución 1:10.000 (0.1 mg/mL). Volumen: 0.1 mL/kg. Máx. 0.03 mg/kg (0.3 mL/kg)"
         },
         {
@@ -706,7 +955,9 @@
           "dosePerKg": 0.05,
           "unit": "mg/kg/dosis",
           "frequency": "c/3–5 min si necesario",
-          "routes": ["ET"],
+          "routes": [
+            "ET"
+          ],
           "notes": "Usar solución 1:10.000. Volumen ET: 0.5 mL/kg. Seguido de 1 mL SF 0.9%"
         }
       ],
@@ -723,16 +974,25 @@
         "stability": "Usar de inmediato. No conservar."
       },
       "administration": {
-        "routes": ["IV", "IO", "ET"],
+        "routes": [
+          "IV",
+          "IO",
+          "ET"
+        ],
         "ivRate": "Bolo rápido IV/IO. Seguido de SF 0.9% 0.5–1 mL"
       },
-      "references": ["NEOFAX 2024 p. 340", "NRP 8a edición AAP 2021"]
+      "references": [
+        "NEOFAX 2024 p. 340",
+        "NRP 8a edición AAP 2021"
+      ]
     },
     {
       "id": "morfina",
       "name": "Morfina",
       "genericName": "Morphine",
-      "category": ["analgesico_sedante"],
+      "category": [
+        "analgesico_sedante"
+      ],
       "indications": [
         "Analgesia en ventilación mecánica",
         "Sedación post-quirúrgica",
@@ -744,7 +1004,9 @@
           "dosePerKg": 0.05,
           "unit": "mg/kg/dosis",
           "frequency": "c/4–6h según necesidad",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Dosis máxima en bolo: 0.1 mg/kg. Infundir lentamente en 5 min"
         }
       ],
@@ -770,20 +1032,42 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV"],
+        "routes": [
+          "IV"
+        ],
         "ivRate": "Bolo: pasar en 5 min. Infusión: bomba de jeringa.",
-        "incompatibleWith": ["Aminofilina", "Fenobarbital"]
+        "incompatibleWith": [
+          "Aminofilina",
+          "Fenobarbital"
+        ]
       },
-      "monitoring": ["FR", "SpO2", "Escala de sedación NIPS o N-PASS", "Tránsito intestinal"],
-      "adverseEffects": ["Depresión respiratoria", "Hipotensión", "Íleo", "Retención urinaria"],
-      "contraindications": ["Depresión respiratoria sin soporte ventilatorio"],
-      "references": ["NEOFAX 2024 p. 640", "SEGNNEO 2019"]
+      "monitoring": [
+        "FR",
+        "SpO2",
+        "Escala de sedación NIPS o N-PASS",
+        "Tránsito intestinal"
+      ],
+      "adverseEffects": [
+        "Depresión respiratoria",
+        "Hipotensión",
+        "Íleo",
+        "Retención urinaria"
+      ],
+      "contraindications": [
+        "Depresión respiratoria sin soporte ventilatorio"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 640",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "fentanilo",
       "name": "Fentanilo",
       "genericName": "Fentanyl",
-      "category": ["analgesico_sedante"],
+      "category": [
+        "analgesico_sedante"
+      ],
       "indications": [
         "Analgesia para procedimientos e intubación",
         "Sedoanalgesia en ventilación mecánica",
@@ -795,7 +1079,9 @@
           "dosePerKg": 2,
           "unit": "mcg/kg/dosis",
           "frequency": "dosis única o según necesidad",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Rango: 1–4 mcg/kg. Pasar en 3–5 min para evitar rigidez torácica"
         }
       ],
@@ -822,18 +1108,33 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV"],
+        "routes": [
+          "IV"
+        ],
         "ivRate": "Bolo: pasar en 3–5 min. Infusión: bomba de jeringa."
       },
-      "monitoring": ["SpO2", "FR", "Rigidez torácica (bolo rápido)", "Sedación"],
-      "adverseEffects": ["Rigidez torácica (bolo rápido)", "Depresión respiratoria", "Bradicardia"],
-      "references": ["NEOFAX 2024 p. 394"]
+      "monitoring": [
+        "SpO2",
+        "FR",
+        "Rigidez torácica (bolo rápido)",
+        "Sedación"
+      ],
+      "adverseEffects": [
+        "Rigidez torácica (bolo rápido)",
+        "Depresión respiratoria",
+        "Bradicardia"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 394"
+      ]
     },
     {
       "id": "midazolam",
       "name": "Midazolam",
       "genericName": "Midazolam",
-      "category": ["analgesico_sedante"],
+      "category": [
+        "analgesico_sedante"
+      ],
       "indications": [
         "Sedación para procedimientos",
         "Sedación en ventilación mecánica (corto plazo)",
@@ -845,7 +1146,9 @@
           "dosePerKg": 0.05,
           "unit": "mg/kg/dosis",
           "frequency": "c/2–4h según necesidad",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Rango: 0.05–0.15 mg/kg. Pasar en 3–5 min"
         }
       ],
@@ -871,18 +1174,36 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV", "IM", "intranasal"],
+        "routes": [
+          "IV",
+          "IM",
+          "intranasal"
+        ],
         "ivRate": "Bolo: pasar en 3–5 min."
       },
-      "monitoring": ["SpO2", "FR", "TA", "Escala de sedación", "Síndrome de abstinencia al suspender"],
-      "adverseEffects": ["Apnea (especialmente en prematuros)", "Hipotensión", "Mioclonías paradójicas"],
-      "references": ["NEOFAX 2024 p. 629"]
+      "monitoring": [
+        "SpO2",
+        "FR",
+        "TA",
+        "Escala de sedación",
+        "Síndrome de abstinencia al suspender"
+      ],
+      "adverseEffects": [
+        "Apnea (especialmente en prematuros)",
+        "Hipotensión",
+        "Mioclonías paradójicas"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 629"
+      ]
     },
     {
       "id": "fenobarbital",
       "name": "Fenobarbital",
       "genericName": "Phenobarbital",
-      "category": ["analgesico_sedante"],
+      "category": [
+        "analgesico_sedante"
+      ],
       "indications": [
         "Convulsiones neonatales (primera línea)",
         "Profilaxis convulsiva post-asfixia perinatal",
@@ -894,7 +1215,9 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "dosis única IV",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Si convulsiones persisten: agregar 5–10 mg/kg c/20 min hasta máx. 40 mg/kg total. Velocidad máx.: 1 mg/kg/min"
         },
         {
@@ -902,7 +1225,10 @@
           "dosePerKg": 3,
           "unit": "mg/kg/día",
           "frequency": "c/12–24h (comenzar 24 h post-carga)",
-          "routes": ["IV", "VO"],
+          "routes": [
+            "IV",
+            "VO"
+          ],
           "notes": "Rango: 3–5 mg/kg/día. Nivel terapéutico: 20–40 μg/mL"
         }
       ],
@@ -918,23 +1244,38 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV", "IM", "VO"],
+        "routes": [
+          "IV",
+          "IM",
+          "VO"
+        ],
         "ivRate": "Máx. 1 mg/kg/min (monitoreo de TA y FR durante infusión)",
-        "incompatibleWith": ["Morfina (misma vía)"]
+        "incompatibleWith": [
+          "Morfina (misma vía)"
+        ]
       },
       "monitoring": [
         "Nivel sérico (24 h post-carga): objetivo 20–40 μg/mL",
         "FR y SpO2 durante la infusión",
         "TA"
       ],
-      "adverseEffects": ["Depresión respiratoria", "Hipotensión", "Sedación excesiva"],
-      "references": ["NEOFAX 2024 p. 749", "SEGNNEO 2019"]
+      "adverseEffects": [
+        "Depresión respiratoria",
+        "Hipotensión",
+        "Sedación excesiva"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 749",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "cafeina_citrato",
       "name": "Cafeína citrato",
       "genericName": "Caffeine citrate",
-      "category": ["respiratorio"],
+      "category": [
+        "respiratorio"
+      ],
       "indications": [
         "Apnea del prematuro (EG < 34 sem)",
         "Facilitación del destete ventilatorio",
@@ -946,7 +1287,10 @@
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "dosis única",
-          "routes": ["IV", "VO"],
+          "routes": [
+            "IV",
+            "VO"
+          ],
           "notes": "20 mg/kg de CITRATO DE CAFEÍNA = 10 mg/kg de BASE. Pasar IV en 30 min"
         },
         {
@@ -954,7 +1298,10 @@
           "dosePerKg": 5,
           "unit": "mg/kg/día",
           "frequency": "c/24h (comenzar 24 h post-carga)",
-          "routes": ["IV", "VO"],
+          "routes": [
+            "IV",
+            "VO"
+          ],
           "notes": "Rango: 5–10 mg/kg/día. Nivel terapéutico: 8–20 μg/mL"
         }
       ],
@@ -971,7 +1318,11 @@
         "stability": "Según vencimiento del vial"
       },
       "administration": {
-        "routes": ["IV", "VO", "SNG"],
+        "routes": [
+          "IV",
+          "VO",
+          "SNG"
+        ],
         "ivRate": "Carga: infundir en 30 min. Mantenimiento: 10–30 min."
       },
       "monitoring": [
@@ -979,14 +1330,25 @@
         "FC (buscar taquicardia > 180 lpm)",
         "Nivel sérico c/2 semanas si prolongado"
       ],
-      "adverseEffects": ["Taquicardia", "Irritabilidad", "Temblores", "Intolerancia digestiva"],
-      "references": ["NEOFAX 2024 p. 164", "SEGNNEO 2019"]
+      "adverseEffects": [
+        "Taquicardia",
+        "Irritabilidad",
+        "Temblores",
+        "Intolerancia digestiva"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 164",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "surfactante_beractant",
       "name": "Surfactante Beractant",
       "genericName": "Beractant (Survanta)",
-      "category": ["respiratorio", "surfactante"],
+      "category": [
+        "respiratorio",
+        "surfactante"
+      ],
       "indications": [
         "Síndrome de dificultad respiratoria (SDR) neonatal",
         "Tratamiento de rescate en RNP con SDR confirmado",
@@ -998,7 +1360,9 @@
           "dosePerKg": 100,
           "unit": "mg/kg/dosis",
           "frequency": "Hasta 4 dosis en 48 h (mín. 6 h entre dosis)",
-          "routes": ["IT"],
+          "routes": [
+            "IT"
+          ],
           "notes": "100 mg/kg = 4 mL/kg. Calentar a temperatura corporal antes de usar"
         }
       ],
@@ -1016,7 +1380,9 @@
         "stability": "Refrigerado hasta fecha de vencimiento. Una vez abierto: usar de inmediato."
       },
       "administration": {
-        "routes": ["IT (intratraqueal)"],
+        "routes": [
+          "IT (intratraqueal)"
+        ],
         "ivRate": "Instilación lenta durante 2 min por posición"
       },
       "monitoring": [
@@ -1024,13 +1390,19 @@
         "Rx tórax post-dosis",
         "Ajustar parámetros ventilatorios post-dosis (riesgo sobredistensión)"
       ],
-      "references": ["NEOFAX 2024 p. 135", "SEGNNEO 2019"]
+      "references": [
+        "NEOFAX 2024 p. 135",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "surfactante_poractant",
       "name": "Surfactante Poractant",
       "genericName": "Poractant alfa (Curosurf)",
-      "category": ["respiratorio", "surfactante"],
+      "category": [
+        "respiratorio",
+        "surfactante"
+      ],
       "indications": [
         "SDR neonatal: tratamiento de rescate",
         "Profilaxis / INSURE / LISA en < 30 sem"
@@ -1041,7 +1413,9 @@
           "dosePerKg": 200,
           "unit": "mg/kg/dosis",
           "frequency": "Primera dosis",
-          "routes": ["IT"],
+          "routes": [
+            "IT"
+          ],
           "notes": "200 mg/kg = 2.5 mL/kg de Curosurf (80 mg/mL)"
         },
         {
@@ -1049,7 +1423,9 @@
           "dosePerKg": 100,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h si persiste SDR (máx. 2 dosis adicionales)",
-          "routes": ["IT"],
+          "routes": [
+            "IT"
+          ],
           "notes": "100 mg/kg = 1.25 mL/kg"
         }
       ],
@@ -1066,17 +1442,28 @@
         "stability": "Refrigerado hasta vencimiento. Una vez abierto: descartar sobrante."
       },
       "administration": {
-        "routes": ["IT (intratraqueal)"],
+        "routes": [
+          "IT (intratraqueal)"
+        ],
         "ivRate": "Bolo único IT (INSURE) o instilación lenta (LISA)"
       },
-      "monitoring": ["SpO2", "FiO2", "Rx tórax post-dosis", "Parámetros ventilatorios"],
-      "references": ["NEOFAX 2024 p. 780"]
+      "monitoring": [
+        "SpO2",
+        "FiO2",
+        "Rx tórax post-dosis",
+        "Parámetros ventilatorios"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 780"
+      ]
     },
     {
       "id": "furosemida",
       "name": "Furosemida",
       "genericName": "Furosemide",
-      "category": ["diuretico"],
+      "category": [
+        "diuretico"
+      ],
       "indications": [
         "Edema por insuficiencia cardíaca",
         "Sobrecarga de volumen",
@@ -1088,7 +1475,10 @@
           "dosePerKg": 1,
           "unit": "mg/kg/dosis",
           "frequency": "c/12–24h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Rango: 1–2 mg/kg/dosis"
         },
         {
@@ -1096,7 +1486,9 @@
           "dosePerKg": 2,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["VO"],
+          "routes": [
+            "VO"
+          ],
           "notes": "Rango oral: 1–4 mg/kg/dosis. Biodisponibilidad ~50% vía oral"
         }
       ],
@@ -1112,7 +1504,11 @@
         "lightSensitive": true
       },
       "administration": {
-        "routes": ["IV", "IM", "VO"],
+        "routes": [
+          "IV",
+          "IM",
+          "VO"
+        ],
         "ivRate": "Pasar en 1–2 min IV (máx. 4 mg/min)"
       },
       "monitoring": [
@@ -1121,14 +1517,24 @@
         "Peso diario",
         "TA"
       ],
-      "adverseEffects": ["Hipokalemia", "Hiponatremia", "Ototoxicidad (dosis altas)", "Alcalosis metabólica"],
-      "references": ["NEOFAX 2024 p. 432", "SEGNNEO 2019"]
+      "adverseEffects": [
+        "Hipokalemia",
+        "Hiponatremia",
+        "Ototoxicidad (dosis altas)",
+        "Alcalosis metabólica"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 432",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "indometacina",
       "name": "Indometacina",
       "genericName": "Indomethacin",
-      "category": ["cardiovascular"],
+      "category": [
+        "cardiovascular"
+      ],
       "indications": [
         "Cierre farmacológico de ductus arterioso persistente (DAP) hemodinámicamente significativo",
         "EG < 32 semanas, primera línea"
@@ -1140,7 +1546,9 @@
           "dosePerKg": 0.2,
           "unit": "mg/kg/dosis",
           "frequency": "c/12–24h × 3 dosis",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Esquema: 0.2 – 0.1 – 0.1 mg/kg"
         },
         {
@@ -1150,7 +1558,9 @@
           "dosePerKg": 0.2,
           "unit": "mg/kg/dosis",
           "frequency": "c/12–24h × 3 dosis",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Esquema: 0.2 – 0.2 – 0.2 mg/kg"
         },
         {
@@ -1159,7 +1569,9 @@
           "dosePerKg": 0.2,
           "unit": "mg/kg/dosis",
           "frequency": "c/12–24h × 3 dosis",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Esquema: 0.2 – 0.25 – 0.25 mg/kg"
         }
       ],
@@ -1175,7 +1587,9 @@
         "stability": "Usar de inmediato post-reconstitución"
       },
       "administration": {
-        "routes": ["IV"],
+        "routes": [
+          "IV"
+        ],
         "ivRate": "Pasar en 20–30 min. NO IM ni SC."
       },
       "monitoring": [
@@ -1191,13 +1605,18 @@
         "Sangrado activo",
         "Ductus dependiente (p. ej. atresia pulmonar)"
       ],
-      "references": ["NEOFAX 2024 p. 504"]
+      "references": [
+        "NEOFAX 2024 p. 504"
+      ]
     },
     {
       "id": "gluconato_calcio",
       "name": "Gluconato de calcio 10%",
       "genericName": "Calcium gluconate 10%",
-      "category": ["vitaminas_electrolitos", "emergencia"],
+      "category": [
+        "vitaminas_electrolitos",
+        "emergencia"
+      ],
       "indications": [
         "Hipocalcemia neonatal (Ca iónico < 1.1 mmol/L o Ca total < 7.5 mg/dL)",
         "Emergencia hipocalcémica (tetania, convulsiones)",
@@ -1209,7 +1628,9 @@
           "dosePerKg": 100,
           "unit": "mg/kg/dosis",
           "frequency": "Dosis única. Repetir c/6–8h si necesario",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "100 mg/kg = 1 mL/kg de gluconato 10%. Pasar en 10–15 min con monitoreo cardíaco continuo"
         },
         {
@@ -1217,7 +1638,9 @@
           "dosePerKg": 50,
           "unit": "mg/kg/dosis",
           "frequency": "c/6h",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "O agregar al aporte parenteral: 200–500 mg/kg/día"
         }
       ],
@@ -1233,23 +1656,39 @@
         "stability": "Temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV", "VO (solución oral)"],
+        "routes": [
+          "IV",
+          "VO (solución oral)"
+        ],
         "ivRate": "IV lento en 10–15 min con ECG. NUNCA bolo rápido.",
-        "incompatibleWith": ["Bicarbonato (precipita)", "Fosfato (precipita)"]
+        "incompatibleWith": [
+          "Bicarbonato (precipita)",
+          "Fosfato (precipita)"
+        ]
       },
       "monitoring": [
         "ECG continuo durante infusión IV",
         "Calcio iónico post-dosis",
         "Signos de extravasación (necrosis tisular)"
       ],
-      "adverseEffects": ["Bradicardia", "Arritmias (infusión rápida)", "Necrosis por extravasación"],
-      "references": ["NEOFAX 2024 p. 172-177", "SEGNNEO 2019"]
+      "adverseEffects": [
+        "Bradicardia",
+        "Arritmias (infusión rápida)",
+        "Necrosis por extravasación"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 172-177",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "bicarbonato_sodio",
       "name": "Bicarbonato de sodio 8.4%",
       "genericName": "Sodium bicarbonate",
-      "category": ["emergencia", "vitaminas_electrolitos"],
+      "category": [
+        "emergencia",
+        "vitaminas_electrolitos"
+      ],
       "indications": [
         "Acidosis metabólica severa (pH < 7.15, HCO3 < 12)",
         "Hiperpotasemia severa",
@@ -1261,7 +1700,9 @@
           "dosePerKg": 1,
           "unit": "mEq/kg/dosis",
           "frequency": "Única, según cálculo",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Fórmula: mEq = (BE × peso kg × 0.3) ÷ 2. Corregir 50%, revalorar. SIEMPRE diluir 1:1 con D5%"
         },
         {
@@ -1269,7 +1710,9 @@
           "dosePerKg": 1,
           "unit": "mEq/kg/dosis",
           "frequency": "Según evolución",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "1–2 mEq/kg. Diluir 1:1 con D5%. Pasar en 5–10 min. Solo con ventilación asegurada."
         }
       ],
@@ -1285,24 +1728,42 @@
         "stability": "Temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV"],
+        "routes": [
+          "IV"
+        ],
         "ivRate": "Pasar en 5–10 min (emergencia) o 30–60 min. NUNCA bolo rápido.",
-        "incompatibleWith": ["Calcio (precipita)", "Dopamina (inactiva)", "Adrenalina (inactiva)"]
+        "incompatibleWith": [
+          "Calcio (precipita)",
+          "Dopamina (inactiva)",
+          "Adrenalina (inactiva)"
+        ]
       },
       "monitoring": [
         "Gases en sangre 30 min post-dosis",
         "Electrolitos (Na)",
         "Osmolaridad sérica"
       ],
-      "adverseEffects": ["Alcalosis metabólica", "Hipernatremia", "Hipocalcemia", "Hipervolemia"],
-      "contraindications": ["Hipercapnia sin ventilación asegurada"],
-      "references": ["NEOFAX 2024 p. 839", "SEGNNEO 2019"]
+      "adverseEffects": [
+        "Alcalosis metabólica",
+        "Hipernatremia",
+        "Hipocalcemia",
+        "Hipervolemia"
+      ],
+      "contraindications": [
+        "Hipercapnia sin ventilación asegurada"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 839",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "vitamina_k1",
       "name": "Vitamina K1",
       "genericName": "Phytomenadione (Vitamin K1)",
-      "category": ["vitaminas_electrolitos"],
+      "category": [
+        "vitaminas_electrolitos"
+      ],
       "indications": [
         "Profilaxis de enfermedad hemorrágica del recién nacido (EHRN)",
         "Tratamiento de EHRN establecida",
@@ -1315,7 +1776,9 @@
           "dosePerKg": 1,
           "unit": "mg (dosis fija)",
           "frequency": "Dosis única al nacer",
-          "routes": ["IM"],
+          "routes": [
+            "IM"
+          ],
           "notes": "Dosis FIJA 1 mg IM (no ajustar por peso exacto si ≥ 1500 g)"
         },
         {
@@ -1324,7 +1787,9 @@
           "dosePerKg": 0.5,
           "unit": "mg (dosis fija)",
           "frequency": "Dosis única al nacer",
-          "routes": ["IM"],
+          "routes": [
+            "IM"
+          ],
           "notes": "Dosis FIJA 0.5 mg IM"
         },
         {
@@ -1332,7 +1797,10 @@
           "dosePerKg": 1,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h × 3 dosis si no responde",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "IV: diluir en D5%, pasar en 15–30 min. Máx. 1 mg en < 1500 g"
         }
       ],
@@ -1347,17 +1815,25 @@
         "stability": "Proteger de luz"
       },
       "administration": {
-        "routes": ["IM", "IV"],
+        "routes": [
+          "IM",
+          "IV"
+        ],
         "imNotes": "IM en cara lateral del muslo. Aguja 25G × 5/8\"",
         "ivRate": "Pasar en 15–30 min"
       },
-      "references": ["NEOFAX 2024 p. 927", "SEGNNEO 2019"]
+      "references": [
+        "NEOFAX 2024 p. 927",
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "naloxona",
       "name": "Naloxona",
       "genericName": "Naloxone",
-      "category": ["emergencia"],
+      "category": [
+        "emergencia"
+      ],
       "indications": [
         "Depresión respiratoria neonatal por opioides maternos",
         "Reversión de sedación opioide en neonatos"
@@ -1368,7 +1844,12 @@
           "dosePerKg": 0.1,
           "unit": "mg/kg/dosis",
           "frequency": "c/2–3 min si necesario",
-          "routes": ["IV", "IM", "SC", "ET"],
+          "routes": [
+            "IV",
+            "IM",
+            "SC",
+            "ET"
+          ],
           "notes": "CONTRAINDICADO si madre adicta a opioides (abstinencia aguda). Vida media corta: vigilar rebote."
         }
       ],
@@ -1384,17 +1865,30 @@
         "stability": "Temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV", "IM", "SC", "ET"],
+        "routes": [
+          "IV",
+          "IM",
+          "SC",
+          "ET"
+        ],
         "ivRate": "Bolo rápido IV"
       },
-      "monitoring": ["FR y SpO2 post-dosis", "Signos de abstinencia", "Rebote sedación (vida media corta)"],
-      "references": ["NEOFAX 2024 p. 658"]
+      "monitoring": [
+        "FR y SpO2 post-dosis",
+        "Signos de abstinencia",
+        "Rebote sedación (vida media corta)"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 658"
+      ]
     },
     {
       "id": "alprostadil",
       "name": "Alprostadil (PGE1)",
       "genericName": "Alprostadil (Prostaglandin E1)",
-      "category": ["cardiovascular"],
+      "category": [
+        "cardiovascular"
+      ],
       "indications": [
         "Cardiopatías congénitas ductus-dependientes (atresia pulmonar, CoAo crítica, TGA, DVPAT, SHCI)",
         "Mantenimiento de permeabilidad ductal hasta corrección quirúrgica"
@@ -1429,7 +1923,10 @@
         "stability": "24 h temperatura ambiente"
       },
       "administration": {
-        "routes": ["IV central (preferencia)", "IV periférica"],
+        "routes": [
+          "IV central (preferencia)",
+          "IV periférica"
+        ],
         "ivRate": "Infusión continua. Bomba de jeringa."
       },
       "monitoring": [
@@ -1438,15 +1935,30 @@
         "TA",
         "Temperatura corporal"
       ],
-      "adverseEffects": ["Apnea (15–20%)", "Fiebre", "Hipotensión", "Hipoglucemia", "Convulsiones (dosis altas)"],
-      "references": ["NEOFAX 2024 p. 47"]
+      "adverseEffects": [
+        "Apnea (15–20%)",
+        "Fiebre",
+        "Hipotensión",
+        "Hipoglucemia",
+        "Convulsiones (dosis altas)"
+      ],
+      "references": [
+        "NEOFAX 2024 p. 47"
+      ]
     },
     {
       "id": "acetaminophen",
       "name": "Acetaminofeno",
       "genericName": "Acetaminophen",
-      "category": ["analgesic", "antipyretic"],
-      "indications": ["Dolor leve a moderado", "Fiebre", "Cierre de conducto arterioso permeable"],
+      "category": [
+        "analgesic",
+        "antipyretic"
+      ],
+      "indications": [
+        "Dolor leve a moderado",
+        "Fiebre",
+        "Cierre de conducto arterioso permeable"
+      ],
       "dosingRules": [
         {
           "label": "IV - EG >= 32 semanas",
@@ -1454,7 +1966,9 @@
           "dosePerKg": 12.5,
           "unit": "mg/kg/dosis",
           "frequency": "c/6h",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Máximo 50 mg/kg/día de todas las rutas"
         },
         {
@@ -1463,7 +1977,9 @@
           "dosePerKg": 15,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["PO"],
+          "routes": [
+            "PO"
+          ],
           "notes": "Prematuros: 12-15 mg/kg/dosis c/8-12h"
         }
       ],
@@ -1471,21 +1987,33 @@
         "stockForm": "Vial 1g/100mL (IV), Suspensión oral 160mg/5mL, 100mg/mL",
         "concentrationMgMl": 10
       },
-      "references": ["NEOFAX 2024 p. 1"]
+      "references": [
+        "NEOFAX 2024 p. 1"
+      ]
     },
     {
       "id": "acetazolamida",
       "name": "Acetazolamida",
       "genericName": "Acetazolamide",
-      "category": ["diuretic", "carbonic_anhydrase_inhibitor"],
-      "indications": ["Alcalosis metabólica", "Dilatación ventricular posthemorrágica", "Glaucoma congénito"],
+      "category": [
+        "diuretic",
+        "carbonic_anhydrase_inhibitor"
+      ],
+      "indications": [
+        "Alcalosis metabólica",
+        "Dilatación ventricular posthemorrágica",
+        "Glaucoma congénito"
+      ],
       "dosingRules": [
         {
           "label": "IV/Oral - Alcalosis metabólica",
           "dosePerKg": 5,
           "unit": "mg/kg/dosis",
           "frequency": "c/6-8h",
-          "routes": ["IV", "PO"],
+          "routes": [
+            "IV",
+            "PO"
+          ],
           "notes": "Máximo 30 mg/kg/día en 3-4 dosis divididas"
         }
       ],
@@ -1493,14 +2021,22 @@
         "stockForm": "Polvo IV 500mg/vial, Cápsula oral 500mg",
         "concentrationMgMl": 50
       },
-      "references": ["NEOFAX 2024 p. 7"]
+      "references": [
+        "NEOFAX 2024 p. 7"
+      ]
     },
     {
       "id": "aciclovir_neonatal",
       "name": "Aciclovir",
       "genericName": "Acyclovir",
-      "category": ["antiviral"],
-      "indications": ["Infección por VHS neonatal", "Varicela", "Herpes zóster"],
+      "category": [
+        "antiviral"
+      ],
+      "indications": [
+        "Infección por VHS neonatal",
+        "Varicela",
+        "Herpes zóster"
+      ],
       "dosingRules": [
         {
           "label": "IV - EG >= 34 semanas",
@@ -1508,7 +2044,9 @@
           "dosePerKg": 10,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Infusión en 60 minutos"
         }
       ],
@@ -1516,21 +2054,30 @@
         "stockForm": "Polvo IV 500mg/vial, Suspensión oral 200mg/5mL",
         "concentrationMgMl": 50
       },
-      "references": ["NEOFAX 2024 p. 20"]
+      "references": [
+        "NEOFAX 2024 p. 20"
+      ]
     },
     {
       "id": "adenosina",
       "name": "Adenosina",
       "genericName": "Adenosine",
-      "category": ["antiarrhythmic"],
-      "indications": ["Taquicardia supraventricular", "Diagnóstico de arritmias"],
+      "category": [
+        "antiarrhythmic"
+      ],
+      "indications": [
+        "Taquicardia supraventricular",
+        "Diagnóstico de arritmias"
+      ],
       "dosingRules": [
         {
           "label": "IV rápido",
           "dosePerKg": 0.1,
           "unit": "mg/kg/dosis",
           "frequency": "única",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Aumentar a 0.2-0.3 mg/kg si no responde"
         }
       ],
@@ -1538,21 +2085,31 @@
         "stockForm": "Vial 6mg/2mL",
         "concentrationMgMl": 3
       },
-      "references": ["NEOFAX 2024 p. 27"]
+      "references": [
+        "NEOFAX 2024 p. 27"
+      ]
     },
     {
       "id": "albumina",
       "name": "Albumina",
       "genericName": "Albumin (Human)",
-      "category": ["colloid", "plasma_expander"],
-      "indications": ["Hipoalbuminemia", "Expansión de volumen intravascular"],
+      "category": [
+        "colloid",
+        "plasma_expander"
+      ],
+      "indications": [
+        "Hipoalbuminemia",
+        "Expansión de volumen intravascular"
+      ],
       "dosingRules": [
         {
           "label": "IV - 5% o 25%",
           "dosePerKg": 0.5,
           "unit": "g/kg/dosis",
           "frequency": "única",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Infundir en 15-30 minutos"
         }
       ],
@@ -1560,21 +2117,31 @@
         "stockForm": "Vial 50mL (5% o 25%), Botella 250/500mL",
         "concentrationMgMl": 50
       },
-      "references": ["NEOFAX 2024 p. 30"]
+      "references": [
+        "NEOFAX 2024 p. 30"
+      ]
     },
     {
       "id": "albuterol",
       "name": "Albuterol",
       "genericName": "Albuterol (Salbutamol)",
-      "category": ["bronchodilator", "beta2_agonist"],
-      "indications": ["Broncoespasmo", "Hiperkalemia"],
+      "category": [
+        "bronchodilator",
+        "beta2_agonist"
+      ],
+      "indications": [
+        "Broncoespasmo",
+        "Hiperkalemia"
+      ],
       "dosingRules": [
         {
           "label": "Inhalado - Broncoespasmo",
           "dosePerKg": 0.1,
           "unit": "mg/kg/dosis",
           "frequency": "c/4-6h",
-          "routes": ["Inhalado"],
+          "routes": [
+            "Inhalado"
+          ],
           "notes": "2.5mg en 3mL de SF 0.9%"
         }
       ],
@@ -1582,21 +2149,30 @@
         "stockForm": "Solución para inhalación 0.5%, 1mg/mL",
         "concentrationMgMl": 1
       },
-      "references": ["NEOFAX 2024 p. 38"]
+      "references": [
+        "NEOFAX 2024 p. 38"
+      ]
     },
     {
       "id": "alteplase",
       "name": "Alteplasa",
       "genericName": "Alteplase",
-      "category": ["thrombolytic"],
-      "indications": ["Trombosis neonatal", "Catéter umbilical trombosado"],
+      "category": [
+        "thrombolytic"
+      ],
+      "indications": [
+        "Trombosis neonatal",
+        "Catéter umbilical trombosado"
+      ],
       "dosingRules": [
         {
           "label": "Infusión IV",
           "dosePerKg": 0.6,
           "unit": "mg/kg",
           "frequency": "en 30 minutos",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Máximo 15mg de dosis única"
         }
       ],
@@ -1604,21 +2180,30 @@
         "stockForm": "Polvo 50mg/vial",
         "concentrationMgMl": 1
       },
-      "references": ["NEOFAX 2024 p. 52"]
+      "references": [
+        "NEOFAX 2024 p. 52"
+      ]
     },
     {
       "id": "aminocaproico",
       "name": "Ácido aminocaproico",
       "genericName": "Aminocaproic Acid",
-      "category": ["fibrinolysis_inhibitor"],
-      "indications": ["Sangrado con hiperfibrinólisis", "Hemofilia"],
+      "category": [
+        "fibrinolysis_inhibitor"
+      ],
+      "indications": [
+        "Sangrado con hiperfibrinólisis",
+        "Hemofilia"
+      ],
       "dosingRules": [
         {
           "label": "IV infusión",
           "dosePerKg": 100,
           "unit": "mg/kg",
           "frequency": "única",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Seguida de 25-33 mg/kg/h en infusión"
         }
       ],
@@ -1626,21 +2211,32 @@
         "stockForm": "Vial 250mg/mL",
         "concentrationMgMl": 250
       },
-      "references": ["NEOFAX 2024 p. 61"]
+      "references": [
+        "NEOFAX 2024 p. 61"
+      ]
     },
     {
       "id": "aminofilina",
       "name": "Aminofilina",
       "genericName": "Aminophylline",
-      "category": ["bronchodilator", "theophylline"],
-      "indications": ["Apnea del prematuro", "Broncoespasmo"],
+      "category": [
+        "bronchodilator",
+        "theophylline"
+      ],
+      "indications": [
+        "Apnea del prematuro",
+        "Broncoespasmo"
+      ],
       "dosingRules": [
         {
           "label": "IV/Oral carga",
           "dosePerKg": 6,
           "unit": "mg/kg",
           "frequency": "única",
-          "routes": ["IV", "PO"],
+          "routes": [
+            "IV",
+            "PO"
+          ],
           "notes": "Mantener 2-3 mg/kg/dosis c/8-12h"
         }
       ],
@@ -1648,21 +2244,30 @@
         "stockForm": "Ampolla 25mg/mL, Tableta 100/200mg",
         "concentrationMgMl": 25
       },
-      "references": ["NEOFAX 2024 p. 66"]
+      "references": [
+        "NEOFAX 2024 p. 66"
+      ]
     },
     {
       "id": "amiodarona",
       "name": "Amiodarona",
       "genericName": "Amiodarone",
-      "category": ["antiarrhythmic"],
-      "indications": ["Arritmias supraventriculares refractarias", "Fibrilación atrial"],
+      "category": [
+        "antiarrhythmic"
+      ],
+      "indications": [
+        "Arritmias supraventriculares refractarias",
+        "Fibrilación atrial"
+      ],
       "dosingRules": [
         {
           "label": "IV - Carga rápida",
           "dosePerKg": 5,
           "unit": "mg/kg",
           "frequency": "en 20-30 minutos",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Máximo 15mg/kg/dosis"
         }
       ],
@@ -1670,14 +2275,22 @@
         "stockForm": "Ampolla 150mg/3mL",
         "concentrationMgMl": 50
       },
-      "references": ["NEOFAX 2024 p. 69"]
+      "references": [
+        "NEOFAX 2024 p. 69"
+      ]
     },
     {
       "id": "amoxicilina",
       "name": "Amoxicilina",
       "genericName": "Amoxicillin",
-      "category": ["antibiotic", "penicillin"],
-      "indications": ["Infecciones gram-positivas", "Otalgia media aguda"],
+      "category": [
+        "antibiotic",
+        "penicillin"
+      ],
+      "indications": [
+        "Infecciones gram-positivas",
+        "Otalgia media aguda"
+      ],
       "dosingRules": [
         {
           "label": "Oral - EG >= 34 semanas",
@@ -1685,7 +2298,9 @@
           "dosePerKg": 25,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["PO"],
+          "routes": [
+            "PO"
+          ],
           "notes": "Suspensión oral 125/250mg/5mL"
         }
       ],
@@ -1693,21 +2308,30 @@
         "stockForm": "Suspensión 125mg/5mL, 250mg/5mL",
         "concentrationMgMl": 25
       },
-      "references": ["NEOFAX 2024 p. 77"]
+      "references": [
+        "NEOFAX 2024 p. 77"
+      ]
     },
     {
       "id": "anfotericina_b_lipid",
       "name": "Anfotericina B Complejo Lipídico",
       "genericName": "Amphotericin B Lipid Complex",
-      "category": ["antifungal"],
-      "indications": ["Candidemia", "Infecciones fúngicas diseminadas"],
+      "category": [
+        "antifungal"
+      ],
+      "indications": [
+        "Candidemia",
+        "Infecciones fúngicas diseminadas"
+      ],
       "dosingRules": [
         {
           "label": "IV infusión",
           "dosePerKg": 5,
           "unit": "mg/kg/día",
           "frequency": "continuo",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Infundir en 2 horas"
         }
       ],
@@ -1715,21 +2339,30 @@
         "stockForm": "Suspensión 100mg/20mL",
         "concentrationMgMl": 5
       },
-      "references": ["NEOFAX 2024 p. 82"]
+      "references": [
+        "NEOFAX 2024 p. 82"
+      ]
     },
     {
       "id": "anfotericina_b_liposomal",
       "name": "Anfotericina B Liposomal",
       "genericName": "Amphotericin B Liposome",
-      "category": ["antifungal"],
-      "indications": ["Candidemia", "Aspergilosis invasiva"],
+      "category": [
+        "antifungal"
+      ],
+      "indications": [
+        "Candidemia",
+        "Aspergilosis invasiva"
+      ],
       "dosingRules": [
         {
           "label": "IV infusión",
           "dosePerKg": 3,
           "unit": "mg/kg/día",
           "frequency": "continuo",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Infundir en 2 horas, máximo 5 mg/kg/día"
         }
       ],
@@ -1737,21 +2370,30 @@
         "stockForm": "Suspensión 4mg/mL",
         "concentrationMgMl": 4
       },
-      "references": ["NEOFAX 2024 p. 86"]
+      "references": [
+        "NEOFAX 2024 p. 86"
+      ]
     },
     {
       "id": "anfotericina_b_convencional",
       "name": "Anfotericina B",
       "genericName": "Amphotericin B",
-      "category": ["antifungal"],
-      "indications": ["Candidemia neonatal", "Infecciones fúngicas sistémicas"],
+      "category": [
+        "antifungal"
+      ],
+      "indications": [
+        "Candidemia neonatal",
+        "Infecciones fúngicas sistémicas"
+      ],
       "dosingRules": [
         {
           "label": "IV infusión",
           "dosePerKg": 0.25,
           "unit": "mg/kg/dosis",
           "frequency": "c/24h",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Titular hasta 0.5-1 mg/kg/dosis"
         }
       ],
@@ -1759,21 +2401,31 @@
         "stockForm": "Polvo 50mg/vial",
         "concentrationMgMl": 0.1
       },
-      "references": ["NEOFAX 2024 p. 91"]
+      "references": [
+        "NEOFAX 2024 p. 91"
+      ]
     },
     {
       "id": "anidulafungina",
       "name": "Anidulafungina",
       "genericName": "Anidulafungin",
-      "category": ["antifungal", "echinocandin"],
-      "indications": ["Candidemia", "Infecciones por Candida"],
+      "category": [
+        "antifungal",
+        "echinocandin"
+      ],
+      "indications": [
+        "Candidemia",
+        "Infecciones por Candida"
+      ],
       "dosingRules": [
         {
           "label": "IV carga/mantenimiento",
           "dosePerKg": 3,
           "unit": "mg/kg",
           "frequency": "c/24h",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Carga 3 mg/kg, luego 1.5 mg/kg/día"
         }
       ],
@@ -1781,21 +2433,31 @@
         "stockForm": "Vial 50mg/15mL",
         "concentrationMgMl": 3.3
       },
-      "references": ["NEOFAX 2024 p. 107"]
+      "references": [
+        "NEOFAX 2024 p. 107"
+      ]
     },
     {
       "id": "arginina",
       "name": "Arginina",
       "genericName": "Arginine",
-      "category": ["amino_acid", "supplement"],
-      "indications": ["Hipergicinemia", "Soporte nutricional"],
+      "category": [
+        "amino_acid",
+        "supplement"
+      ],
+      "indications": [
+        "Hipergicinemia",
+        "Soporte nutricional"
+      ],
       "dosingRules": [
         {
           "label": "IV infusión",
           "dosePerKg": 200,
           "unit": "mg/kg/día",
           "frequency": "continuo",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "En nutrición parenteral"
         }
       ],
@@ -1803,21 +2465,32 @@
         "stockForm": "Solución 21% (210mg/mL)",
         "concentrationMgMl": 210
       },
-      "references": ["NEOFAX 2024 p. 113"]
+      "references": [
+        "NEOFAX 2024 p. 113"
+      ]
     },
     {
       "id": "acido_ascorbico",
       "name": "Ácido Ascórbico",
       "genericName": "Ascorbic Acid",
-      "category": ["vitamin", "antioxidant"],
-      "indications": ["Deficiencia de vitamina C", "Apoyo antioxidante"],
+      "category": [
+        "vitamin",
+        "antioxidant"
+      ],
+      "indications": [
+        "Deficiencia de vitamina C",
+        "Apoyo antioxidante"
+      ],
       "dosingRules": [
         {
           "label": "IV/PO",
           "dosePerKg": 20,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV", "PO"],
+          "routes": [
+            "IV",
+            "PO"
+          ],
           "notes": "Máximo 2 g/día"
         }
       ],
@@ -1825,21 +2498,32 @@
         "stockForm": "Ampolla 250mg/mL, Tableta 500mg",
         "concentrationMgMl": 250
       },
-      "references": ["NEOFAX 2024 p. 116"]
+      "references": [
+        "NEOFAX 2024 p. 116"
+      ]
     },
     {
       "id": "aspirina",
       "name": "Aspirina",
       "genericName": "Aspirin",
-      "category": ["nsaid", "antiplatelet"],
-      "indications": ["Profilaxis trombótica", "Cierre de ductus arterioso"],
+      "category": [
+        "nsaid",
+        "antiplatelet"
+      ],
+      "indications": [
+        "Profilaxis trombótica",
+        "Cierre de ductus arterioso"
+      ],
       "dosingRules": [
         {
           "label": "PO/Rectal",
           "dosePerKg": 5,
           "unit": "mg/kg/dosis",
           "frequency": "c/6-8h",
-          "routes": ["PO", "Rectal"],
+          "routes": [
+            "PO",
+            "Rectal"
+          ],
           "notes": "Máximo 100 mg/kg/día"
         }
       ],
@@ -1847,21 +2531,31 @@
         "stockForm": "Tableta 81/325mg, Supositorio",
         "concentrationMgMl": 81
       },
-      "references": ["NEOFAX 2024 p. 119"]
+      "references": [
+        "NEOFAX 2024 p. 119"
+      ]
     },
     {
       "id": "atropina",
       "name": "Atropina",
       "genericName": "Atropine",
-      "category": ["anticholinergic"],
-      "indications": ["Bradicardia sintomática", "Envenenamiento por organofosforados"],
+      "category": [
+        "anticholinergic"
+      ],
+      "indications": [
+        "Bradicardia sintomática",
+        "Envenenamiento por organofosforados"
+      ],
       "dosingRules": [
         {
           "label": "IV/IM",
           "dosePerKg": 0.02,
           "unit": "mg/kg/dosis",
           "frequency": "c/5-10 min",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Dosis mínima 0.1mg, máximo 0.5mg"
         }
       ],
@@ -1869,21 +2563,33 @@
         "stockForm": "Ampolla 0.4mg/mL, 1mg/mL",
         "concentrationMgMl": 0.4
       },
-      "references": ["NEOFAX 2024 p. 122"]
+      "references": [
+        "NEOFAX 2024 p. 122"
+      ]
     },
     {
       "id": "azitromicina",
       "name": "Azitromicina",
       "genericName": "Azithromycin",
-      "category": ["antibiotic", "macrolide"],
-      "indications": ["Infecciones por atípicos", "Tosferina", "Chlamydia"],
+      "category": [
+        "antibiotic",
+        "macrolide"
+      ],
+      "indications": [
+        "Infecciones por atípicos",
+        "Tosferina",
+        "Chlamydia"
+      ],
       "dosingRules": [
         {
           "label": "IV/Oral",
           "dosePerKg": 10,
           "unit": "mg/kg/dosis",
           "frequency": "c/24h",
-          "routes": ["IV", "PO"],
+          "routes": [
+            "IV",
+            "PO"
+          ],
           "notes": "Por 3-5 días"
         }
       ],
@@ -1891,14 +2597,22 @@
         "stockForm": "Polvo 500mg/vial, Suspensión 200mg/5mL",
         "concentrationMgMl": 20
       },
-      "references": ["NEOFAX 2024 p. 127"]
+      "references": [
+        "NEOFAX 2024 p. 127"
+      ]
     },
     {
       "id": "aztreonam",
       "name": "Aztreonam",
       "genericName": "Aztreonam",
-      "category": ["antibiotic", "beta_lactam"],
-      "indications": ["Infecciones gram-negativas", "Pacientes alérgicos a penicilinas"],
+      "category": [
+        "antibiotic",
+        "beta_lactam"
+      ],
+      "indications": [
+        "Infecciones gram-negativas",
+        "Pacientes alérgicos a penicilinas"
+      ],
       "dosingRules": [
         {
           "label": "EG < 30 semanas, 0-7 días",
@@ -1907,7 +2621,10 @@
           "dosePerKg": 30,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV", "IM"],
+          "routes": [
+            "IV",
+            "IM"
+          ],
           "notes": "Infusión 20-60 minutos"
         }
       ],
@@ -1915,21 +2632,30 @@
         "stockForm": "Polvo 500mg/vial, 1g/vial",
         "concentrationMgMl": 100
       },
-      "references": ["NEOFAX 2024 p. 132"]
+      "references": [
+        "NEOFAX 2024 p. 132"
+      ]
     },
     {
       "id": "beractanto",
       "name": "Beractanto",
       "genericName": "Beractant (Surfactant)",
-      "category": ["pulmonary_surfactant"],
-      "indications": ["Síndrome de distress respiratorio", "Profilaxis de RDS"],
+      "category": [
+        "pulmonary_surfactant"
+      ],
+      "indications": [
+        "Síndrome de distress respiratorio",
+        "Profilaxis de RDS"
+      ],
       "dosingRules": [
         {
           "label": "Intratraqueal",
           "dosePerKg": 100,
           "unit": "mg/kg/dosis",
           "frequency": "única",
-          "routes": ["Intratraqueal"],
+          "routes": [
+            "Intratraqueal"
+          ],
           "notes": "Máximo 4 dosis en 48h"
         }
       ],
@@ -1937,21 +2663,30 @@
         "stockForm": "Vial 25mg/mL, 100mg/4mL",
         "concentrationMgMl": 25
       },
-      "references": ["NEOFAX 2024 p. 135"]
+      "references": [
+        "NEOFAX 2024 p. 135"
+      ]
     },
     {
       "id": "bevacizumab",
       "name": "Bevacizumab",
       "genericName": "Bevacizumab",
-      "category": ["monoclonal_antibody", "antiangiogenic"],
-      "indications": ["Retinopatía del prematuro avanzada"],
+      "category": [
+        "monoclonal_antibody",
+        "antiangiogenic"
+      ],
+      "indications": [
+        "Retinopatía del prematuro avanzada"
+      ],
       "dosingRules": [
         {
           "label": "Inyección intravítrea",
           "dosePerKg": 0.625,
           "unit": "mg/0.025mL",
           "frequency": "única",
-          "routes": ["Intravitreal"],
+          "routes": [
+            "Intravitreal"
+          ],
           "notes": "Dosis ajustada al peso"
         }
       ],
@@ -1959,21 +2694,32 @@
         "stockForm": "Solución inyectable 25mg/mL",
         "concentrationMgMl": 25
       },
-      "references": ["NEOFAX 2024 p. 139"]
+      "references": [
+        "NEOFAX 2024 p. 139"
+      ]
     },
     {
       "id": "bumetanida",
       "name": "Bumetanida",
       "genericName": "Bumetanide",
-      "category": ["loop_diuretic"],
-      "indications": ["Sobrecarga de volumen", "Edema pulmonar"],
+      "category": [
+        "loop_diuretic"
+      ],
+      "indications": [
+        "Sobrecarga de volumen",
+        "Edema pulmonar"
+      ],
       "dosingRules": [
         {
           "label": "IV/IM",
           "dosePerKg": 0.01,
           "unit": "mg/kg/dosis",
           "frequency": "c/12h",
-          "routes": ["IV", "IM", "PO"],
+          "routes": [
+            "IV",
+            "IM",
+            "PO"
+          ],
           "notes": "Oral: 0.015-0.02 mg/kg/dosis c/12h"
         }
       ],
@@ -1981,21 +2727,33 @@
         "stockForm": "Ampolla 0.25mg/mL, Tableta 0.5mg/1mg",
         "concentrationMgMl": 0.25
       },
-      "references": ["NEOFAX 2024 p. 145"]
+      "references": [
+        "NEOFAX 2024 p. 145"
+      ]
     },
     {
       "id": "bupivacaina",
       "name": "Bupivacaína",
       "genericName": "Bupivacaine",
-      "category": ["local_anesthetic"],
-      "indications": ["Anestesia local", "Bloqueos nerviosos", "Anestesia espinal"],
+      "category": [
+        "local_anesthetic"
+      ],
+      "indications": [
+        "Anestesia local",
+        "Bloqueos nerviosos",
+        "Anestesia espinal"
+      ],
       "dosingRules": [
         {
           "label": "Infiltración local/regional",
           "dosePerKg": 2.5,
           "unit": "mg/kg",
           "frequency": "única",
-          "routes": ["Local", "Spinal", "Epidural"],
+          "routes": [
+            "Local",
+            "Spinal",
+            "Epidural"
+          ],
           "notes": "Máximo 7.5 mg/kg, máximo 175 mg/dosis"
         }
       ],
@@ -2003,21 +2761,32 @@
         "stockForm": "Ampolla 0.25%, 0.5% (2.5/5mg/mL)",
         "concentrationMgMl": 2.5
       },
-      "references": ["NEOFAX 2024 p. 149"]
+      "references": [
+        "NEOFAX 2024 p. 149"
+      ]
     },
     {
       "id": "buprenorfina",
       "name": "Buprenorfina",
       "genericName": "Buprenorphine",
-      "category": ["opioid"],
-      "indications": ["Dolor moderado a severo", "Abstinencia opiácea"],
+      "category": [
+        "opioid"
+      ],
+      "indications": [
+        "Dolor moderado a severo",
+        "Abstinencia opiácea"
+      ],
       "dosingRules": [
         {
           "label": "IV/IM/Sublingual",
           "dosePerKg": 0.003,
           "unit": "mg/kg/dosis",
           "frequency": "c/8h",
-          "routes": ["IV", "IM", "SL"],
+          "routes": [
+            "IV",
+            "IM",
+            "SL"
+          ],
           "notes": "Máximo 0.15 mg/dosis"
         }
       ],
@@ -2025,21 +2794,32 @@
         "stockForm": "Ampolla 0.3mg/mL, Tableta sublingual 2/8mg",
         "concentrationMgMl": 0.3
       },
-      "references": ["NEOFAX 2024 p. 157"]
+      "references": [
+        "NEOFAX 2024 p. 157"
+      ]
     },
     {
       "id": "cafeina_citrato_batch2",
       "name": "Cafeína Citrato",
       "genericName": "Caffeine Citrate",
-      "category": ["stimulant", "methylxanthine"],
-      "indications": ["Apnea del prematuro", "Estimulación respiratoria"],
+      "category": [
+        "stimulant",
+        "methylxanthine"
+      ],
+      "indications": [
+        "Apnea del prematuro",
+        "Estimulación respiratoria"
+      ],
       "dosingRules": [
         {
           "label": "IV/PO - Carga",
           "dosePerKg": 20,
           "unit": "mg/kg",
           "frequency": "única",
-          "routes": ["IV", "PO"],
+          "routes": [
+            "IV",
+            "PO"
+          ],
           "notes": "Mantenimiento: 5 mg/kg/día"
         }
       ],
@@ -2047,21 +2827,31 @@
         "stockForm": "Vial 20mg citrato/mL, Solución oral 20mg/mL",
         "concentrationMgMl": 20
       },
-      "references": ["NEOFAX 2024 p. 164"]
+      "references": [
+        "NEOFAX 2024 p. 164"
+      ]
     },
     {
       "id": "calcio_gluconato_batch2",
       "name": "Gluconato de Calcio",
       "genericName": "Calcium Gluconate",
-      "category": ["electrolyte", "supplement"],
-      "indications": ["Hipocalcemia", "Hiperkalemia con cambios ECG"],
+      "category": [
+        "electrolyte",
+        "supplement"
+      ],
+      "indications": [
+        "Hipocalcemia",
+        "Hiperkalemia con cambios ECG"
+      ],
       "dosingRules": [
         {
           "label": "IV lento",
           "dosePerKg": 0.2,
           "unit": "g/kg",
           "frequency": "única",
-          "routes": ["IV"],
+          "routes": [
+            "IV"
+          ],
           "notes": "Infundir lentamente, máximo 100 mg/min"
         }
       ],
@@ -2069,7 +2859,1066 @@
         "stockForm": "Ampolla 10% (100mg/mL)",
         "concentrationMgMl": 100
       },
-      "references": ["NEOFAX 2024 p. 177"]
+      "references": [
+        "NEOFAX 2024 p. 177"
+      ]
+    },
+    {
+      "id": "caspofungina",
+      "name": "Caspofungina",
+      "genericName": "Caspofungin",
+      "category": [
+        "antifungico"
+      ],
+      "indications": [
+        "Candidiasis invasiva",
+        "Aspergilosis invasiva",
+        "Esofagitis por Candida"
+      ],
+      "dosingRules": [
+        {
+          "label": "Carga / Mantenimiento",
+          "dosePerKg": 1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h (tras carga)",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Carga: 70 mg/m² (máx 70 mg), luego 50 mg/m² diarios"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 50 mg (polvo)",
+        "concentrationMgMl": 0.5
+      },
+      "references": [
+        "NEOFAX 2024 p. 193"
+      ]
+    },
+    {
+      "id": "cefazolina",
+      "name": "Cefazolina",
+      "genericName": "Cefazolin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones gram-positivas",
+        "Profilaxis quirúrgica"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem, 0-7 días",
+          "gaMax": 30,
+          "dolMax": 7,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        },
+        {
+          "label": "EG < 30 sem, > 7 días",
+          "gaMax": 30,
+          "dolMin": 8,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        },
+        {
+          "label": "EG >= 30 sem",
+          "gaMin": 30,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg o 1 g",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 198"
+      ]
+    },
+    {
+      "id": "cefepima",
+      "name": "Cefepima",
+      "genericName": "Cefepime",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones gram-negativas resistentes",
+        "Sepsis por Pseudomonas"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem",
+          "gaMax": 30,
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        },
+        {
+          "label": "EG >= 30 sem",
+          "gaMin": 30,
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg o 1 g",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 204"
+      ]
+    },
+    {
+      "id": "ceftazidima",
+      "name": "Ceftazidima",
+      "genericName": "Ceftazidime",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones por gram-negativos",
+        "Meningitis bacteriana por gram-negativos"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem",
+          "gaMax": 30,
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        },
+        {
+          "label": "EG >= 30 sem",
+          "gaMin": 30,
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg o 1 g o 2 g",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 209"
+      ]
+    },
+    {
+      "id": "ceftriaxona",
+      "name": "Ceftriaxona",
+      "genericName": "Ceftriaxone",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Meningitis bacteriana",
+        "Infecciones por gram-negativos",
+        "Gonorrea"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 29 sem",
+          "gaMax": 29,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        },
+        {
+          "label": "EG >= 29 sem",
+          "gaMin": 29,
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 250 mg o 500 mg o 1 g",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 216"
+      ]
+    },
+    {
+      "id": "cefotaxima_batch2",
+      "name": "Cefotaxima (Lote 2)",
+      "genericName": "Cefotaxime Extended",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones severas por gram-negativos",
+        "Meningitis"
+      ],
+      "dosingRules": [
+        {
+          "label": "Meningitis",
+          "dosePerKg": 50,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg, 1 g, 2 g",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 209"
+      ]
+    },
+    {
+      "id": "cefoxitina",
+      "name": "Cefoxitina",
+      "genericName": "Cefoxitin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones anaerobias",
+        "Infecciones por Bacteroides"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem",
+          "gaMax": 30,
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 g o 2 g",
+        "concentrationMgMl": 40
+      },
+      "references": [
+        "NEOFAX 2024 p. 219"
+      ]
+    },
+    {
+      "id": "chloral_hydrate",
+      "name": "Hidrato de Cloral",
+      "genericName": "Chloral Hydrate",
+      "category": [
+        "sedante"
+      ],
+      "indications": [
+        "Sedación para procedimientos",
+        "Sedación en UCI"
+      ],
+      "dosingRules": [
+        {
+          "label": "Sedación",
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6-8h",
+          "routes": [
+            "PO",
+            "Rectal"
+          ],
+          "notes": "Máximo 100 mg/kg/día"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Jarabe 500 mg/5 mL, Supositorio",
+        "concentrationMgMl": 100
+      },
+      "references": [
+        "NEOFAX 2024 p. 233"
+      ]
+    },
+    {
+      "id": "cimetidina",
+      "name": "Cimetidina",
+      "genericName": "Cimetidine",
+      "category": [
+        "gastrointestinal"
+      ],
+      "indications": [
+        "Reflujo gastroesofágico",
+        "Úlcera péptica"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6-8h",
+          "routes": [
+            "IV",
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 300 mg/2 mL, Jarabe 300 mg/5 mL",
+        "concentrationMgMl": 150
+      },
+      "references": [
+        "NEOFAX 2024 p. 241"
+      ]
+    },
+    {
+      "id": "claritromicina",
+      "name": "Claritromicina",
+      "genericName": "Clarithromycin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones por atípicos",
+        "Prophylaxis de MAC"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO",
+          "dosePerKg": 7.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspensión 125 mg/5 mL",
+        "concentrationMgMl": 25
+      },
+      "references": [
+        "NEOFAX 2024 p. 245"
+      ]
+    },
+    {
+      "id": "clindamicina",
+      "name": "Clindamicina",
+      "genericName": "Clindamycin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones anaerobias",
+        "Toxoplasmosis"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem",
+          "gaMax": 30,
+          "dosePerKg": 5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        },
+        {
+          "label": "EG >= 30 sem",
+          "gaMin": 30,
+          "dosePerKg": 5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6h",
+          "routes": [
+            "IV",
+            "IM",
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 300 mg/2 mL, Solución oral 75 mg/5 mL",
+        "concentrationMgMl": 150
+      },
+      "references": [
+        "NEOFAX 2024 p. 245"
+      ]
+    },
+    {
+      "id": "clopidogrel",
+      "name": "Clopidogrel",
+      "genericName": "Clopidogrel",
+      "category": [
+        "antiplatelet"
+      ],
+      "indications": [
+        "Trombosis neonatal",
+        "Profilaxis trombótica"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO",
+          "dosePerKg": 0.1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": [
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tableta 75 mg",
+        "concentrationMgMl": 75
+      },
+      "references": [
+        "NEOFAX 2024 p. 258"
+      ]
+    },
+    {
+      "id": "colistina",
+      "name": "Colistina",
+      "genericName": "Colistin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones multirresistentes",
+        "Pseudomonas resistente"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 2.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8-12h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 millón UI",
+        "concentrationMgMl": 1
+      },
+      "references": [
+        "NEOFAX 2024 p. 262"
+      ]
+    },
+    {
+      "id": "cosintropina",
+      "name": "Cosintropina",
+      "genericName": "Cosyntropin",
+      "category": [
+        "endocrino"
+      ],
+      "indications": [
+        "Test de estimulación ACTH",
+        "Diagnóstico de insuficiencia adrenal"
+      ],
+      "dosingRules": [
+        {
+          "label": "Test",
+          "dosePerKg": 0.25,
+          "unit": "mg (dosis fija)",
+          "frequency": "dosis única",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 0.25 mg",
+        "concentrationMgMl": 0.25
+      },
+      "references": [
+        "NEOFAX 2024 p. 268"
+      ]
+    },
+    {
+      "id": "dexametasona",
+      "name": "Dexametasona",
+      "genericName": "Dexamethasone",
+      "category": [
+        "corticosteroide"
+      ],
+      "indications": [
+        "Displasia broncopulmonar",
+        "Edema cerebral",
+        "Crup"
+      ],
+      "dosingRules": [
+        {
+          "label": "DBP/Inflamación",
+          "dosePerKg": 0.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6h × 4 dosis",
+          "routes": [
+            "IV",
+            "PO"
+          ]
+        },
+        {
+          "label": "Crup",
+          "dosePerKg": 0.6,
+          "unit": "mg/kg/dosis",
+          "frequency": "dosis única",
+          "routes": [
+            "PO",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 4 mg/mL, Solución oral 0.5 mg/5 mL",
+        "concentrationMgMl": 0.4
+      },
+      "references": [
+        "NEOFAX 2024 p. 273"
+      ]
+    },
+    {
+      "id": "dextrosa",
+      "name": "Dextrosa",
+      "genericName": "Dextrose",
+      "category": [
+        "nutricion"
+      ],
+      "indications": [
+        "Hipoglucemia neonatal",
+        "Soporte nutricional"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hipoglucemia aguda (D10)",
+          "dosePerKg": 0.25,
+          "unit": "g/kg/dosis",
+          "frequency": "única",
+          "routes": [
+            "IV"
+          ],
+          "notes": "D10%: 2.5 mL/kg IV"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla D10%, D20%, D50%",
+        "concentrationMgMl": 100
+      },
+      "references": [
+        "NEOFAX 2024 p. 279"
+      ]
+    },
+    {
+      "id": "diazoxide",
+      "name": "Diazóxido",
+      "genericName": "Diazoxide",
+      "category": [
+        "antihipertensivo"
+      ],
+      "indications": [
+        "Hipoglucemia persistente",
+        "Hipertensión severa neonatal"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hipoglucemia",
+          "dosePerKg": 10,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspensión 50 mg/mL",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 283"
+      ]
+    },
+    {
+      "id": "didanosina",
+      "name": "Didanosina",
+      "genericName": "Didanosine",
+      "category": [
+        "antiviral"
+      ],
+      "indications": [
+        "Infección VIH neonatal",
+        "Profilaxis vertical VIH"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO",
+          "dosePerKg": 120,
+          "unit": "mg/m²/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Polvo para solución 167 mg/5 mL",
+        "concentrationMgMl": 33.4
+      },
+      "references": [
+        "NEOFAX 2024 p. 289"
+      ]
+    },
+    {
+      "id": "digoxina",
+      "name": "Digoxina",
+      "genericName": "Digoxin",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Insuficiencia cardíaca",
+        "Taquiarritmias"
+      ],
+      "dosingRules": [
+        {
+          "label": "Carga IV",
+          "dosePerKg": 20,
+          "unit": "mcg/kg",
+          "frequency": "en 2 dosis, 6 h aparte",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Mantenimiento: 5-10 mcg/kg/dosis c/12h PO"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 0.1 mg/mL, Solución 50 mcg/mL",
+        "concentrationMgMl": 0.05
+      },
+      "references": [
+        "NEOFAX 2024 p. 296"
+      ]
+    },
+    {
+      "id": "dobutamina_batch2",
+      "name": "Dobutamina (Lote 2)",
+      "genericName": "Dobutamine Extended",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Soporte inotrópico refractario"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión",
+          "doseMin": 5,
+          "doseMax": 20,
+          "unit": "mcg/kg/min",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 250 mg/20 mL",
+        "concentrationMgMl": 12.5
+      },
+      "references": [
+        "NEOFAX 2024 p. 300"
+      ]
+    },
+    {
+      "id": "dopamina_batch2",
+      "name": "Dopamina (Lote 2)",
+      "genericName": "Dopamine Extended",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Soporte hemodinámico"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión",
+          "doseMin": 2,
+          "doseMax": 20,
+          "unit": "mcg/kg/min",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 200 mg/5 mL",
+        "concentrationMgMl": 40
+      },
+      "references": [
+        "NEOFAX 2024 p. 305"
+      ]
+    },
+    {
+      "id": "dornasa_alfa",
+      "name": "Dornasa Alfa",
+      "genericName": "Dornase Alfa",
+      "category": [
+        "pulmonar"
+      ],
+      "indications": [
+        "Fibrosis quística neonatal",
+        "Enfermedad pulmonar neonatal"
+      ],
+      "dosingRules": [
+        {
+          "label": "Inhalación",
+          "dosePerKg": 2.5,
+          "unit": "mg/día",
+          "frequency": "c/24h",
+          "routes": [
+            "Inhalación"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 mg/mL para nebulizar",
+        "concentrationMgMl": 1
+      },
+      "references": [
+        "NEOFAX 2024 p. 310"
+      ]
+    },
+    {
+      "id": "doxiciclina",
+      "name": "Doxiciclina",
+      "genericName": "Doxycycline",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones atípicas (después de 8 años generalmente)",
+        "Investigación de prematuros"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO",
+          "dosePerKg": 2,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Cápsula 50 mg, 100 mg",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 312"
+      ]
+    },
+    {
+      "id": "enalapril",
+      "name": "Enalapril",
+      "genericName": "Enalapril",
+      "category": [
+        "antihipertensivo"
+      ],
+      "indications": [
+        "Hipertensión neonatal",
+        "Insuficiencia cardíaca"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 0.1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8-24h",
+          "routes": [
+            "IV",
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1.25 mg/mL, Tableta 2.5/5 mg",
+        "concentrationMgMl": 1.25
+      },
+      "references": [
+        "NEOFAX 2024 p. 328"
+      ]
+    },
+    {
+      "id": "enoxaparina",
+      "name": "Enoxaparina",
+      "genericName": "Enoxaparin",
+      "category": [
+        "anticoagulante"
+      ],
+      "indications": [
+        "Trombosis neonatal",
+        "Profilaxis trombótica"
+      ],
+      "dosingRules": [
+        {
+          "label": "Tratamiento",
+          "dosePerKg": 1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "SC"
+          ]
+        },
+        {
+          "label": "Profilaxis",
+          "dosePerKg": 0.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "SC"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Jeringa 20 mg/0.2 mL, 40 mg/0.4 mL",
+        "concentrationMgMl": 100
+      },
+      "references": [
+        "NEOFAX 2024 p. 334"
+      ]
+    },
+    {
+      "id": "epinefrina_batch2",
+      "name": "Epinefrina (Lote 2)",
+      "genericName": "Epinephrine Extended",
+      "category": [
+        "cardiovascular",
+        "emergencia"
+      ],
+      "indications": [
+        "Shock refractario"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión",
+          "doseMin": 0.05,
+          "doseMax": 1,
+          "unit": "mcg/kg/min",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 1 mg/1 mL",
+        "concentrationMgMl": 1
+      },
+      "references": [
+        "NEOFAX 2024 p. 340"
+      ]
+    },
+    {
+      "id": "epoetina",
+      "name": "Epoetina Alfa",
+      "genericName": "Epoetin Alfa",
+      "category": [
+        "hematologico"
+      ],
+      "indications": [
+        "Anemia del prematuro",
+        "Anemia por enfermedad renal"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV / SC",
+          "dosePerKg": 50,
+          "unit": "U/kg/dosis",
+          "frequency": "c/3 días",
+          "routes": [
+            "IV",
+            "SC"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 2000 U, 3000 U, 4000 U",
+        "concentrationMgMl": 2000
+      },
+      "references": [
+        "NEOFAX 2024 p. 348"
+      ]
+    },
+    {
+      "id": "eritromicina",
+      "name": "Eritromicina",
+      "genericName": "Erythromycin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Conjuntivitis por Chlamydia",
+        "Profilaxis oftálmica",
+        "Infecciones por atípicos"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 10,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6h",
+          "routes": [
+            "IV",
+            "PO"
+          ]
+        },
+        {
+          "label": "Colirio profiláctico",
+          "dosePerKg": 0.5,
+          "unit": "% en ambos ojos",
+          "frequency": "dosis única",
+          "routes": [
+            "Oftálmica"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg, Colirio 0.5%, Suspensión 125-400 mg/5 mL",
+        "concentrationMgMl": 100
+      },
+      "references": [
+        "NEOFAX 2024 p. 353"
+      ]
+    },
+    {
+      "id": "esomeprazol",
+      "name": "Esomeprazol",
+      "genericName": "Esomeprazole",
+      "category": [
+        "gastrointestinal"
+      ],
+      "indications": [
+        "Reflujo gastroesofágico",
+        "Úlcera péptica"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 0.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 40 mg",
+        "concentrationMgMl": 40
+      },
+      "references": [
+        "NEOFAX 2024 p. 358"
+      ]
+    },
+    {
+      "id": "famotidina",
+      "name": "Famotidina",
+      "genericName": "Famotidine",
+      "category": [
+        "gastrointestinal"
+      ],
+      "indications": [
+        "Reflujo gastroesofágico",
+        "Gastroprotección"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 0.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 20 mg/2 mL, Suspensión 40 mg/5 mL",
+        "concentrationMgMl": 10
+      },
+      "references": [
+        "NEOFAX 2024 p. 379"
+      ]
+    },
+    {
+      "id": "fentanilo_batch2",
+      "name": "Fentanilo (Lote 2)",
+      "genericName": "Fentanyl Extended",
+      "category": [
+        "analgesico_sedante"
+      ],
+      "indications": [
+        "Analgesia profunda"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión",
+          "doseMin": 1,
+          "doseMax": 5,
+          "unit": "mcg/kg/h",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 500 mcg/10 mL",
+        "concentrationMgMl": 0.05
+      },
+      "references": [
+        "NEOFAX 2024 p. 394"
+      ]
     }
   ],
   "procedures": [
@@ -2099,18 +3948,48 @@
         }
       ],
       "steps": [
-        { "step": "Lavado de manos. Técnica estéril estricta." },
-        { "step": "Preparar campo estéril, cortar cordón a 1–2 cm del abdomen." },
-        { "step": "Identificar las 2 arterias umbilicales (redondas, paredes gruesas)." },
-        { "step": "Dilatar el lumen con pinza curva estéril." },
-        { "step": "Introducir el catéter hasta la longitud calculada sin forzar." },
-        { "step": "Verificar flujo pulsátil de sangre arterial." },
-        { "step": "Fijar el catéter con sutura y apósito estéril." },
-        { "step": "Confirmar posición con Rx tórax-abdomen (T6–T9 o L3–L4).", "note": "No usar hasta confirmar posición radiológica" }
+        {
+          "step": "Lavado de manos. Técnica estéril estricta."
+        },
+        {
+          "step": "Preparar campo estéril, cortar cordón a 1–2 cm del abdomen."
+        },
+        {
+          "step": "Identificar las 2 arterias umbilicales (redondas, paredes gruesas)."
+        },
+        {
+          "step": "Dilatar el lumen con pinza curva estéril."
+        },
+        {
+          "step": "Introducir el catéter hasta la longitud calculada sin forzar."
+        },
+        {
+          "step": "Verificar flujo pulsátil de sangre arterial."
+        },
+        {
+          "step": "Fijar el catéter con sutura y apósito estéril."
+        },
+        {
+          "step": "Confirmar posición con Rx tórax-abdomen (T6–T9 o L3–L4).",
+          "note": "No usar hasta confirmar posición radiológica"
+        }
       ],
-      "materials": ["Catéter umbilical 3.5 Fr (< 1500 g) o 5 Fr (> 1500 g)", "Llave de 3 vías", "SF 0.9% heparinizado (0.5 U/mL)", "Campo estéril", "Sutura no reabsorbible", "Tijera"],
-      "warnings": ["Verificar posición con Rx antes de usar", "No introducir si resistencia → vaso falso"],
-      "references": ["NEOFAX 2024", "Shukla H, Ferrara A. Pediatrics 1986"]
+      "materials": [
+        "Catéter umbilical 3.5 Fr (< 1500 g) o 5 Fr (> 1500 g)",
+        "Llave de 3 vías",
+        "SF 0.9% heparinizado (0.5 U/mL)",
+        "Campo estéril",
+        "Sutura no reabsorbible",
+        "Tijera"
+      ],
+      "warnings": [
+        "Verificar posición con Rx antes de usar",
+        "No introducir si resistencia → vaso falso"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Shukla H, Ferrara A. Pediatrics 1986"
+      ]
     },
     {
       "id": "uvc",
@@ -2129,18 +4008,36 @@
         }
       ],
       "steps": [
-        { "step": "Técnica estéril estricta." },
-        { "step": "Identificar la vena umbilical (lumen grande, paredes delgadas, única)." },
-        { "step": "Introducir catéter hasta longitud calculada." },
-        { "step": "Verificar aspiración de sangre venosa libre." },
-        { "step": "Confirmar posición con Rx (extremo en T8–T9).", "note": "No usar hasta confirmar posición radiológica" }
+        {
+          "step": "Técnica estéril estricta."
+        },
+        {
+          "step": "Identificar la vena umbilical (lumen grande, paredes delgadas, única)."
+        },
+        {
+          "step": "Introducir catéter hasta longitud calculada."
+        },
+        {
+          "step": "Verificar aspiración de sangre venosa libre."
+        },
+        {
+          "step": "Confirmar posición con Rx (extremo en T8–T9).",
+          "note": "No usar hasta confirmar posición radiológica"
+        }
       ],
-      "materials": ["Catéter umbilical venoso 3.5 Fr o 5 Fr", "Llave de 3 vías", "SF 0.9% heparinizado", "Campo estéril"],
+      "materials": [
+        "Catéter umbilical venoso 3.5 Fr o 5 Fr",
+        "Llave de 3 vías",
+        "SF 0.9% heparinizado",
+        "Campo estéril"
+      ],
       "warnings": [
         "No dejar el catéter con la punta en el portal hepático (hepatotoxicidad)",
         "Confirmar posición antes de infundir medicamentos o nutrición parenteral"
       ],
-      "references": ["NEOFAX 2024"]
+      "references": [
+        "NEOFAX 2024"
+      ]
     },
     {
       "id": "tiot",
@@ -2159,12 +4056,25 @@
         }
       ],
       "steps": [
-        { "step": "Seleccionar tamaño del TET según peso." },
-        { "step": "Preoxigenar con VPP o CPAP." },
-        { "step": "Laringoscopía directa, visualizar glotis." },
-        { "step": "Introducir TET hasta la profundidad calculada." },
-        { "step": "Verificar posición: ascenso torácico simétrico, CO2 exhalado, SpO2." },
-        { "step": "Radiografía de tórax: extremo en T2–T3 (carina en T4–T5).", "note": "Cámara del TET: ligeramente encima de la carina" }
+        {
+          "step": "Seleccionar tamaño del TET según peso."
+        },
+        {
+          "step": "Preoxigenar con VPP o CPAP."
+        },
+        {
+          "step": "Laringoscopía directa, visualizar glotis."
+        },
+        {
+          "step": "Introducir TET hasta la profundidad calculada."
+        },
+        {
+          "step": "Verificar posición: ascenso torácico simétrico, CO2 exhalado, SpO2."
+        },
+        {
+          "step": "Radiografía de tórax: extremo en T2–T3 (carina en T4–T5).",
+          "note": "Cámara del TET: ligeramente encima de la carina"
+        }
       ],
       "materials": [
         "TET 2.5 mm DI (< 1000 g)",
@@ -2174,8 +4084,13 @@
         "Laringoscopio neonatal hoja 0 (prematuros) o 1 (término)",
         "Detector colorimétrico CO2"
       ],
-      "warnings": ["Confirmar posición con Rx antes de aumentar parámetros ventilatorios"],
-      "references": ["NEOFAX 2024", "NRP 8a edición AAP"]
+      "warnings": [
+        "Confirmar posición con Rx antes de aumentar parámetros ventilatorios"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "NRP 8a edición AAP"
+      ]
     },
     {
       "id": "fluidos",
@@ -2216,7 +4131,9 @@
         "Incrementar 10–20 mL/kg/día por día hasta 150 mL/kg/día",
         "Bajo fototerapia: aumentar 10–20 mL/kg/día"
       ],
-      "references": ["SEGNNEO 2019"]
+      "references": [
+        "SEGNNEO 2019"
+      ]
     },
     {
       "id": "gir",
@@ -2239,7 +4156,9 @@
         "Hipoglucemia aguda: bolo D10% 2 mL/kg IV",
         "Concentración máxima periférica: D10% (100 g/L)"
       ],
-      "references": ["SEGNNEO 2019"]
+      "references": [
+        "SEGNNEO 2019"
+      ]
     }
   ],
   "scores": [
@@ -2253,57 +4172,128 @@
           "id": "quejido",
           "name": "Quejido espiratorio",
           "values": [
-            { "score": 0, "label": "Ausente" },
-            { "score": 1, "label": "Audible con estetoscopio" },
-            { "score": 2, "label": "Audible sin estetoscopio" }
+            {
+              "score": 0,
+              "label": "Ausente"
+            },
+            {
+              "score": 1,
+              "label": "Audible con estetoscopio"
+            },
+            {
+              "score": 2,
+              "label": "Audible sin estetoscopio"
+            }
           ]
         },
         {
           "id": "aleteo",
           "name": "Aleteo nasal",
           "values": [
-            { "score": 0, "label": "Ausente" },
-            { "score": 1, "label": "Mínimo" },
-            { "score": 2, "label": "Marcado" }
+            {
+              "score": 0,
+              "label": "Ausente"
+            },
+            {
+              "score": 1,
+              "label": "Mínimo"
+            },
+            {
+              "score": 2,
+              "label": "Marcado"
+            }
           ]
         },
         {
           "id": "retraccion_xifoidea",
           "name": "Retracción xifoidea",
           "values": [
-            { "score": 0, "label": "Ausente" },
-            { "score": 1, "label": "Apenas visible" },
-            { "score": 2, "label": "Marcada" }
+            {
+              "score": 0,
+              "label": "Ausente"
+            },
+            {
+              "score": 1,
+              "label": "Apenas visible"
+            },
+            {
+              "score": 2,
+              "label": "Marcada"
+            }
           ]
         },
         {
           "id": "retraccion_intercostal",
           "name": "Retracción intercostal",
           "values": [
-            { "score": 0, "label": "Ausente" },
-            { "score": 1, "label": "Leve" },
-            { "score": 2, "label": "Marcada" }
+            {
+              "score": 0,
+              "label": "Ausente"
+            },
+            {
+              "score": 1,
+              "label": "Leve"
+            },
+            {
+              "score": 2,
+              "label": "Marcada"
+            }
           ]
         },
         {
           "id": "disociacion",
           "name": "Disociación tóraco-abdominal",
           "values": [
-            { "score": 0, "label": "Sincrónico (normal)" },
-            { "score": 1, "label": "Tórax inmóvil" },
-            { "score": 2, "label": "Balancín (movimiento alternado)" }
+            {
+              "score": 0,
+              "label": "Sincrónico (normal)"
+            },
+            {
+              "score": 1,
+              "label": "Tórax inmóvil"
+            },
+            {
+              "score": 2,
+              "label": "Balancín (movimiento alternado)"
+            }
           ]
         }
       ],
       "interpretation": [
-        { "min": 0, "max": 0, "label": "Sin dificultad", "action": "Observación de rutina", "color": "green" },
-        { "min": 1, "max": 3, "label": "Dificultad leve", "action": "CPAP o O₂ suplementario. Evaluar causa.", "color": "yellow" },
-        { "min": 4, "max": 6, "label": "Dificultad moderada", "action": "CPAP nasal. Valorar surfactante. Monitoreo continuo.", "color": "orange" },
-        { "min": 7, "max": 10, "label": "Dificultad severa", "action": "Intubación y ventilación mecánica urgente.", "color": "red" }
+        {
+          "min": 0,
+          "max": 0,
+          "label": "Sin dificultad",
+          "action": "Observación de rutina",
+          "color": "green"
+        },
+        {
+          "min": 1,
+          "max": 3,
+          "label": "Dificultad leve",
+          "action": "CPAP o O₂ suplementario. Evaluar causa.",
+          "color": "yellow"
+        },
+        {
+          "min": 4,
+          "max": 6,
+          "label": "Dificultad moderada",
+          "action": "CPAP nasal. Valorar surfactante. Monitoreo continuo.",
+          "color": "orange"
+        },
+        {
+          "min": 7,
+          "max": 10,
+          "label": "Dificultad severa",
+          "action": "Intubación y ventilación mecánica urgente.",
+          "color": "red"
+        }
       ],
       "minScore": 0,
       "maxScore": 10,
-      "references": ["Silverman WA, Andersen DH. Pediatrics 1956"]
+      "references": [
+        "Silverman WA, Andersen DH. Pediatrics 1956"
+      ]
     },
     {
       "id": "apgar",
@@ -2315,56 +4305,137 @@
           "id": "fc",
           "name": "Frecuencia cardíaca",
           "values": [
-            { "score": 0, "label": "Ausente", "description": "Sin pulso" },
-            { "score": 1, "label": "< 100 lpm", "description": "Bradicardia" },
-            { "score": 2, "label": "≥ 100 lpm", "description": "Normal" }
+            {
+              "score": 0,
+              "label": "Ausente",
+              "description": "Sin pulso"
+            },
+            {
+              "score": 1,
+              "label": "< 100 lpm",
+              "description": "Bradicardia"
+            },
+            {
+              "score": 2,
+              "label": "≥ 100 lpm",
+              "description": "Normal"
+            }
           ]
         },
         {
           "id": "respiracion",
           "name": "Esfuerzo respiratorio",
           "values": [
-            { "score": 0, "label": "Ausente", "description": "Apnea" },
-            { "score": 1, "label": "Irregular / débil", "description": "Respiración débil o irregular" },
-            { "score": 2, "label": "Regular / llanto fuerte", "description": "Respiración normal" }
+            {
+              "score": 0,
+              "label": "Ausente",
+              "description": "Apnea"
+            },
+            {
+              "score": 1,
+              "label": "Irregular / débil",
+              "description": "Respiración débil o irregular"
+            },
+            {
+              "score": 2,
+              "label": "Regular / llanto fuerte",
+              "description": "Respiración normal"
+            }
           ]
         },
         {
           "id": "tono",
           "name": "Tono muscular",
           "values": [
-            { "score": 0, "label": "Fláccido", "description": "Sin tono" },
-            { "score": 1, "label": "Algo de flexión", "description": "Flexión parcial de extremidades" },
-            { "score": 2, "label": "Flexión activa", "description": "Movimiento activo" }
+            {
+              "score": 0,
+              "label": "Fláccido",
+              "description": "Sin tono"
+            },
+            {
+              "score": 1,
+              "label": "Algo de flexión",
+              "description": "Flexión parcial de extremidades"
+            },
+            {
+              "score": 2,
+              "label": "Flexión activa",
+              "description": "Movimiento activo"
+            }
           ]
         },
         {
           "id": "reflejo",
           "name": "Irritabilidad refleja",
           "values": [
-            { "score": 0, "label": "Sin respuesta", "description": "Ninguna respuesta a estimulación" },
-            { "score": 1, "label": "Mueca", "description": "Respuesta mínima" },
-            { "score": 2, "label": "Llanto / estornudo", "description": "Respuesta vigorosa" }
+            {
+              "score": 0,
+              "label": "Sin respuesta",
+              "description": "Ninguna respuesta a estimulación"
+            },
+            {
+              "score": 1,
+              "label": "Mueca",
+              "description": "Respuesta mínima"
+            },
+            {
+              "score": 2,
+              "label": "Llanto / estornudo",
+              "description": "Respuesta vigorosa"
+            }
           ]
         },
         {
           "id": "color",
           "name": "Color",
           "values": [
-            { "score": 0, "label": "Cianótico o pálido", "description": "Cianosis generalizada o palidez" },
-            { "score": 1, "label": "Acrocianótico", "description": "Cuerpo rosado, extremidades cianóticas" },
-            { "score": 2, "label": "Completamente rosado", "description": "Buen color" }
+            {
+              "score": 0,
+              "label": "Cianótico o pálido",
+              "description": "Cianosis generalizada o palidez"
+            },
+            {
+              "score": 1,
+              "label": "Acrocianótico",
+              "description": "Cuerpo rosado, extremidades cianóticas"
+            },
+            {
+              "score": 2,
+              "label": "Completamente rosado",
+              "description": "Buen color"
+            }
           ]
         }
       ],
       "interpretation": [
-        { "min": 7, "max": 10, "label": "Normal", "action": "Cuidados de rutina", "color": "green" },
-        { "min": 4, "max": 6, "label": "Depresión moderada", "action": "VPP con O₂, estimulación, monitoreo continuo", "color": "yellow" },
-        { "min": 0, "max": 3, "label": "Depresión severa", "action": "Reanimación completa: intubación, masaje, drogas", "color": "red" }
+        {
+          "min": 7,
+          "max": 10,
+          "label": "Normal",
+          "action": "Cuidados de rutina",
+          "color": "green"
+        },
+        {
+          "min": 4,
+          "max": 6,
+          "label": "Depresión moderada",
+          "action": "VPP con O₂, estimulación, monitoreo continuo",
+          "color": "yellow"
+        },
+        {
+          "min": 0,
+          "max": 3,
+          "label": "Depresión severa",
+          "action": "Reanimación completa: intubación, masaje, drogas",
+          "color": "red"
+        }
       ],
       "minScore": 0,
       "maxScore": 10,
-      "references": ["Apgar V. Curr Res Anesth Analg 1953", "NRP 8a edición AAP 2021"]
+      "references": [
+        "Apgar V. Curr Res Anesth Analg 1953",
+        "NRP 8a edición AAP 2021"
+      ]
     },
     {
       "id": "sarnat",
@@ -2376,110 +4447,289 @@
           "id": "nivel_conciencia",
           "name": "Nivel de conciencia",
           "values": [
-            { "score": 0, "label": "Alerta", "description": "Despierto, responde normalmente" },
-            { "score": 1, "label": "Somnolencia moderada", "description": "Requiere estimulación para despertar" },
-            { "score": 2, "label": "Somnolencia severa", "description": "Despierta solo a estímulos intensos" },
-            { "score": 3, "label": "Coma", "description": "No despierta con estimulación" }
+            {
+              "score": 0,
+              "label": "Alerta",
+              "description": "Despierto, responde normalmente"
+            },
+            {
+              "score": 1,
+              "label": "Somnolencia moderada",
+              "description": "Requiere estimulación para despertar"
+            },
+            {
+              "score": 2,
+              "label": "Somnolencia severa",
+              "description": "Despierta solo a estímulos intensos"
+            },
+            {
+              "score": 3,
+              "label": "Coma",
+              "description": "No despierta con estimulación"
+            }
           ]
         },
         {
           "id": "actividad_muscular",
           "name": "Actividad muscular",
           "values": [
-            { "score": 0, "label": "Movimientos espontáneos activos", "description": "Actividad normal" },
-            { "score": 1, "label": "Disminución de actividad", "description": "Movimientos espontáneos reducidos" },
-            { "score": 2, "label": "Actividad focal", "description": "Solo movimientos localizados" },
-            { "score": 3, "label": "Sin actividad o flacidez", "description": "Parálisis o atonía" }
+            {
+              "score": 0,
+              "label": "Movimientos espontáneos activos",
+              "description": "Actividad normal"
+            },
+            {
+              "score": 1,
+              "label": "Disminución de actividad",
+              "description": "Movimientos espontáneos reducidos"
+            },
+            {
+              "score": 2,
+              "label": "Actividad focal",
+              "description": "Solo movimientos localizados"
+            },
+            {
+              "score": 3,
+              "label": "Sin actividad o flacidez",
+              "description": "Parálisis o atonía"
+            }
           ]
         },
         {
           "id": "postura",
           "name": "Postura",
           "values": [
-            { "score": 0, "label": "Flexión normal", "description": "Flexión de extremidades, postura normal" },
-            { "score": 1, "label": "Disminución de flexión", "description": "Extensión de extremidades inferiores" },
-            { "score": 2, "label": "Rigidez de descerebración", "description": "Extensión de todas las extremidades" },
-            { "score": 3, "label": "Flacidez", "description": "Flacidez completa, sin tono" }
+            {
+              "score": 0,
+              "label": "Flexión normal",
+              "description": "Flexión de extremidades, postura normal"
+            },
+            {
+              "score": 1,
+              "label": "Disminución de flexión",
+              "description": "Extensión de extremidades inferiores"
+            },
+            {
+              "score": 2,
+              "label": "Rigidez de descerebración",
+              "description": "Extensión de todas las extremidades"
+            },
+            {
+              "score": 3,
+              "label": "Flacidez",
+              "description": "Flacidez completa, sin tono"
+            }
           ]
         },
         {
           "id": "tono_muscular",
           "name": "Tono muscular",
           "values": [
-            { "score": 0, "label": "Normal", "description": "Tono normal, adecuado para la edad" },
-            { "score": 1, "label": "Hipotono leve", "description": "Disminución leve del tono" },
-            { "score": 2, "label": "Hipotono marcado", "description": "Disminución marcada del tono" },
-            { "score": 3, "label": "Rigidez", "description": "Aumento del tono, rigidez" }
+            {
+              "score": 0,
+              "label": "Normal",
+              "description": "Tono normal, adecuado para la edad"
+            },
+            {
+              "score": 1,
+              "label": "Hipotono leve",
+              "description": "Disminución leve del tono"
+            },
+            {
+              "score": 2,
+              "label": "Hipotono marcado",
+              "description": "Disminución marcada del tono"
+            },
+            {
+              "score": 3,
+              "label": "Rigidez",
+              "description": "Aumento del tono, rigidez"
+            }
           ]
         },
         {
           "id": "reflejo_succion",
           "name": "Reflejo de succión",
           "values": [
-            { "score": 0, "label": "Fuerte y normal", "description": "Succión coordinada" },
-            { "score": 1, "label": "Débil", "description": "Succión débil o incoordinada" },
-            { "score": 2, "label": "Ausente o muy débil", "description": "Succión muy pobre o ausente" },
-            { "score": 3, "label": "Ausente", "description": "No hay reflejo de succión" }
+            {
+              "score": 0,
+              "label": "Fuerte y normal",
+              "description": "Succión coordinada"
+            },
+            {
+              "score": 1,
+              "label": "Débil",
+              "description": "Succión débil o incoordinada"
+            },
+            {
+              "score": 2,
+              "label": "Ausente o muy débil",
+              "description": "Succión muy pobre o ausente"
+            },
+            {
+              "score": 3,
+              "label": "Ausente",
+              "description": "No hay reflejo de succión"
+            }
           ]
         },
         {
           "id": "reflejo_moro",
           "name": "Reflejo de Moro",
           "values": [
-            { "score": 0, "label": "Presente y vigoroso", "description": "Respuesta normal y simétrica" },
-            { "score": 1, "label": "Débil o incompleto", "description": "Respuesta reducida o asimétrica" },
-            { "score": 2, "label": "Muy débil", "description": "Respuesta mínima" },
-            { "score": 3, "label": "Ausente", "description": "Sin respuesta al reflejo de Moro" }
+            {
+              "score": 0,
+              "label": "Presente y vigoroso",
+              "description": "Respuesta normal y simétrica"
+            },
+            {
+              "score": 1,
+              "label": "Débil o incompleto",
+              "description": "Respuesta reducida o asimétrica"
+            },
+            {
+              "score": 2,
+              "label": "Muy débil",
+              "description": "Respuesta mínima"
+            },
+            {
+              "score": 3,
+              "label": "Ausente",
+              "description": "Sin respuesta al reflejo de Moro"
+            }
           ]
         },
         {
           "id": "convulsiones",
           "name": "Convulsiones",
           "values": [
-            { "score": 0, "label": "Ninguna", "description": "Sin actividad convulsiva" },
-            { "score": 1, "label": "Ocasionales", "description": "Convulsiones ocasionales" },
-            { "score": 2, "label": "Repetidas", "description": "Múltiples episodios convulsivos" },
-            { "score": 3, "label": "Status convulsivo", "description": "Convulsiones continuas o estado epiléptico" }
+            {
+              "score": 0,
+              "label": "Ninguna",
+              "description": "Sin actividad convulsiva"
+            },
+            {
+              "score": 1,
+              "label": "Ocasionales",
+              "description": "Convulsiones ocasionales"
+            },
+            {
+              "score": 2,
+              "label": "Repetidas",
+              "description": "Múltiples episodios convulsivos"
+            },
+            {
+              "score": 3,
+              "label": "Status convulsivo",
+              "description": "Convulsiones continuas o estado epiléptico"
+            }
           ]
         },
         {
           "id": "fontanela",
           "name": "Fontanela anterior",
           "values": [
-            { "score": 0, "label": "Normal", "description": "Fontanela plana, normal" },
-            { "score": 1, "label": "Abombada moderada", "description": "Leve abombamiento" },
-            { "score": 2, "label": "Abombada marcada", "description": "Prominencia marcada" },
-            { "score": 3, "label": "Abombada severa o tensa", "description": "Tensor, posible HICP" }
+            {
+              "score": 0,
+              "label": "Normal",
+              "description": "Fontanela plana, normal"
+            },
+            {
+              "score": 1,
+              "label": "Abombada moderada",
+              "description": "Leve abombamiento"
+            },
+            {
+              "score": 2,
+              "label": "Abombada marcada",
+              "description": "Prominencia marcada"
+            },
+            {
+              "score": 3,
+              "label": "Abombada severa o tensa",
+              "description": "Tensor, posible HICP"
+            }
           ]
         },
         {
           "id": "frecuencia_cardiaca",
           "name": "Frecuencia cardíaca",
           "values": [
-            { "score": 0, "label": "Normal (120–160 lpm)", "description": "FC normal para edad" },
-            { "score": 1, "label": "Bradicardia leve (100–119 lpm)", "description": "Disminución leve de FC" },
-            { "score": 2, "label": "Bradicardia severa (< 100 lpm)", "description": "FC significativamente baja" }
+            {
+              "score": 0,
+              "label": "Normal (120–160 lpm)",
+              "description": "FC normal para edad"
+            },
+            {
+              "score": 1,
+              "label": "Bradicardia leve (100–119 lpm)",
+              "description": "Disminución leve de FC"
+            },
+            {
+              "score": 2,
+              "label": "Bradicardia severa (< 100 lpm)",
+              "description": "FC significativamente baja"
+            }
           ]
         },
         {
           "id": "patron_respiratorio",
           "name": "Patrón respiratorio",
           "values": [
-            { "score": 0, "label": "Normal", "description": "Patrón respiratorio regular y normal" },
-            { "score": 1, "label": "Irregularidades leves", "description": "Períodos de apnea ocasionales" },
-            { "score": 2, "label": "Irregularidades severas", "description": "Apnea frecuente o respiración irregular" }
+            {
+              "score": 0,
+              "label": "Normal",
+              "description": "Patrón respiratorio regular y normal"
+            },
+            {
+              "score": 1,
+              "label": "Irregularidades leves",
+              "description": "Períodos de apnea ocasionales"
+            },
+            {
+              "score": 2,
+              "label": "Irregularidades severas",
+              "description": "Apnea frecuente o respiración irregular"
+            }
           ]
         }
       ],
       "interpretation": [
-        { "min": 0, "max": 5, "label": "Normal", "action": "Cuidados de rutina. Seguimiento clínico estándar.", "color": "green" },
-        { "min": 6, "max": 15, "label": "Encefalopatía leve", "action": "Monitoreo continuo. Considerar hipotermia selectiva según protocolos. EEG si está disponible.", "color": "yellow" },
-        { "min": 16, "max": 25, "label": "Encefalopatía moderada", "action": "Hipotermia selectiva (32–34 °C × 72 h). Monitoreo intensivo. Evaluación neurológica frecuente.", "color": "orange" },
-        { "min": 26, "max": 30, "label": "Encefalopatía severa", "action": "Hipotermia sistémica indicada. Cuidados intensivos. Considerar derivación a ECMO o centro especializado.", "color": "red" }
+        {
+          "min": 0,
+          "max": 5,
+          "label": "Normal",
+          "action": "Cuidados de rutina. Seguimiento clínico estándar.",
+          "color": "green"
+        },
+        {
+          "min": 6,
+          "max": 15,
+          "label": "Encefalopatía leve",
+          "action": "Monitoreo continuo. Considerar hipotermia selectiva según protocolos. EEG si está disponible.",
+          "color": "yellow"
+        },
+        {
+          "min": 16,
+          "max": 25,
+          "label": "Encefalopatía moderada",
+          "action": "Hipotermia selectiva (32–34 °C × 72 h). Monitoreo intensivo. Evaluación neurológica frecuente.",
+          "color": "orange"
+        },
+        {
+          "min": 26,
+          "max": 30,
+          "label": "Encefalopatía severa",
+          "action": "Hipotermia sistémica indicada. Cuidados intensivos. Considerar derivación a ECMO o centro especializado.",
+          "color": "red"
+        }
       ],
       "minScore": 0,
       "maxScore": 30,
-      "references": ["Sarnat HB, Sarnat MS. J Pediatr 1976", "SEGNNEO 2019"]
+      "references": [
+        "Sarnat HB, Sarnat MS. J Pediatr 1976",
+        "SEGNNEO 2019"
+      ]
     }
   ],
   "formulas": [
@@ -2488,8 +4738,18 @@
       "name": "Superficie Corporal (BSA) - Mosteller",
       "description": "Cálculo de la superficie corporal en metros cuadrados",
       "inputs": [
-        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
-        { "id": "altura", "label": "Altura", "unit": "cm", "required": true }
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "kg",
+          "required": true
+        },
+        {
+          "id": "altura",
+          "label": "Altura",
+          "unit": "cm",
+          "required": true
+        }
       ],
       "formula": "Math.sqrt((peso * altura) / 3600)",
       "resultLabel": "Superficie Corporal",
@@ -2501,9 +4761,24 @@
       "name": "Clearance de Creatinina - Schwartz",
       "description": "Estimación de la tasa de filtración glomerular en neonatos/lactantes",
       "inputs": [
-        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
-        { "id": "altura", "label": "Altura", "unit": "cm", "required": true },
-        { "id": "creatinina", "label": "Creatinina sérica", "unit": "mg/dL", "required": true }
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "kg",
+          "required": true
+        },
+        {
+          "id": "altura",
+          "label": "Altura",
+          "unit": "cm",
+          "required": true
+        },
+        {
+          "id": "creatinina",
+          "label": "Creatinina sérica",
+          "unit": "mg/dL",
+          "required": true
+        }
       ],
       "formula": "(0.45 * altura) / creatinina",
       "resultLabel": "Clearance de Creatinina",
@@ -2516,7 +4791,12 @@
       "name": "Superficie Corporal - Fórmula simplificada",
       "description": "BSA estimado usando solo peso (para recién nacidos)",
       "inputs": [
-        { "id": "peso", "label": "Peso", "unit": "g", "required": true }
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "g",
+          "required": true
+        }
       ],
       "formula": "Math.pow(peso / 1000, 0.67) * 4.84 / 100",
       "resultLabel": "Superficie Corporal (estimada)",
@@ -2529,8 +4809,18 @@
       "name": "Requerimiento Calórico Diario",
       "description": "Cálculo de calorías diarias según peso y edad",
       "inputs": [
-        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
-        { "id": "edad_dias", "label": "Edad", "unit": "días", "required": true }
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "kg",
+          "required": true
+        },
+        {
+          "id": "edad_dias",
+          "label": "Edad",
+          "unit": "días",
+          "required": true
+        }
       ],
       "formula": "edad_dias <= 3 ? peso * 60 : (edad_dias <= 10 ? peso * 100 : peso * 120)",
       "resultLabel": "Requerimiento Calórico",
@@ -2543,7 +4833,12 @@
       "name": "Requerimiento Proteico Diario",
       "description": "Aporte diario de proteínas según peso",
       "inputs": [
-        { "id": "peso", "label": "Peso", "unit": "kg", "required": true }
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "kg",
+          "required": true
+        }
       ],
       "formula": "peso * 3",
       "resultLabel": "Proteínas diarias",
@@ -2556,10 +4851,30 @@
       "name": "Osmolalidad Plasmática Calculada",
       "description": "Estimación de osmolalidad plasmática a partir de electrolitos y glucosa",
       "inputs": [
-        { "id": "sodio", "label": "Sodio", "unit": "mEq/L", "required": true },
-        { "id": "potasio", "label": "Potasio", "unit": "mEq/L", "required": true },
-        { "id": "glucosa", "label": "Glucosa", "unit": "mg/dL", "required": true },
-        { "id": "bun", "label": "BUN", "unit": "mg/dL", "required": false }
+        {
+          "id": "sodio",
+          "label": "Sodio",
+          "unit": "mEq/L",
+          "required": true
+        },
+        {
+          "id": "potasio",
+          "label": "Potasio",
+          "unit": "mEq/L",
+          "required": true
+        },
+        {
+          "id": "glucosa",
+          "label": "Glucosa",
+          "unit": "mg/dL",
+          "required": true
+        },
+        {
+          "id": "bun",
+          "label": "BUN",
+          "unit": "mg/dL",
+          "required": false
+        }
       ],
       "formula": "(2 * sodio) + (glucosa / 18) + (bun ? bun / 2.8 : 0) + 8",
       "resultLabel": "Osmolalidad",
@@ -2572,8 +4887,18 @@
       "name": "Índice de Masa Corporal (IMC)",
       "description": "IMC según peso y altura",
       "inputs": [
-        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
-        { "id": "altura", "label": "Altura", "unit": "cm", "required": true }
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "kg",
+          "required": true
+        },
+        {
+          "id": "altura",
+          "label": "Altura",
+          "unit": "cm",
+          "required": true
+        }
       ],
       "formula": "peso / Math.pow(altura / 100, 2)",
       "resultLabel": "IMC",
@@ -2586,10 +4911,30 @@
       "name": "Presión Media de Vía Aérea (MAP)",
       "description": "Cálculo de la presión media de vía aérea en ventilación mecánica",
       "inputs": [
-        { "id": "pip", "label": "PIP (Presión Inspiratoria Pico)", "unit": "cmH₂O", "required": true },
-        { "id": "peep", "label": "PEEP (Presión Espiratoria Positiva)", "unit": "cmH₂O", "required": true },
-        { "id": "ti", "label": "Tiempo Inspiratorio (TI)", "unit": "s", "required": true },
-        { "id": "ttotal", "label": "Tiempo Total del Ciclo (Ttotal)", "unit": "s", "required": true }
+        {
+          "id": "pip",
+          "label": "PIP (Presión Inspiratoria Pico)",
+          "unit": "cmH₂O",
+          "required": true
+        },
+        {
+          "id": "peep",
+          "label": "PEEP (Presión Espiratoria Positiva)",
+          "unit": "cmH₂O",
+          "required": true
+        },
+        {
+          "id": "ti",
+          "label": "Tiempo Inspiratorio (TI)",
+          "unit": "s",
+          "required": true
+        },
+        {
+          "id": "ttotal",
+          "label": "Tiempo Total del Ciclo (Ttotal)",
+          "unit": "s",
+          "required": true
+        }
       ],
       "formula": "(pip - peep) * (ti / ttotal) + peep",
       "resultLabel": "MAP",
@@ -2602,9 +4947,24 @@
       "name": "Índice de Oxigenación (IO)",
       "description": "Índice de oxigenación para evaluación de hipoxemia refractaria",
       "inputs": [
-        { "id": "map", "label": "MAP (Presión Media de Vía Aérea)", "unit": "cmH₂O", "required": true },
-        { "id": "fio2", "label": "FiO₂ (Fracción Inspirada de Oxígeno)", "unit": "%", "required": true },
-        { "id": "pao2", "label": "PaO₂", "unit": "mmHg", "required": true }
+        {
+          "id": "map",
+          "label": "MAP (Presión Media de Vía Aérea)",
+          "unit": "cmH₂O",
+          "required": true
+        },
+        {
+          "id": "fio2",
+          "label": "FiO₂ (Fracción Inspirada de Oxígeno)",
+          "unit": "%",
+          "required": true
+        },
+        {
+          "id": "pao2",
+          "label": "PaO₂",
+          "unit": "mmHg",
+          "required": true
+        }
       ],
       "formula": "(map * fio2 * 100) / pao2",
       "resultLabel": "Índice de Oxigenación",
@@ -2617,9 +4977,24 @@
       "name": "Aporte de Oxígeno (CDO₂)",
       "description": "Cálculo simplificado del contenido arterial de oxígeno",
       "inputs": [
-        { "id": "sao2", "label": "SaO₂ (Saturación Arterial)", "unit": "%", "required": true },
-        { "id": "hemoglobina", "label": "Hemoglobina", "unit": "g/dL", "required": true },
-        { "id": "pao2", "label": "PaO₂", "unit": "mmHg", "required": true }
+        {
+          "id": "sao2",
+          "label": "SaO₂ (Saturación Arterial)",
+          "unit": "%",
+          "required": true
+        },
+        {
+          "id": "hemoglobina",
+          "label": "Hemoglobina",
+          "unit": "g/dL",
+          "required": true
+        },
+        {
+          "id": "pao2",
+          "label": "PaO₂",
+          "unit": "mmHg",
+          "required": true
+        }
       ],
       "formula": "(sao2 * hemoglobina * 1.34) / 100 + (pao2 * 0.003)",
       "resultLabel": "Contenido Arterial de O₂ (CaO₂)",
@@ -2632,13 +5007,48 @@
       "name": "Balance Hidroelectrolitico",
       "description": "Balance de liquidos en 24 hs",
       "inputs": [
-        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
-        { "id": "ingreso1", "label": "Ingreso 1", "unit": "mL", "required": false },
-        { "id": "ingreso2", "label": "Ingreso 2", "unit": "mL", "required": false },
-        { "id": "ingreso3", "label": "Ingreso 3", "unit": "mL", "required": false },
-        { "id": "diuresis", "label": "Diuresis", "unit": "mL", "required": true },
-        { "id": "catarsis", "label": "Catarsis", "unit": "mL", "required": false },
-        { "id": "otros", "label": "Otros egresos", "unit": "mL", "required": false }
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "kg",
+          "required": true
+        },
+        {
+          "id": "ingreso1",
+          "label": "Ingreso 1",
+          "unit": "mL",
+          "required": false
+        },
+        {
+          "id": "ingreso2",
+          "label": "Ingreso 2",
+          "unit": "mL",
+          "required": false
+        },
+        {
+          "id": "ingreso3",
+          "label": "Ingreso 3",
+          "unit": "mL",
+          "required": false
+        },
+        {
+          "id": "diuresis",
+          "label": "Diuresis",
+          "unit": "mL",
+          "required": true
+        },
+        {
+          "id": "catarsis",
+          "label": "Catarsis",
+          "unit": "mL",
+          "required": false
+        },
+        {
+          "id": "otros",
+          "label": "Otros egresos",
+          "unit": "mL",
+          "required": false
+        }
       ],
       "resultLabel": "Balance Detallado",
       "resultUnit": "Variables",
