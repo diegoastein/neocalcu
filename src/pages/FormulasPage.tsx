@@ -13,7 +13,7 @@ export default function FormulasPage() {
   const currentFormula = formulas.find((f) => f.id === selectedFormula);
 
   const calculateFormula = (): number | null => {
-    if (!currentFormula || !('formula' in currentFormula)) return null;
+    if (!currentFormula || !currentFormula.formula) return null;
 
     const variables: Record<string, number> = { ...inputs };
 
@@ -119,10 +119,12 @@ export default function FormulasPage() {
             </section>
 
             {/* Formula display */}
-            <section className="bg-blue-50 border border-blue-200 rounded p-3">
-              <p className="text-xs text-blue-600 mb-2 font-medium">Fórmula</p>
-              <code className="text-sm text-blue-900 font-mono break-words">{currentFormula.formula}</code>
-            </section>
+            {currentFormula.formula && (
+              <section className="bg-blue-50 border border-blue-200 rounded p-3">
+                <p className="text-xs text-blue-600 mb-2 font-medium">Fórmula</p>
+                <code className="text-sm text-blue-900 font-mono break-words">{currentFormula.formula}</code>
+              </section>
+            )}
 
             {/* Inputs */}
             <section className="space-y-3">
@@ -161,7 +163,7 @@ export default function FormulasPage() {
             </section>
 
             {/* Result - Single formula */}
-            {'formula' in currentFormula && allRequiredInputsFilled && result !== null && (
+            {currentFormula.id !== 'balance_hidroelectrolitico' && allRequiredInputsFilled && result !== null && (
               <section className="bg-green-50 border border-green-200 rounded p-4">
                 <p className="text-xs text-green-600 mb-2 font-medium">Resultado</p>
                 <p className="text-4xl font-bold text-green-900">{result.toFixed(2)}</p>
@@ -170,7 +172,7 @@ export default function FormulasPage() {
             )}
 
             {/* Result - Multiple formulas (Balance Hidroelectrolítico) */}
-            {'calculations' in currentFormula && inputs.peso && inputs.diuresis && (
+            {currentFormula.id === 'balance_hidroelectrolitico' && inputs.peso && inputs.diuresis && (
               <section className="space-y-3">
                 <h3 className="font-semibold text-slate-900">Resultados detallados</h3>
                 {(() => {
