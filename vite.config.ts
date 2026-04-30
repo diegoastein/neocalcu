@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  base: '/neocalcu/',
   plugins: [
     react(),
     VitePWA({
@@ -12,8 +13,8 @@ export default defineConfig({
         name: 'NeoCalcu - Calculadora Neonatal',
         short_name: 'NeoCalcu',
         description: 'Calculadora médica bedside para neonatología',
-        theme_color: '#1e3a8a',
-        background_color: '#f0f4ff',
+        theme_color: '#065f46',
+        background_color: '#ecfdf5',
         display: 'standalone',
         orientation: 'portrait',
         icons: [
