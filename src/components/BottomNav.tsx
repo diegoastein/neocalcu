@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { ActivePage } from '../types';
 
 interface BottomNavProps {
@@ -7,17 +6,6 @@ interface BottomNavProps {
 }
 
 export default function BottomNav({ activePage, setActivePage }: BottomNavProps) {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
-  }, [isDark]);
-
   const navItems: { id: ActivePage; label: string; icon: string }[] = [
     { id: 'medicamentos', label: 'Medicamentos', icon: '💊' },
     { id: 'procedimientos', label: 'Procedimientos', icon: '📋' },
@@ -28,7 +16,7 @@ export default function BottomNav({ activePage, setActivePage }: BottomNavProps)
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
-      <div className="flex justify-around items-center">
+      <div className="flex justify-around">
         {navItems.map((item) => (
           <button
             key={item.id}
@@ -43,14 +31,6 @@ export default function BottomNav({ activePage, setActivePage }: BottomNavProps)
             <div className="text-xs font-medium mt-1">{item.label}</div>
           </button>
         ))}
-        <button
-          onClick={() => setIsDark(!isDark)}
-          className="py-3 px-2 text-center text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-          title={isDark ? 'Modo claro' : 'Modo oscuro'}
-        >
-          <div className="text-xl">{isDark ? '☀️' : '🌙'}</div>
-          <div className="text-xs font-medium mt-1">Tema</div>
-        </button>
       </div>
     </nav>
   );
