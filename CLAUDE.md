@@ -120,22 +120,26 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 
 ## Convenciones de UI
 
-- Colores `brand-800` (`#1e3a8a`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
+- Colores `brand-*` (verde esmeralda: `#065f46` a `#ecfdf5`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
+- Dark mode completo con toggle 🌙/☀️ en header superior
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
-- Instrucción de enfermería siempre en un box resaltado (borde izquierdo azul) — es lo que se transcribe a la indicación médica
+- Instrucción de enfermería siempre en un box resaltado (borde izquierdo verde) — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
 - `lightSensitive: true` en `preparation` → mostrar ícono de protección de luz en la UI
+- Navegación inferior con 5 tabs (Medicamentos, Procedimientos, Índices, Fórmulas, Favoritos)
+- Medicamentos agrupados por categoría con headers no pegajosos
 
-## Estado actual (2026-04-30 - Implementación completa + expansión Neofax)
+## Estado actual (2026-04-30 - Implementación completa + Rediseño visual + Deploy GitHub Pages)
 
-**✅ Aplicación completamente funcional:**
+**✅ Aplicación completamente funcional y en producción:**
 
 **Medicamentos (MedicationsPage):**
-- ✅ **187 medicamentos agregados** (26 originales + 100 lote 1-3 + 87 en proceso)
+- ✅ **239 medicamentos agregados** de NEOFAX 2024 (26 originales + 213 expandidos)
 - ✅ Buscador por nombre, genérico, indicaciones
+- ✅ **Medicamentos agrupados por categoría** (Antibióticos, Cardiovascular, Diuréticos, etc.)
 - ✅ Filtrado automático por peso, E.G. (edad gestacional), Días de vida
 - ✅ Modal con calculadora de dosis
-- ✅ Indicaciones con referencias (Neofax p. XX, SEGNNEO, etc.)
+- ✅ Indicaciones con referencias (Neofax, SEGNNEO, etc.)
 - ✅ Botón de favoritos (⭐) en cada medicamento
 - ✅ Estructura simplificada (dosificación básica, sin preparaciones detalladas — mejora futura)
 
@@ -179,7 +183,20 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 - ✅ Cálculos de dosificación completos (matchDosingRule, calcDose, calcRuleOf3, calcInfusionVelocity)
 - ✅ Búsqueda de medicamentos
 
-**Dev server corriendo:** `npm run dev` → localhost:5173
+**Rediseño Visual (2026-04-30):**
+- ✅ Tema verde esmeralda (brand colors) en lugar de azul
+- ✅ Dark mode completo con toggle 🌙/☀️ en header superior
+- ✅ Navegación inferior con 5 tabs (BottomNav)
+- ✅ Dark mode con clases `dark:` en todos los componentes
+- ✅ Medicamentos agrupados por categoría
+
+**Deploy:**
+- ✅ Repositorio GitHub: https://github.com/diegoastein/neocalcu
+- ✅ GitHub Pages: https://diegoastein.github.io/neocalcu/
+- ✅ PWA con Service Worker (funciona offline)
+- ✅ Configurado `base: '/neocalcu/'` en vite.config.ts para rutas relativas
+
+**Dev server corriendo:** `npm run dev` → localhost:5176 (varía según disponibilidad)
 
 ## Agregar un medicamento nuevo
 
@@ -210,8 +227,10 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 
 **FUTURO (Features avanzadas):**
 
-4. **Tema claro/oscuro** — para uso bedside en diferentes condiciones de iluminación
+4. ✅ **Tema claro/oscuro** — COMPLETADO, toggle 🌙/☀️ en header superior
 5. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
 6. **Integración con hardware** — lector de código de barras para medicamentos
 7. **Agregar más procedimientos** — según protocolos neonatológicos locales
 8. **Historial de pacientes** — almacenamiento de cálculos recientes (opcional)
+9. **Sliders para inputs numéricos** — mejora UX en cálculos
+10. **Presentación especial para inotrópicos** — Dopamina, dobutamina, adrenalina con titulación visual
