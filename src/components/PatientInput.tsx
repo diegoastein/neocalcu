@@ -36,7 +36,7 @@ export default function PatientInput() {
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-600 mb-1">GA (sem)</label>
+          <label className="block text-xs font-medium text-slate-600 mb-1">E.G. (sem)</label>
           <input
             type="number"
             value={localGA}

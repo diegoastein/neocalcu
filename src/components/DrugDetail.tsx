@@ -76,6 +76,11 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                   <li key={i}>{ind}</li>
                 ))}
               </ul>
+              {drug.references.length > 0 && (
+                <p className="text-xs text-slate-500 mt-2">
+                  <span className="font-medium">Fuente:</span> {drug.references.join(' • ')}
+                </p>
+              )}
             </section>
           )}
 
