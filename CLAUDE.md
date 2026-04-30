@@ -126,16 +126,18 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
 - `lightSensitive: true` en `preparation` → mostrar ícono de protección de luz en la UI
 
-## Estado actual (Implementación completa)
+## Estado actual (2026-04-30 - Implementación completa + expansión Neofax)
 
 **✅ Aplicación completamente funcional:**
 
 **Medicamentos (MedicationsPage):**
+- ✅ **187 medicamentos agregados** (26 originales + 100 lote 1-3 + 87 en proceso)
 - ✅ Buscador por nombre, genérico, indicaciones
 - ✅ Filtrado automático por peso, E.G. (edad gestacional), Días de vida
 - ✅ Modal con calculadora de dosis
-- ✅ Indicaciones con referencias (Neofax, SEGNNEO, etc.)
+- ✅ Indicaciones con referencias (Neofax p. XX, SEGNNEO, etc.)
 - ✅ Botón de favoritos (⭐) en cada medicamento
+- ✅ Estructura simplificada (dosificación básica, sin preparaciones detalladas — mejora futura)
 
 **Procedimientos (ProceduresPage):**
 - ✅ 5 procedimientos: CAU, CVU, TET, Fluidos, VIG
@@ -153,7 +155,13 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 - ✅ Botón de favoritos en cada escala
 
 **Fórmulas (FormulasPage):**
-- ✅ 7 calculadoras médicas: BSA (Mosteller), Clearance de Creatinina, BSA simplificada, Aporte Calórico, Proteínas, Osmolalidad, IMC
+- ✅ **11 calculadoras médicas:**
+  - BSA (Mosteller), Clearance de Creatinina, BSA simplificada
+  - Aporte Calórico, Proteínas, Osmolalidad, IMC
+  - **MAP (Mean Airway Pressure)** — presión media de vía aérea en ventilación
+  - **IO (Oxygenation Index)** — índice de oxigenación (criterio ECMO)
+  - **CDO₂ (Oxygen Delivery)** — aporte de oxígeno
+  - **Balance Hidroelectrolítico 24h** — ingresos/egresos, relación E/I, ritmo diurético
 - ✅ Auto-relleno de peso desde PatientInput
 - ✅ Inputs dinámicos según fórmula
 - ✅ Cálculo en tiempo real con referencias
@@ -182,9 +190,28 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 
 ## Próximas tareas / Mejoras futuras
 
-1. **Presentación especial para drogas inotrópicas** — diseño específico para dopamina, dobutamina, adrenalina con cálculo detallado de preparación y titulación
-2. **Build y PWA** — verificar `npm run build` y test offline (Service Worker, precache de Workbox)
-3. **Agregar más medicamentos/procedimientos** — según protocolos locales
+**INMEDIATO (después de completar 240+ medicamentos):**
+
+1. **Enriquecer medicamentos** — expandir estructura simplificada
+   - Agregar preparation detallada (diluciones, estabilidad, reconstitución)
+   - Agregar administration (routes, iv rates, incompatibilities)
+   - Agregar monitoring (parámetros a seguir)
+   - Agregar contraindications (restricciones clínicas)
+
+2. **Build y PWA** — verificar `npm run build` y test offline
+   - Service Worker precache de Workbox
+   - Probar en navegador sin conexión
+   - Validar velocidad de cálculos bedside
+
+3. **Presentación especial para drogas inotrópicas**
+   - Dopamina, dobutamina, adrenalina con cálculo detallado de preparación
+   - Titulación visual, tabla de velocidades
+   - Compatibilidades IV específicas
+
+**FUTURO (Features avanzadas):**
+
 4. **Tema claro/oscuro** — para uso bedside en diferentes condiciones de iluminación
 5. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
-6. **Integración con hardware** — lector de código de barras para medicamentos (futuro)
+6. **Integración con hardware** — lector de código de barras para medicamentos
+7. **Agregar más procedimientos** — según protocolos neonatológicos locales
+8. **Historial de pacientes** — almacenamiento de cálculos recientes (opcional)
