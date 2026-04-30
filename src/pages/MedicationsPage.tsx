@@ -54,7 +54,7 @@ export default function MedicationsPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50">
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Search bar */}

@@ -7,7 +7,7 @@ import ProceduresPage from './pages/ProceduresPage';
 import ScoresPage from './pages/ScoresPage';
 import FavoritesPage from './pages/FavoritesPage';
 import FormulasPage from './pages/FormulasPage';
-import SideNav from './components/SideNav';
+import BottomNav from './components/BottomNav';
 
 function AppContent() {
   const [activePage, setActivePage] = useState<ActivePage>('medicamentos');
@@ -28,11 +28,11 @@ function AppContent() {
   };
 
   return (
-    <div className="h-screen flex flex-row bg-white dark:bg-slate-950">
-      <SideNav activePage={activePage} setActivePage={setActivePage} />
-      <main className="flex-1 overflow-y-auto ml-64">
+    <div className="h-screen flex flex-col bg-white dark:bg-slate-950">
+      <main className="flex-1 overflow-y-auto pb-20">
         {renderPage()}
       </main>
+      <BottomNav activePage={activePage} setActivePage={setActivePage} />
     </div>
   );
 }
