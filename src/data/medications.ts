@@ -1,7 +1,7 @@
 import data from '../../docs/clinical_knowledge.json';
 import { Drug } from '../types';
 
-export const drugs: Drug[] = data.drugs;
+export const drugs: Drug[] = data.drugs as Drug[];
 
 export function getDrugById(id: string): Drug | undefined {
   return drugs.find((d) => d.id === id);
