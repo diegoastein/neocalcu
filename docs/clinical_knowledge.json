@@ -3919,6 +3919,1104 @@
       "references": [
         "NEOFAX 2024 p. 394"
       ]
+    },
+    {
+      "id": "ferrous_sulfate",
+      "name": "Sulfato Ferroso",
+      "genericName": "Ferrous Sulfate",
+      "category": [
+        "hematologico"
+      ],
+      "indications": [
+        "Anemia ferropénica",
+        "Deficiencia de hierro"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO",
+          "dosePerKg": 3,
+          "unit": "mg Fe elemental/kg/día",
+          "frequency": "c/24h",
+          "routes": [
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Gotas 125 mg Fe/mL, Jarabe 30 mg/5 mL",
+        "concentrationMgMl": 125
+      },
+      "references": [
+        "NEOFAX 2024 p. 401"
+      ]
+    },
+    {
+      "id": "floppy_fecal",
+      "name": "Fecal (Microorganismo)",
+      "genericName": "Fecal Bacteria Transplant",
+      "category": [
+        "gastrointestinal"
+      ],
+      "indications": [
+        "Infección por Clostridioides difficile"
+      ],
+      "dosingRules": [
+        {
+          "label": "Instilación rectal",
+          "dosePerKg": 50,
+          "unit": "mL",
+          "frequency": "dosis única",
+          "routes": [
+            "Rectal"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspensión de donante procesada",
+        "concentrationMgMl": 1
+      },
+      "references": [
+        "NEOFAX 2024 p. 403"
+      ]
+    },
+    {
+      "id": "foscarnet",
+      "name": "Foscarnet",
+      "genericName": "Foscarnet",
+      "category": [
+        "antiviral"
+      ],
+      "indications": [
+        "CMV resistente a ganciclovir",
+        "Infecciones por herpes"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 24 mg/mL",
+        "concentrationMgMl": 24
+      },
+      "references": [
+        "NEOFAX 2024 p. 424"
+      ]
+    },
+    {
+      "id": "furosemida_batch2",
+      "name": "Furosemida (Lote 2)",
+      "genericName": "Furosemide Extended",
+      "category": [
+        "diuretico"
+      ],
+      "indications": [
+        "Diuresis mantenida"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.1,
+          "doseMax": 0.4,
+          "unit": "mg/kg/h",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 20 mg/2 mL",
+        "concentrationMgMl": 10
+      },
+      "references": [
+        "NEOFAX 2024 p. 432"
+      ]
+    },
+    {
+      "id": "ganciclovir",
+      "name": "Ganciclovir",
+      "genericName": "Ganciclovir",
+      "category": [
+        "antiviral"
+      ],
+      "indications": [
+        "Infección congénita por CMV",
+        "CMV neonatal"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 6,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg",
+        "concentrationMgMl": 50
+      },
+      "references": [
+        "NEOFAX 2024 p. 437"
+      ]
+    },
+    {
+      "id": "glutamina",
+      "name": "Glutamina",
+      "genericName": "L-Glutamine",
+      "category": [
+        "amino_acid"
+      ],
+      "indications": [
+        "Soporte nutricional",
+        "Nutrición parenteral",
+        "Enterocolitis necrosante"
+      ],
+      "dosingRules": [
+        {
+          "label": "Aporte en nutrición parenteral",
+          "dosePerKg": 0.3,
+          "unit": "g/kg/día",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución 200 mg/mL en NPT",
+        "concentrationMgMl": 200
+      },
+      "references": [
+        "NEOFAX 2024 p. 450"
+      ]
+    },
+    {
+      "id": "heparina",
+      "name": "Heparina",
+      "genericName": "Heparin",
+      "category": [
+        "anticoagulante"
+      ],
+      "indications": [
+        "Profilaxis trombótica",
+        "Tratamiento de trombosis"
+      ],
+      "dosingRules": [
+        {
+          "label": "Carga IV",
+          "dosePerKg": 75,
+          "unit": "U/kg",
+          "frequency": "dosis única",
+          "routes": [
+            "IV"
+          ]
+        },
+        {
+          "label": "Mantenimiento IV",
+          "dosePerKg": 20,
+          "unit": "U/kg/h",
+          "frequency": "infusión continua",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1000 U/mL, 5000 U/mL, 10000 U/mL",
+        "concentrationMgMl": 1000
+      },
+      "references": [
+        "NEOFAX 2024 p. 453"
+      ]
+    },
+    {
+      "id": "imunoglobulina_hepatitis_b",
+      "name": "Inmunoglobulina Hepatitis B",
+      "genericName": "Hepatitis B Immune Globulin",
+      "category": [
+        "inmunologico"
+      ],
+      "indications": [
+        "Profilaxis post-exposición hepatitis B",
+        "Madres HBsAg positivas"
+      ],
+      "dosingRules": [
+        {
+          "label": "IM",
+          "dosePerKg": 10,
+          "unit": "U/kg (0.5 mL)",
+          "frequency": "dosis única",
+          "routes": [
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Jeringa 200 U/mL",
+        "concentrationMgMl": 200
+      },
+      "references": [
+        "NEOFAX 2024 p. 457"
+      ]
+    },
+    {
+      "id": "imunoglobulina_varicela",
+      "name": "Inmunoglobulina Varicela Zóster",
+      "genericName": "Varicella-Zoster Immune Globulin",
+      "category": [
+        "inmunologico"
+      ],
+      "indications": [
+        "Profilaxis post-exposición a varicela",
+        "Recién nacidos de madres con varicela"
+      ],
+      "dosingRules": [
+        {
+          "label": "IM / IV",
+          "dosePerKg": 125,
+          "unit": "U/kg",
+          "frequency": "dosis única",
+          "routes": [
+            "IM",
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 625 U (para bebés)",
+        "concentrationMgMl": 625
+      },
+      "references": [
+        "NEOFAX 2024 p. 911"
+      ]
+    },
+    {
+      "id": "imunoglobulina_human",
+      "name": "Inmunoglobulina Humana",
+      "genericName": "Immune Globulin Intravenous",
+      "category": [
+        "inmunologico"
+      ],
+      "indications": [
+        "Infecciones graves",
+        "Hipogammaglobulinemia",
+        "Sepsis neonatal"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 500,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24-48h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 5 g/50 mL, 10 g/100 mL",
+        "concentrationMgMl": 100
+      },
+      "references": [
+        "NEOFAX 2024 p. 494"
+      ]
+    },
+    {
+      "id": "insulina",
+      "name": "Insulina",
+      "genericName": "Insulin",
+      "category": [
+        "endocrino"
+      ],
+      "indications": [
+        "Hiperglucemia neonatal grave",
+        "Hipoglucemia con hiperinsulinismo"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV infusión",
+          "doseMin": 0.01,
+          "doseMax": 0.1,
+          "unit": "U/kg/h",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 100 U/mL",
+        "concentrationMgMl": 100
+      },
+      "references": [
+        "NEOFAX 2024 p. 513"
+      ]
+    },
+    {
+      "id": "ipratropio",
+      "name": "Ipratropio",
+      "genericName": "Ipratropium",
+      "category": [
+        "broncodilatador"
+      ],
+      "indications": [
+        "Broncoespasmo",
+        "Displasia broncopulmonar"
+      ],
+      "dosingRules": [
+        {
+          "label": "Inhalación",
+          "dosePerKg": 25,
+          "unit": "mcg/dosis",
+          "frequency": "c/6-8h",
+          "routes": [
+            "Inhalación"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución 0.02% (500 mcg/25 mL)",
+        "concentrationMgMl": 20
+      },
+      "references": [
+        "NEOFAX 2024 p. 517"
+      ]
+    },
+    {
+      "id": "isoproterenol",
+      "name": "Isoproterenol",
+      "genericName": "Isoproterenol",
+      "category": [
+        "broncodilatador"
+      ],
+      "indications": [
+        "Broncoespasmo severo",
+        "Bloqueo cardíaco"
+      ],
+      "dosingRules": [
+        {
+          "label": "Inhalación",
+          "dosePerKg": 0.5,
+          "unit": "mL de solución 0.5%",
+          "frequency": "c/4-6h",
+          "routes": [
+            "Inhalación"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución 0.5% (5 mg/mL)",
+        "concentrationMgMl": 5
+      },
+      "references": [
+        "NEOFAX 2024 p. 521"
+      ]
+    },
+    {
+      "id": "vitamina_k1_batch2",
+      "name": "Vitamina K1 (Lote 2)",
+      "genericName": "Phytonadione Extended",
+      "category": [
+        "vitaminas_electrolitos"
+      ],
+      "indications": [
+        "Tratamiento de EHRN establecida"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h × 3 dosis",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 10 mg/mL",
+        "concentrationMgMl": 10
+      },
+      "references": [
+        "NEOFAX 2024 p. 927"
+      ]
+    },
+    {
+      "id": "kanamicina",
+      "name": "Kanamicina",
+      "genericName": "Kanamycin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones gram-negativas",
+        "Infecciones multirresistentes"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 32 sem",
+          "gaMax": 32,
+          "dosePerKg": 7.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/18-24h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 75 mg/2 mL, 1 g/3 mL",
+        "concentrationMgMl": 37.5
+      },
+      "references": [
+        "NEOFAX 2024 p. 524"
+      ]
+    },
+    {
+      "id": "lanoconazol",
+      "name": "Lanoconazol",
+      "genericName": "Lanoconazole",
+      "category": [
+        "antifungico"
+      ],
+      "indications": [
+        "Candidiasis cutánea",
+        "Infecciones fúngicas superficiales"
+      ],
+      "dosingRules": [
+        {
+          "label": "Tópico",
+          "dosePerKg": 1,
+          "unit": "% (aplicación)",
+          "frequency": "c/12h",
+          "routes": [
+            "Tópico"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución tópica 1%",
+        "concentrationMgMl": 10
+      },
+      "references": [
+        "NEOFAX 2024 p. 537"
+      ]
+    },
+    {
+      "id": "levotitroxina",
+      "name": "Levotiroxina",
+      "genericName": "Levothyroxine",
+      "category": [
+        "endocrino"
+      ],
+      "indications": [
+        "Hipotiroidismo congénito",
+        "Deficiencia de hormona tiroidea"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO",
+          "dosePerKg": 10,
+          "unit": "mcg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": [
+            "PO",
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tableta 25 mcg, 50 mcg, solución 25 mcg/5 mL",
+        "concentrationMgMl": 5
+      },
+      "references": [
+        "NEOFAX 2024 p. 546"
+      ]
+    },
+    {
+      "id": "lidocaina_antiarritmico",
+      "name": "Lidocaína (antiarrítmico)",
+      "genericName": "Lidocaine Antiarrhythmic",
+      "category": [
+        "antiarritmico"
+      ],
+      "indications": [
+        "Arritmias ventriculares",
+        "Ectopia ventricular"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV - Carga",
+          "dosePerKg": 1,
+          "unit": "mg/kg",
+          "frequency": "dosis única",
+          "routes": [
+            "IV"
+          ]
+        },
+        {
+          "label": "IV - Infusión",
+          "doseMin": 10,
+          "doseMax": 50,
+          "unit": "mcg/kg/min",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 10 mg/mL, 20 mg/mL",
+        "concentrationMgMl": 10
+      },
+      "references": [
+        "NEOFAX 2024 p. 551"
+      ]
+    },
+    {
+      "id": "lindano",
+      "name": "Lindano",
+      "genericName": "Lindane",
+      "category": [
+        "parasitario"
+      ],
+      "indications": [
+        "Sarna neonatal",
+        "Pediculosis"
+      ],
+      "dosingRules": [
+        {
+          "label": "Tópico",
+          "dosePerKg": 1,
+          "unit": "% loción",
+          "frequency": "una vez (lavar 8 h después)",
+          "routes": [
+            "Tópico"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Loción/Champú 1%",
+        "concentrationMgMl": 10
+      },
+      "references": [
+        "NEOFAX 2024 p. 562"
+      ]
+    },
+    {
+      "id": "linezolid",
+      "name": "Linezolid",
+      "genericName": "Linezolid",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones por Staph/Strep resistentes",
+        "Enterococo resistente"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 10,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": [
+            "IV",
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 600 mg/300 mL, Suspensión 100 mg/5 mL",
+        "concentrationMgMl": 2
+      },
+      "references": [
+        "NEOFAX 2024 p. 562"
+      ]
+    },
+    {
+      "id": "lorazepam",
+      "name": "Lorazepam",
+      "genericName": "Lorazepam",
+      "category": [
+        "sedante"
+      ],
+      "indications": [
+        "Sedación prolongada",
+        "Convulsiones",
+        "Abstinencia de sustancias"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV / IM",
+          "dosePerKg": 0.05,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/4-8h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 2 mg/mL, 4 mg/mL",
+        "concentrationMgMl": 2
+      },
+      "references": [
+        "NEOFAX 2024 p. 578"
+      ]
+    },
+    {
+      "id": "lucinactante",
+      "name": "Lucinactante",
+      "genericName": "Lucinactant",
+      "category": [
+        "respiratorio",
+        "surfactante"
+      ],
+      "indications": [
+        "SDR neonatal",
+        "Profilaxis de RDS"
+      ],
+      "dosingRules": [
+        {
+          "label": "Intratraqueal",
+          "dosePerKg": 175,
+          "unit": "mg/kg/dosis",
+          "frequency": "hasta 4 dosis en 48h",
+          "routes": [
+            "IT"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 25 mg/mL",
+        "concentrationMgMl": 25
+      },
+      "references": [
+        "NEOFAX 2024 p. 583"
+      ]
+    },
+    {
+      "id": "magnesio_sulfato",
+      "name": "Sulfato de Magnesio",
+      "genericName": "Magnesium Sulfate",
+      "category": [
+        "vitaminas_electrolitos"
+      ],
+      "indications": [
+        "Hipomagnesemia",
+        "Prevención de convulsiones en asfixia"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8-12h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 50% (500 mg/mL)",
+        "concentrationMgMl": 500
+      },
+      "references": [
+        "NEOFAX 2024 p. 587"
+      ]
+    },
+    {
+      "id": "manitol",
+      "name": "Manitol",
+      "genericName": "Mannitol",
+      "category": [
+        "diuretico"
+      ],
+      "indications": [
+        "Edema cerebral",
+        "Edema intracraneal",
+        "Oliguría"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 0.25,
+          "unit": "g/kg/dosis",
+          "frequency": "c/6h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución 20% (200 mg/mL)",
+        "concentrationMgMl": 200
+      },
+      "references": [
+        "NEOFAX 2024 p. 590"
+      ]
+    },
+    {
+      "id": "metadona",
+      "name": "Metadona",
+      "genericName": "Methadone",
+      "category": [
+        "opioid"
+      ],
+      "indications": [
+        "Síndrome de abstinencia neonatal",
+        "Dolor severo"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO",
+          "dosePerKg": 0.05,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución oral 10 mg/5 mL",
+        "concentrationMgMl": 2
+      },
+      "references": [
+        "NEOFAX 2024 p. 602"
+      ]
+    },
+    {
+      "id": "metacolpramida",
+      "name": "Metoclopramida",
+      "genericName": "Metoclopramide",
+      "category": [
+        "gastrointestinal"
+      ],
+      "indications": [
+        "Reflujo gastroesofágico",
+        "Estimulación de motilidad gástrica"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV / PO",
+          "dosePerKg": 0.1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6-8h",
+          "routes": [
+            "IV",
+            "IM",
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 5 mg/mL, Jarabe 1 mg/mL",
+        "concentrationMgMl": 5
+      },
+      "references": [
+        "NEOFAX 2024 p. 613"
+      ]
+    },
+    {
+      "id": "metronidazol",
+      "name": "Metronidazol",
+      "genericName": "Metronidazole",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones anaerobias",
+        "Tricomoniasis"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 30 sem, 0-7 días",
+          "gaMax": 30,
+          "dolMax": 7,
+          "dosePerKg": 7.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": [
+            "IV",
+            "PO"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg/100 mL, Jarabe 40 mg/mL",
+        "concentrationMgMl": 5
+      },
+      "references": [
+        "NEOFAX 2024 p. 613"
+      ]
+    },
+    {
+      "id": "micafungina",
+      "name": "Micafungina",
+      "genericName": "Micafungin",
+      "category": [
+        "antifungico"
+      ],
+      "indications": [
+        "Candidiasis invasiva",
+        "Profilaxis de candidiasis"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV",
+          "dosePerKg": 10,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 50 mg",
+        "concentrationMgMl": 1.67
+      },
+      "references": [
+        "NEOFAX 2024 p. 620"
+      ]
+    },
+    {
+      "id": "midazolam_batch2",
+      "name": "Midazolam (Lote 2)",
+      "genericName": "Midazolam Extended",
+      "category": [
+        "sedante"
+      ],
+      "indications": [
+        "Sedación prolongada"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.05,
+          "doseMax": 0.2,
+          "unit": "mg/kg/h",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 5 mg/mL",
+        "concentrationMgMl": 5
+      },
+      "references": [
+        "NEOFAX 2024 p. 629"
+      ]
+    },
+    {
+      "id": "milrinone",
+      "name": "Milrinona",
+      "genericName": "Milrinone",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Insuficiencia cardíaca",
+        "Soporte inotrópico"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV - Carga",
+          "dosePerKg": 75,
+          "unit": "mcg/kg",
+          "frequency": "dosis única en 10-60 min",
+          "routes": [
+            "IV"
+          ]
+        },
+        {
+          "label": "IV - Infusión",
+          "doseMin": 0.25,
+          "doseMax": 0.75,
+          "unit": "mcg/kg/min",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 mg/mL",
+        "concentrationMgMl": 1
+      },
+      "references": [
+        "NEOFAX 2024 p. 634"
+      ]
+    },
+    {
+      "id": "morfina_batch2",
+      "name": "Morfina (Lote 2)",
+      "genericName": "Morphine Extended",
+      "category": [
+        "analgesico_sedante"
+      ],
+      "indications": [
+        "Analgesia severa prolongada"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.01,
+          "doseMax": 0.05,
+          "unit": "mg/kg/h",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 10 mg/mL",
+        "concentrationMgMl": 10
+      },
+      "references": [
+        "NEOFAX 2024 p. 640"
+      ]
+    },
+    {
+      "id": "moxifloxacina",
+      "name": "Moxifloxacina",
+      "genericName": "Moxifloxacin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones respiratorias",
+        "Infecciones atípicas"
+      ],
+      "dosingRules": [
+        {
+          "label": "PO / Oftalmica",
+          "dosePerKg": 7.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "PO",
+            "Oftálmica"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tableta 400 mg, Colirio 0.5%",
+        "concentrationMgMl": 400
+      },
+      "references": [
+        "NEOFAX 2024 p. 649"
+      ]
+    },
+    {
+      "id": "mupirocin",
+      "name": "Mupirocina",
+      "genericName": "Mupirocin",
+      "category": [
+        "antibiotico_topico"
+      ],
+      "indications": [
+        "Infecciones de piel",
+        "Impétigo",
+        "Profilaxis de infecciones cutáneas"
+      ],
+      "dosingRules": [
+        {
+          "label": "Tópico",
+          "dosePerKg": 2,
+          "unit": "% (aplicación)",
+          "frequency": "c/8-12h",
+          "routes": [
+            "Tópico"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Pomada 2%",
+        "concentrationMgMl": 20
+      },
+      "references": [
+        "NEOFAX 2024 p. 651"
+      ]
+    },
+    {
+      "id": "nafcilina",
+      "name": "Nafcilina",
+      "genericName": "Nafcillin",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Infecciones por Staphylococcus",
+        "SAMR sensible"
+      ],
+      "dosingRules": [
+        {
+          "label": "EG < 29 sem",
+          "gaMax": 29,
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": [
+            "IV",
+            "IM"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 500 mg, 1 g, 2 g",
+        "concentrationMgMl": 100
+      },
+      "references": [
+        "NEOFAX 2024 p. 653"
+      ]
+    },
+    {
+      "id": "naloxona_batch2",
+      "name": "Naloxona (Lote 2)",
+      "genericName": "Naloxone Extended",
+      "category": [
+        "emergencia"
+      ],
+      "indications": [
+        "Sedación opioide severa con apnea"
+      ],
+      "dosingRules": [
+        {
+          "label": "Infusión continua",
+          "doseMin": 0.002,
+          "doseMax": 0.01,
+          "unit": "mg/kg/h",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 0.4 mg/mL",
+        "concentrationMgMl": 0.4
+      },
+      "references": [
+        "NEOFAX 2024 p. 658"
+      ]
     }
   ],
   "procedures": [
