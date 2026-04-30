@@ -13,7 +13,7 @@ export default function FormulasPage() {
   const currentFormula = formulas.find((f) => f.id === selectedFormula);
 
   const calculateFormula = (): number | null => {
-    if (!currentFormula) return null;
+    if (!currentFormula || !('formula' in currentFormula)) return null;
 
     const variables: Record<string, number> = { ...inputs };
 
@@ -33,6 +33,38 @@ export default function FormulasPage() {
     } catch {
       return null;
     }
+  };
+
+  const calculateMultipleFormulas = (): Record<string, number> => {
+    if (!currentFormula || !('calculations' in currentFormula)) return {};
+
+    const variables: Record<string, number> = { ...inputs };
+
+    // Agregar peso automáticamente
+    if (!variables['peso']) {
+      variables['peso'] = patient.weightGrams / 1000;
+    }
+
+    const results: Record<string, number> = {};
+
+    const calculations = currentFormula.calculations as Record<string, string>;
+    for (const [key, formula] of Object.entries(calculations)) {
+      try {
+        const result = eval(formula.replace(/\b([a-z_]+)\b/g, (match) => {
+          if (variables[match] !== undefined) {
+            return variables[match].toString();
+          }
+          return match;
+        }));
+        if (typeof result === 'number') {
+          results[key] = result;
+        }
+      } catch {
+        // silently skip calculation errors
+      }
+    }
+
+    return results;
   };
 
   const result = calculateFormula();
@@ -128,12 +160,42 @@ export default function FormulasPage() {
               )}
             </section>
 
-            {/* Result */}
-            {allRequiredInputsFilled && result !== null && (
+            {/* Result - Single formula */}
+            {'formula' in currentFormula && allRequiredInputsFilled && result !== null && (
               <section className="bg-green-50 border border-green-200 rounded p-4">
                 <p className="text-xs text-green-600 mb-2 font-medium">Resultado</p>
                 <p className="text-4xl font-bold text-green-900">{result.toFixed(2)}</p>
                 <p className="text-sm text-green-700 mt-2">{currentFormula.resultLabel}: {currentFormula.resultUnit}</p>
+              </section>
+            )}
+
+            {/* Result - Multiple formulas (Balance Hidroelectrolítico) */}
+            {'calculations' in currentFormula && inputs.peso && inputs.diuresis && (
+              <section className="space-y-3">
+                <h3 className="font-semibold text-slate-900">Resultados detallados</h3>
+                {(() => {
+                  const results = calculateMultipleFormulas();
+                  const labels: Record<string, string> = {
+                    ingreso_total: 'Ingreso Total',
+                    egreso_total: 'Egreso Total',
+                    ingreso_kg: 'Ingreso / kg',
+                    egreso_kg: 'Egreso / kg',
+                    relacion_ei: 'Relación E/I',
+                    balance: 'Balance 24 hs',
+                    ritmo_diuretico: 'Ritmo Diurético',
+                  };
+
+                  return Object.entries(results).map(([key, value]) => (
+                    <div key={key} className="bg-blue-50 border border-blue-200 rounded p-3">
+                      <p className="text-xs text-blue-600 font-medium mb-1">{labels[key] || key}</p>
+                      <p className="text-2xl font-bold text-blue-900">{value.toFixed(2)}</p>
+                      <p className="text-xs text-blue-700 mt-1">
+                        {key === 'relacion_ei' ? 'adimensional' :
+                         key === 'ritmo_diuretico' ? 'mL/kg/h' : 'mL/kg/24h'}
+                      </p>
+                    </div>
+                  ));
+                })()}
               </section>
             )}
 

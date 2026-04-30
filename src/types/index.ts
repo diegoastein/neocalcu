@@ -152,9 +152,10 @@ export interface Formula {
   name: string;
   description: string;
   inputs: FormulaInput[];
-  formula: string;
-  resultLabel: string;
-  resultUnit: string;
+  formula?: string;
+  resultLabel?: string;
+  resultUnit?: string;
+  calculations?: Record<string, string>;
   notes?: string;
   reference: string;
 }
