@@ -1950,6 +1950,52 @@
       "resultUnit": "kg/m²",
       "notes": "En neonatos, el IMC tiene limitada aplicabilidad clínica.",
       "reference": "Cálculo estándar"
+    },
+    {
+      "id": "map",
+      "name": "Presión Media de Vía Aérea (MAP)",
+      "description": "Cálculo de la presión media de vía aérea en ventilación mecánica",
+      "inputs": [
+        { "id": "pip", "label": "PIP (Presión Inspiratoria Pico)", "unit": "cmH₂O", "required": true },
+        { "id": "peep", "label": "PEEP (Presión Espiratoria Positiva)", "unit": "cmH₂O", "required": true },
+        { "id": "ti", "label": "Tiempo Inspiratorio (TI)", "unit": "s", "required": true },
+        { "id": "ttotal", "label": "Tiempo Total del Ciclo (Ttotal)", "unit": "s", "required": true }
+      ],
+      "formula": "(pip - peep) * (ti / ttotal) + peep",
+      "resultLabel": "MAP",
+      "resultUnit": "cmH₂O",
+      "notes": "MAP > 15 cmH₂O sugiere enfermedad grave. Se correlaciona con riesgo de barotrauma. Ttotal = TI + TE (tiempo espiratorio).",
+      "reference": "Fisiología de ventilación mecánica neonatal. NEOFAX 2024."
+    },
+    {
+      "id": "io",
+      "name": "Índice de Oxigenación (IO)",
+      "description": "Índice de oxigenación para evaluación de hipoxemia refractaria",
+      "inputs": [
+        { "id": "map", "label": "MAP (Presión Media de Vía Aérea)", "unit": "cmH₂O", "required": true },
+        { "id": "fio2", "label": "FiO₂ (Fracción Inspirada de Oxígeno)", "unit": "%", "required": true },
+        { "id": "pao2", "label": "PaO₂", "unit": "mmHg", "required": true }
+      ],
+      "formula": "(map * fio2 * 100) / pao2",
+      "resultLabel": "Índice de Oxigenación",
+      "resultUnit": "adimensional",
+      "notes": "IO < 15: hipoxemia leve | IO 15-40: hipoxemia moderada (considerar CPAP/VM) | IO > 40: hipoxemia refractaria (indicación de ECMO en criterios seleccionados).",
+      "reference": "Criterios de Bartlett para ECMO. NEOFAX 2024."
+    },
+    {
+      "id": "cdo2",
+      "name": "Aporte de Oxígeno (CDO₂)",
+      "description": "Cálculo simplificado del contenido arterial de oxígeno",
+      "inputs": [
+        { "id": "sao2", "label": "SaO₂ (Saturación Arterial)", "unit": "%", "required": true },
+        { "id": "hemoglobina", "label": "Hemoglobina", "unit": "g/dL", "required": true },
+        { "id": "pao2", "label": "PaO₂", "unit": "mmHg", "required": true }
+      ],
+      "formula": "(sao2 * hemoglobina * 1.34) / 100 + (pao2 * 0.003)",
+      "resultLabel": "Contenido Arterial de O₂ (CaO₂)",
+      "resultUnit": "mL O₂/100 mL sangre (vol%)",
+      "notes": "Fórmula simplificada sin gasto cardíaco. Normal: 18-24 vol%. CaO₂ < 15 vol% sugiere hipoxemia o anemia grave. Multiplicar por GC (mL/min/kg) para obtener CDO₂.",
+      "reference": "Fisiología respiratoria neonatal. NEOFAX 2024."
     }
   ]
 }
