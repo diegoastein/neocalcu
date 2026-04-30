@@ -23,13 +23,14 @@ Stack: **Vite + React 18 + TypeScript + Tailwind CSS v3 + vite-plugin-pwa** (Wor
 
 ### Datos clínicos — fuente de verdad
 
-`docs/clinical_knowledge.json` contiene todas las drogas, procedimientos e índices clínicos. Este archivo es **importado estáticamente** en la capa de datos de TypeScript; jamás se fetchea en runtime. Al modificar datos clínicos, siempre editar este JSON.
+`docs/clinical_knowledge.json` contiene todas las drogas, procedimientos, índices clínicos y fórmulas. Este archivo es **importado estáticamente** en la capa de datos de TypeScript; jamás se fetchea en runtime. Al modificar datos clínicos, siempre editar este JSON.
 
 Estructura del JSON:
 ```
 drugs[]        → medicamentos con dosingRules[] o infusionRules[]
 procedures[]   → procedimientos con formulas[] y steps[]
 scores[]       → escalas clínicas con items[] e interpretation[]
+formulas[]     → calculadoras médicas (BSA, clearance, etc.)
 ```
 
 ### Tipos
@@ -40,34 +41,39 @@ scores[]       → escalas clínicas con items[] e interpretation[]
 - **`Drug`** — puede tener `dosingRules` (bolos/intervalos) **o** `infusionRules` (infusiones continuas), o ambos
 - **`DosingRule`** — filtra por `gaMin/gaMax`, `dolMin/dolMax`, `weightMinG/weightMaxG` para llegar a la dosis correcta
 - **`InfusionRule`** — incluye `ruleOf3` con `multiplier` y `volumeMl` para calcular la "regla de 3" bedside
-- **`Procedure`** — las fórmulas son strings descriptivos; el cálculo real se implementa en el componente
-- **`Score`** — cada item tiene values con score 0/1/2; interpretation mapea rangos a colores y acciones
+- **`Procedure`** — procedimientos con fórmulas y pasos paso-a-paso
+- **`Score`** — escalas clínicas con items evaluables e interpretación por rango de puntuación
+- **`Formula`** — calculadoras médicas con inputs dinámicos y evaluación de fórmulas
 
 ### Capa de datos (`src/data/`)
 
 Los archivos de datos importan el JSON y re-exportan arrays tipados:
-- `medications.ts` → `import data from '../../docs/clinical_knowledge.json'` → exporta `drugs: Drug[]`
+- `medications.ts` → exporta `drugs: Drug[]` y función `searchDrugs(query)`
 - `procedures.ts` → exporta `procedures: Procedure[]`
 - `scores.ts` → exporta `scores: Score[]`
+- `formulas.ts` → exporta `formulas: Formula[]`
 
 Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - `matchDosingRule(rules, patient)` — devuelve la primera regla que cumple todos los matchers
 - `calcDose(rule, weightGrams)` — devuelve `{ doseTotal, volumeMl, nursingInstruction }`
 - `calcRuleOf3(infusionRule, weightKg)` — devuelve preparación y velocidad para infusiones continuas
 
-### Contexto global (`src/context/PatientContext.tsx`)
+### Contextos globales (`src/context/`)
 
-`PatientContext` provee `patient: Patient` y `setPatient` a toda la app. El peso persiste en `sessionStorage` para sobrevivir navegación entre tabs sin necesidad de re-ingresar.
+- **`PatientContext.tsx`** — provee `patient` y `setPatient` a toda la app. Peso, E.G. (edad gestacional), Días persisten en `sessionStorage`
+- **`FavoritesContext.tsx`** — maneja marcadores (favoritos) de medicamentos, procedimientos y fórmulas. Persiste en `localStorage`
 
 ### Páginas y navegación
 
-Tres páginas sin router externo — la navegación es un simple `useState<ActivePage>` en `App.tsx`:
+5 páginas sin router externo — la navegación es un simple `useState<ActivePage>` en `App.tsx`:
 
 | `ActivePage`      | Página                | Contenido principal                                      |
 |-------------------|-----------------------|----------------------------------------------------------|
-| `medicamentos`    | `MedicationsPage`     | Buscador + calculadora de dosis por peso                 |
-| `procedimientos`  | `ProceduresPage`      | Fórmulas (CAU, CVU, TET, fluidos) + pasos del procedimiento |
-| `indices`         | `ScoresPage`          | Silverman-Andersen, Apgar interactivos                   |
+| `medicamentos`    | `MedicationsPage`     | Buscador + calculadora de dosis por peso + botón favoritos |
+| `procedimientos`  | `ProceduresPage`      | Procedimientos (CAU, CVU, TET, Fluidos, VIG) con fórmulas + pasos |
+| `indices`         | `ScoresPage`          | Silverman-Andersen, Apgar, Sarnat interactivos + botón favoritos |
+| `formulas`        | `FormulasPage`        | 7 calculadoras (BSA, Clearance, Osmolalidad, etc.) + botón favoritos |
+| `favoritos`       | `FavoritesPage`       | Listado de todos los items marcados como favoritos       |
 
 La barra de navegación inferior (`BottomNav`) es el único mecanismo de routing.
 
@@ -120,17 +126,50 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
 - `lightSensitive: true` en `preparation` → mostrar ícono de protección de luz en la UI
 
-## Estado actual
+## Estado actual (Implementación completa)
 
-**Esqueleto React implementado:**
-- ✅ `src/App.tsx` — navegación 3 páginas (medicamentos, procedimientos, índices)
-- ✅ `src/main.tsx` — entry point React
-- ✅ `src/index.css` — Tailwind imports
-- ✅ `src/context/PatientContext.tsx` — gestión global de paciente (peso, GA, DOL) + sessionStorage
-- ✅ `src/pages/` — 3 páginas stub (MedicationsPage, ProceduresPage, ScoresPage)
-- ✅ `src/components/BottomNav.tsx` — navegación inferior con tabs
-- ✅ `src/data/` — importadores de datos (medications.ts, procedures.ts, scores.ts)
-- ✅ `src/utils/calculations.ts` — funciones de dosificación (matchDosingRule, calcDose, calcRuleOf3, calcInfusionVelocity)
+**✅ Aplicación completamente funcional:**
+
+**Medicamentos (MedicationsPage):**
+- ✅ Buscador por nombre, genérico, indicaciones
+- ✅ Filtrado automático por peso, E.G. (edad gestacional), Días de vida
+- ✅ Modal con calculadora de dosis
+- ✅ Indicaciones con referencias (Neofax, SEGNNEO, etc.)
+- ✅ Botón de favoritos (⭐) en cada medicamento
+
+**Procedimientos (ProceduresPage):**
+- ✅ 5 procedimientos: CAU, CVU, TET, Fluidos, VIG
+- ✅ Fórmulas interactivas con cálculo en tiempo real
+- ✅ Pasos paso-a-paso con advertencias clínicas
+- ✅ Materiales y referencias
+- ✅ Botón de favoritos en cada procedimiento
+
+**Índices Clínicos (ScoresPage):**
+- ✅ Silverman-Andersen (5 items) — dificultad respiratoria
+- ✅ Apgar (5 items) — estado vital al nacer
+- ✅ Sarnat (10 items) — encefalopatía hipóxico-isquémica
+- ✅ Radio buttons interactivos → puntuación total → interpretación con acción clínica
+- ✅ Colores por severidad (verde/amarillo/naranja/rojo)
+- ✅ Botón de favoritos en cada escala
+
+**Fórmulas (FormulasPage):**
+- ✅ 7 calculadoras médicas: BSA (Mosteller), Clearance de Creatinina, BSA simplificada, Aporte Calórico, Proteínas, Osmolalidad, IMC
+- ✅ Auto-relleno de peso desde PatientInput
+- ✅ Inputs dinámicos según fórmula
+- ✅ Cálculo en tiempo real con referencias
+- ✅ Botón de favoritos en cada fórmula
+
+**Favoritos (FavoritesPage):**
+- ✅ Listado de todos los items marcados como favoritos
+- ✅ Agrupación por tipo (medicamento, procedimiento, índice, fórmula)
+- ✅ Acceso rápido a detalles de medicamentos desde favoritos
+- ✅ Persistencia en localStorage
+
+**Contextos y utilidades:**
+- ✅ PatientContext — gestión de peso, E.G., Días en sessionStorage
+- ✅ FavoritesContext — gestión de marcadores en localStorage
+- ✅ Cálculos de dosificación completos (matchDosingRule, calcDose, calcRuleOf3, calcInfusionVelocity)
+- ✅ Búsqueda de medicamentos
 
 **Dev server corriendo:** `npm run dev` → localhost:5173
 
@@ -141,9 +180,11 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 3. Si es bolo, agregar `dosingRules` ordenadas de más restrictiva (prematuros extremos) a menos restrictiva (término)
 4. La UI lo muestra automáticamente — no se necesita código adicional
 
-## Próximas tareas
+## Próximas tareas / Mejoras futuras
 
-1. **PatientInput** — componente reutilizable para ingreso de peso, GA, DOL (sessionStorage)
-2. **MedicationsPage completa** — buscador + vista de detalles + calculadora de dosis
-3. **ProceduresPage** — fórmulas (CAU, CVU, TET, fluidos)
-4. **ScoresPage** — Silverman-Andersen, Apgar
+1. **Presentación especial para drogas inotrópicas** — diseño específico para dopamina, dobutamina, adrenalina con cálculo detallado de preparación y titulación
+2. **Build y PWA** — verificar `npm run build` y test offline (Service Worker, precache de Workbox)
+3. **Agregar más medicamentos/procedimientos** — según protocolos locales
+4. **Tema claro/oscuro** — para uso bedside en diferentes condiciones de iluminación
+5. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
+6. **Integración con hardware** — lector de código de barras para medicamentos (futuro)
