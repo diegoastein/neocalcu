@@ -1440,6 +1440,636 @@
       ],
       "adverseEffects": ["Apnea (15–20%)", "Fiebre", "Hipotensión", "Hipoglucemia", "Convulsiones (dosis altas)"],
       "references": ["NEOFAX 2024 p. 47"]
+    },
+    {
+      "id": "acetaminophen",
+      "name": "Acetaminofeno",
+      "genericName": "Acetaminophen",
+      "category": ["analgesic", "antipyretic"],
+      "indications": ["Dolor leve a moderado", "Fiebre", "Cierre de conducto arterioso permeable"],
+      "dosingRules": [
+        {
+          "label": "IV - EG >= 32 semanas",
+          "gaMin": 32,
+          "dosePerKg": 12.5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6h",
+          "routes": ["IV"],
+          "notes": "Máximo 50 mg/kg/día de todas las rutas"
+        },
+        {
+          "label": "Oral - EG >= 32 semanas",
+          "gaMin": 32,
+          "dosePerKg": 15,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["PO"],
+          "notes": "Prematuros: 12-15 mg/kg/dosis c/8-12h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1g/100mL (IV), Suspensión oral 160mg/5mL, 100mg/mL",
+        "concentrationMgMl": 10
+      },
+      "references": ["NEOFAX 2024 p. 1"]
+    },
+    {
+      "id": "acetazolamida",
+      "name": "Acetazolamida",
+      "genericName": "Acetazolamide",
+      "category": ["diuretic", "carbonic_anhydrase_inhibitor"],
+      "indications": ["Alcalosis metabólica", "Dilatación ventricular posthemorrágica", "Glaucoma congénito"],
+      "dosingRules": [
+        {
+          "label": "IV/Oral - Alcalosis metabólica",
+          "dosePerKg": 5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6-8h",
+          "routes": ["IV", "PO"],
+          "notes": "Máximo 30 mg/kg/día en 3-4 dosis divididas"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Polvo IV 500mg/vial, Cápsula oral 500mg",
+        "concentrationMgMl": 50
+      },
+      "references": ["NEOFAX 2024 p. 7"]
+    },
+    {
+      "id": "aciclovir_neonatal",
+      "name": "Aciclovir",
+      "genericName": "Acyclovir",
+      "category": ["antiviral"],
+      "indications": ["Infección por VHS neonatal", "Varicela", "Herpes zóster"],
+      "dosingRules": [
+        {
+          "label": "IV - EG >= 34 semanas",
+          "gaMin": 34,
+          "dosePerKg": 10,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV"],
+          "notes": "Infusión en 60 minutos"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Polvo IV 500mg/vial, Suspensión oral 200mg/5mL",
+        "concentrationMgMl": 50
+      },
+      "references": ["NEOFAX 2024 p. 20"]
+    },
+    {
+      "id": "adenosina",
+      "name": "Adenosina",
+      "genericName": "Adenosine",
+      "category": ["antiarrhythmic"],
+      "indications": ["Taquicardia supraventricular", "Diagnóstico de arritmias"],
+      "dosingRules": [
+        {
+          "label": "IV rápido",
+          "dosePerKg": 0.1,
+          "unit": "mg/kg/dosis",
+          "frequency": "única",
+          "routes": ["IV"],
+          "notes": "Aumentar a 0.2-0.3 mg/kg si no responde"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 6mg/2mL",
+        "concentrationMgMl": 3
+      },
+      "references": ["NEOFAX 2024 p. 27"]
+    },
+    {
+      "id": "albumina",
+      "name": "Albumina",
+      "genericName": "Albumin (Human)",
+      "category": ["colloid", "plasma_expander"],
+      "indications": ["Hipoalbuminemia", "Expansión de volumen intravascular"],
+      "dosingRules": [
+        {
+          "label": "IV - 5% o 25%",
+          "dosePerKg": 0.5,
+          "unit": "g/kg/dosis",
+          "frequency": "única",
+          "routes": ["IV"],
+          "notes": "Infundir en 15-30 minutos"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 50mL (5% o 25%), Botella 250/500mL",
+        "concentrationMgMl": 50
+      },
+      "references": ["NEOFAX 2024 p. 30"]
+    },
+    {
+      "id": "albuterol",
+      "name": "Albuterol",
+      "genericName": "Albuterol (Salbutamol)",
+      "category": ["bronchodilator", "beta2_agonist"],
+      "indications": ["Broncoespasmo", "Hiperkalemia"],
+      "dosingRules": [
+        {
+          "label": "Inhalado - Broncoespasmo",
+          "dosePerKg": 0.1,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/4-6h",
+          "routes": ["Inhalado"],
+          "notes": "2.5mg en 3mL de SF 0.9%"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución para inhalación 0.5%, 1mg/mL",
+        "concentrationMgMl": 1
+      },
+      "references": ["NEOFAX 2024 p. 38"]
+    },
+    {
+      "id": "alteplase",
+      "name": "Alteplasa",
+      "genericName": "Alteplase",
+      "category": ["thrombolytic"],
+      "indications": ["Trombosis neonatal", "Catéter umbilical trombosado"],
+      "dosingRules": [
+        {
+          "label": "Infusión IV",
+          "dosePerKg": 0.6,
+          "unit": "mg/kg",
+          "frequency": "en 30 minutos",
+          "routes": ["IV"],
+          "notes": "Máximo 15mg de dosis única"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Polvo 50mg/vial",
+        "concentrationMgMl": 1
+      },
+      "references": ["NEOFAX 2024 p. 52"]
+    },
+    {
+      "id": "aminocaproico",
+      "name": "Ácido aminocaproico",
+      "genericName": "Aminocaproic Acid",
+      "category": ["fibrinolysis_inhibitor"],
+      "indications": ["Sangrado con hiperfibrinólisis", "Hemofilia"],
+      "dosingRules": [
+        {
+          "label": "IV infusión",
+          "dosePerKg": 100,
+          "unit": "mg/kg",
+          "frequency": "única",
+          "routes": ["IV"],
+          "notes": "Seguida de 25-33 mg/kg/h en infusión"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 250mg/mL",
+        "concentrationMgMl": 250
+      },
+      "references": ["NEOFAX 2024 p. 61"]
+    },
+    {
+      "id": "aminofilina",
+      "name": "Aminofilina",
+      "genericName": "Aminophylline",
+      "category": ["bronchodilator", "theophylline"],
+      "indications": ["Apnea del prematuro", "Broncoespasmo"],
+      "dosingRules": [
+        {
+          "label": "IV/Oral carga",
+          "dosePerKg": 6,
+          "unit": "mg/kg",
+          "frequency": "única",
+          "routes": ["IV", "PO"],
+          "notes": "Mantener 2-3 mg/kg/dosis c/8-12h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 25mg/mL, Tableta 100/200mg",
+        "concentrationMgMl": 25
+      },
+      "references": ["NEOFAX 2024 p. 66"]
+    },
+    {
+      "id": "amiodarona",
+      "name": "Amiodarona",
+      "genericName": "Amiodarone",
+      "category": ["antiarrhythmic"],
+      "indications": ["Arritmias supraventriculares refractarias", "Fibrilación atrial"],
+      "dosingRules": [
+        {
+          "label": "IV - Carga rápida",
+          "dosePerKg": 5,
+          "unit": "mg/kg",
+          "frequency": "en 20-30 minutos",
+          "routes": ["IV"],
+          "notes": "Máximo 15mg/kg/dosis"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 150mg/3mL",
+        "concentrationMgMl": 50
+      },
+      "references": ["NEOFAX 2024 p. 69"]
+    },
+    {
+      "id": "amoxicilina",
+      "name": "Amoxicilina",
+      "genericName": "Amoxicillin",
+      "category": ["antibiotic", "penicillin"],
+      "indications": ["Infecciones gram-positivas", "Otalgia media aguda"],
+      "dosingRules": [
+        {
+          "label": "Oral - EG >= 34 semanas",
+          "gaMin": 34,
+          "dosePerKg": 25,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["PO"],
+          "notes": "Suspensión oral 125/250mg/5mL"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspensión 125mg/5mL, 250mg/5mL",
+        "concentrationMgMl": 25
+      },
+      "references": ["NEOFAX 2024 p. 77"]
+    },
+    {
+      "id": "anfotericina_b_lipid",
+      "name": "Anfotericina B Complejo Lipídico",
+      "genericName": "Amphotericin B Lipid Complex",
+      "category": ["antifungal"],
+      "indications": ["Candidemia", "Infecciones fúngicas diseminadas"],
+      "dosingRules": [
+        {
+          "label": "IV infusión",
+          "dosePerKg": 5,
+          "unit": "mg/kg/día",
+          "frequency": "continuo",
+          "routes": ["IV"],
+          "notes": "Infundir en 2 horas"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspensión 100mg/20mL",
+        "concentrationMgMl": 5
+      },
+      "references": ["NEOFAX 2024 p. 82"]
+    },
+    {
+      "id": "anfotericina_b_liposomal",
+      "name": "Anfotericina B Liposomal",
+      "genericName": "Amphotericin B Liposome",
+      "category": ["antifungal"],
+      "indications": ["Candidemia", "Aspergilosis invasiva"],
+      "dosingRules": [
+        {
+          "label": "IV infusión",
+          "dosePerKg": 3,
+          "unit": "mg/kg/día",
+          "frequency": "continuo",
+          "routes": ["IV"],
+          "notes": "Infundir en 2 horas, máximo 5 mg/kg/día"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspensión 4mg/mL",
+        "concentrationMgMl": 4
+      },
+      "references": ["NEOFAX 2024 p. 86"]
+    },
+    {
+      "id": "anfotericina_b_convencional",
+      "name": "Anfotericina B",
+      "genericName": "Amphotericin B",
+      "category": ["antifungal"],
+      "indications": ["Candidemia neonatal", "Infecciones fúngicas sistémicas"],
+      "dosingRules": [
+        {
+          "label": "IV infusión",
+          "dosePerKg": 0.25,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": ["IV"],
+          "notes": "Titular hasta 0.5-1 mg/kg/dosis"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Polvo 50mg/vial",
+        "concentrationMgMl": 0.1
+      },
+      "references": ["NEOFAX 2024 p. 91"]
+    },
+    {
+      "id": "anidulafungina",
+      "name": "Anidulafungina",
+      "genericName": "Anidulafungin",
+      "category": ["antifungal", "echinocandin"],
+      "indications": ["Candidemia", "Infecciones por Candida"],
+      "dosingRules": [
+        {
+          "label": "IV carga/mantenimiento",
+          "dosePerKg": 3,
+          "unit": "mg/kg",
+          "frequency": "c/24h",
+          "routes": ["IV"],
+          "notes": "Carga 3 mg/kg, luego 1.5 mg/kg/día"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 50mg/15mL",
+        "concentrationMgMl": 3.3
+      },
+      "references": ["NEOFAX 2024 p. 107"]
+    },
+    {
+      "id": "arginina",
+      "name": "Arginina",
+      "genericName": "Arginine",
+      "category": ["amino_acid", "supplement"],
+      "indications": ["Hipergicinemia", "Soporte nutricional"],
+      "dosingRules": [
+        {
+          "label": "IV infusión",
+          "dosePerKg": 200,
+          "unit": "mg/kg/día",
+          "frequency": "continuo",
+          "routes": ["IV"],
+          "notes": "En nutrición parenteral"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución 21% (210mg/mL)",
+        "concentrationMgMl": 210
+      },
+      "references": ["NEOFAX 2024 p. 113"]
+    },
+    {
+      "id": "acido_ascorbico",
+      "name": "Ácido Ascórbico",
+      "genericName": "Ascorbic Acid",
+      "category": ["vitamin", "antioxidant"],
+      "indications": ["Deficiencia de vitamina C", "Apoyo antioxidante"],
+      "dosingRules": [
+        {
+          "label": "IV/PO",
+          "dosePerKg": 20,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV", "PO"],
+          "notes": "Máximo 2 g/día"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 250mg/mL, Tableta 500mg",
+        "concentrationMgMl": 250
+      },
+      "references": ["NEOFAX 2024 p. 116"]
+    },
+    {
+      "id": "aspirina",
+      "name": "Aspirina",
+      "genericName": "Aspirin",
+      "category": ["nsaid", "antiplatelet"],
+      "indications": ["Profilaxis trombótica", "Cierre de ductus arterioso"],
+      "dosingRules": [
+        {
+          "label": "PO/Rectal",
+          "dosePerKg": 5,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/6-8h",
+          "routes": ["PO", "Rectal"],
+          "notes": "Máximo 100 mg/kg/día"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tableta 81/325mg, Supositorio",
+        "concentrationMgMl": 81
+      },
+      "references": ["NEOFAX 2024 p. 119"]
+    },
+    {
+      "id": "atropina",
+      "name": "Atropina",
+      "genericName": "Atropine",
+      "category": ["anticholinergic"],
+      "indications": ["Bradicardia sintomática", "Envenenamiento por organofosforados"],
+      "dosingRules": [
+        {
+          "label": "IV/IM",
+          "dosePerKg": 0.02,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/5-10 min",
+          "routes": ["IV", "IM"],
+          "notes": "Dosis mínima 0.1mg, máximo 0.5mg"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 0.4mg/mL, 1mg/mL",
+        "concentrationMgMl": 0.4
+      },
+      "references": ["NEOFAX 2024 p. 122"]
+    },
+    {
+      "id": "azitromicina",
+      "name": "Azitromicina",
+      "genericName": "Azithromycin",
+      "category": ["antibiotic", "macrolide"],
+      "indications": ["Infecciones por atípicos", "Tosferina", "Chlamydia"],
+      "dosingRules": [
+        {
+          "label": "IV/Oral",
+          "dosePerKg": 10,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/24h",
+          "routes": ["IV", "PO"],
+          "notes": "Por 3-5 días"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Polvo 500mg/vial, Suspensión 200mg/5mL",
+        "concentrationMgMl": 20
+      },
+      "references": ["NEOFAX 2024 p. 127"]
+    },
+    {
+      "id": "aztreonam",
+      "name": "Aztreonam",
+      "genericName": "Aztreonam",
+      "category": ["antibiotic", "beta_lactam"],
+      "indications": ["Infecciones gram-negativas", "Pacientes alérgicos a penicilinas"],
+      "dosingRules": [
+        {
+          "label": "EG < 30 semanas, 0-7 días",
+          "gaMax": 30,
+          "dolMax": 7,
+          "dosePerKg": 30,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV", "IM"],
+          "notes": "Infusión 20-60 minutos"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Polvo 500mg/vial, 1g/vial",
+        "concentrationMgMl": 100
+      },
+      "references": ["NEOFAX 2024 p. 132"]
+    },
+    {
+      "id": "beractanto",
+      "name": "Beractanto",
+      "genericName": "Beractant (Surfactant)",
+      "category": ["pulmonary_surfactant"],
+      "indications": ["Síndrome de distress respiratorio", "Profilaxis de RDS"],
+      "dosingRules": [
+        {
+          "label": "Intratraqueal",
+          "dosePerKg": 100,
+          "unit": "mg/kg/dosis",
+          "frequency": "única",
+          "routes": ["Intratraqueal"],
+          "notes": "Máximo 4 dosis en 48h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 25mg/mL, 100mg/4mL",
+        "concentrationMgMl": 25
+      },
+      "references": ["NEOFAX 2024 p. 135"]
+    },
+    {
+      "id": "bevacizumab",
+      "name": "Bevacizumab",
+      "genericName": "Bevacizumab",
+      "category": ["monoclonal_antibody", "antiangiogenic"],
+      "indications": ["Retinopatía del prematuro avanzada"],
+      "dosingRules": [
+        {
+          "label": "Inyección intravítrea",
+          "dosePerKg": 0.625,
+          "unit": "mg/0.025mL",
+          "frequency": "única",
+          "routes": ["Intravitreal"],
+          "notes": "Dosis ajustada al peso"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solución inyectable 25mg/mL",
+        "concentrationMgMl": 25
+      },
+      "references": ["NEOFAX 2024 p. 139"]
+    },
+    {
+      "id": "bumetanida",
+      "name": "Bumetanida",
+      "genericName": "Bumetanide",
+      "category": ["loop_diuretic"],
+      "indications": ["Sobrecarga de volumen", "Edema pulmonar"],
+      "dosingRules": [
+        {
+          "label": "IV/IM",
+          "dosePerKg": 0.01,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/12h",
+          "routes": ["IV", "IM", "PO"],
+          "notes": "Oral: 0.015-0.02 mg/kg/dosis c/12h"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 0.25mg/mL, Tableta 0.5mg/1mg",
+        "concentrationMgMl": 0.25
+      },
+      "references": ["NEOFAX 2024 p. 145"]
+    },
+    {
+      "id": "bupivacaina",
+      "name": "Bupivacaína",
+      "genericName": "Bupivacaine",
+      "category": ["local_anesthetic"],
+      "indications": ["Anestesia local", "Bloqueos nerviosos", "Anestesia espinal"],
+      "dosingRules": [
+        {
+          "label": "Infiltración local/regional",
+          "dosePerKg": 2.5,
+          "unit": "mg/kg",
+          "frequency": "única",
+          "routes": ["Local", "Spinal", "Epidural"],
+          "notes": "Máximo 7.5 mg/kg, máximo 175 mg/dosis"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 0.25%, 0.5% (2.5/5mg/mL)",
+        "concentrationMgMl": 2.5
+      },
+      "references": ["NEOFAX 2024 p. 149"]
+    },
+    {
+      "id": "buprenorfina",
+      "name": "Buprenorfina",
+      "genericName": "Buprenorphine",
+      "category": ["opioid"],
+      "indications": ["Dolor moderado a severo", "Abstinencia opiácea"],
+      "dosingRules": [
+        {
+          "label": "IV/IM/Sublingual",
+          "dosePerKg": 0.003,
+          "unit": "mg/kg/dosis",
+          "frequency": "c/8h",
+          "routes": ["IV", "IM", "SL"],
+          "notes": "Máximo 0.15 mg/dosis"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 0.3mg/mL, Tableta sublingual 2/8mg",
+        "concentrationMgMl": 0.3
+      },
+      "references": ["NEOFAX 2024 p. 157"]
+    },
+    {
+      "id": "cafeina_citrato_batch2",
+      "name": "Cafeína Citrato",
+      "genericName": "Caffeine Citrate",
+      "category": ["stimulant", "methylxanthine"],
+      "indications": ["Apnea del prematuro", "Estimulación respiratoria"],
+      "dosingRules": [
+        {
+          "label": "IV/PO - Carga",
+          "dosePerKg": 20,
+          "unit": "mg/kg",
+          "frequency": "única",
+          "routes": ["IV", "PO"],
+          "notes": "Mantenimiento: 5 mg/kg/día"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 20mg citrato/mL, Solución oral 20mg/mL",
+        "concentrationMgMl": 20
+      },
+      "references": ["NEOFAX 2024 p. 164"]
+    },
+    {
+      "id": "calcio_gluconato_batch2",
+      "name": "Gluconato de Calcio",
+      "genericName": "Calcium Gluconate",
+      "category": ["electrolyte", "supplement"],
+      "indications": ["Hipocalcemia", "Hiperkalemia con cambios ECG"],
+      "dosingRules": [
+        {
+          "label": "IV lento",
+          "dosePerKg": 0.2,
+          "unit": "g/kg",
+          "frequency": "única",
+          "routes": ["IV"],
+          "notes": "Infundir lentamente, máximo 100 mg/min"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Ampolla 10% (100mg/mL)",
+        "concentrationMgMl": 100
+      },
+      "references": ["NEOFAX 2024 p. 177"]
     }
   ],
   "procedures": [
