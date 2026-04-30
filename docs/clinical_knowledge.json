@@ -2626,6 +2626,24 @@
       "resultUnit": "mL O₂/100 mL sangre (vol%)",
       "notes": "Fórmula simplificada sin gasto cardíaco. Normal: 18-24 vol%. CaO₂ < 15 vol% sugiere hipoxemia o anemia grave. Multiplicar por GC (mL/min/kg) para obtener CDO₂.",
       "reference": "Fisiología respiratoria neonatal. NEOFAX 2024."
+    },
+    {
+      "id": "balance_hidroelectrolitico",
+      "name": "Balance Hidroelectrolitico",
+      "description": "Balance de liquidos en 24 hs",
+      "inputs": [
+        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
+        { "id": "ingreso1", "label": "Ingreso 1", "unit": "mL", "required": false },
+        { "id": "ingreso2", "label": "Ingreso 2", "unit": "mL", "required": false },
+        { "id": "ingreso3", "label": "Ingreso 3", "unit": "mL", "required": false },
+        { "id": "diuresis", "label": "Diuresis", "unit": "mL", "required": true },
+        { "id": "catarsis", "label": "Catarsis", "unit": "mL", "required": false },
+        { "id": "otros", "label": "Otros egresos", "unit": "mL", "required": false }
+      ],
+      "resultLabel": "Balance Detallado",
+      "resultUnit": "Variables",
+      "notes": "Calcular: Ingreso/kg, Egreso/kg, Relacion E/I, Ritmo diuretico. Objetivo: balance cercano a cero.",
+      "reference": "SEGNNEO 2019"
     }
   ]
 }
