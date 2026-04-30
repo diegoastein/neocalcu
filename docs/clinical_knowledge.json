@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2024-11",
+  "lastUpdated": "2024-12",
   "sources": [
     "NEOFAX 2024 (Micromedex)",
     "Guía Farmacoterapéutica SEGNNEO 2019",
@@ -6065,6 +6065,1045 @@
       },
       "references": [
         "NEOFAX 2024 p. 424"
+      ]
+    },
+    {
+      "id": "acetylcysteine",
+      "name": "Acetylcysteine",
+      "genericName": "Acetylcysteine",
+      "category": [
+        "antidote",
+        "mucolytic"
+      ],
+      "indications": [
+        "Acetaminophen overdose",
+        "Meconium ileus"
+      ],
+      "dosingRules": [
+        {
+          "label": "Acetaminophen overdose - Loading",
+          "dosePerKg": 150,
+          "unit": "mg/kg",
+          "frequency": "once",
+          "routes": [
+            "IV",
+            "Oral"
+          ],
+          "notes": "Initial loading dose over 1 hour"
+        },
+        {
+          "label": "Acetaminophen overdose - Maintenance",
+          "dosePerKg": 50,
+          "unit": "mg/kg/dose",
+          "frequency": "every 4-6h",
+          "routes": [
+            "IV",
+            "Oral"
+          ],
+          "notes": "Up to 17 doses total"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solution 20% (200 mg/mL) in 30 mL vials",
+        "concentrationMgMl": 200,
+        "diluent": "D5W or NS",
+        "dilutionInstructions": [
+          "Dilute to 5% (50 mg/mL) for IV use"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 12"
+      ]
+    },
+    {
+      "id": "calcium_chloride",
+      "name": "Calcium chloride",
+      "genericName": "Calcium chloride",
+      "category": [
+        "electrolyte"
+      ],
+      "indications": [
+        "Hypocalcemia",
+        "Hyperkalemia",
+        "Cardiac arrhythmia"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hypocalcemia",
+          "dosePerKg": 10,
+          "unit": "mg/kg/dose",
+          "frequency": "every 6-12h",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Infuse over 5-10 minutes via central line"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solution 100 mg/mL (10% - 1 mEq Ca++/mL)",
+        "concentrationMgMl": 100,
+        "diluent": "NS or D5W",
+        "dilutionInstructions": [
+          "Can give undiluted via central line only"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 172"
+      ]
+    },
+    {
+      "id": "calcium_oral",
+      "name": "Calcium - Oral",
+      "genericName": "Calcium supplements",
+      "category": [
+        "electrolyte"
+      ],
+      "indications": [
+        "Hypocalcemia",
+        "Nutritional supplementation"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hypocalcemia",
+          "dosePerKg": 40,
+          "unit": "mg/kg/day",
+          "frequency": "divided doses",
+          "routes": [
+            "Oral"
+          ],
+          "notes": "Elemental calcium 40 mg/kg/day"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Gluconate 10% (9 mg/mL elemental Ca++), Carbonate",
+        "concentrationMgMl": 9,
+        "diluent": "None - oral"
+      },
+      "references": [
+        "NEOFAX 2024 p. 170"
+      ]
+    },
+    {
+      "id": "calfactant",
+      "name": "Calfactant",
+      "genericName": "Calfactant",
+      "category": [
+        "pulmonar"
+      ],
+      "indications": [
+        "Respiratory distress syndrome (RDS)"
+      ],
+      "dosingRules": [
+        {
+          "label": "RDS prophylaxis or treatment",
+          "dosePerKg": 105,
+          "unit": "mg/kg",
+          "frequency": "every 12h x 2 doses, then every 24h",
+          "routes": [
+            "Intratracheal"
+          ],
+          "notes": "Max 4 doses total"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 6 mL (35 mg/mL = 210 mg total)",
+        "concentrationMgMl": 35,
+        "diluent": "None - intratracheal"
+      },
+      "references": [
+        "NEOFAX 2024 p. 182"
+      ]
+    },
+    {
+      "id": "captopril",
+      "name": "Captopril",
+      "genericName": "Captopril",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Hypertension",
+        "Heart failure",
+        "Post-MI"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hypertension",
+          "dosePerKg": 0.3,
+          "unit": "mg/kg/dose",
+          "frequency": "every 6-12h",
+          "routes": [
+            "Oral"
+          ],
+          "notes": "Start low, titrate up"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tablet 6.25, 12.5, 25, 50 mg",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Can crush and dissolve in water"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 186"
+      ]
+    },
+    {
+      "id": "carglumic_acid",
+      "name": "Carglumic Acid",
+      "genericName": "Carglumic acid",
+      "category": [
+        "metabolic"
+      ],
+      "indications": [
+        "Hyperammonemia",
+        "N-acetylglutamate synthase deficiency"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hyperammonemia",
+          "dosePerKg": 100,
+          "unit": "mg/kg/day",
+          "frequency": "divided doses (3-4 times daily)",
+          "routes": [
+            "Oral"
+          ],
+          "notes": "Titrate based on ammonia levels"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tablet 200 mg",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Dissolve in water before administration"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 189"
+      ]
+    },
+    {
+      "id": "chloramphenicol",
+      "name": "Chloramphenicol",
+      "genericName": "Chloramphenicol",
+      "category": [
+        "antibiotico"
+      ],
+      "indications": [
+        "Meningitis (resistant organisms)",
+        "Serious infections with CNS penetration"
+      ],
+      "dosingRules": [
+        {
+          "label": "< 2000 g, < 7 days",
+          "weightMaxG": 2000,
+          "dolMax": 7,
+          "dosePerKg": 25,
+          "unit": "mg/kg/dose",
+          "frequency": "every 12h",
+          "routes": [
+            "IV"
+          ]
+        },
+        {
+          "label": "≥ 2000 g, < 7 days",
+          "weightMinG": 2000,
+          "dolMax": 7,
+          "dosePerKg": 25,
+          "unit": "mg/kg/dose",
+          "frequency": "every 8h",
+          "routes": [
+            "IV"
+          ]
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 g (powder)",
+        "concentrationMgMl": 100,
+        "dilutionInstructions": [
+          "Reconstitute 1 g vial with 10 mL sterile water → 100 mg/mL"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 235"
+      ]
+    },
+    {
+      "id": "chlorothiazide",
+      "name": "Chlorothiazide",
+      "genericName": "Chlorothiazide",
+      "category": [
+        "diuretico"
+      ],
+      "indications": [
+        "Edema",
+        "Hypertension",
+        "Pulmonary edema"
+      ],
+      "dosingRules": [
+        {
+          "label": "Diuresis",
+          "dosePerKg": 20,
+          "unit": "mg/kg/day",
+          "frequency": "once or twice daily",
+          "routes": [
+            "Oral",
+            "IV"
+          ],
+          "notes": "Oral preferred; IV for acute use"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspension 250 mg/5 mL, Tablet 500 mg",
+        "concentrationMgMl": 50,
+        "dilutionInstructions": [
+          "Suspension ready to use or dissolve tablet"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 238"
+      ]
+    },
+    {
+      "id": "clonidine",
+      "name": "CloNIDine",
+      "genericName": "Clonidine",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Hypertension",
+        "Neonatal abstinence syndrome"
+      ],
+      "dosingRules": [
+        {
+          "label": "Neonatal abstinence",
+          "dosePerKg": 0.5,
+          "unit": "mcg/kg/dose",
+          "frequency": "every 4-6h",
+          "routes": [
+            "Oral"
+          ],
+          "notes": "Titrate slowly"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tablet 0.1, 0.2, 0.3 mg; Solution 100 mcg/mL",
+        "concentrationMgMl": 0.1,
+        "dilutionInstructions": [
+          "Can dissolve tablet in water"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 253"
+      ]
+    },
+    {
+      "id": "cyclopentolate_ophthalmic",
+      "name": "Cyclopentolate (Ophthalmic)",
+      "genericName": "Cyclopentolate",
+      "category": [
+        "ophtalmico"
+      ],
+      "indications": [
+        "Cycloplegia for refraction",
+        "Mydriasis for eye exam"
+      ],
+      "dosingRules": [
+        {
+          "label": "Ophthalmic use",
+          "dosePerKg": null,
+          "unit": "drops",
+          "frequency": "2-3 drops, 2-3 times daily as needed",
+          "routes": [
+            "Ophthalmic"
+          ],
+          "notes": "Single-dose vials preferred for neonates"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Solution 0.5%, 1% ophthalmic drops",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Ready to use as drops"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 271"
+      ]
+    },
+    {
+      "id": "digoxin_immune_fab",
+      "name": "Digoxin Immune Fab (Ovine)",
+      "genericName": "Digoxin Immune Fab",
+      "category": [
+        "antidote"
+      ],
+      "indications": [
+        "Digoxin toxicity"
+      ],
+      "dosingRules": [
+        {
+          "label": "Digoxin toxicity",
+          "dosePerKg": null,
+          "unit": "mg/kg or vials",
+          "frequency": "once",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Dose based on serum digoxin level and weight; see package insert"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 40 mg (lyophilized)",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Reconstitute with 4 mL sterile water"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 293"
+      ]
+    },
+    {
+      "id": "emtricitabine",
+      "name": "Emtricitabine",
+      "genericName": "Emtricitabine",
+      "category": [
+        "antiviral"
+      ],
+      "indications": [
+        "HIV prevention/treatment (PEP, PrEP, treatment)"
+      ],
+      "dosingRules": [
+        {
+          "label": "Neonatal HIV exposure/treatment",
+          "dosePerKg": 3,
+          "unit": "mg/kg/day",
+          "frequency": "once daily",
+          "routes": [
+            "Oral"
+          ],
+          "notes": "Part of combination therapy"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Suspension 10 mg/mL",
+        "concentrationMgMl": 10,
+        "dilutionInstructions": [
+          "Ready to use"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 319"
+      ]
+    },
+    {
+      "id": "enalaprilat",
+      "name": "Enalaprilat",
+      "genericName": "Enalaprilat",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Hypertension (acute management)",
+        "Heart failure"
+      ],
+      "dosingRules": [
+        {
+          "label": "IV Hypertension",
+          "dosePerKg": 5,
+          "unit": "mcg/kg/dose",
+          "frequency": "every 8-24h",
+          "routes": [
+            "IV"
+          ],
+          "notes": "IV formulation for acute use"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1.25 mg/mL",
+        "concentrationMgMl": 1.25,
+        "dilutionInstructions": [
+          "Can give undiluted or dilute in NS"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 331"
+      ]
+    },
+    {
+      "id": "epinephrine_expanded",
+      "name": "EPINEPHrine (Adrenaline)",
+      "genericName": "Epinephrine",
+      "category": [
+        "inotropico"
+      ],
+      "indications": [
+        "Cardiac arrest",
+        "Shock",
+        "Anaphylaxis",
+        "Continuous infusion for low BP"
+      ],
+      "dosingRules": [
+        {
+          "label": "Cardiac arrest (IV/IO)",
+          "dosePerKg": 0.01,
+          "unit": "mg/kg",
+          "frequency": "every 3-5 min",
+          "routes": [
+            "IV",
+            "IO"
+          ],
+          "notes": "Max single dose 1 mg; can use 0.1 mg/kg via ET tube"
+        },
+        {
+          "label": "Refractory shock infusion",
+          "dosePerKg": 0.1,
+          "unit": "mcg/kg/min",
+          "frequency": "continuous",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Titrate 0.1 mcg/kg/min up to 1 mcg/kg/min"
+        }
+      ],
+      "infusionRules": [
+        {
+          "label": "Epinephrine infusion (mcg/kg/min to mL/h)",
+          "ruleOf3": {
+            "multiplier": 0.3,
+            "volumeMl": 50,
+            "notes": "0.3 mg in 50 mL = 1 mL/h = 0.1 mcg/kg/min for 1 kg"
+          }
+        }
+      ],
+      "preparation": {
+        "stockForm": "1:1000 (1 mg/mL) for bolus; 1:10000 (0.1 mg/mL) for infusion",
+        "concentrationMgMl": 1,
+        "dilutionInstructions": [
+          "For infusion: dilute 1:1000 solution in NS to 0.1 mg/mL (1:10000)"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 340"
+      ]
+    },
+    {
+      "id": "esmolol",
+      "name": "Esmolol",
+      "genericName": "Esmolol",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Supraventricular tachycardia",
+        "Hypertension"
+      ],
+      "dosingRules": [
+        {
+          "label": "SVT/HTN",
+          "dosePerKg": 100,
+          "unit": "mcg/kg/min",
+          "frequency": "initial, titrate up",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Increase by 50 mcg/kg/min every 5-10 min up to 500 mcg/kg/min"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 250 mg/mL",
+        "concentrationMgMl": 250,
+        "dilutionInstructions": [
+          "Dilute in NS to 10 mg/mL for infusion pump"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 358"
+      ]
+    },
+    {
+      "id": "factor_ix_recombinant",
+      "name": "Factor IX (Recombinant)",
+      "genericName": "Factor IX concentrate",
+      "category": [
+        "coagulation"
+      ],
+      "indications": [
+        "Factor IX deficiency (Hemophilia B)",
+        "Vitamin K antagonist reversal"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hemophilia B replacement",
+          "dosePerKg": 50,
+          "unit": "IU/kg",
+          "frequency": "every 12-24h",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Adjust based on factor levels; 1 IU/kg increases level ~1%"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial with specified IU content (varies by product)",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Reconstitute with provided diluent"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 361"
+      ]
+    },
+    {
+      "id": "factor_viia_recombinant",
+      "name": "Factor VIIa (recombinant)",
+      "genericName": "Factor VIIa concentrate",
+      "category": [
+        "coagulation"
+      ],
+      "indications": [
+        "Factor VII deficiency",
+        "Hemophilia with inhibitors",
+        "Uncontrolled bleeding"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hemophilia/bleeding",
+          "dosePerKg": 90,
+          "unit": "mcg/kg",
+          "frequency": "every 2-3h",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Titrate dose and interval based on bleeding control"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1, 2.4, 4.8 mg",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Reconstitute with sterile water per package insert"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 368"
+      ]
+    },
+    {
+      "id": "factor_x_human",
+      "name": "Factor X Human",
+      "genericName": "Factor X concentrate",
+      "category": [
+        "coagulation"
+      ],
+      "indications": [
+        "Factor X deficiency"
+      ],
+      "dosingRules": [
+        {
+          "label": "Factor X deficiency",
+          "dosePerKg": 15,
+          "unit": "IU/kg",
+          "frequency": "once, repeat in 12-24h",
+          "routes": [
+            "IV"
+          ],
+          "notes": "1 IU/kg increases level ~2%"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial with IU content",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Reconstitute with diluent provided"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 372"
+      ]
+    },
+    {
+      "id": "factor_xiii_concentrate",
+      "name": "Factor XIII Concentrate Human",
+      "genericName": "Factor XIII concentrate",
+      "category": [
+        "coagulation"
+      ],
+      "indications": [
+        "Factor XIII deficiency",
+        "Hereditary fibrinogen deficiency"
+      ],
+      "dosingRules": [
+        {
+          "label": "Factor XIII deficiency",
+          "dosePerKg": 40,
+          "unit": "IU/kg",
+          "frequency": "every 28 days (prophylaxis) or as needed",
+          "routes": [
+            "IV"
+          ],
+          "notes": "1 IU/kg increases level ~2-3%"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial with IU content",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Reconstitute per package insert"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 376"
+      ]
+    },
+    {
+      "id": "fat_emulsion",
+      "name": "Fat Emulsion",
+      "genericName": "Lipid emulsion (soybean, safflower, fish oil-based)",
+      "category": [
+        "nutrition"
+      ],
+      "indications": [
+        "Parenteral nutrition",
+        "Caloric supplementation"
+      ],
+      "dosingRules": [
+        {
+          "label": "TPN supplementation",
+          "dosePerKg": 3,
+          "unit": "g/kg/day",
+          "frequency": "as part of TPN",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Start 1 g/kg/day, advance 0.5-1 g/kg/day to goal 3 g/kg/day"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Emulsion 10%, 20%, 30% in bottles/bags",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Ready to use; can admix with amino acids and dextrose"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 383"
+      ]
+    },
+    {
+      "id": "flecainide",
+      "name": "Flecainide",
+      "genericName": "Flecainide",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Atrial flutter (fetal/neonatal)",
+        "Wolff-Parkinson-White syndrome",
+        "SVT"
+      ],
+      "dosingRules": [
+        {
+          "label": "SVT/Arrhythmia",
+          "dosePerKg": 2,
+          "unit": "mg/kg/day",
+          "frequency": "divided 3 times daily",
+          "routes": [
+            "Oral",
+            "IV"
+          ],
+          "notes": "IV bolus 2 mg/kg over 10-20 min, then infusion"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tablet 50, 100, 150 mg; Solution for IV",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Tablets can be crushed or dissolved; IV dilute in NS"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 403"
+      ]
+    },
+    {
+      "id": "flucytosine",
+      "name": "Flucytosine",
+      "genericName": "Flucytosine",
+      "category": [
+        "antifungico"
+      ],
+      "indications": [
+        "Candida infections (with amphotericin B)",
+        "Cryptococcus"
+      ],
+      "dosingRules": [
+        {
+          "label": "Antifungal therapy",
+          "dosePerKg": 25,
+          "unit": "mg/kg/dose",
+          "frequency": "every 6h",
+          "routes": [
+            "Oral",
+            "IV"
+          ],
+          "notes": "Potentiate amphotericin B; monitor renal function"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Capsule 250, 500 mg; Solution 250 mg/5 mL",
+        "concentrationMgMl": 50,
+        "dilutionInstructions": [
+          "Oral capsules or solution ready to use"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 413"
+      ]
+    },
+    {
+      "id": "glucagon",
+      "name": "Glucagon",
+      "genericName": "Glucagon",
+      "category": [
+        "metabolico"
+      ],
+      "indications": [
+        "Hypoglycemia (refractory)",
+        "Beta-blocker overdose"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hypoglycemia",
+          "dosePerKg": 0.03,
+          "unit": "mg/kg",
+          "frequency": "once, can repeat in 15 min",
+          "routes": [
+            "IV",
+            "IM",
+            "SC"
+          ],
+          "notes": "Max single dose 1 mg; IV preferred"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 mg (lyophilized)",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Reconstitute 1 mg vial with 1 mL diluent → 1 mg/mL"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 450"
+      ]
+    },
+    {
+      "id": "hepatitis_b_immune_globulin",
+      "name": "Hepatitis B Immune Globulin",
+      "genericName": "Hepatitis B Immune Globulin (HBIG)",
+      "category": [
+        "immunobiologico"
+      ],
+      "indications": [
+        "Maternal HBsAg positive",
+        "Hepatitis B post-exposure prophylaxis"
+      ],
+      "dosingRules": [
+        {
+          "label": "Maternal HBsAg+",
+          "dosePerKg": 10,
+          "unit": "IU/kg",
+          "frequency": "at birth (within 12h) and 1 month",
+          "routes": [
+            "IM"
+          ],
+          "notes": "Standard dose 0.5 mL IM; give with HepB vaccine"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 1 mL (100-300 IU/mL)",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Ready to use, IM injection only"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 457"
+      ]
+    },
+    {
+      "id": "hepatitis_b_vaccine",
+      "name": "Hepatitis B Vaccine",
+      "genericName": "Hepatitis B vaccine (recombinant)",
+      "category": [
+        "immunobiologico"
+      ],
+      "indications": [
+        "Universal neonatal immunization"
+      ],
+      "dosingRules": [
+        {
+          "label": "Birth dose",
+          "dosePerKg": null,
+          "unit": "0.5 mL",
+          "frequency": "at birth (within 24h)",
+          "routes": [
+            "IM"
+          ],
+          "notes": "Give with or without HBIG; repeat at 1-2 months and 6 months"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 0.5 mL",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Shake well before use; IM injection only"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 459"
+      ]
+    },
+    {
+      "id": "hib_hepatitis_b_combo",
+      "name": "Hib Conjugate/Hepatitis B Vaccine",
+      "genericName": "Haemophilus influenzae b and Hepatitis B vaccine",
+      "category": [
+        "immunobiologico"
+      ],
+      "indications": [
+        "Combination immunization against Hib and HBV"
+      ],
+      "dosingRules": [
+        {
+          "label": "Combination vaccine (not for birth dose)",
+          "dosePerKg": null,
+          "unit": "0.5 mL",
+          "frequency": "per schedule (typically 2, 4 months)",
+          "routes": [
+            "IM"
+          ],
+          "notes": "Cannot be used for birth HBV dose"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 0.5 mL",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Reconstitute Hib portion per package insert"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 462"
+      ]
+    },
+    {
+      "id": "hyaluronidase",
+      "name": "Hyaluronidase",
+      "genericName": "Hyaluronidase",
+      "category": [
+        "altro"
+      ],
+      "indications": [
+        "Extravasation (adjunct)",
+        "Subcutaneous fluid administration"
+      ],
+      "dosingRules": [
+        {
+          "label": "Extravasation treatment",
+          "dosePerKg": 150,
+          "unit": "IU/kg",
+          "frequency": "infiltrate area",
+          "routes": [
+            "SC"
+          ],
+          "notes": "Add 1 mL (150 IU) to 1 mL 1% lidocaine; infiltrate margins"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 150 IU/mL",
+        "concentrationMgMl": null,
+        "dilutionInstructions": [
+          "Mix with anesthetic before SC administration"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 464"
+      ]
+    },
+    {
+      "id": "hydralazine",
+      "name": "HydrALAZINE",
+      "genericName": "Hydralazine",
+      "category": [
+        "cardiovascular"
+      ],
+      "indications": [
+        "Hypertension",
+        "Maternal preeclampsia (neonatal exposure)"
+      ],
+      "dosingRules": [
+        {
+          "label": "Hypertension",
+          "dosePerKg": 0.25,
+          "unit": "mg/kg/dose",
+          "frequency": "every 6-8h",
+          "routes": [
+            "IV",
+            "IM",
+            "Oral"
+          ],
+          "notes": "IV preferred for acute use; titrate slowly"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 20 mg/mL (IV), Tablet 10, 25, 50 mg (oral)",
+        "concentrationMgMl": 20,
+        "dilutionInstructions": [
+          "IV: dilute in NS; Oral: can crush tablet"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 468"
+      ]
+    },
+    {
+      "id": "hydrochlorothiazide",
+      "name": "HydroCHLORothiazide",
+      "genericName": "Hydrochlorothiazide",
+      "category": [
+        "diuretico"
+      ],
+      "indications": [
+        "Chronic diuresis",
+        "Hypertension",
+        "Pulmonary edema"
+      ],
+      "dosingRules": [
+        {
+          "label": "Diuresis/HTN",
+          "dosePerKg": 1,
+          "unit": "mg/kg/day",
+          "frequency": "once or twice daily",
+          "routes": [
+            "Oral"
+          ],
+          "notes": "Long-acting; monitor potassium"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Tablet 25, 50 mg; Suspension 50 mg/5 mL",
+        "concentrationMgMl": 10,
+        "dilutionInstructions": [
+          "Oral suspension ready to use"
+        ]
+      },
+      "references": [
+        "NEOFAX 2024 p. 471"
       ]
     }
   ],
