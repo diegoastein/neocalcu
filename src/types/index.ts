@@ -140,4 +140,23 @@ export interface Score {
   references: string[];
 }
 
-export type ActivePage = 'medicamentos' | 'procedimientos' | 'indices' | 'favoritos';
+export interface FormulaInput {
+  id: string;
+  label: string;
+  unit: string;
+  required: boolean;
+}
+
+export interface Formula {
+  id: string;
+  name: string;
+  description: string;
+  inputs: FormulaInput[];
+  formula: string;
+  resultLabel: string;
+  resultUnit: string;
+  notes?: string;
+  reference: string;
+}
+
+export type ActivePage = 'medicamentos' | 'procedimientos' | 'indices' | 'favoritos' | 'formulas';

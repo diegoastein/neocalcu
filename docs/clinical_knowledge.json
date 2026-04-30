@@ -1851,5 +1851,105 @@
       "maxScore": 30,
       "references": ["Sarnat HB, Sarnat MS. J Pediatr 1976", "SEGNNEO 2019"]
     }
+  ],
+  "formulas": [
+    {
+      "id": "bsa_mosteller",
+      "name": "Superficie Corporal (BSA) - Mosteller",
+      "description": "Cálculo de la superficie corporal en metros cuadrados",
+      "inputs": [
+        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
+        { "id": "altura", "label": "Altura", "unit": "cm", "required": true }
+      ],
+      "formula": "Math.sqrt((peso * altura) / 3600)",
+      "resultLabel": "Superficie Corporal",
+      "resultUnit": "m²",
+      "reference": "Mosteller RD. N Engl J Med 1987"
+    },
+    {
+      "id": "clearance_creatinina",
+      "name": "Clearance de Creatinina - Schwartz",
+      "description": "Estimación de la tasa de filtración glomerular en neonatos/lactantes",
+      "inputs": [
+        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
+        { "id": "altura", "label": "Altura", "unit": "cm", "required": true },
+        { "id": "creatinina", "label": "Creatinina sérica", "unit": "mg/dL", "required": true }
+      ],
+      "formula": "(0.45 * altura) / creatinina",
+      "resultLabel": "Clearance de Creatinina",
+      "resultUnit": "mL/min/1.73m²",
+      "notes": "Fórmula de Schwartz para menores de 13 años. Creatinina en mg/dL.",
+      "reference": "Schwartz GJ, et al. Kidney Int 1976"
+    },
+    {
+      "id": "bsa_calculo_simple",
+      "name": "Superficie Corporal - Fórmula simplificada",
+      "description": "BSA estimado usando solo peso (para recién nacidos)",
+      "inputs": [
+        { "id": "peso", "label": "Peso", "unit": "g", "required": true }
+      ],
+      "formula": "Math.pow(peso / 1000, 0.67) * 4.84 / 100",
+      "resultLabel": "Superficie Corporal (estimada)",
+      "resultUnit": "m²",
+      "notes": "Aproximación válida para RN y lactantes",
+      "reference": "Estimación pediátrica"
+    },
+    {
+      "id": "aporte_calorico",
+      "name": "Requerimiento Calórico Diario",
+      "description": "Cálculo de calorías diarias según peso y edad",
+      "inputs": [
+        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
+        { "id": "edad_dias", "label": "Edad", "unit": "días", "required": true }
+      ],
+      "formula": "edad_dias <= 3 ? peso * 60 : (edad_dias <= 10 ? peso * 100 : peso * 120)",
+      "resultLabel": "Requerimiento Calórico",
+      "resultUnit": "kcal/día",
+      "notes": "Primeros 3 días: 60 kcal/kg/día | Días 4-10: 100 kcal/kg/día | > 10 días: 120 kcal/kg/día",
+      "reference": "SEGNNEO 2019"
+    },
+    {
+      "id": "proteinas",
+      "name": "Requerimiento Proteico Diario",
+      "description": "Aporte diario de proteínas según peso",
+      "inputs": [
+        { "id": "peso", "label": "Peso", "unit": "kg", "required": true }
+      ],
+      "formula": "peso * 3",
+      "resultLabel": "Proteínas diarias",
+      "resultUnit": "g/día",
+      "notes": "Requerimiento estándar: 3-4 g/kg/día. Prematuros extremos pueden requerir hasta 4 g/kg/día.",
+      "reference": "SEGNNEO 2019"
+    },
+    {
+      "id": "osmolalidad",
+      "name": "Osmolalidad Plasmática Calculada",
+      "description": "Estimación de osmolalidad plasmática a partir de electrolitos y glucosa",
+      "inputs": [
+        { "id": "sodio", "label": "Sodio", "unit": "mEq/L", "required": true },
+        { "id": "potasio", "label": "Potasio", "unit": "mEq/L", "required": true },
+        { "id": "glucosa", "label": "Glucosa", "unit": "mg/dL", "required": true },
+        { "id": "bun", "label": "BUN", "unit": "mg/dL", "required": false }
+      ],
+      "formula": "(2 * sodio) + (glucosa / 18) + (bun ? bun / 2.8 : 0) + 8",
+      "resultLabel": "Osmolalidad",
+      "resultUnit": "mOsm/kg",
+      "notes": "Normal: 280-300 mOsm/kg. BUN es opcional.",
+      "reference": "Cálculo estándar de osmolalidad"
+    },
+    {
+      "id": "indice_masa",
+      "name": "Índice de Masa Corporal (IMC)",
+      "description": "IMC según peso y altura",
+      "inputs": [
+        { "id": "peso", "label": "Peso", "unit": "kg", "required": true },
+        { "id": "altura", "label": "Altura", "unit": "cm", "required": true }
+      ],
+      "formula": "peso / Math.pow(altura / 100, 2)",
+      "resultLabel": "IMC",
+      "resultUnit": "kg/m²",
+      "notes": "En neonatos, el IMC tiene limitada aplicabilidad clínica.",
+      "reference": "Cálculo estándar"
+    }
   ]
 }

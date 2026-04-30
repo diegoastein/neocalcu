@@ -6,6 +6,7 @@ import MedicationsPage from './pages/MedicationsPage';
 import ProceduresPage from './pages/ProceduresPage';
 import ScoresPage from './pages/ScoresPage';
 import FavoritesPage from './pages/FavoritesPage';
+import FormulasPage from './pages/FormulasPage';
 import BottomNav from './components/BottomNav';
 
 function AppContent() {
@@ -21,6 +22,8 @@ function AppContent() {
         return <ScoresPage />;
       case 'favoritos':
         return <FavoritesPage />;
+      case 'formulas':
+        return <FormulasPage />;
     }
   };
 
