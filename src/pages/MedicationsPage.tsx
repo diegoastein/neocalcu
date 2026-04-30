@@ -2,11 +2,13 @@ import { useState } from 'react';
 import PatientInput from '../components/PatientInput';
 import DrugDetail from '../components/DrugDetail';
 import { drugs, searchDrugs } from '../data/medications';
+import { useFavorites } from '../context/FavoritesContext';
 import { Drug } from '../types';
 
 export default function MedicationsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   const results = searchQuery.trim() ? searchDrugs(searchQuery) : drugs;
 
@@ -50,27 +52,34 @@ export default function MedicationsPage() {
         ) : (
           <div className="divide-y divide-slate-200">
             {results.map((drug) => (
-              <button
-                key={drug.id}
-                onClick={() => setSelectedDrug(drug)}
-                className="w-full text-left bg-white hover:bg-blue-50 p-4 transition border-0"
-              >
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-slate-900">{drug.name}</h3>
-                    {drug.genericName && <p className="text-xs text-slate-500">{drug.genericName}</p>}
-                    <p className="text-sm text-slate-600 mt-1">{drug.indications.join(' • ')}</p>
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {drug.category.slice(0, 2).map((cat) => (
-                        <span key={cat} className={`text-xs px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100'}`}>
-                          {cat}
-                        </span>
-                      ))}
-                    </div>
+              <div key={drug.id} className="bg-white hover:bg-blue-50 transition border-b border-slate-200 flex items-start">
+                <button
+                  onClick={() => setSelectedDrug(drug)}
+                  className="flex-1 text-left p-4 border-0"
+                >
+                  <h3 className="font-semibold text-slate-900">{drug.name}</h3>
+                  {drug.genericName && <p className="text-xs text-slate-500">{drug.genericName}</p>}
+                  <p className="text-sm text-slate-600 mt-1">{drug.indications.join(' • ')}</p>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {drug.category.slice(0, 2).map((cat) => (
+                      <span key={cat} className={`text-xs px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100'}`}>
+                        {cat}
+                      </span>
+                    ))}
                   </div>
-                  <span className="text-2xl text-slate-300">›</span>
-                </div>
-              </button>
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(drug.id);
+                  }}
+                  className="p-4 text-2xl hover:scale-110 transition flex-shrink-0"
+                  title={isFavorite(drug.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
+                >
+                  {isFavorite(drug.id) ? '⭐' : '☆'}
+                </button>
+                <div className="p-4 text-slate-300 text-2xl flex-shrink-0">›</div>
+              </div>
             ))}
           </div>
         )}

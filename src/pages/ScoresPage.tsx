@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { scores } from '../data/scores';
+import { useFavorites } from '../context/FavoritesContext';
 
 interface ScoreState {
   [itemId: string]: number;
@@ -8,6 +9,7 @@ interface ScoreState {
 export default function ScoresPage() {
   const [selectedScore, setSelectedScore] = useState<string>(scores[0]?.id || '');
   const [scoreState, setScoreState] = useState<ScoreState>({});
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   const currentScore = scores.find((s) => s.id === selectedScore);
 
@@ -55,7 +57,18 @@ export default function ScoresPage() {
           <div className="p-4 space-y-4">
             {/* Header */}
             <section>
-              <h1 className="text-2xl font-bold text-slate-900">{currentScore.name}</h1>
+              <div className="flex justify-between items-start gap-2 mb-2">
+                <div className="flex-1">
+                  <h1 className="text-2xl font-bold text-slate-900">{currentScore.name}</h1>
+                </div>
+                <button
+                  onClick={() => toggleFavorite(currentScore.id)}
+                  className="text-2xl hover:scale-110 transition flex-shrink-0"
+                  title={isFavorite(currentScore.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
+                >
+                  {isFavorite(currentScore.id) ? '⭐' : '☆'}
+                </button>
+              </div>
               <p className="text-sm text-slate-600 mt-1">{currentScore.subtitle}</p>
               <p className="text-xs text-slate-500 mt-2">{currentScore.description}</p>
             </section>

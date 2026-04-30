@@ -10,6 +10,7 @@ export default function BottomNav({ activePage, setActivePage }: BottomNavProps)
     { id: 'medicamentos', label: 'Medicamentos', icon: '💊' },
     { id: 'procedimientos', label: 'Procedimientos', icon: '📋' },
     { id: 'indices', label: 'Índices', icon: '📊' },
+    { id: 'favoritos', label: 'Favoritos', icon: '⭐' },
   ];
 
   return (

@@ -140,4 +140,4 @@ export interface Score {
   references: string[];
 }
 
-export type ActivePage = 'medicamentos' | 'procedimientos' | 'indices';
+export type ActivePage = 'medicamentos' | 'procedimientos' | 'indices' | 'favoritos';

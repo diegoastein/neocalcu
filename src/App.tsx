@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { ActivePage } from './types';
 import { PatientProvider } from './context/PatientContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import MedicationsPage from './pages/MedicationsPage';
 import ProceduresPage from './pages/ProceduresPage';
 import ScoresPage from './pages/ScoresPage';
+import FavoritesPage from './pages/FavoritesPage';
 import BottomNav from './components/BottomNav';
 
 function AppContent() {
@@ -17,6 +19,8 @@ function AppContent() {
         return <ProceduresPage />;
       case 'indices':
         return <ScoresPage />;
+      case 'favoritos':
+        return <FavoritesPage />;
     }
   };
 
@@ -33,7 +37,9 @@ function AppContent() {
 export default function App() {
   return (
     <PatientProvider>
-      <AppContent />
+      <FavoritesProvider>
+        <AppContent />
+      </FavoritesProvider>
     </PatientProvider>
   );
 }

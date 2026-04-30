@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import PatientInput from '../components/PatientInput';
 import { procedures } from '../data/procedures';
+import { useFavorites } from '../context/FavoritesContext';
 
 export default function ProceduresPage() {
   const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
   const [formulaInputs, setFormulaInputs] = useState<Record<string, number>>({});
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   const toggleProcedure = (id: string) => {
     setExpandedProcedure(expandedProcedure === id ? null : id);
@@ -28,21 +30,29 @@ export default function ProceduresPage() {
       <div className="flex-1 overflow-y-auto pb-20">
         <div className="divide-y divide-slate-200">
           {procedures.map((proc) => (
-            <div key={proc.id} className="bg-white">
-              <button
-                onClick={() => toggleProcedure(proc.id)}
-                className="w-full text-left p-4 hover:bg-blue-50 transition border-0"
-              >
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-slate-900">{proc.name}</h3>
-                    <p className="text-sm text-slate-600 mt-1">{proc.description}</p>
-                  </div>
-                  <span className="text-2xl text-slate-300">
-                    {expandedProcedure === proc.id ? '−' : '+'}
-                  </span>
-                </div>
-              </button>
+            <div key={proc.id} className="bg-white hover:bg-blue-50 transition">
+              <div className="flex items-start p-4">
+                <button
+                  onClick={() => toggleProcedure(proc.id)}
+                  className="flex-1 text-left border-0 hover:bg-blue-50"
+                >
+                  <h3 className="font-semibold text-slate-900">{proc.name}</h3>
+                  <p className="text-sm text-slate-600 mt-1">{proc.description}</p>
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(proc.id);
+                  }}
+                  className="text-2xl hover:scale-110 transition flex-shrink-0 ml-2"
+                  title={isFavorite(proc.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
+                >
+                  {isFavorite(proc.id) ? '⭐' : '☆'}
+                </button>
+                <span className="text-2xl text-slate-300 flex-shrink-0 ml-2">
+                  {expandedProcedure === proc.id ? '−' : '+'}
+                </span>
+              </div>
 
               {/* Expanded content */}
               {expandedProcedure === proc.id && (
