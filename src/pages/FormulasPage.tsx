@@ -75,19 +75,19 @@ export default function FormulasPage() {
     : false;
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50">
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Formula selector */}
-      <div className="bg-white border-b border-slate-200 p-4 sticky top-16 z-10">
-        <label className="block text-xs font-semibold text-slate-700 mb-2">Selecciona fórmula</label>
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-16 z-10">
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">Selecciona fórmula</label>
         <select
           value={selectedFormula}
           onChange={(e) => {
             setSelectedFormula(e.target.value);
             setInputs({});
           }}
-          className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
         >
           {formulas.map((f) => (
             <option key={f.id} value={f.id}>
@@ -105,7 +105,7 @@ export default function FormulasPage() {
             <section>
               <div className="flex justify-between items-start gap-2 mb-2">
                 <div className="flex-1">
-                  <h1 className="text-2xl font-bold text-slate-900">{currentFormula.name}</h1>
+                  <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{currentFormula.name}</h1>
                 </div>
                 <button
                   onClick={() => toggleFavorite(currentFormula.id)}
@@ -115,23 +115,23 @@ export default function FormulasPage() {
                   {isFavorite(currentFormula.id) ? '⭐' : '☆'}
                 </button>
               </div>
-              <p className="text-sm text-slate-600">{currentFormula.description}</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{currentFormula.description}</p>
             </section>
 
             {/* Formula display */}
             {currentFormula.formula && (
-              <section className="bg-blue-50 border border-blue-200 rounded p-3">
-                <p className="text-xs text-blue-600 mb-2 font-medium">Fórmula</p>
-                <code className="text-sm text-blue-900 font-mono break-words">{currentFormula.formula}</code>
+              <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-3">
+                <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Fórmula</p>
+                <code className="text-sm text-brand-900 dark:text-brand-200 font-mono break-words">{currentFormula.formula}</code>
               </section>
             )}
 
             {/* Inputs */}
             <section className="space-y-3">
-              <h3 className="font-semibold text-slate-900">Datos de entrada</h3>
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
               {currentFormula.inputs.map((input) => (
                 <div key={input.id}>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                     {input.label} ({input.unit})
                     {input.required && <span className="text-red-500 ml-1">*</span>}
                   </label>
@@ -148,14 +148,14 @@ export default function FormulasPage() {
                       }
                     }}
                     placeholder={`Ingresa ${input.label.toLowerCase()}`}
-                    className="w-full px-3 py-2 border border-slate-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
                   />
                 </div>
               ))}
 
               {/* Auto-filled info */}
-              {currentFormula.formula.includes('peso') && (
-                <div className="bg-slate-100 rounded p-2 text-xs text-slate-600">
+              {currentFormula.formula && currentFormula.formula.includes('peso') && (
+                <div className="bg-slate-100 dark:bg-slate-800 rounded p-2 text-xs text-slate-600 dark:text-slate-300">
                   <p className="font-medium mb-1">Peso registrado:</p>
                   <p>{(patient.weightGrams / 1000).toFixed(2)} kg ({patient.weightGrams} g)</p>
                 </div>
@@ -164,17 +164,17 @@ export default function FormulasPage() {
 
             {/* Result - Single formula */}
             {currentFormula.id !== 'balance_hidroelectrolitico' && allRequiredInputsFilled && result !== null && (
-              <section className="bg-green-50 border border-green-200 rounded p-4">
-                <p className="text-xs text-green-600 mb-2 font-medium">Resultado</p>
-                <p className="text-4xl font-bold text-green-900">{result.toFixed(2)}</p>
-                <p className="text-sm text-green-700 mt-2">{currentFormula.resultLabel}: {currentFormula.resultUnit}</p>
+              <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
+                <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Resultado</p>
+                <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{result.toFixed(2)}</p>
+                <p className="text-sm text-brand-700 dark:text-brand-300 mt-2">{currentFormula.resultLabel}: {currentFormula.resultUnit}</p>
               </section>
             )}
 
             {/* Result - Multiple formulas (Balance Hidroelectrolítico) */}
             {currentFormula.id === 'balance_hidroelectrolitico' && inputs.peso && inputs.diuresis && (
               <section className="space-y-3">
-                <h3 className="font-semibold text-slate-900">Resultados detallados</h3>
+                <h3 className="font-semibold text-slate-900 dark:text-slate-100">Resultados detallados</h3>
                 {(() => {
                   const results = calculateMultipleFormulas();
                   const labels: Record<string, string> = {
@@ -188,10 +188,10 @@ export default function FormulasPage() {
                   };
 
                   return Object.entries(results).map(([key, value]) => (
-                    <div key={key} className="bg-blue-50 border border-blue-200 rounded p-3">
-                      <p className="text-xs text-blue-600 font-medium mb-1">{labels[key] || key}</p>
-                      <p className="text-2xl font-bold text-blue-900">{value.toFixed(2)}</p>
-                      <p className="text-xs text-blue-700 mt-1">
+                    <div key={key} className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-3">
+                      <p className="text-xs text-brand-600 dark:text-brand-400 font-medium mb-1">{labels[key] || key}</p>
+                      <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">{value.toFixed(2)}</p>
+                      <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">
                         {key === 'relacion_ei' ? 'adimensional' :
                          key === 'ritmo_diuretico' ? 'mL/kg/h' : 'mL/kg/24h'}
                       </p>
@@ -203,8 +203,8 @@ export default function FormulasPage() {
 
             {/* Notes */}
             {currentFormula.notes && (
-              <section className="bg-amber-50 border border-amber-200 rounded p-3">
-                <p className="text-xs text-amber-900">
+              <section className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded p-3">
+                <p className="text-xs text-amber-900 dark:text-amber-200">
                   <span className="font-medium">Nota:</span> {currentFormula.notes}
                 </p>
               </section>
@@ -212,7 +212,7 @@ export default function FormulasPage() {
 
             {/* Reference */}
             <section>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 <span className="font-medium">Referencia:</span> {currentFormula.reference}
               </p>
             </section>

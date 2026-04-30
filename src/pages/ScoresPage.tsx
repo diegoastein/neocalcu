@@ -25,24 +25,24 @@ export default function ScoresPage() {
   const interpretation = allItemsAnswered ? getInterpretation() : null;
 
   const colorMap: { [key: string]: string } = {
-    green: 'bg-green-50 border-green-200 text-green-900',
-    yellow: 'bg-yellow-50 border-yellow-200 text-yellow-900',
-    orange: 'bg-orange-50 border-orange-200 text-orange-900',
-    red: 'bg-red-50 border-red-200 text-red-900',
+    green: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800 text-green-900 dark:text-green-200',
+    yellow: 'bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-200',
+    orange: 'bg-orange-50 dark:bg-orange-950 border-orange-200 dark:border-orange-800 text-orange-900 dark:text-orange-200',
+    red: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800 text-red-900 dark:text-red-200',
   };
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50 pb-20">
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950 pb-20">
       {/* Score selector */}
-      <div className="bg-white border-b border-slate-200 p-4 sticky top-0 z-10">
-        <label className="block text-xs font-semibold text-slate-700 mb-2">Selecciona escala</label>
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">Selecciona escala</label>
         <select
           value={selectedScore}
           onChange={(e) => {
             setSelectedScore(e.target.value);
             setScoreState({});
           }}
-          className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
         >
           {scores.map((s) => (
             <option key={s.id} value={s.id}>
@@ -59,7 +59,7 @@ export default function ScoresPage() {
             <section>
               <div className="flex justify-between items-start gap-2 mb-2">
                 <div className="flex-1">
-                  <h1 className="text-2xl font-bold text-slate-900">{currentScore.name}</h1>
+                  <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{currentScore.name}</h1>
                 </div>
                 <button
                   onClick={() => toggleFavorite(currentScore.id)}
@@ -69,15 +69,15 @@ export default function ScoresPage() {
                   {isFavorite(currentScore.id) ? '⭐' : '☆'}
                 </button>
               </div>
-              <p className="text-sm text-slate-600 mt-1">{currentScore.subtitle}</p>
-              <p className="text-xs text-slate-500 mt-2">{currentScore.description}</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{currentScore.subtitle}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">{currentScore.description}</p>
             </section>
 
             {/* Items */}
             <section className="space-y-4">
               {currentScore.items.map((item) => (
-                <div key={item.id} className="bg-white rounded-lg border border-slate-200 p-4">
-                  <h3 className="font-semibold text-slate-900 mb-3">{item.name}</h3>
+                <div key={item.id} className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">{item.name}</h3>
                   <div className="space-y-2">
                     {item.values.map((value) => (
                       <label key={value.score} className="flex items-center gap-3 cursor-pointer">
@@ -87,15 +87,15 @@ export default function ScoresPage() {
                           value={value.score}
                           checked={scoreState[item.id] === value.score}
                           onChange={() => setScoreState({ ...scoreState, [item.id]: value.score })}
-                          className="w-4 h-4 text-blue-800 focus:ring-blue-500"
+                          className="w-4 h-4 text-brand-800 dark:text-brand-400 focus:ring-brand-500"
                         />
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-slate-900">{value.label}</p>
+                          <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{value.label}</p>
                           {value.description && (
-                            <p className="text-xs text-slate-500">{value.description}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{value.description}</p>
                           )}
                         </div>
-                        <span className="text-sm font-semibold text-blue-800 bg-blue-50 px-2 py-1 rounded">
+                        <span className="text-sm font-semibold text-brand-800 dark:text-brand-400 bg-brand-50 dark:bg-brand-950 px-2 py-1 rounded">
                           {value.score}
                         </span>
                       </label>
@@ -109,10 +109,10 @@ export default function ScoresPage() {
             {allItemsAnswered && (
               <section className="space-y-4">
                 {/* Total score */}
-                <div className="bg-blue-50 border border-blue-200 rounded p-4">
-                  <p className="text-xs text-blue-600 mb-1">Puntuación total</p>
-                  <p className="text-4xl font-bold text-blue-900">{totalScore}</p>
-                  <p className="text-xs text-blue-600 mt-1">
+                <div className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
+                  <p className="text-xs text-brand-600 dark:text-brand-400 mb-1">Puntuación total</p>
+                  <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{totalScore}</p>
+                  <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
                     Rango: {currentScore.minScore}–{currentScore.maxScore}
                   </p>
                 </div>
@@ -133,7 +133,7 @@ export default function ScoresPage() {
 
                 {/* References */}
                 {currentScore.references.length > 0 && (
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     <span className="font-medium">Referencias:</span> {currentScore.references.join(' • ')}
                   </p>
                 )}
@@ -144,7 +144,7 @@ export default function ScoresPage() {
             {Object.keys(scoreState).length > 0 && (
               <button
                 onClick={() => setScoreState({})}
-                className="w-full mt-4 px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 transition text-sm"
+                className="w-full mt-4 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-sm"
               >
                 Limpiar
               </button>

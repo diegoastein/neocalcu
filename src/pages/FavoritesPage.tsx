@@ -35,9 +35,9 @@ export default function FavoritesPage() {
   });
 
   const categoryColors: { [key: string]: string } = {
-    drug: 'bg-blue-100 text-blue-800',
-    procedure: 'bg-purple-100 text-purple-800',
-    score: 'bg-green-100 text-green-800',
+    drug: 'bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-300',
+    procedure: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300',
+    score: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
   };
 
   const iconMap: { [key: string]: string } = {
@@ -47,11 +47,11 @@ export default function FavoritesPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50">
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
       {/* Header */}
-      <div className="bg-white border-b border-slate-200 p-4 sticky top-0 z-10">
-        <h1 className="text-2xl font-bold text-slate-900">Favoritos</h1>
-        <p className="text-xs text-slate-500 mt-1">
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Favoritos</h1>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           {favoriteItems.length} elemento{favoriteItems.length !== 1 ? 's' : ''} guardado{favoriteItems.length !== 1 ? 's' : ''}
         </p>
       </div>
@@ -61,11 +61,11 @@ export default function FavoritesPage() {
         {favoriteItems.length === 0 ? (
           <div className="p-8 text-center">
             <p className="text-2xl mb-2">⭐</p>
-            <p className="text-slate-600">No tienes favoritos aún</p>
-            <p className="text-xs text-slate-500 mt-2">Marca medicamentos, procedimientos o índices como favoritos</p>
+            <p className="text-slate-600 dark:text-slate-400">No tienes favoritos aún</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">Marca medicamentos, procedimientos o índices como favoritos</p>
           </div>
         ) : (
-          <div className="divide-y divide-slate-200">
+          <div className="divide-y divide-slate-200 dark:divide-slate-700">
             {favoriteItems.map((item) => (
               <button
                 key={`${item.type}-${item.id}`}
@@ -75,19 +75,19 @@ export default function FavoritesPage() {
                     setSelectedDrug(drug || null);
                   }
                 }}
-                className="w-full text-left bg-white hover:bg-blue-50 p-4 transition border-0"
+                className="w-full text-left bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 p-4 transition border-0"
               >
                 <div className="flex justify-between items-center gap-3">
                   <div className="text-xl flex-shrink-0">{iconMap[item.type]}</div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-slate-900">{item.name}</h3>
+                    <h3 className="font-semibold text-slate-900 dark:text-slate-100">{item.name}</h3>
                     <span
                       className={`text-xs font-semibold px-2 py-1 rounded inline-block mt-1 ${categoryColors[item.type]}`}
                     >
                       {item.type === 'drug' ? 'Medicamento' : item.type === 'procedure' ? 'Procedimiento' : 'Índice'}
                     </span>
                   </div>
-                  <span className="text-2xl text-slate-300">›</span>
+                  <span className="text-2xl text-slate-300 dark:text-slate-600">›</span>
                 </div>
               </button>
             ))}

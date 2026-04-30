@@ -22,43 +22,43 @@ export default function PatientInput() {
   };
 
   return (
-    <div className="bg-white border-b border-slate-200 p-4 sticky top-0 z-10">
-      <h2 className="text-sm font-semibold text-slate-700 mb-3">Datos del paciente</h2>
+    <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
+      <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Datos del paciente</h2>
       <div className="grid grid-cols-3 gap-2">
         <div>
-          <label className="block text-xs font-medium text-slate-600 mb-1">Peso (g)</label>
+          <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Peso (g)</label>
           <input
             type="number"
             value={localWeight}
             onChange={(e) => setLocalWeight(e.target.value)}
-            className="w-full px-2 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-2 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
             placeholder="2500"
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-600 mb-1">E.G. (sem)</label>
+          <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">E.G. (sem)</label>
           <input
             type="number"
             value={localGA}
             onChange={(e) => setLocalGA(e.target.value)}
-            className="w-full px-2 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-2 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
             placeholder="—"
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-600 mb-1">Días</label>
+          <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Días</label>
           <input
             type="number"
             value={localDOL}
             onChange={(e) => setLocalDOL(e.target.value)}
-            className="w-full px-2 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-2 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
             placeholder="—"
           />
         </div>
       </div>
       <button
         onClick={handleSave}
-        className="mt-3 w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold py-2 rounded transition"
+        className="mt-3 w-full bg-brand-800 hover:bg-brand-900 dark:bg-brand-700 dark:hover:bg-brand-600 text-white font-semibold py-2 rounded transition"
       >
         Registrar datos
       </button>

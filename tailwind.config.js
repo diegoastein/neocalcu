@@ -1,17 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         brand: {
-          50:  '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          500: '#3b82f6',
-          700: '#1d4ed8',
-          800: '#1e3a8a',
-          900: '#1e2e6e',
+          50:  '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          500: '#10b981',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
         }
       },
       fontFamily: {

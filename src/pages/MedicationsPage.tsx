@@ -12,17 +12,45 @@ export default function MedicationsPage() {
 
   const results = searchQuery.trim() ? searchDrugs(searchQuery) : drugs;
 
+  // Agrupar medicamentos por categoría
+  const groupByCategory = (drugList: Drug[]) => {
+    const grouped: Record<string, Drug[]> = {};
+    drugList.forEach((drug) => {
+      const category = drug.category[0] || 'otros';
+      if (!grouped[category]) {
+        grouped[category] = [];
+      }
+      grouped[category].push(drug);
+    });
+    return grouped;
+  };
+
+  const groupedDrugs = groupByCategory(results);
+  const categoryLabels: Record<string, string> = {
+    antibiotico: 'Antibióticos',
+    antiviral: 'Antivirales',
+    antifungico: 'Antifúngicos',
+    cardiovascular: 'Cardiovascular',
+    analgesico_sedante: 'Analgésicos y Sedantes',
+    diuretico: 'Diuréticos',
+    surfactante: 'Surfactantes',
+    respiratorio: 'Respiratorio',
+    emergencia: 'Emergencia',
+    vitaminas_electrolitos: 'Vitaminas y Electrolitos',
+    otros: 'Otros',
+  };
+
   const categoryBadgeColor: { [key: string]: string } = {
-    antibiotico: 'bg-blue-100 text-blue-800',
-    antiviral: 'bg-purple-100 text-purple-800',
-    antifungico: 'bg-orange-100 text-orange-800',
-    cardiovascular: 'bg-red-100 text-red-800',
-    analgesico_sedante: 'bg-indigo-100 text-indigo-800',
-    diuretico: 'bg-green-100 text-green-800',
-    surfactante: 'bg-yellow-100 text-yellow-800',
-    respiratorio: 'bg-cyan-100 text-cyan-800',
-    emergencia: 'bg-red-200 text-red-900',
-    vitaminas_electrolitos: 'bg-amber-100 text-amber-800',
+    antibiotico: 'bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-300',
+    antiviral: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300',
+    antifungico: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300',
+    cardiovascular: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300',
+    analgesico_sedante: 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300',
+    diuretico: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
+    surfactante: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300',
+    respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-300',
+    emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-300',
+    vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-300',
   };
 
   return (
@@ -30,15 +58,15 @@ export default function MedicationsPage() {
       <PatientInput />
 
       {/* Search bar */}
-      <div className="bg-white border-b border-slate-200 p-4">
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4">
         <input
           type="text"
           placeholder="Buscar medicamento..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
         />
-        <p className="text-xs text-slate-500 mt-2">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
           {results.length} resultado{results.length !== 1 ? 's' : ''}
         </p>
       </div>
@@ -47,38 +75,49 @@ export default function MedicationsPage() {
       <div className="flex-1 overflow-y-auto pb-20">
         {results.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-slate-500">No se encontraron medicamentos</p>
+            <p className="text-slate-500 dark:text-slate-400">No se encontraron medicamentos</p>
           </div>
         ) : (
-          <div className="divide-y divide-slate-200">
-            {results.map((drug) => (
-              <div key={drug.id} className="bg-white hover:bg-blue-50 transition border-b border-slate-200 flex items-start">
-                <button
-                  onClick={() => setSelectedDrug(drug)}
-                  className="flex-1 text-left p-4 border-0"
-                >
-                  <h3 className="font-semibold text-slate-900">{drug.name}</h3>
-                  {drug.genericName && <p className="text-xs text-slate-500">{drug.genericName}</p>}
-                  <p className="text-sm text-slate-600 mt-1">{drug.indications.join(' • ')}</p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {drug.category.slice(0, 2).map((cat) => (
-                      <span key={cat} className={`text-xs px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100'}`}>
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFavorite(drug.id);
-                  }}
-                  className="p-4 text-2xl hover:scale-110 transition flex-shrink-0"
-                  title={isFavorite(drug.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
-                >
-                  {isFavorite(drug.id) ? '⭐' : '☆'}
-                </button>
-                <div className="p-4 text-slate-300 text-2xl flex-shrink-0">›</div>
+          <div>
+            {Object.entries(groupedDrugs).map(([category, drugsInCategory]) => (
+              <div key={category}>
+                <div className="sticky top-16 bg-slate-100 dark:bg-slate-800 px-4 py-2 z-5">
+                  <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    {categoryLabels[category] || category}
+                  </h2>
+                </div>
+                <div className="divide-y divide-slate-200 dark:divide-slate-700">
+                  {drugsInCategory.map((drug) => (
+                    <div key={drug.id} className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition border-b border-slate-200 dark:border-slate-700 flex items-start">
+                      <button
+                        onClick={() => setSelectedDrug(drug)}
+                        className="flex-1 text-left p-4 border-0"
+                      >
+                        <h3 className="font-semibold text-slate-900 dark:text-slate-100">{drug.name}</h3>
+                        {drug.genericName && <p className="text-xs text-slate-500 dark:text-slate-400">{drug.genericName}</p>}
+                        <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">{drug.indications.join(' • ')}</p>
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {drug.category.slice(0, 2).map((cat) => (
+                            <span key={cat} className={`text-xs px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100'}`}>
+                              {cat}
+                            </span>
+                          ))}
+                        </div>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(drug.id);
+                        }}
+                        className="p-4 text-2xl hover:scale-110 transition flex-shrink-0"
+                        title={isFavorite(drug.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
+                      >
+                        {isFavorite(drug.id) ? '⭐' : '☆'}
+                      </button>
+                      <div className="p-4 text-slate-300 dark:text-slate-600 text-2xl flex-shrink-0">›</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

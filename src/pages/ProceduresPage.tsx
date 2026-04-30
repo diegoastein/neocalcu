@@ -23,21 +23,21 @@ export default function ProceduresPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50">
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Procedures list */}
       <div className="flex-1 overflow-y-auto pb-20">
-        <div className="divide-y divide-slate-200">
+        <div className="divide-y divide-slate-200 dark:divide-slate-700">
           {procedures.map((proc) => (
-            <div key={proc.id} className="bg-white hover:bg-blue-50 transition">
+            <div key={proc.id} className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition">
               <div className="flex items-start p-4">
                 <button
                   onClick={() => toggleProcedure(proc.id)}
-                  className="flex-1 text-left border-0 hover:bg-blue-50"
+                  className="flex-1 text-left border-0 hover:bg-brand-50 dark:hover:bg-slate-800"
                 >
-                  <h3 className="font-semibold text-slate-900">{proc.name}</h3>
-                  <p className="text-sm text-slate-600 mt-1">{proc.description}</p>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">{proc.name}</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{proc.description}</p>
                 </button>
                 <button
                   onClick={(e) => {
@@ -49,30 +49,30 @@ export default function ProceduresPage() {
                 >
                   {isFavorite(proc.id) ? '⭐' : '☆'}
                 </button>
-                <span className="text-2xl text-slate-300 flex-shrink-0 ml-2">
+                <span className="text-2xl text-slate-300 dark:text-slate-600 flex-shrink-0 ml-2">
                   {expandedProcedure === proc.id ? '−' : '+'}
                 </span>
               </div>
 
               {/* Expanded content */}
               {expandedProcedure === proc.id && (
-                <div className="bg-blue-50 border-t border-slate-200 p-4 space-y-4">
+                <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 space-y-4">
                   {/* Formulas */}
                   {proc.formulas && proc.formulas.length > 0 && (
                     <section>
-                      <h4 className="font-semibold text-slate-900 mb-3">Fórmulas</h4>
+                      <h4 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Fórmulas</h4>
                       <div className="space-y-3">
                         {proc.formulas.map((f, idx) => (
-                          <div key={idx} className="bg-white rounded p-3 border border-slate-200">
-                            <p className="text-sm font-medium text-slate-900 mb-2">{f.label}</p>
-                            <p className="text-xs text-slate-600 mb-2">{f.description}</p>
-                            <p className="text-sm text-slate-700 mb-3">
-                              <span className="font-mono bg-slate-100 px-2 py-1 rounded">{f.formula}</span>
+                          <div key={idx} className="bg-white dark:bg-slate-900 rounded p-3 border border-slate-200 dark:border-slate-700">
+                            <p className="text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">{f.label}</p>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">{f.description}</p>
+                            <p className="text-sm text-slate-700 dark:text-slate-300 mb-3">
+                              <span className="font-mono bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{f.formula}</span>
                             </p>
 
                             {/* Input */}
                             <div className="mb-3">
-                              <label className="block text-xs font-medium text-slate-600 mb-1">
+                              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
                                 {f.variableLabel} ({f.variableUnit})
                               </label>
                               <input
@@ -85,23 +85,23 @@ export default function ProceduresPage() {
                                   })
                                 }
                                 placeholder="Ingresa valor"
-                                className="w-full px-3 py-2 border border-slate-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
                               />
                             </div>
 
                             {/* Result */}
                             {formulaInputs[`${proc.id}-${idx}`] > 0 && (
-                              <div className="bg-green-50 rounded p-3 border-l-4 border-green-500">
-                                <p className="text-xs text-slate-600 mb-1">Resultado</p>
-                                <p className="text-2xl font-bold text-green-900">
+                              <div className="bg-brand-50 dark:bg-brand-950 rounded p-3 border-l-4 border-brand-500 dark:border-brand-400">
+                                <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Resultado</p>
+                                <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">
                                   {calculateFormula(f.formula, formulaInputs[`${proc.id}-${idx}`])}
                                 </p>
-                                <p className="text-xs text-slate-600 mt-1">{f.resultUnit}</p>
+                                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{f.resultUnit}</p>
                               </div>
                             )}
 
                             {f.reference && (
-                              <p className="text-xs text-slate-500 mt-2">
+                              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
                                 <span className="font-medium">Ref:</span> {f.reference}
                               </p>
                             )}
@@ -114,17 +114,17 @@ export default function ProceduresPage() {
                   {/* Steps */}
                   {proc.steps && proc.steps.length > 0 && (
                     <section>
-                      <h4 className="font-semibold text-slate-900 mb-3">Pasos del procedimiento</h4>
+                      <h4 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Pasos del procedimiento</h4>
                       <ol className="space-y-2">
                         {proc.steps.map((s, idx) => (
                           <li key={idx} className="flex gap-3">
-                            <span className="font-semibold text-blue-800 flex-shrink-0">
+                            <span className="font-semibold text-brand-800 dark:text-brand-400 flex-shrink-0">
                               {idx + 1}.
                             </span>
                             <div>
-                              <p className="text-sm text-slate-900">{s.step}</p>
+                              <p className="text-sm text-slate-900 dark:text-slate-100">{s.step}</p>
                               {s.note && (
-                                <p className="text-xs text-amber-700 mt-1 bg-amber-50 p-2 rounded mt-1">
+                                <p className="text-xs text-amber-700 dark:text-amber-300 mt-1 bg-amber-50 dark:bg-amber-950 p-2 rounded mt-1">
                                   ⚠️ {s.note}
                                 </p>
                               )}
@@ -138,8 +138,8 @@ export default function ProceduresPage() {
                   {/* Materials */}
                   {proc.materials && proc.materials.length > 0 && (
                     <section>
-                      <h4 className="font-semibold text-slate-900 mb-2">Materiales</h4>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-slate-700">
+                      <h4 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Materiales</h4>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-slate-700 dark:text-slate-300">
                         {proc.materials.map((m, i) => (
                           <li key={i}>{m}</li>
                         ))}
@@ -149,9 +149,9 @@ export default function ProceduresPage() {
 
                   {/* Warnings */}
                   {proc.warnings && proc.warnings.length > 0 && (
-                    <section className="bg-red-50 border border-red-200 rounded p-3">
-                      <h4 className="font-semibold text-red-900 mb-2">⚠️ Advertencias</h4>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-red-800">
+                    <section className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded p-3">
+                      <h4 className="font-semibold text-red-900 dark:text-red-200 mb-2">⚠️ Advertencias</h4>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-red-800 dark:text-red-300">
                         {proc.warnings.map((w, i) => (
                           <li key={i}>{w}</li>
                         ))}
@@ -162,7 +162,7 @@ export default function ProceduresPage() {
                   {/* References */}
                   {proc.references.length > 0 && (
                     <section>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
                         <span className="font-medium">Referencias:</span> {proc.references.join(' • ')}
                       </p>
                     </section>
