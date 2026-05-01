@@ -4893,6 +4893,17 @@
         "stockForm": "Vial 1 mg/mL",
         "concentrationMgMl": 1
       },
+      "inotropicConfig": {
+        "doseMin": 0.25,
+        "doseMax": 0.75,
+        "doseStep": 0.05,
+        "defaultDose": 0.5,
+        "defaultFlow": 1,
+        "volumes": [12, 24, 50],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
+      },
       "references": [
         "NEOFAX 2024 p. 634"
       ]
@@ -5383,6 +5394,17 @@
       "preparation": {
         "stockForm": "Ampolla 1 mg/mL",
         "concentrationMgMl": 1
+      },
+      "inotropicConfig": {
+        "doseMin": 0.05,
+        "doseMax": 2,
+        "doseStep": 0.05,
+        "defaultDose": 0.1,
+        "defaultFlow": 1,
+        "volumes": [12, 24, 50],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
       },
       "references": [
         "NEOFAX 2024 p. 689"
