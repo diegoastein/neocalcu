@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PatientInput from '../components/PatientInput';
 import { formulas } from '../data/formulas';
 import { usePatient } from '../context/PatientContext';
@@ -13,7 +13,7 @@ export default function FormulasPage() {
   const currentFormula = formulas.find((f) => f.id === selectedFormula);
 
   // Auto-fill weight for formulas that require it
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentFormula && currentFormula.inputs.some((inp) => inp.id === 'peso')) {
       setInputs((prev) => ({
         ...prev,
