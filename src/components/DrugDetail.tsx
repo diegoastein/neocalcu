@@ -161,41 +161,49 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
           )}
 
           {/* Preparation */}
-          <section>
-            <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Preparación</h3>
-            <div className="space-y-2 text-sm">
-              <p>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Presentación:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stockForm}</span>
-              </p>
-              <p>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Concentración:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.concentrationMgMl} mg/mL</span>
-              </p>
-              {drug.preparation.reconstitution && (
-                <p>
-                  <span className="font-medium text-slate-700 dark:text-slate-300">Reconstitución:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.reconstitution}</span>
-                </p>
-              )}
-              <div>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Diluciones:</span>
-                <ul className="list-disc list-inside mt-1 text-slate-700 dark:text-slate-300">
-                  {drug.preparation.dilutionInstructions.map((instr, i) => (
-                    <li key={i}>{instr}</li>
-                  ))}
-                </ul>
+          {drug.preparation && (
+            <section>
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Preparación</h3>
+              <div className="space-y-2 text-sm">
+                {drug.preparation.stockForm && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Presentación:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stockForm}</span>
+                  </p>
+                )}
+                {drug.preparation.concentrationMgMl && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Concentración:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.concentrationMgMl} mg/mL</span>
+                  </p>
+                )}
+                {drug.preparation.reconstitution && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Reconstitución:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.reconstitution}</span>
+                  </p>
+                )}
+                {drug.preparation.dilutionInstructions && drug.preparation.dilutionInstructions.length > 0 && (
+                  <div>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Diluciones:</span>
+                    <ul className="list-disc list-inside mt-1 text-slate-700 dark:text-slate-300">
+                      {drug.preparation.dilutionInstructions.map((instr, i) => (
+                        <li key={i}>{instr}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {drug.preparation.stability && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Estabilidad:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stability}</span>
+                  </p>
+                )}
+                {drug.preparation.lightSensitive && (
+                  <p className="text-amber-700 dark:text-amber-300 font-semibold">🛡️ Sensible a la luz — proteger de exposición directa</p>
+                )}
               </div>
-              {drug.preparation.stability && (
-                <p>
-                  <span className="font-medium text-slate-700 dark:text-slate-300">Estabilidad:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stability}</span>
-                </p>
-              )}
-              {drug.preparation.lightSensitive && (
-                <p className="text-amber-700 dark:text-amber-300 font-semibold">🛡️ Sensible a la luz — proteger de exposición directa</p>
-              )}
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* Incompatibilities */}
-          {(drug.administration.compatibleWith || drug.administration.incompatibleWith) && (
+          {drug.administration && (drug.administration.compatibleWith || drug.administration.incompatibleWith) && (
             <section>
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Compatibilidad IV</h3>
               <div className="space-y-2 text-sm">
@@ -216,7 +224,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
           )}
 
           {/* Monitoring */}
-          {drug.monitoring && drug.monitoring.length > 0 && (
+          {drug.monitoring?.length && drug.monitoring.length > 0 && (
             <section>
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Monitorización</h3>
               <ul className="list-disc list-inside space-y-1 text-sm text-slate-700 dark:text-slate-300">
@@ -228,7 +236,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
           )}
 
           {/* Adverse Effects */}
-          {drug.adverseEffects && drug.adverseEffects.length > 0 && (
+          {drug.adverseEffects?.length && drug.adverseEffects.length > 0 && (
             <section>
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Efectos adversos</h3>
               <ul className="list-disc list-inside space-y-1 text-sm text-slate-700 dark:text-slate-300">
