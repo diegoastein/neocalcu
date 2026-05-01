@@ -11,9 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Flujo de desarrollo:**
 1. Desarrollar y probar en `localhost:5173` (`npm run dev`)
 2. Commits diarios manteniendo el historial limpio
-3. Una vez validado → push a `beta`
-4. Testing en `beta` (previsualizar con `npm run build`)
-5. Si está OK → merge a `main` (automáticamente en GitHub Pages)
+3. Push a `main` → GitHub Actions despliega automáticamente en GitHub Pages (~1 min)
 
 ## Commands
 
@@ -24,13 +22,23 @@ npm run build        # tsc + vite build → dist/
 npm run preview      # previsualizar el build de producción
 ```
 
-No hay tests automatizados por ahora. La validación es visual: abrir el navegador, ingresar un peso y verificar que dosis, volúmenes y preparaciones se calculen correctamente.
+No hay tests automatizados. La validación es visual: abrir el navegador, ingresar un peso y verificar que dosis, volúmenes y preparaciones se calculen correctamente.
 
 ## Contexto del proyecto
 
 **NeoCalcu** es una PWA (Progressive Web App) de uso clínico bedside para neonatología. Funciona **100 % offline** — no hay backend ni fetch en tiempo de ejecución. Toda la lógica y los datos clínicos se empaquetan en el bundle de Vite.
 
 Stack: **Vite + React 18 + TypeScript + Tailwind CSS v3 + vite-plugin-pwa** (Workbox).
+
+## Deploy (GitHub Pages)
+
+El workflow `.github/workflows/deploy.yml` usa las Actions oficiales de GitHub Pages:
+- `actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages`
+- Se dispara en cada push a `main`
+- Despliega directo al CDN sin rama `gh-pages` intermediaria
+- URL de producción: **https://diegoastein.github.io/neocalcu/**
+
+**No usar** `peaceiris/actions-gh-pages` — fue reemplazado por incompatibilidad con la configuración de Pages.
 
 ## Arquitectura
 
@@ -40,7 +48,7 @@ Stack: **Vite + React 18 + TypeScript + Tailwind CSS v3 + vite-plugin-pwa** (Wor
 
 Estructura del JSON:
 ```
-drugs[]        → medicamentos con dosingRules[] o infusionRules[]
+drugs[]        → medicamentos con dosingRules[], infusionRules[] y/o inotropicConfig
 procedures[]   → procedimientos con formulas[] y steps[]
 scores[]       → escalas clínicas con items[] e interpretation[]
 formulas[]     → calculadoras médicas (BSA, clearance, etc.)
@@ -51,9 +59,10 @@ formulas[]     → calculadoras médicas (BSA, clearance, etc.)
 `src/types/index.ts` define todas las interfaces compartidas. Las más importantes:
 
 - **`Patient`** — `{ weightGrams, gestAgeWeeks?, dayOfLife? }` — datos del paciente actuales
-- **`Drug`** — puede tener `dosingRules` (bolos/intervalos) **o** `infusionRules` (infusiones continuas), o ambos
+- **`Drug`** — puede tener `dosingRules` (bolos/intervalos), `infusionRules` (infusiones), y/o `inotropicConfig` (calculador inotrópico interactivo)
 - **`DosingRule`** — filtra por `gaMin/gaMax`, `dolMin/dolMax`, `weightMinG/weightMaxG` para llegar a la dosis correcta
 - **`InfusionRule`** — incluye `ruleOf3` con `multiplier` y `volumeMl` para calcular la "regla de 3" bedside
+- **`InotropicConfig`** — configuración del calculador interactivo: rangos de dosis, flujo, volúmenes disponibles
 - **`Procedure`** — procedimientos con fórmulas y pasos paso-a-paso
 - **`Score`** — escalas clínicas con items evaluables e interpretación por rango de puntuación
 - **`Formula`** — calculadoras médicas con inputs dinámicos y evaluación de fórmulas
@@ -76,19 +85,25 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`PatientContext.tsx`** — provee `patient` y `setPatient` a toda la app. Peso, E.G. (edad gestacional), Días persisten en `sessionStorage`
 - **`FavoritesContext.tsx`** — maneja marcadores (favoritos) de medicamentos, procedimientos y fórmulas. Persiste en `localStorage`
 
+### Componentes clave
+
+- **`DrugDetail.tsx`** — modal de detalle de medicamento. Si el drug tiene `inotropicConfig`, muestra `InotropicCalculator` en lugar de la sección de dosificación estándar.
+- **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: slider de dosis, selector de flujo (+/−), toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`.
+- **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
+
 ### Páginas y navegación
 
 5 páginas sin router externo — la navegación es un simple `useState<ActivePage>` en `App.tsx`:
 
-| `ActivePage`      | Página                | Contenido principal                                      |
-|-------------------|-----------------------|----------------------------------------------------------|
-| `medicamentos`    | `MedicationsPage`     | Buscador + calculadora de dosis por peso + botón favoritos |
-| `procedimientos`  | `ProceduresPage`      | Procedimientos (CAU, CVU, TET, Fluidos, VIG) con fórmulas + pasos |
-| `indices`         | `ScoresPage`          | Silverman-Andersen, Apgar, Sarnat interactivos + botón favoritos |
-| `formulas`        | `FormulasPage`        | 7 calculadoras (BSA, Clearance, Osmolalidad, etc.) + botón favoritos |
-| `favoritos`       | `FavoritesPage`       | Listado de todos los items marcados como favoritos       |
+| `ActivePage`      | Página                | Contenido principal                                                     |
+|-------------------|-----------------------|-------------------------------------------------------------------------|
+| `medicamentos`    | `MedicationsPage`     | Buscador + calculadora de dosis por peso + botón favoritos              |
+| `procedimientos`  | `ProceduresPage`      | 23 procedimientos con fórmulas interactivas + pasos                     |
+| `indices`         | `ScoresPage`          | Silverman-Andersen, Apgar, Sarnat interactivos + botón favoritos        |
+| `formulas`        | `FormulasPage`        | 11 calculadoras médicas + botón favoritos                               |
+| `favoritos`       | `FavoritesPage`       | Listado de todos los items marcados como favoritos                      |
 
-La barra de navegación inferior (`BottomNav`) es el único mecanismo de routing.
+La barra de navegación inferior (`BottomNav`) es el único mecanismo de routing. Usa iconos SVG (no emojis).
 
 ### PWA / Offline
 
@@ -120,143 +135,99 @@ Diluir en volumeMl (50 mL)
 → 1 mL/h = 1 mcg/kg/min
 ```
 
-Para adrenalina (multiplier=0.3):
+### Calculador inotrópico interactivo (`inotropicConfig`)
+
+Para drogas con `inotropicConfig`, la UI muestra `InotropicCalculator` en lugar de la dosificación estándar. El usuario elige dosis, flujo y volumen; la app calcula los mg a preparar:
+
 ```
-mgPreparar = 0.3 × pesoKg en 50 mL
-→ 1 mL/h = 0.1 mcg/kg/min
+mg = dosis (mcg/kg/min) × peso (kg) × volumen (mL) × 60 / (flujo (mL/h) × 1000)
 ```
 
-Velocidad para dosis específica:
+Drogas con calculador inotrópico: **Dopamina**, **Dobutamina**, **Adrenalina (infusión)**, **Milrinona**, **Norepinefrina**.
+
+Para agregar un nuevo inotrópico, agregar `inotropicConfig` al objeto del drug en el JSON:
+```json
+"inotropicConfig": {
+  "doseMin": 0.05,
+  "doseMax": 1,
+  "doseStep": 0.05,
+  "defaultDose": 0.1,
+  "defaultFlow": 1,
+  "volumes": [12, 24, 50],
+  "defaultVolume": 50,
+  "diluent": "D5% o SF 0.9%",
+  "unit": "mcg/kg/min"
+}
 ```
-velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
-```
+
+### Fórmulas con múltiples resultados (`calculations`)
+
+Algunas fórmulas (Balance Hidroelectrolítico) definen un objeto `calculations` con fórmulas dependientes. El orden de evaluación es fijo y los resultados intermedios se acumulan en `variables` antes de calcular los derivados. Variables con números en el nombre (ingreso1, ingreso2) requieren el regex `/\b([a-z_][a-z0-9_]*)\b/g`.
 
 ## Convenciones de UI
 
 - Colores `brand-*` (verde esmeralda: `#065f46` a `#ecfdf5`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
 - Dark mode completo con toggle 🌙/☀️ en header superior
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
-- Instrucción de enfermería siempre en un box resaltado (borde izquierdo verde) — es lo que se transcribe a la indicación médica
+- Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
 - `lightSensitive: true` en `preparation` → mostrar ícono de protección de luz en la UI
-- Navegación inferior con 5 tabs (Medicamentos, Procedimientos, Índices, Fórmulas, Favoritos)
+- Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
 - Medicamentos agrupados por categoría con headers no pegajosos
 
-## Estado actual (2026-05-01 - Implementación completa + Rediseño visual + Deploy GitHub Pages + Balance Hidroelectrolítico funcional)
+## Estado actual (2026-05-01)
 
-**✅ Aplicación completamente funcional y en producción:**
+**✅ Aplicación completamente funcional y en producción.**
 
 **Medicamentos (MedicationsPage):**
-- ✅ **239 medicamentos agregados** de NEOFAX 2024 (26 originales + 213 expandidos)
+- ✅ 239+ medicamentos de NEOFAX 2024
 - ✅ Buscador por nombre, genérico, indicaciones
-- ✅ **Medicamentos agrupados por categoría** (Antibióticos, Cardiovascular, Diuréticos, etc.)
-- ✅ Filtrado automático por peso, E.G. (edad gestacional), Días de vida
+- ✅ Agrupados por categoría
+- ✅ Filtrado automático por peso, E.G., Días de vida
 - ✅ Modal con calculadora de dosis
-- ✅ Indicaciones con referencias (Neofax, SEGNNEO, etc.)
-- ✅ Botón de favoritos (⭐) en cada medicamento
-- ✅ Estructura simplificada (dosificación básica, sin preparaciones detalladas — mejora futura)
+- ✅ **Calculador inotrópico interactivo** para Dopamina, Dobutamina, Adrenalina, Milrinona, Norepinefrina
 
 **Procedimientos (ProceduresPage):**
-- ✅ 5 procedimientos: CAU, CVU, TET, Fluidos, VIG
+- ✅ **23 procedimientos** (5 originales + 18 nuevos):
+  - Vías/accesos: Punción Lumbar, Toracocentesis, Paracentesis, Acceso Intraóseo
+  - Vía aérea: Surfactante, VM Convencional (inicio), CPAP Nasal, Cricotiroidotomía
+  - Cardiovascular: Pericardiocentesis, RCP Neonatal
+  - Nutrición: Nutrición Parenteral
+  - Bilirrubina: Fototerapia Intensiva, Exanguinotransfusión Parcial, Exanguinotransfusión Doble Volumen
+  - Metabólico/urgencias: Hipoglucemia, Hiperkalemia, Acidosis Metabólica, Hipotermia Terapéutica
 - ✅ Fórmulas interactivas con cálculo en tiempo real
-- ✅ Pasos paso-a-paso con advertencias clínicas
-- ✅ Materiales y referencias
-- ✅ Botón de favoritos en cada procedimiento
+- ✅ Pasos, materiales, advertencias y referencias
 
 **Índices Clínicos (ScoresPage):**
-- ✅ Silverman-Andersen (5 items) — dificultad respiratoria
-- ✅ Apgar (5 items) — estado vital al nacer
-- ✅ Sarnat (10 items) — encefalopatía hipóxico-isquémica
-- ✅ Radio buttons interactivos → puntuación total → interpretación con acción clínica
-- ✅ Colores por severidad (verde/amarillo/naranja/rojo)
-- ✅ Botón de favoritos en cada escala
+- ✅ Silverman-Andersen, Apgar, Sarnat — interactivos con interpretación por severidad
 
 **Fórmulas (FormulasPage):**
-- ✅ **11 calculadoras médicas:**
-  - BSA (Mosteller), Clearance de Creatinina, BSA simplificada
-  - Aporte Calórico, Proteínas, Osmolalidad, IMC
-  - **MAP (Mean Airway Pressure)** — presión media de vía aérea en ventilación
-  - **IO (Oxygenation Index)** — índice de oxigenación (criterio ECMO)
-  - **CDO₂ (Oxygen Delivery)** — aporte de oxígeno
-  - **Balance Hidroelectrolítico 24h** — Ingreso/kg, Egreso/kg, Relación E/I, Ritmo Diurético
-- ✅ Auto-relleno de peso desde PatientInput
-- ✅ Inputs dinámicos según fórmula
-- ✅ Cálculo en tiempo real con referencias
-- ✅ Botón de favoritos en cada fórmula
-- ✅ **Cálculos con múltiples fórmulas y dependencias** — Balance calcula totales intermedios para usar en derivadas
-
-**Favoritos (FavoritesPage):**
-- ✅ Listado de todos los items marcados como favoritos
-- ✅ Agrupación por tipo (medicamento, procedimiento, índice, fórmula)
-- ✅ Acceso rápido a detalles de medicamentos desde favoritos
-- ✅ Persistencia en localStorage
-
-**Contextos y utilidades:**
-- ✅ PatientContext — gestión de peso, E.G., Días en sessionStorage
-- ✅ FavoritesContext — gestión de marcadores en localStorage
-- ✅ Cálculos de dosificación completos (matchDosingRule, calcDose, calcRuleOf3, calcInfusionVelocity)
-- ✅ Búsqueda de medicamentos
-
-**Rediseño Visual (2026-04-30):**
-- ✅ Tema verde esmeralda (brand colors) en lugar de azul
-- ✅ Dark mode completo con toggle 🌙/☀️ en header superior
-- ✅ Navegación inferior con 5 tabs (BottomNav)
-- ✅ Dark mode con clases `dark:` en todos los componentes
-- ✅ Medicamentos agrupados por categoría
+- ✅ 11 calculadoras: BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CDO₂, Balance Hidroelectrolítico, BSA simplificada
+- ✅ MAP usa FR (rpm) en lugar de Ttotal — fórmula: `(pip - peep) × (ti × fr / 60) + peep`
+- ✅ Balance Hidroelectrolítico con cálculos dependientes en orden fijo
 
 **Deploy:**
-- ✅ Repositorio GitHub: https://github.com/diegoastein/neocalcu
-- ✅ GitHub Pages: https://diegoastein.github.io/neocalcu/
-- ✅ PWA con Service Worker (funciona offline)
-- ✅ Configurado `base: '/neocalcu/'` en vite.config.ts para rutas relativas
-
-**Dev server corriendo:** `npm run dev` → localhost:5176 (varía según disponibilidad)
-
-**Correcciones técnicas recientes (2026-05-01):**
-- ✅ **Regex de variables actualizado** — Ahora detecta nombres con números (ingreso1, ingreso2, etc.)
-  - Cambio: `/\b([a-z_]+)\b/g` → `/\b([a-z_][a-z0-9_]*)\b/g`
-  - Aplicado en FormulasPage y ProceduresPage
-- ✅ **Cálculos multi-fórmula con dependencias** — Las fórmulas pueden usar resultados de otras fórmulas
-  - Ingreso/kg y Egreso/kg ahora usan los totales calculados previamente
-  - Relación E/I usa tanto ingreso_total como egreso_total
-- ✅ **Balance Hidroelectrolítico** — Muestra 4 resultados (Ingreso/kg, Egreso/kg, E/I, Ritmo Diurético)
-  - Inputs: Ingreso 1/2/3 (opcionales), Diuresis (requerido), Catarsis/Otros (opcionales)
-  - Auto-relleno de peso desde PatientContext
-  - Cálculo correcto de ingresos/egresos extrapolados a kg
+- ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
+- ✅ Push a `main` → deploy automático en ~1 minuto
+- ✅ PWA con Service Worker offline
 
 ## Agregar un medicamento nuevo
 
 1. Agregar el objeto en `docs/clinical_knowledge.json` → array `drugs[]`, respetando la interfaz `Drug`
-2. Si usa regla de 3, agregar `infusionRules` con `ruleOf3.multiplier` correcto
-3. Si es bolo, agregar `dosingRules` ordenadas de más restrictiva (prematuros extremos) a menos restrictiva (término)
-4. La UI lo muestra automáticamente — no se necesita código adicional
+2. Si es inotrópico: agregar `inotropicConfig` con rangos de dosis apropiados
+3. Si usa regla de 3: agregar `infusionRules` con `ruleOf3.multiplier` correcto
+4. Si es bolo: agregar `dosingRules` de más restrictiva a menos restrictiva
+5. La UI lo muestra automáticamente — no se necesita código adicional
 
 ## Próximas tareas / Mejoras futuras
 
-**INMEDIATO (después de completar 240+ medicamentos):**
-
 1. **Enriquecer medicamentos** — expandir estructura simplificada
-   - Agregar preparation detallada (diluciones, estabilidad, reconstitución)
-   - Agregar administration (routes, iv rates, incompatibilities)
-   - Agregar monitoring (parámetros a seguir)
-   - Agregar contraindications (restricciones clínicas)
+   - Agregar `preparation` detallada (diluciones, estabilidad, reconstitución)
+   - Agregar `administration` (routes, iv rates, incompatibilities)
+   - Agregar `monitoring` y `contraindications`
 
-2. **Build y PWA** — verificar `npm run build` y test offline
-   - Service Worker precache de Workbox
-   - Probar en navegador sin conexión
-   - Validar velocidad de cálculos bedside
+2. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
 
-3. **Presentación especial para drogas inotrópicas**
-   - Dopamina, dobutamina, adrenalina con cálculo detallado de preparación
-   - Titulación visual, tabla de velocidades
-   - Compatibilidades IV específicas
+3. **Historial de pacientes** — almacenamiento de cálculos recientes (opcional)
 
-**FUTURO (Features avanzadas):**
-
-4. ✅ **Tema claro/oscuro** — COMPLETADO, toggle 🌙/☀️ en header superior
-5. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
-6. **Integración con hardware** — lector de código de barras para medicamentos
-7. **Agregar más procedimientos** — según protocolos neonatológicos locales
-8. **Historial de pacientes** — almacenamiento de cálculos recientes (opcional)
-9. **Sliders para inputs numéricos** — mejora UX en cálculos
-10. **Presentación especial para inotrópicos** — Dopamina, dobutamina, adrenalina con titulación visual
+4. **Tabla de velocidades para inotrópicos** — mostrar tabla de dosis vs. flujo para todas las combinaciones posibles
