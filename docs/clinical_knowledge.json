@@ -9214,7 +9214,7 @@
         {
           "label": "Posición alta (T6–T9)",
           "description": "Extremo del catéter entre T6 y T9 (encima del diafragma). Posición estándar.",
-          "formula": "3 × peso(kg) + 9",
+          "formula": "3 * peso(kg) + 9",
           "variableLabel": "Peso de nacimiento",
           "variableUnit": "kg",
           "resultUnit": "cm desde el ombligo",
@@ -9283,7 +9283,7 @@
         {
           "label": "Longitud CVU (estándar)",
           "description": "Extremo en unión cava inferior / aurícula derecha (T8–T9). Fórmula basada en CAU alta.",
-          "formula": "(3 × peso(kg) + 9) / 2 + 1",
+          "formula": "(3 * peso(kg) + 9) / 2 + 1",
           "variableLabel": "Peso de nacimiento",
           "variableUnit": "kg",
           "resultUnit": "cm desde el ombligo",
