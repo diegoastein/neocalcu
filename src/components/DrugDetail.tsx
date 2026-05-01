@@ -33,29 +33,6 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
   const calculation = selectedRule && hasValidPreparation ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
   const matchedRule = matchDosingRule(rules, patient);
 
-  const generateDoseTable = () => {
-    const weights = [1000, 1200, 1500, 2000, 2500, 3000, 3500];
-    return weights.map((weightG) => {
-      const rule = rules.find((r) => {
-        if (r.weightMinG !== undefined && weightG < r.weightMinG) return false;
-        if (r.weightMaxG !== undefined && weightG >= r.weightMaxG) return false;
-        return true;
-      });
-
-      if (!rule || !drug.preparation) return null;
-
-      const calc = calcDose(rule, drug.preparation, weightG);
-      return {
-        weightG,
-        weightKg: (weightG / 1000).toFixed(2),
-        label: rule.label,
-        doseTotal: calc.doseTotal,
-        volumeMl: calc.volumeMl,
-        frequency: rule.frequency,
-      };
-    }).filter(Boolean);
-  };
-
   const categoryBadgeColor: { [key: string]: string } = {
     antibiotico: 'bg-blue-100 text-blue-800',
     antiviral: 'bg-purple-100 text-purple-800',
@@ -178,35 +155,6 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
               {!calculation && (
                 <div className="text-sm text-slate-600 dark:text-slate-400 p-3 bg-white dark:bg-slate-800 rounded">
                   Datos de dosis disponibles pero sin información de preparación.
-                </div>
-              )}
-
-              {/* Reference table for different weights */}
-              {availableRules.length > 0 && drug.preparation && (
-                <div className="mt-4">
-                  <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Tabla de referencia (otros pesos)</p>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-xs text-slate-700 dark:text-slate-300">
-                      <thead>
-                        <tr className="border-b border-slate-200 dark:border-slate-700">
-                          <th className="text-left p-2">Peso</th>
-                          <th className="text-left p-2">Dosis</th>
-                          <th className="text-left p-2">Volumen</th>
-                          <th className="text-left p-2">Intervalo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {generateDoseTable().map((row, i) => (
-                          <tr key={i} className="border-b border-slate-100 dark:border-slate-800">
-                            <td className="p-2 font-medium">{row.weightKg} kg</td>
-                            <td className="p-2">{row.doseTotal} mg</td>
-                            <td className="p-2">{row.volumeMl} mL</td>
-                            <td className="p-2">{row.frequency}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
                 </div>
               )}
             </section>
