@@ -14,11 +14,23 @@ export default function ProceduresPage() {
     setExpandedProcedure(expandedProcedure === id ? null : id);
   };
 
-  const calculateFormula = (formula: string, input: number): string => {
-    const kg = input / 1000;
+  const calculateFormula = (formula: string, input: number, allInputs?: Record<string, number>): string => {
     const patientKg = patient.weightGrams / 1000;
     try {
-      const result = eval(formula.replace(/peso\(kg\)/g, patientKg.toString()));
+      let processedFormula = formula
+        .replace(/peso\(kg\)/g, patientKg.toString())
+        .replace(/peso_kg/g, patientKg.toString());
+
+      if (allInputs) {
+        processedFormula = processedFormula.replace(/\b([a-z_]+)\b/g, (match) => {
+          if (allInputs[match] !== undefined) {
+            return allInputs[match].toString();
+          }
+          return match;
+        });
+      }
+
+      const result = eval(processedFormula);
       return parseFloat(result).toFixed(2);
     } catch {
       return '—';
@@ -73,8 +85,30 @@ export default function ProceduresPage() {
                               <span className="font-mono bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{f.formula}</span>
                             </p>
 
-                            {/* Input */}
-                            {f.variableLabel.toLowerCase().includes('peso') ? (
+                            {/* Inputs - Multiple or single */}
+                            {(f as any).inputs ? (
+                              <div className="mb-3 space-y-2">
+                                {(f as any).inputs.map((inp: any) => (
+                                  <div key={inp.id}>
+                                    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                                      {inp.label} ({inp.unit})
+                                    </label>
+                                    <input
+                                      type="number"
+                                      value={formulaInputs[`${proc.id}-${idx}-${inp.id}`] || ''}
+                                      onChange={(e) =>
+                                        setFormulaInputs({
+                                          ...formulaInputs,
+                                          [`${proc.id}-${idx}-${inp.id}`]: parseFloat(e.target.value) || 0,
+                                        })
+                                      }
+                                      placeholder="Ingresa valor"
+                                      className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            ) : f.variableLabel.toLowerCase().includes('peso') ? (
                               <div className="mb-3 bg-slate-100 dark:bg-slate-800 rounded p-2 text-xs text-slate-600 dark:text-slate-300">
                                 <p className="font-medium mb-1">Peso registrado:</p>
                                 <p>{(patient.weightGrams / 1000).toFixed(2)} kg ({patient.weightGrams} g)</p>
@@ -100,15 +134,31 @@ export default function ProceduresPage() {
                             )}
 
                             {/* Result */}
-                            {(f.variableLabel.toLowerCase().includes('peso') || formulaInputs[`${proc.id}-${idx}`] > 0) && (
-                              <div className="bg-brand-50 dark:bg-brand-950 rounded p-3 border-l-4 border-brand-500 dark:border-brand-400">
-                                <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Resultado</p>
-                                <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">
-                                  {calculateFormula(f.formula, formulaInputs[`${proc.id}-${idx}`] || patient.weightGrams)}
-                                </p>
-                                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{f.resultUnit}</p>
-                              </div>
-                            )}
+                            {(() => {
+                              const hasMultipleInputs = (f as any).inputs;
+                              const isFilled = hasMultipleInputs
+                                ? (f as any).inputs.every((inp: any) => formulaInputs[`${proc.id}-${idx}-${inp.id}`])
+                                : f.variableLabel.toLowerCase().includes('peso') || formulaInputs[`${proc.id}-${idx}`] > 0;
+
+                              if (!isFilled) return null;
+
+                              const allInputs = hasMultipleInputs
+                                ? (f as any).inputs.reduce((acc: any, inp: any) => ({
+                                    ...acc,
+                                    [inp.id]: formulaInputs[`${proc.id}-${idx}-${inp.id}`] || 0,
+                                  }), {})
+                                : undefined;
+
+                              return (
+                                <div className="bg-brand-50 dark:bg-brand-950 rounded p-3 border-l-4 border-brand-500 dark:border-brand-400">
+                                  <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Resultado</p>
+                                  <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">
+                                    {calculateFormula(f.formula, formulaInputs[`${proc.id}-${idx}`] || 0, allInputs)}
+                                  </p>
+                                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{f.resultUnit}</p>
+                                </div>
+                              );
+                            })()}
 
                             {f.reference && (
                               <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">

@@ -9427,11 +9427,25 @@
         {
           "label": "VIG en mg/kg/min",
           "description": "Fórmula para calcular la velocidad de infusión de glucosa.",
-          "formula": "VIG = (concentración dextrosa % × velocidad mL/h) / (peso kg × 6)",
+          "formula": "(concentracion_dextrosa * velocidad_ml_h) / (peso_kg * 6)",
           "variableLabel": "Concentración de dextrosa",
           "variableUnit": "%",
           "resultUnit": "mg/kg/min",
-          "reference": "VIG objetivo neonatal: 4–8 mg/kg/min. Máx 12."
+          "reference": "VIG objetivo neonatal: 4–8 mg/kg/min. Máx 12.",
+          "inputs": [
+            {
+              "id": "concentracion_dextrosa",
+              "label": "Concentración de dextrosa",
+              "unit": "%",
+              "required": true
+            },
+            {
+              "id": "velocidad_ml_h",
+              "label": "Velocidad de infusión",
+              "unit": "mL/h",
+              "required": true
+            }
+          ]
         }
       ],
       "warnings": [
