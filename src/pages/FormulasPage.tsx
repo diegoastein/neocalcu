@@ -131,8 +131,12 @@ export default function FormulasPage() {
               <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
               {currentFormula.inputs
                 .filter((input) => {
-                  const requiredCount = currentFormula.inputs.filter((i) => i.required).length;
-                  return !(input.id === 'peso' && currentFormula.formula && currentFormula.formula.includes('peso') && requiredCount === 1);
+                  if (input.id !== 'peso') return true;
+                  const hasFormula = currentFormula.formula?.includes('peso');
+                  const hasCalculations = Object.values(currentFormula.calculations || {}).some((calc: any) =>
+                    calc.toString().includes('peso')
+                  );
+                  return !(hasFormula || hasCalculations);
                 })
                 .map((input) => (
                 <div key={input.id}>
