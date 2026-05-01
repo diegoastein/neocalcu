@@ -9456,6 +9456,731 @@
       "references": [
         "SEGNNEO 2019"
       ]
+    },
+    {
+      "id": "puncion_lumbar",
+      "name": "Punción Lumbar (PL)",
+      "category": "procedimiento",
+      "description": "Obtención de líquido cefalorraquídeo para diagnóstico de meningitis u otras patologías del SNC",
+      "formulas": [],
+      "steps": [
+        { "step": "Posición: decúbito lateral en posición fetal (flexión máxima) o sentado." },
+        { "step": "Referencia anatómica: espacio L3–L4 o L4–L5 (línea interilíaca)." },
+        { "step": "Técnica estéril estricta. Limpiar con iodopovidona o clorhexidina." },
+        { "step": "Insertar aguja espinal 22–24G en la línea media, bisel hacia arriba, dirección levemente cefálica." },
+        { "step": "Avanzar lentamente. Sensación de 'pop' al atravesar ligamento amarillo y duramadre." },
+        { "step": "Retirar estilete y verificar flujo de LCR." },
+        { "step": "Recolectar 4 tubos: tubo 1 (cultivo), tubo 2 (bioquímica), tubo 3 (citoquímica), tubo 4 (reserva).", "note": "0.5–1 mL por tubo es suficiente" },
+        { "step": "Retirar aguja y comprimir el sitio." }
+      ],
+      "materials": [
+        "Aguja espinal 22G (término) o 24G (prematuro)",
+        "Tubos de LCR × 4",
+        "Guantes estériles, campo estéril",
+        "Iodopovidona o clorhexidina",
+        "Gasas estériles"
+      ],
+      "warnings": [
+        "No realizar si hay inestabilidad hemodinámica, coagulopatía grave o signos de HTE",
+        "Monitorear saturación durante el procedimiento — desaturaciones frecuentes",
+        "LCR normal neonato: hasta 20–30 células, proteínas 60–150 mg/dL, glucosa > 50% de glucemia"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "AAP Red Book 2021"
+      ]
+    },
+    {
+      "id": "toracocentesis",
+      "name": "Toracocentesis",
+      "category": "procedimiento",
+      "description": "Evacuación de aire o líquido pleural en neumotórax a tensión o derrame pleural",
+      "formulas": [],
+      "steps": [
+        { "step": "Neumotórax a tensión: urgencia — no esperar Rx." },
+        { "step": "Posición: decúbito supino con brazo ipsilateral elevado." },
+        { "step": "Referencia: 2do espacio intercostal, línea medioclavicular (aire) o 4to–5to espacio, línea medioaxilar (líquido)." },
+        { "step": "Técnica estéril. Limpiar la zona." },
+        { "step": "Insertar catéter IV 20–22G en el borde SUPERIOR de la costilla inferior (evitar paquete vasculonervioso)." },
+        { "step": "Retirar estilete al entrar al espacio pleural. Aspirar con jeringa." },
+        { "step": "Si neumotórax a tensión → drenaje continuo con sello de agua o aspiración.", "note": "Urgencia vital: descompresión inmediata" },
+        { "step": "Confirmar con Rx de tórax post-procedimiento." }
+      ],
+      "materials": [
+        "Catéter IV 20–22G con estilete",
+        "Jeringa 10–20 mL",
+        "Llave de 3 vías",
+        "Campo estéril, guantes",
+        "Tubo de drenaje pleural si requiere drenaje continuo"
+      ],
+      "warnings": [
+        "Neumotórax a tensión = emergencia. No demorar por Rx si hay deterioro brusco",
+        "Punción siempre en borde superior de costilla inferior — evitar nervio y vaso intercostal",
+        "Monitoreo continuo de SpO2 y FC durante el procedimiento"
+      ],
+      "references": [
+        "NRP 8a edición AAP",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "paracentesis",
+      "name": "Paracentesis Neonatal",
+      "category": "procedimiento",
+      "description": "Evacuación de líquido ascítico en hidrops fetal u otras causas de ascitis neonatal",
+      "formulas": [],
+      "steps": [
+        { "step": "Confirmar ascitis con ecografía abdominal antes del procedimiento." },
+        { "step": "Posición: decúbito supino." },
+        { "step": "Referencia: cuadrante inferior izquierdo (evitar hígado y vejiga) o línea media infraumbilical." },
+        { "step": "Técnica estéril. Limpiar la zona con antiséptico." },
+        { "step": "Insertar catéter IV 22–24G con jeringa en ángulo de 45°, aspirando continuamente." },
+        { "step": "Al obtener líquido, fijar el catéter y retirar el estilete." },
+        { "step": "Drenar lentamente. Máximo 10–20 mL/kg por sesión para evitar hipotensión.", "note": "Recolectar muestra para citoquímica, cultivo y bioquímica" },
+        { "step": "Retirar catéter y comprimir el sitio." }
+      ],
+      "materials": [
+        "Catéter IV 22–24G",
+        "Jeringas 10–20 mL",
+        "Llave de 3 vías",
+        "Tubos de recolección",
+        "Guantes y campo estéril"
+      ],
+      "warnings": [
+        "Monitorear hemodinámicamente durante y después — drenaje rápido puede causar hipotensión",
+        "Guiar con ecografía si es posible",
+        "Recolectar muestra siempre para análisis del líquido"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "acceso_intraoseo",
+      "name": "Acceso Intraóseo",
+      "category": "procedimiento",
+      "description": "Acceso vascular de emergencia cuando no es posible el acceso venoso periférico en < 90 segundos",
+      "formulas": [],
+      "steps": [
+        { "step": "Indicación: neonato en paro o shock sin acceso venoso en < 90 segundos." },
+        { "step": "Sitio de elección: tibia proximal, cara anteromedial, 1–2 cm por debajo de la tuberosidad tibial." },
+        { "step": "Sitio alternativo: fémur distal o maléolo tibial." },
+        { "step": "Limpiar la zona con antiséptico." },
+        { "step": "Insertar aguja intraósea 18G perpendicular al hueso con movimiento rotatorio firme." },
+        { "step": "Confirmar posición: aguja firme, flujo libre al aspirar o lavado con 5 mL de SF sin extravasación.", "note": "La médula puede no fluir libremente — lavar con SF para confirmar" },
+        { "step": "Fijar la aguja. Reemplazar por acceso venoso definitivo cuanto antes." }
+      ],
+      "materials": [
+        "Aguja intraósea 18G neonatal",
+        "Jeringa 5–10 mL",
+        "SF 0.9% para lavado",
+        "Antiséptico, guantes"
+      ],
+      "warnings": [
+        "Máximo 24 horas de uso — reemplazar con acceso vascular definitivo",
+        "Contraindicado en hueso fracturado o con IO previo reciente en el mismo sitio",
+        "Posibles complicaciones: extravasación, osteomielitis, fractura"
+      ],
+      "references": [
+        "NRP 8a edición AAP",
+        "PALS 2020 AHA"
+      ]
+    },
+    {
+      "id": "surfactante",
+      "name": "Surfactante Exógeno",
+      "category": "via_aerea",
+      "description": "Administración de surfactante en síndrome de dificultad respiratoria (SDR) neonatal",
+      "formulas": [
+        {
+          "label": "Poractant alfa (Curosurf) — dosis inicial",
+          "description": "200 mg/kg vía intratraqueal. Dosis de rescate: 100 mg/kg. Concentración: 80 mg/mL.",
+          "formula": "peso(kg) * 2.5",
+          "variableLabel": "Peso de nacimiento",
+          "variableUnit": "kg",
+          "resultUnit": "mL (200 mg/kg = 2.5 mL/kg)",
+          "reference": "NEOFAX 2024. Poractant alfa 80 mg/mL."
+        },
+        {
+          "label": "Beractant (Survanta) — dosis inicial",
+          "description": "100 mg/kg vía intratraqueal. Máximo 4 dosis cada 6 horas. Concentración: 25 mg/mL.",
+          "formula": "peso(kg) * 4",
+          "variableLabel": "Peso de nacimiento",
+          "variableUnit": "kg",
+          "resultUnit": "mL (100 mg/kg = 4 mL/kg)",
+          "reference": "NEOFAX 2024. Beractant 25 mg/mL."
+        }
+      ],
+      "steps": [
+        { "step": "Confirmar indicación: SDR con FiO₂ > 0.30 y/o Rx con patrón reticulogranular difuso." },
+        { "step": "Técnica INSURE (Intubación-Surfactante-Extubación): preferida en prematuros estables.", "note": "Pre-medicar con atropina 0.02 mg/kg ± analgesia" },
+        { "step": "Técnica LISA (Less Invasive Surfactant Administration): paciente en CPAP, catéter fino sin intubación formal — preferida si el equipo está entrenado." },
+        { "step": "Calcular la dosis según el peso de nacimiento." },
+        { "step": "Calentar el surfactante a temperatura ambiente antes de administrar." },
+        { "step": "Administrar en 2–4 alícuotas mientras se ventila." },
+        { "step": "Monitorear SpO₂ y FiO₂ — respuesta esperable en 30–60 min. Reducir FiO₂ rápidamente para evitar hiperoxia.", "note": "Rx de tórax de control 2–4 h post-administración" }
+      ],
+      "materials": [
+        "Surfactante (Curosurf o Survanta) a temperatura ambiente",
+        "TET del tamaño adecuado o catéter fino para LISA",
+        "Jeringa precargada",
+        "Laringoscopio"
+      ],
+      "warnings": [
+        "Calentar el surfactante — no agitar, solo rotar suavemente",
+        "Monitorear obstrucción transitoria de vía aérea durante la administración",
+        "Reducir FiO₂ agresivamente post-respuesta — riesgo de hiperoxia"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "European Consensus Guidelines on RDS 2022"
+      ]
+    },
+    {
+      "id": "vm_convencional",
+      "name": "Ventilación Mecánica Convencional — Inicio",
+      "category": "via_aerea",
+      "description": "Parámetros iniciales del respirador en neonatos con insuficiencia respiratoria",
+      "formulas": [
+        {
+          "label": "Volumen corriente objetivo",
+          "description": "4–6 mL/kg en ventilación por volumen garantizado (VG).",
+          "formula": "peso(kg) * 5",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL objetivo (rango 4–6 mL/kg)",
+          "reference": "NEOFAX 2024. Ventilación protectora neonatal."
+        }
+      ],
+      "steps": [
+        { "step": "Modo inicial: SIMV + PS (sincronizado) o VGAP/VG (volumen garantizado) si disponible." },
+        { "step": "PIP inicial: 16–20 cmH₂O (ajustar por expansión torácica visible y simétrica)." },
+        { "step": "PEEP: 4–5 cmH₂O (5–6 en SDR grave)." },
+        { "step": "FR inicial: 40–60 rpm (ajustar según PaCO₂ objetivo)." },
+        { "step": "TI: 0.3–0.4 s en prematuros; 0.4–0.5 s en término." },
+        { "step": "FiO₂: titular para SpO₂ 90–95% (prematuro < 32 sem) o 94–98% (término)." },
+        { "step": "Volumen corriente objetivo: 4–6 mL/kg. Ajustar PIP hasta lograrlo.", "note": "Usar modo VG si disponible" },
+        { "step": "Gasometría de control en 30–60 min. Objetivo: pH 7.25–7.40, PaCO₂ 45–55 mmHg." }
+      ],
+      "materials": [
+        "Respirador neonatal con SIMV/VGAP",
+        "TET del tamaño correcto fijado",
+        "Sensor de flujo neonatal",
+        "Pulsioxímetro continuo"
+      ],
+      "warnings": [
+        "Evitar hiperventilación: PaCO₂ < 35 mmHg aumenta riesgo de leucomalacia periventricular",
+        "Tolerar hipercapnia permisiva: PaCO₂ 45–55 en SDRA neonatal",
+        "MAP > 15 cmH₂O: aumenta riesgo de barotrauma y neumotórax"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "European Consensus Guidelines on RDS 2022"
+      ]
+    },
+    {
+      "id": "cpap_nasal",
+      "name": "CPAP Nasal",
+      "category": "via_aerea",
+      "description": "Presión positiva continua en la vía aérea para soporte respiratorio no invasivo",
+      "formulas": [],
+      "steps": [
+        { "step": "Indicaciones: SDR leve-moderado, apnea del prematuro, post-extubación, taquipnea transitoria." },
+        { "step": "Seleccionar interface: cánula binasal corta o máscara nasal." },
+        { "step": "Tamaño de la cánula: mayor tamaño que entre sin comprimir el tabique nasal.", "note": "Ocluir las narinas sin presión sobre el tabique" },
+        { "step": "Presión inicial: 5–6 cmH₂O. Aumentar a 7–8 si persiste dificultad respiratoria." },
+        { "step": "FiO₂: titular para SpO₂ 90–95% (< 32 sem) o 91–95% (> 32 sem)." },
+        { "step": "Posición semifowler 30°. Cabeza en posición neutra." },
+        { "step": "Sonda orogástrica abierta para descomprimir el estómago.", "note": "Cambiar de coana cada 4–6 h para prevenir necrosis del tabique" },
+        { "step": "Criterios de fallo de CPAP: FiO₂ > 0.40, apneas frecuentes, acidosis respiratoria → intubar." }
+      ],
+      "materials": [
+        "Sistema CPAP con humidificación activa",
+        "Cánulas binasales o máscara nasal (tamaños neonatal/prematuro)",
+        "Gorro y velcro de fijación",
+        "Sonda orogástrica"
+      ],
+      "warnings": [
+        "Proteger el tabique nasal — revisar en cada turno de enfermería",
+        "Distensión gástrica frecuente — mantener SNG abierta",
+        "No demorar intubación si hay criterios de fallo de CPAP"
+      ],
+      "references": [
+        "European Consensus Guidelines on RDS 2022",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "cricotiroidotomia",
+      "name": "Cricotiroidotomía de Urgencia",
+      "category": "via_aerea",
+      "description": "Acceso de emergencia a la vía aérea cuando la intubación es imposible ('no puedo intubar, no puedo oxigenar')",
+      "formulas": [],
+      "steps": [
+        { "step": "Indicación exclusiva: fracaso de intubación + incapacidad de oxigenar — última línea." },
+        { "step": "Posición: cuello en extensión máxima (rollo bajo los hombros)." },
+        { "step": "Identificar la membrana cricotiroidea: entre cartílago tiroides (superior) y cricoides (inferior)." },
+        { "step": "En neonatos: técnica de punción — insertar catéter IV 14G perpendicularmente en la membrana, aspirando.", "note": "La técnica quirúrgica con bisturí es muy difícil en neonatos por el tamaño" },
+        { "step": "Confirmar posición aspirando aire libremente con jeringa." },
+        { "step": "Ventilar con jet de O₂ a alta presión o bolsa-válvula conectada al catéter." },
+        { "step": "Es un acceso temporal (< 30 min) — organizar traqueotomía definitiva de inmediato." }
+      ],
+      "materials": [
+        "Catéter IV 14G",
+        "Jeringa 5 mL",
+        "Fuente de O₂ de alta presión o bolsa-válvula",
+        "Antiséptico"
+      ],
+      "warnings": [
+        "Procedimiento de última instancia — agotar todas las alternativas primero",
+        "Riesgo de enfisema subcutáneo y barotrauma con ventilación a presión",
+        "No sustituye la traqueotomía formal — tiempo máximo 30 minutos"
+      ],
+      "references": [
+        "NRP 8a edición AAP",
+        "Difficult Airway Society Guidelines"
+      ]
+    },
+    {
+      "id": "pericardiocentesis",
+      "name": "Pericardiocentesis",
+      "category": "procedimiento",
+      "description": "Evacuación de líquido pericárdico en taponamiento cardíaco neonatal",
+      "formulas": [],
+      "steps": [
+        { "step": "Indicación: taponamiento cardíaco (hipotensión + ruidos cardíacos apagados + distensión venosa)." },
+        { "step": "Guiar con ecocardiograma si disponible. Si urgencia vital: abordaje a ciegas." },
+        { "step": "Posición: decúbito supino con cabeza ligeramente elevada." },
+        { "step": "Abordaje subxifoideo: insertar aguja 22G entre apéndice xifoides y borde costal izquierdo en ángulo de 45°, dirigida hacia el hombro izquierdo." },
+        { "step": "Avanzar lentamente aspirando. Al obtener líquido, detener el avance.", "note": "Si la sangre no se coagula → es pericárdica. Si se coagula → es cardíaca → retirar de inmediato" },
+        { "step": "Aspirar el mínimo necesario para estabilizar hemodinámicamente." },
+        { "step": "Considerar catéter pericárdico de drenaje continuo si hay riesgo de recidiva." }
+      ],
+      "materials": [
+        "Aguja 22G con catéter o set de pericardiocentesis neonatal",
+        "Jeringa 10–20 mL",
+        "Monitor ECG continuo",
+        "Ecógrafo (si disponible)"
+      ],
+      "warnings": [
+        "Riesgo de perforación cardíaca — avanzar muy lentamente",
+        "Monitorizar ECG: extrasístoles o elevación del ST → retirar la aguja inmediatamente",
+        "El líquido pericárdico no se coagula — útil para distinguir de punción cardíaca"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "rcp_neonatal",
+      "name": "RCP Neonatal — Masaje Cardíaco",
+      "category": "procedimiento",
+      "description": "Reanimación cardiopulmonar neonatal según protocolo NRP 2021",
+      "formulas": [
+        {
+          "label": "Adrenalina IV/IO — dosis de reanimación",
+          "description": "Dosis IV/IO: 0.01–0.03 mg/kg. Usar solución 1:10.000 (0.1 mg/mL).",
+          "formula": "peso(kg) * 0.2",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de adrenalina 1:10.000 (dosis 0.02 mg/kg)",
+          "reference": "NRP 8a edición AAP 2021."
+        }
+      ],
+      "steps": [
+        { "step": "Iniciar masaje cardíaco si FC < 60 lpm a pesar de 30 s de VPP efectiva." },
+        { "step": "Técnica de 2 pulgares (preferida): rodear el tórax, pulgares sobre el tercio inferior del esternón." },
+        { "step": "Técnica de 2 dedos: si se necesita acceso umbilical simultáneo." },
+        { "step": "Profundidad: 1/3 del diámetro anteroposterior del tórax." },
+        { "step": "Relación 3:1 — 90 compresiones + 30 ventilaciones por minuto.", "note": "Contar: uno-dos-tres-ventila" },
+        { "step": "Intubar si no lo está. Colocar acceso venoso umbilical o intraóseo." },
+        { "step": "Verificar FC cada 30–60 s. Si FC > 60 → suspender masaje, continuar VPP." },
+        { "step": "Si FC < 60 con masaje + VPP efectiva → adrenalina IV/IO 0.01–0.03 mg/kg. Repetir cada 3–5 min." }
+      ],
+      "materials": [
+        "Bolsa autoinflable neonatal con reservorio",
+        "Máscara facial tamaño 0/1",
+        "Laringoscopio y TET",
+        "Adrenalina 1:10.000",
+        "Acceso venoso umbilical o intraóseo"
+      ],
+      "warnings": [
+        "VPP efectiva es la intervención más importante — verificar antes de iniciar masaje",
+        "O₂ al 21% para RN a término; 21–30% para prematuros al inicio",
+        "Adrenalina intratraqueal solo si no hay acceso IV/IO: dosis 0.05–0.10 mg/kg"
+      ],
+      "references": [
+        "NRP 8a edición AAP 2021",
+        "ILCOR 2020"
+      ]
+    },
+    {
+      "id": "nutricion_parenteral",
+      "name": "Nutrición Parenteral Neonatal",
+      "category": "fluidos",
+      "description": "Cálculo de macronutrientes para nutrición parenteral total o parcial en neonatos",
+      "formulas": [
+        {
+          "label": "Aporte de glucosa inicial (VIG 5 mg/kg/min en D10%)",
+          "description": "VIG de inicio: 4–6 mg/kg/min. Ajustar según glucemias.",
+          "formula": "peso(kg) * 5 * 1.44",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL/día de D10% (VIG 5 mg/kg/min)",
+          "reference": "SEGNNEO 2019."
+        },
+        {
+          "label": "Aporte proteico inicial",
+          "description": "Inicio día 1: 2–3 g/kg/día. Objetivo prematuro extremo: 3.5–4 g/kg/día.",
+          "formula": "peso(kg) * 3",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "g/día de aminoácidos (3 g/kg/día)",
+          "reference": "SEGNNEO 2019."
+        },
+        {
+          "label": "Lípidos IV — dosis de inicio",
+          "description": "Iniciar día 1–2: 1–2 g/kg/día. Progresar hasta 3–3.5 g/kg/día.",
+          "formula": "peso(kg) * 2",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "g/día de lípidos (2 g/kg/día = 10 mL/día de Intralipid 20%)",
+          "reference": "SEGNNEO 2019. Intralipid 20% = 0.2 g/mL."
+        }
+      ],
+      "steps": [
+        { "step": "Iniciar aminoácidos desde el día 1 de vida — no esperar." },
+        { "step": "Glucosa: comenzar con VIG 4–6 mg/kg/min. Ajustar según glucemias (objetivo 60–120 mg/dL)." },
+        { "step": "Lípidos: iniciar en primeras 24–48 h por vía separada, en infusión continua de 24 h." },
+        { "step": "Electrolitos: Na y K desde el día 2–3 (K solo con diuresis establecida). Ajustar según ionograma.", "note": "Calcio gluconato: 1–2 mEq/kg/día desde el día 1" },
+        { "step": "Vitaminas y oligoelementos: desde el día 1 si disponibles." },
+        { "step": "Control laboratorio: glucemia cada 6–12 h, ionograma diario, TG y función hepática semanal." }
+      ],
+      "materials": [
+        "Acceso venoso central o periférico adecuado",
+        "Solución de aminoácidos pediátricos",
+        "Solución glucosada (D5%, D10%, D12.5%)",
+        "Intralipid 20%",
+        "Electrolitos, vitaminas, oligoelementos"
+      ],
+      "warnings": [
+        "Concentración máxima periférica: D10–12.5%, aminoácidos ≤ 2%, calcio ≤ 10 mEq/L",
+        "Lípidos IV: no superar 3.5 g/kg/día — riesgo de hipertrigliceridemia",
+        "No agregar K hasta confirmar diuresis establecida"
+      ],
+      "references": [
+        "SEGNNEO 2019",
+        "ESPGHAN/ESPEN Guidelines Parenteral Nutrition 2018"
+      ]
+    },
+    {
+      "id": "fototerapia",
+      "name": "Fototerapia Intensiva",
+      "category": "procedimiento",
+      "description": "Indicación y técnica de fototerapia para hiperbilirrubinemia neonatal",
+      "formulas": [],
+      "steps": [
+        { "step": "Indicar fototerapia según nomograma AAP 2022: bilirrubina total (mg/dL) vs. horas de vida, ajustado por factores de riesgo (isoinmunización, G6PD, etc.)." },
+        { "step": "Usar fototerapia LED de alta intensidad (irradiancia ≥ 30 μW/cm²/nm)." },
+        { "step": "Máxima superficie expuesta: cubrir solo ojos y genitales con mínimo material." },
+        { "step": "Distancia de la lámpara: 25–30 cm del neonato (ajustar según fabricante)." },
+        { "step": "Fototerapia continua — interrumpir solo para lactancia y cuidados esenciales.", "note": "Fototerapia intensiva = continua + irradiancia máxima + máxima superficie" },
+        { "step": "Control de bilirrubina: cada 4–6 h en fototerapia intensiva; cada 8–12 h si estable." },
+        { "step": "Asegurar hidratación — aumentar aportes hídricos 10–20% por pérdidas insensibles aumentadas." }
+      ],
+      "materials": [
+        "Unidad de fototerapia LED (con radiómetro para medir irradiancia)",
+        "Antifaz ocular neonatal",
+        "Cobertor genital mínimo"
+      ],
+      "warnings": [
+        "Proteger los ojos siempre — riesgo de daño retinal",
+        "Bronze baby syndrome: si hay colestasis → suspender fototerapia",
+        "Hiperbilirrubinemia con encefalopatía aguda → indicación de exanguinotransfusión urgente"
+      ],
+      "references": [
+        "AAP Clinical Practice Guideline 2022",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "exsanguino_parcial",
+      "name": "Exanguinotransfusión Parcial (Policitemia)",
+      "category": "procedimiento",
+      "description": "Reducción del hematocrito en policitemia neonatal sintomática (Hto venoso > 65–70%)",
+      "formulas": [
+        {
+          "label": "Volumen de recambio",
+          "description": "Volemia neonatal ≈ 80 mL/kg (término) o 90 mL/kg (prematuro). Hto objetivo = 55%. Reemplazar con SF 0.9%.",
+          "formula": "((hto_real - 55) / hto_real) * peso(kg) * 80",
+          "variableLabel": "Hto real (%) / Peso",
+          "variableUnit": "% / kg",
+          "resultUnit": "mL a recambiar (reemplazar con SF 0.9%)",
+          "reference": "Fórmula estándar. NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        { "step": "Confirmar Hto > 65% en sangre venosa central (el capilar sobreestima)." },
+        { "step": "Indicación en sintomáticos: letargia, convulsiones, dificultad respiratoria, hipoglucemia refractaria." },
+        { "step": "Calcular el volumen de recambio con la fórmula." },
+        { "step": "Acceso: catéter venoso umbilical o periférico grueso." },
+        { "step": "Técnica: extraer e infundir en alícuotas de 5–10 mL, alternando extracción e infusión.", "note": "Reemplazar con igual volumen de SF 0.9% — no usar plasma ni albúmina" },
+        { "step": "Monitorizar FC, PA y glucemia durante el procedimiento." },
+        { "step": "Control de Hto 2 h post-procedimiento." }
+      ],
+      "materials": [
+        "Catéter venoso umbilical o periférico",
+        "SF 0.9%",
+        "Jeringas 5–10 mL",
+        "Llave de 3 vías",
+        "Monitor continuo"
+      ],
+      "warnings": [
+        "Hto venoso > 65% + síntomas = indicación clara",
+        "Hto > 70% asintomático: indicación controversial — evaluar caso a caso",
+        "SF 0.9% es el sustituto de elección — no usar plasma ni sangre"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "exsanguino_doble",
+      "name": "Exanguinotransfusión Doble Volumen",
+      "category": "procedimiento",
+      "description": "Tratamiento de hiperbilirrubinemia severa con riesgo de encefalopatía bilirrubínica (kernicterus)",
+      "formulas": [
+        {
+          "label": "Volumen total de sangre para recambio",
+          "description": "Doble volemia: 160–180 mL/kg. Usar sangre total reconstituida (GRD + PFC irradiados).",
+          "formula": "peso(kg) * 170",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de sangre reconstituida (170 mL/kg)",
+          "reference": "NEOFAX 2024. Volemia neonatal 80–90 mL/kg × 2."
+        }
+      ],
+      "steps": [
+        { "step": "Indicación: bilirrubina en zona de exanguinotransfusión según nomograma AAP 2022, o encefalopatía bilirrubínica aguda." },
+        { "step": "Solicitar sangre total reconstituida: GRD irradiados + PFC (relación ~2:1), compatible con madre e hijo." },
+        { "step": "Calentar la sangre a temperatura corporal con calentador de línea." },
+        { "step": "Acceso: catéter venoso umbilical (extracción/infusión alternada) — técnica empuje-tira." },
+        { "step": "Alícuotas: 5 mL en < 1 kg, 10 mL en 1–2 kg, 15–20 mL en > 2 kg." },
+        { "step": "Velocidad: completar en 60–90 minutos.", "note": "Monitoreo continuo de FC, SpO₂, PA y temperatura durante todo el procedimiento" },
+        { "step": "Control post-procedimiento: bilirrubina, glucemia, ionograma, calcio, hemograma." }
+      ],
+      "materials": [
+        "Sangre total reconstituida irradiada y filtrada",
+        "Calentador de línea",
+        "Catéter venoso umbilical 5 Fr",
+        "Llaves de 3 vías, jeringas"
+      ],
+      "warnings": [
+        "Riesgo de hipocalcemia sintomática — tener calcio gluconato disponible y listo",
+        "Hipoglucemia reactiva — monitorear glucemia estrechamente post-procedimiento",
+        "ECN post-exsanguinotransfusión: ayuno 24 h después del procedimiento"
+      ],
+      "references": [
+        "AAP Clinical Practice Guideline 2022",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "hipoglucemia",
+      "name": "Manejo de Hipoglucemia Neonatal",
+      "category": "procedimiento",
+      "description": "Protocolo escalonado para el tratamiento de hipoglucemia neonatal (glucemia < 45 mg/dL en primeras 24 h o < 50 mg/dL posteriormente)",
+      "formulas": [
+        {
+          "label": "Bolo IV de dextrosa 10%",
+          "description": "Bolo de rescate: 2 mL/kg de D10% en 1–2 minutos. Control glucémico a los 30 min.",
+          "formula": "peso(kg) * 2",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de D10% en bolo IV",
+          "reference": "NRP 8a edición AAP. NEOFAX 2024."
+        },
+        {
+          "label": "VIG de mantenimiento post-bolo",
+          "description": "Velocidad de infusión de glucosa post-bolo: 6–8 mg/kg/min.",
+          "formula": "peso(kg) * 6 * 1.44",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL/día de D10% (VIG 6 mg/kg/min)",
+          "reference": "NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        { "step": "Glucemia < 45 mg/dL en primeras 24 h (o < 50 mg/dL después): confirmar con muestra venosa si hay síntomas." },
+        { "step": "Asintomático: estimular la alimentación enteral (pecho o biberón). Repetir glucemia en 30 min." },
+        { "step": "Sintomático o glucemia < 25 mg/dL: bolo IV de D10% 2 mL/kg en 1–2 minutos.", "note": "Síntomas: temblores, cianosis, hipotonía, apneas, convulsiones" },
+        { "step": "Post-bolo: iniciar infusión IV de D10% a VIG 6–8 mg/kg/min." },
+        { "step": "Control glucémico a los 30 min. Ajustar VIG hasta lograr glucemia > 50 mg/dL." },
+        { "step": "Si requiere VIG > 12 mg/kg/min → sospechar hiperinsulinismo. Consultar endocrinología." }
+      ],
+      "materials": [
+        "Dextrosa 10% (D10%)",
+        "Acceso IV periférico o umbilical",
+        "Glucómetro + tiras reactivas",
+        "Bomba de infusión"
+      ],
+      "warnings": [
+        "Hipoglucemia neonatal no tratada → daño neurológico permanente",
+        "No usar concentraciones > D12.5% por vía periférica",
+        "Convulsiones hipoglucémicas = emergencia — bolo IV inmediato sin esperar confirmación"
+      ],
+      "references": [
+        "Pediatric Endocrine Society 2015",
+        "NEOFAX 2024",
+        "AAP 2011"
+      ]
+    },
+    {
+      "id": "hiperkalemia",
+      "name": "Manejo de Hiperkalemia Neonatal",
+      "category": "procedimiento",
+      "description": "Tratamiento de hiperkalemia (K > 6.5 mEq/L con cambios en ECG, o K > 7 mEq/L) en neonatos",
+      "formulas": [
+        {
+          "label": "Calcio gluconato 10% — estabilización de membrana",
+          "description": "1–2 mL/kg IV lento en 5–10 minutos. No mezclar con bicarbonato (precipita).",
+          "formula": "peso(kg) * 1",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de calcio gluconato 10% IV (1 mL/kg)",
+          "reference": "NEOFAX 2024."
+        },
+        {
+          "label": "Bicarbonato de sodio 8.4% — redistribución",
+          "description": "1–2 mEq/kg IV en 20–30 minutos. Diluir 1:1 con agua destilada.",
+          "formula": "peso(kg) * 1",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mEq de NaHCO₃ (= mL de 8.4%) a diluir 1:1",
+          "reference": "NEOFAX 2024."
+        },
+        {
+          "label": "Insulina regular — redistribución",
+          "description": "Insulina 0.1 U/kg IV siempre acompañada de glucosa (D10% 2 mL/kg o equivalente).",
+          "formula": "peso(kg) * 0.1",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "unidades de insulina regular IV",
+          "reference": "NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        { "step": "Confirmar hiperkalemia real (descartar pseudohiperkalemia por hemólisis de muestra)." },
+        { "step": "ECG inmediato: onda T picuda, QRS ancho u onda sinusoidal = emergencia." },
+        { "step": "Suspender todo aporte de potasio (líquidos IV, nutrición parenteral)." },
+        { "step": "Si hay cambios en ECG o K > 7 mEq/L: calcio gluconato 10% 1–2 mL/kg IV lento (estabiliza membrana en minutos).", "note": "Monitorizar ECG continuo durante la infusión" },
+        { "step": "Bicarbonato de sodio 1–2 mEq/kg IV en 20–30 min (redistribuye K al intracelular)." },
+        { "step": "Insulina 0.1 U/kg + D10% 2 mL/kg simultáneamente para evitar hipoglucemia." },
+        { "step": "Salbutamol nebulizado 2.5 mg (redistribución — efecto en 30 min)." },
+        { "step": "Para eliminación definitiva: resinas de intercambio iónico, furosemida o diálisis." }
+      ],
+      "materials": [
+        "Calcio gluconato 10%",
+        "Bicarbonato de sodio 8.4%",
+        "Insulina regular",
+        "Dextrosa 10% o 25%",
+        "Monitor ECG continuo"
+      ],
+      "warnings": [
+        "Calcio gluconato NO mezclar con bicarbonato — precipitan juntos",
+        "Insulina SIEMPRE con glucosa — hipoglucemia grave si se da sola",
+        "Las medidas redistribuyen el K pero no lo eliminan — usar resinas o diálisis para eliminación"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "acidosis_metabolica",
+      "name": "Corrección de Acidosis Metabólica",
+      "category": "procedimiento",
+      "description": "Administración de bicarbonato de sodio para corrección de acidosis metabólica en neonatos",
+      "formulas": [
+        {
+          "label": "Dosis de bicarbonato de sodio",
+          "description": "mEq NaHCO₃ = déficit de base × peso (kg) × 0.3. Administrar la mitad y reevaluar gasometría.",
+          "formula": "deficitBase * peso(kg) * 0.3",
+          "variableLabel": "Déficit de base (valor absoluto) / Peso",
+          "variableUnit": "mEq/L / kg",
+          "resultUnit": "mEq de NaHCO₃ totales (dar la mitad, reevaluar)",
+          "reference": "Fórmula estándar. NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        { "step": "Indicación: pH < 7.20 con déficit de base < −10 mEq/L y componente metabólico predominante." },
+        { "step": "Tratar la causa primero: hipoxia, hipovolemia, sepsis — el bicarbonato es un adjunto." },
+        { "step": "Calcular la dosis: déficit de base × peso × 0.3. Administrar la mitad en primera instancia." },
+        { "step": "Diluir NaHCO₃ 8.4% (1 mEq/mL) 1:1 con agua destilada → 0.5 mEq/mL.", "note": "Nunca administrar sin diluir en neonatos — hiperosmolaridad" },
+        { "step": "Infundir en 20–30 minutos por vía central (preferible) o periférica de buen calibre." },
+        { "step": "Control gasométrico 30–60 min después. Ajustar si es necesario." }
+      ],
+      "materials": [
+        "Bicarbonato de sodio 8.4% (1 mEq/mL)",
+        "Agua destilada para dilución",
+        "Acceso venoso central (preferible)",
+        "Bomba de infusión"
+      ],
+      "warnings": [
+        "NO administrar en bolo rápido → riesgo de hemorragia intraventricular",
+        "NO usar si predomina acidosis respiratoria → empeora la hipercapnia",
+        "Siempre diluir 1:1 con agua destilada antes de administrar"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "NRP 8a edición AAP"
+      ]
+    },
+    {
+      "id": "hipotermia_terapeutica",
+      "name": "Hipotermia Terapéutica (EHI)",
+      "category": "procedimiento",
+      "description": "Enfriamiento activo para neuroprotección en encefalopatía hipóxico-isquémica (EHI) moderada-grave",
+      "formulas": [
+        {
+          "label": "Temperatura objetivo",
+          "description": "Temperatura corporal central: 33.5°C (rango 33–34°C). Mantener 72 horas continuas.",
+          "formula": "33.5",
+          "variableLabel": "—",
+          "variableUnit": "—",
+          "resultUnit": "°C (temperatura rectal u esofágica objetivo)",
+          "reference": "CoolCap Trial. TOBY Trial. NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        { "step": "Criterios de inclusión: EG ≥ 36 semanas + ≤ 6 h de vida + al menos uno de: pH < 7.0, EB < −16, Apgar ≤ 5 a los 10 min, reanimación ≥ 10 min o convulsiones." },
+        { "step": "Confirmar con evaluación neurológica: EHI moderada o grave en escala de Sarnat." },
+        { "step": "Iniciar dentro de las 6 horas de vida — ventana terapéutica." },
+        { "step": "Método de elección: manta o colchón de enfriamiento con servo-control. Objetivo rectal/esofágico: 33.5°C.", "note": "Si no hay equipo disponible: enfriamiento pasivo (apagar calefactor) — monitorizar temperatura cada 15 min" },
+        { "step": "Monitorización continua: temperatura, FC, SpO₂, PA, glucemia y diuresis." },
+        { "step": "EEG de amplitud (aEEG) o EEG convencional para detección de convulsiones subclínicas." },
+        { "step": "Recalentamiento al completar 72 h: lento, 0.5°C/h durante 6–12 h.", "note": "El recalentamiento rápido puede desencadenar convulsiones" },
+        { "step": "RMN cerebral a los 5–7 días para evaluar extensión del daño y pronóstico." }
+      ],
+      "materials": [
+        "Sistema de enfriamiento con servo-control (manta o colchón cooling)",
+        "Sonda de temperatura rectal o esofágica",
+        "Monitor multiparamétrico continuo",
+        "aEEG o EEG convencional"
+      ],
+      "warnings": [
+        "Ventana terapéutica: iniciar antes de las 6 h de vida — después pierde efectividad",
+        "Contraindicaciones: EG < 36 semanas, malformaciones congénitas mayores, coagulopatía grave",
+        "Efectos esperables: bradicardia sinusal (tolerada si FC > 80), hipotensión, leve coagulopatía"
+      ],
+      "references": [
+        "CoolCap Trial. Gluckman et al. Lancet 2005",
+        "TOBY Trial. Azzopardi et al. NEJM 2008",
+        "NEOFAX 2024"
+      ]
     }
   ],
   "scores": [
