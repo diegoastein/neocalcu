@@ -10227,16 +10227,16 @@
           "required": true
         },
         {
-          "id": "ttotal",
-          "label": "Tiempo Total del Ciclo (Ttotal)",
-          "unit": "s",
+          "id": "fr",
+          "label": "Frecuencia Respiratoria (FR)",
+          "unit": "rpm",
           "required": true
         }
       ],
-      "formula": "(pip - peep) * (ti / ttotal) + peep",
+      "formula": "(pip - peep) * (ti * fr / 60) + peep",
       "resultLabel": "MAP",
       "resultUnit": "cmH₂O",
-      "notes": "MAP > 15 cmH₂O sugiere enfermedad grave. Se correlaciona con riesgo de barotrauma. Ttotal = TI + TE (tiempo espiratorio).",
+      "notes": "MAP > 15 cmH₂O sugiere enfermedad grave. Se correlaciona con riesgo de barotrauma. Ttotal = 60 / FR.",
       "reference": "Fisiología de ventilación mecánica neonatal. NEOFAX 2024."
     },
     {
