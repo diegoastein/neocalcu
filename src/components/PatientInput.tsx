@@ -22,10 +22,10 @@ export default function PatientInput() {
   };
 
   const handleReset = () => {
-    setLocalWeight('2500');
+    setLocalWeight('0');
     setLocalGA('');
     setLocalDOL('');
-    setPatient({ weightGrams: 2500 });
+    setPatient({ weightGrams: 0 });
   };
 
   return (
