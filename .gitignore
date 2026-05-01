@@ -4,7 +4,7 @@ package-lock.json
 yarn.lock
 
 # Build output
-dist/
+# dist/  — committed to beta for GitHub Pages
 .vite/
 
 # Environment
