@@ -2,6 +2,19 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Flujo de trabajo Git
+
+**Ramas principales:**
+- `main` — producción (GitHub Pages)
+- `beta` — testing
+
+**Flujo de desarrollo:**
+1. Desarrollar y probar en `localhost:5173` (`npm run dev`)
+2. Commits diarios manteniendo el historial limpio
+3. Una vez validado → push a `beta`
+4. Testing en `beta` (previsualizar con `npm run build`)
+5. Si está OK → merge a `main` (automáticamente en GitHub Pages)
+
 ## Commands
 
 ```bash
