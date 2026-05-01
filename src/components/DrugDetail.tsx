@@ -29,7 +29,8 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
       : rules;
 
   const selectedRule = availableRules[selectedRuleIndex];
-  const calculation = selectedRule ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
+  const hasValidPreparation = drug.preparation && drug.preparation.concentrationMgMl;
+  const calculation = selectedRule && hasValidPreparation ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
   const matchedRule = matchDosingRule(rules, patient);
 
   const categoryBadgeColor: { [key: string]: string } = {
@@ -101,6 +102,14 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
             <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Dosificación</h3>
 
+              {!hasValidPreparation && (
+                <div className="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded p-3 mb-4">
+                  <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                    ⚠️ Información de preparación incompleta. Consultar con farmacéutico.
+                  </p>
+                </div>
+              )}
+
               {availableRules.length > 1 && (
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Régimen</label>
@@ -140,6 +149,12 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                       </p>
                     </div>
                   )}
+                </div>
+              )}
+
+              {!calculation && (
+                <div className="text-sm text-slate-600 dark:text-slate-400 p-3 bg-white dark:bg-slate-800 rounded">
+                  Datos de dosis disponibles pero sin información de preparación.
                 </div>
               )}
             </section>
