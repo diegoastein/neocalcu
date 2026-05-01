@@ -46,6 +46,18 @@ export interface InfusionRule {
   notes?: string;
 }
 
+export interface InotropicConfig {
+  doseMin: number;
+  doseMax: number;
+  doseStep: number;
+  defaultDose: number;
+  defaultFlow: number;
+  volumes: number[];
+  defaultVolume: number;
+  diluent: string;
+  unit: string;
+}
+
 export interface DrugPreparation {
   stockForm: string;
   reconstitution?: string;
@@ -64,6 +76,7 @@ export interface Drug {
   indications: string[];
   dosingRules?: DosingRule[];
   infusionRules?: InfusionRule[];
+  inotropicConfig?: InotropicConfig;
   preparation: DrugPreparation;
   administration: {
     routes: string[];

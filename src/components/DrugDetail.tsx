@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Drug, DosingRule } from '../types';
 import { usePatient } from '../context/PatientContext';
 import { matchDosingRule, calcDose } from '../utils/calculations';
+import InotropicCalculator from './InotropicCalculator';
 
 interface DrugDetailProps {
   drug: Drug;
@@ -97,8 +98,16 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
             </section>
           )}
 
+          {/* Calculador inotrópico */}
+          {drug.inotropicConfig && (
+            <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded-xl p-4">
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Calculador de infusión</h3>
+              <InotropicCalculator config={drug.inotropicConfig} drugName={drug.name} />
+            </section>
+          )}
+
           {/* Dosing Rules */}
-          {availableRules.length > 0 && (
+          {!drug.inotropicConfig && availableRules.length > 0 && (
             <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Dosificación</h3>
 

@@ -802,6 +802,17 @@
         "Vasoconstricción periférica (dosis altas)",
         "Necrosis si extravasación"
       ],
+      "inotropicConfig": {
+        "doseMin": 2,
+        "doseMax": 20,
+        "doseStep": 1,
+        "defaultDose": 5,
+        "defaultFlow": 1,
+        "volumes": [12, 24, 50],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
+      },
       "references": [
         "NEOFAX 2024 p. 305"
       ]
@@ -859,6 +870,17 @@
         "Presión arterial",
         "Ecocardiograma"
       ],
+      "inotropicConfig": {
+        "doseMin": 2,
+        "doseMax": 20,
+        "doseStep": 1,
+        "defaultDose": 5,
+        "defaultFlow": 1,
+        "volumes": [12, 24, 50],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
+      },
       "references": [
         "NEOFAX 2024 p. 300"
       ]
@@ -923,6 +945,17 @@
         "Isquemia periférica",
         "Hiperglucemia"
       ],
+      "inotropicConfig": {
+        "doseMin": 0.05,
+        "doseMax": 1,
+        "doseStep": 0.05,
+        "defaultDose": 0.1,
+        "defaultFlow": 1,
+        "volumes": [12, 24, 50],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
+      },
       "references": [
         "NEOFAX 2024 p. 340"
       ]
