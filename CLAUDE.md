@@ -142,7 +142,7 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 - Navegación inferior con 5 tabs (Medicamentos, Procedimientos, Índices, Fórmulas, Favoritos)
 - Medicamentos agrupados por categoría con headers no pegajosos
 
-## Estado actual (2026-04-30 - Implementación completa + Rediseño visual + Deploy GitHub Pages)
+## Estado actual (2026-05-01 - Implementación completa + Rediseño visual + Deploy GitHub Pages + Balance Hidroelectrolítico funcional)
 
 **✅ Aplicación completamente funcional y en producción:**
 
@@ -178,11 +178,12 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
   - **MAP (Mean Airway Pressure)** — presión media de vía aérea en ventilación
   - **IO (Oxygenation Index)** — índice de oxigenación (criterio ECMO)
   - **CDO₂ (Oxygen Delivery)** — aporte de oxígeno
-  - **Balance Hidroelectrolítico 24h** — ingresos/egresos, relación E/I, ritmo diurético
+  - **Balance Hidroelectrolítico 24h** — Ingreso/kg, Egreso/kg, Relación E/I, Ritmo Diurético
 - ✅ Auto-relleno de peso desde PatientInput
 - ✅ Inputs dinámicos según fórmula
 - ✅ Cálculo en tiempo real con referencias
 - ✅ Botón de favoritos en cada fórmula
+- ✅ **Cálculos con múltiples fórmulas y dependencias** — Balance calcula totales intermedios para usar en derivadas
 
 **Favoritos (FavoritesPage):**
 - ✅ Listado de todos los items marcados como favoritos
@@ -210,6 +211,18 @@ velocidad (mL/h) = dosis (mcg/kg/min) × pesoKg × 60 / concentración (mcg/mL)
 - ✅ Configurado `base: '/neocalcu/'` en vite.config.ts para rutas relativas
 
 **Dev server corriendo:** `npm run dev` → localhost:5176 (varía según disponibilidad)
+
+**Correcciones técnicas recientes (2026-05-01):**
+- ✅ **Regex de variables actualizado** — Ahora detecta nombres con números (ingreso1, ingreso2, etc.)
+  - Cambio: `/\b([a-z_]+)\b/g` → `/\b([a-z_][a-z0-9_]*)\b/g`
+  - Aplicado en FormulasPage y ProceduresPage
+- ✅ **Cálculos multi-fórmula con dependencias** — Las fórmulas pueden usar resultados de otras fórmulas
+  - Ingreso/kg y Egreso/kg ahora usan los totales calculados previamente
+  - Relación E/I usa tanto ingreso_total como egreso_total
+- ✅ **Balance Hidroelectrolítico** — Muestra 4 resultados (Ingreso/kg, Egreso/kg, E/I, Ritmo Diurético)
+  - Inputs: Ingreso 1/2/3 (opcionales), Diuresis (requerido), Catarsis/Otros (opcionales)
+  - Auto-relleno de peso desde PatientContext
+  - Cálculo correcto de ingresos/egresos extrapolados a kg
 
 ## Agregar un medicamento nuevo
 

@@ -33,7 +33,7 @@ export default function FormulasPage() {
     }
 
     try {
-      const result = eval(currentFormula.formula.replace(/\b([a-z_]+)\b/g, (match) => {
+      const result = eval(currentFormula.formula.replace(/\b([a-z_][a-z0-9_]*)\b/g, (match) => {
         if (variables[match] !== undefined) {
           return variables[match].toString();
         }
@@ -55,19 +55,43 @@ export default function FormulasPage() {
       variables['peso'] = patient.weightGrams / 1000;
     }
 
-    const results: Record<string, number> = {};
+    // Agregar defaults para inputs opcionales no ingresados
+    if (currentFormula.inputs) {
+      currentFormula.inputs.forEach((inp) => {
+        if (!(inp.id in variables)) {
+          variables[inp.id] = 0;
+        }
+      });
+    }
 
+    const results: Record<string, number> = {};
     const calculations = currentFormula.calculations as Record<string, string>;
-    for (const [key, formula] of Object.entries(calculations)) {
+
+    // Calcular en orden, agregando resultados intermedios a variables
+    // Calcular los totales primero, luego mostrar solo los por kg
+    const orderedKeys = [
+      'ingreso_total', 'egreso_total', // calcular primero los totales (pero no mostrar)
+      'ingreso_kg', 'egreso_kg', 'relacion_ei', 'ritmo_diuretico' // mostrar estos
+    ];
+
+    for (const key of orderedKeys) {
+      if (!calculations[key]) continue;
+
       try {
-        const result = eval(formula.replace(/\b([a-z_]+)\b/g, (match) => {
+        const formula = calculations[key];
+        const processedFormula = formula.replace(/\b([a-z_][a-z0-9_]*)\b/g, (match) => {
           if (variables[match] !== undefined) {
             return variables[match].toString();
           }
           return match;
-        }));
-        if (typeof result === 'number') {
-          results[key] = result;
+        });
+        const result = eval(processedFormula);
+        if (typeof result === 'number' && !isNaN(result)) {
+          variables[key] = result; // siempre agregar a variables para fórmulas dependientes
+          // solo agregar a results si no es un total intermedio
+          if (!['ingreso_total', 'egreso_total'].includes(key)) {
+            results[key] = result;
+          }
         }
       } catch {
         // silently skip calculation errors
@@ -197,12 +221,9 @@ export default function FormulasPage() {
                 {(() => {
                   const results = calculateMultipleFormulas();
                   const labels: Record<string, string> = {
-                    ingreso_total: 'Ingreso Total',
-                    egreso_total: 'Egreso Total',
                     ingreso_kg: 'Ingreso / kg',
                     egreso_kg: 'Egreso / kg',
                     relacion_ei: 'Relación E/I',
-                    balance: 'Balance 24 hs',
                     ritmo_diuretico: 'Ritmo Diurético',
                   };
 
@@ -212,7 +233,9 @@ export default function FormulasPage() {
                       <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">{value.toFixed(2)}</p>
                       <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">
                         {key === 'relacion_ei' ? 'adimensional' :
-                         key === 'ritmo_diuretico' ? 'mL/kg/h' : 'mL/kg/24h'}
+                         key === 'ritmo_diuretico' ? 'mL/kg/h' :
+                         key === 'balance' ? 'mL' :
+                         'mL/kg/24h'}
                       </p>
                     </div>
                   ));

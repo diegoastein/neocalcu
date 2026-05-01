@@ -22,7 +22,7 @@ export default function ProceduresPage() {
         .replace(/peso_kg/g, patientKg.toString());
 
       if (allInputs) {
-        processedFormula = processedFormula.replace(/\b([a-z_]+)\b/g, (match) => {
+        processedFormula = processedFormula.replace(/\b([a-z_][a-z0-9_]*)\b/g, (match) => {
           if (allInputs[match] !== undefined) {
             return allInputs[match].toString();
           }

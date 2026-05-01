@@ -10347,6 +10347,14 @@
           "required": false
         }
       ],
+      "calculations": {
+        "ingreso_total": "ingreso1 + ingreso2 + ingreso3",
+        "egreso_total": "diuresis + catarsis + otros",
+        "ingreso_kg": "ingreso_total / peso",
+        "egreso_kg": "egreso_total / peso",
+        "relacion_ei": "egreso_total / ingreso_total",
+        "ritmo_diuretico": "diuresis / peso / 24"
+      },
       "resultLabel": "Balance Detallado",
       "resultUnit": "Variables",
       "notes": "Calcular: Ingreso/kg, Egreso/kg, Relacion E/I, Ritmo diuretico. Objetivo: balance cercano a cero.",
