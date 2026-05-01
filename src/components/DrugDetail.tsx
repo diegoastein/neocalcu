@@ -129,6 +129,17 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
 
               {calculation && (
                 <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis/kg</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} mg/kg</p>
+                    </div>
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.frequency}</p>
+                    </div>
+                  </div>
+
                   <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
                     <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis calculada</p>
                     <p className="text-3xl font-bold text-brand-900 dark:text-brand-200">{calculation.doseTotal} mg</p>
