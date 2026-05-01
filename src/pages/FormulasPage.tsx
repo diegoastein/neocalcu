@@ -130,7 +130,10 @@ export default function FormulasPage() {
             <section className="space-y-3">
               <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
               {currentFormula.inputs
-                .filter((input) => !(input.id === 'peso' && currentFormula.formula && currentFormula.formula.includes('peso')))
+                .filter((input) => {
+                  const requiredCount = currentFormula.inputs.filter((i) => i.required).length;
+                  return !(input.id === 'peso' && currentFormula.formula && currentFormula.formula.includes('peso') && requiredCount === 1);
+                })
                 .map((input) => (
                 <div key={input.id}>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
