@@ -2,11 +2,13 @@ import { useState } from 'react';
 import PatientInput from '../components/PatientInput';
 import { procedures } from '../data/procedures';
 import { useFavorites } from '../context/FavoritesContext';
+import { usePatient } from '../context/PatientContext';
 
 export default function ProceduresPage() {
   const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
   const [formulaInputs, setFormulaInputs] = useState<Record<string, number>>({});
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { patient } = usePatient();
 
   const toggleProcedure = (id: string) => {
     setExpandedProcedure(expandedProcedure === id ? null : id);
@@ -14,8 +16,9 @@ export default function ProceduresPage() {
 
   const calculateFormula = (formula: string, input: number): string => {
     const kg = input / 1000;
+    const patientKg = patient.weightGrams / 1000;
     try {
-      const result = eval(formula.replace(/peso\(kg\)/g, kg.toString()));
+      const result = eval(formula.replace(/peso\(kg\)/g, patientKg.toString()));
       return parseFloat(result).toFixed(2);
     } catch {
       return '—';
@@ -71,30 +74,37 @@ export default function ProceduresPage() {
                             </p>
 
                             {/* Input */}
-                            <div className="mb-3">
-                              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                {f.variableLabel} ({f.variableUnit})
-                              </label>
-                              <input
-                                type="number"
-                                value={formulaInputs[`${proc.id}-${idx}`] || ''}
-                                onChange={(e) =>
-                                  setFormulaInputs({
-                                    ...formulaInputs,
-                                    [`${proc.id}-${idx}`]: parseFloat(e.target.value) || 0,
-                                  })
-                                }
-                                placeholder="Ingresa valor"
-                                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
-                              />
-                            </div>
+                            {f.variableLabel.toLowerCase().includes('peso') ? (
+                              <div className="mb-3 bg-slate-100 dark:bg-slate-800 rounded p-2 text-xs text-slate-600 dark:text-slate-300">
+                                <p className="font-medium mb-1">Peso registrado:</p>
+                                <p>{(patient.weightGrams / 1000).toFixed(2)} kg ({patient.weightGrams} g)</p>
+                              </div>
+                            ) : (
+                              <div className="mb-3">
+                                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                                  {f.variableLabel} ({f.variableUnit})
+                                </label>
+                                <input
+                                  type="number"
+                                  value={formulaInputs[`${proc.id}-${idx}`] || ''}
+                                  onChange={(e) =>
+                                    setFormulaInputs({
+                                      ...formulaInputs,
+                                      [`${proc.id}-${idx}`]: parseFloat(e.target.value) || 0,
+                                    })
+                                  }
+                                  placeholder="Ingresa valor"
+                                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
+                                />
+                              </div>
+                            )}
 
                             {/* Result */}
-                            {formulaInputs[`${proc.id}-${idx}`] > 0 && (
+                            {(f.variableLabel.toLowerCase().includes('peso') || formulaInputs[`${proc.id}-${idx}`] > 0) && (
                               <div className="bg-brand-50 dark:bg-brand-950 rounded p-3 border-l-4 border-brand-500 dark:border-brand-400">
                                 <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Resultado</p>
                                 <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">
-                                  {calculateFormula(f.formula, formulaInputs[`${proc.id}-${idx}`])}
+                                  {calculateFormula(f.formula, formulaInputs[`${proc.id}-${idx}`] || patient.weightGrams)}
                                 </p>
                                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{f.resultUnit}</p>
                               </div>
