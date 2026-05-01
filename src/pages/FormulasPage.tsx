@@ -12,6 +12,16 @@ export default function FormulasPage() {
 
   const currentFormula = formulas.find((f) => f.id === selectedFormula);
 
+  // Auto-fill weight for formulas that require it
+  React.useEffect(() => {
+    if (currentFormula && currentFormula.inputs.some((inp) => inp.id === 'peso')) {
+      setInputs((prev) => ({
+        ...prev,
+        peso: patient.weightGrams / 1000,
+      }));
+    }
+  }, [currentFormula, patient.weightGrams]);
+
   const calculateFormula = (): number | null => {
     if (!currentFormula || !currentFormula.formula) return null;
 
