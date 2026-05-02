@@ -3,7 +3,7 @@ import { usePatient } from '../context/PatientContext';
 
 export default function PatientInput() {
   const { patient, setPatient } = usePatient();
-  const [localWeight, setLocalWeight] = useState(patient.weightGrams.toString());
+  const [localWeight, setLocalWeight] = useState(patient.weightGrams > 0 ? patient.weightGrams.toString() : '');
   const [localGA, setLocalGA] = useState(patient.gestAgeWeeks?.toString() ?? '');
   const [localDOL, setLocalDOL] = useState(patient.dayOfLife?.toString() ?? '');
 
@@ -22,7 +22,7 @@ export default function PatientInput() {
   };
 
   const handleReset = () => {
-    setLocalWeight('0');
+    setLocalWeight('');
     setLocalGA('');
     setLocalDOL('');
     setPatient({ weightGrams: 0 });

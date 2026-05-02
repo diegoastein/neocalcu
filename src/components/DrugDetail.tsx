@@ -35,16 +35,16 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
   const matchedRule = matchDosingRule(rules, patient);
 
   const categoryBadgeColor: { [key: string]: string } = {
-    antibiotico: 'bg-blue-100 text-blue-800',
-    antiviral: 'bg-purple-100 text-purple-800',
-    antifungico: 'bg-orange-100 text-orange-800',
-    cardiovascular: 'bg-red-100 text-red-800',
-    analgesico_sedante: 'bg-indigo-100 text-indigo-800',
-    diuretico: 'bg-green-100 text-green-800',
-    surfactante: 'bg-yellow-100 text-yellow-800',
-    respiratorio: 'bg-cyan-100 text-cyan-800',
-    emergencia: 'bg-red-200 text-red-900',
-    vitaminas_electrolitos: 'bg-amber-100 text-amber-800',
+    antibiotico: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+    antiviral: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
+    antifungico: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+    cardiovascular: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
+    analgesico_sedante: 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200',
+    diuretico: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+    surfactante: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+    respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200',
+    emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-200',
+    vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200',
   };
 
   return (
@@ -57,7 +57,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
             {drug.genericName && <p className="text-sm text-slate-500 dark:text-slate-400">{drug.genericName}</p>}
             <div className="flex flex-wrap gap-2 mt-2">
               {drug.category.map((cat) => (
-                <span key={cat} className={`text-xs font-semibold px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100'}`}>
+                <span key={cat} className={`text-xs font-semibold px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'}`}>
                   {cat}
                 </span>
               ))}
@@ -88,9 +88,9 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
 
           {/* Contraindications */}
           {drug.contraindications && drug.contraindications.length > 0 && (
-            <section className="bg-red-50 border border-red-200 rounded p-3">
-              <h3 className="font-semibold text-red-900 mb-2">⚠️ Contraindicaciones</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-red-800">
+            <section className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded p-3">
+              <h3 className="font-semibold text-red-900 dark:text-red-300 mb-2">⚠️ Contraindicaciones</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-red-800 dark:text-red-300">
                 {drug.contraindications.map((contra, i) => (
                   <li key={i}>{contra}</li>
                 ))}
@@ -100,7 +100,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
 
           {/* Calculador inotrópico */}
           {drug.inotropicConfig && (
-            <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded-xl p-4">
+            <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded-xl p-4">
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Calculador de infusión</h3>
               <InotropicCalculator config={drug.inotropicConfig} drugName={drug.name} />
             </section>
@@ -108,7 +108,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
 
           {/* Dosing Rules */}
           {!drug.inotropicConfig && availableRules.length > 0 && (
-            <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
+            <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Dosificación</h3>
 
               {!hasValidPreparation && (
@@ -163,8 +163,8 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                   </div>
 
                   {selectedRule.notes && (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded p-2">
-                      <p className="text-xs text-yellow-800">
+                    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded p-2">
+                      <p className="text-xs text-yellow-800 dark:text-yellow-300">
                         <strong>Nota:</strong> {selectedRule.notes}
                       </p>
                     </div>

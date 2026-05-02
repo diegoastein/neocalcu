@@ -18,15 +18,6 @@ export default function InotropicCalculator({ config, drugName }: Props) {
   // mg a preparar = dosis × peso × volumen × 60 / (flujo × 1000)
   const mgToPrepare = (dose * weightKg * volume * 60) / (flow * 1000);
 
-  // mcg/kg/min que entrega 1 mL/h con esta preparación
-  const doseAt1mLh = (mgToPrepare * 1000) / (volume * weightKg * 60);
-
-  const clampDose = (val: number) =>
-    Math.min(config.doseMax, Math.max(config.doseMin, parseFloat(val.toFixed(2))));
-
-  const clampFlow = (val: number) =>
-    Math.max(0.1, parseFloat(val.toFixed(1)));
-
   const hasWeight = patient.weightGrams > 0;
 
   return (
@@ -44,13 +35,7 @@ export default function InotropicCalculator({ config, drugName }: Props) {
             <p className="text-brand-100 text-sm mt-1">
               añadir a {volume} mL de {config.diluent}
             </p>
-            <div className="mt-3 pt-3 border-t border-brand-600 space-y-1 text-sm text-brand-100">
-              <p>
-                → 1 mL/h entregará{' '}
-                <span className="text-white font-bold">
-                  {doseAt1mLh.toFixed(3)} {config.unit}
-                </span>
-              </p>
+            <div className="mt-3 pt-3 border-t border-brand-600 text-sm text-brand-100">
               <p>
                 → A {flow} mL/h entregará{' '}
                 <span className="text-white font-bold">
@@ -68,31 +53,13 @@ export default function InotropicCalculator({ config, drugName }: Props) {
 
       {/* Selector de dosis */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-          Dosis ({config.unit})
-        </label>
-        <div className="flex items-center gap-3 mb-2">
-          <button
-            onClick={() => setDose(clampDose(dose - config.doseStep))}
-            className="w-10 h-10 flex-shrink-0 bg-slate-200 dark:bg-slate-700 rounded-full text-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
-          >
-            −
-          </button>
-          <input
-            type="number"
-            value={dose}
-            step={config.doseStep}
-            min={config.doseMin}
-            max={config.doseMax}
-            onChange={(e) => setDose(clampDose(parseFloat(e.target.value) || config.doseMin))}
-            className="flex-1 text-center text-2xl font-bold border border-slate-300 dark:border-slate-600 rounded-lg p-2 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
-          <button
-            onClick={() => setDose(clampDose(dose + config.doseStep))}
-            className="w-10 h-10 flex-shrink-0 bg-slate-200 dark:bg-slate-700 rounded-full text-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
-          >
-            +
-          </button>
+        <div className="flex justify-between items-baseline mb-2">
+          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+            Dosis
+          </label>
+          <span className="text-xl font-bold text-brand-800 dark:text-brand-300">
+            {dose.toFixed(2)} <span className="text-sm font-normal text-slate-500 dark:text-slate-400">{config.unit}</span>
+          </span>
         </div>
         <input
           type="range"
@@ -104,37 +71,33 @@ export default function InotropicCalculator({ config, drugName }: Props) {
           className="w-full accent-brand-700"
         />
         <div className="flex justify-between text-xs text-slate-400 mt-1">
-          <span>{config.doseMin} {config.unit}</span>
+          <span>{config.doseMin}</span>
           <span>{config.doseMax} {config.unit}</span>
         </div>
       </div>
 
       {/* Selector de flujo */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-          Flujo de infusión (mL/h)
-        </label>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setFlow(clampFlow(flow - 0.1))}
-            className="w-10 h-10 flex-shrink-0 bg-slate-200 dark:bg-slate-700 rounded-full text-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
-          >
-            −
-          </button>
-          <input
-            type="number"
-            value={flow}
-            step={0.1}
-            min={0.1}
-            onChange={(e) => setFlow(clampFlow(parseFloat(e.target.value) || 0.1))}
-            className="flex-1 text-center text-2xl font-bold border border-slate-300 dark:border-slate-600 rounded-lg p-2 dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
-          <button
-            onClick={() => setFlow(clampFlow(flow + 0.1))}
-            className="w-10 h-10 flex-shrink-0 bg-slate-200 dark:bg-slate-700 rounded-full text-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
-          >
-            +
-          </button>
+        <div className="flex justify-between items-baseline mb-2">
+          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+            Flujo de infusión
+          </label>
+          <span className="text-xl font-bold text-brand-800 dark:text-brand-300">
+            {flow.toFixed(1)} <span className="text-sm font-normal text-slate-500 dark:text-slate-400">mL/h</span>
+          </span>
+        </div>
+        <input
+          type="range"
+          min={config.flowMin}
+          max={config.flowMax}
+          step={config.flowStep}
+          value={flow}
+          onChange={(e) => setFlow(parseFloat(e.target.value))}
+          className="w-full accent-brand-700"
+        />
+        <div className="flex justify-between text-xs text-slate-400 mt-1">
+          <span>{config.flowMin}</span>
+          <span>{config.flowMax} mL/h</span>
         </div>
       </div>
 
@@ -162,7 +125,7 @@ export default function InotropicCalculator({ config, drugName }: Props) {
 
       {/* Instrucción de enfermería */}
       {hasWeight && (
-        <div className="bg-brand-50 dark:bg-brand-950 border-l-4 border-brand-700 dark:border-brand-500 rounded p-3">
+        <div className="bg-brand-50 dark:bg-slate-800 border-l-4 border-brand-700 dark:border-brand-500 rounded p-3">
           <p className="text-xs font-semibold text-brand-800 dark:text-brand-300 uppercase mb-1">
             Indicación
           </p>
