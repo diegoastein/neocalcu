@@ -150,7 +150,7 @@ export default function ProceduresPage() {
                                 : undefined;
 
                               return (
-                                <div className="bg-brand-50 dark:bg-brand-950 rounded p-3 border-l-4 border-brand-500 dark:border-brand-400">
+                                <div className="bg-brand-50 dark:bg-slate-800 rounded p-3 border-l-4 border-brand-500 dark:border-brand-400">
                                   <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Resultado</p>
                                   <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">
                                     {calculateFormula(f.formula, formulaInputs[`${proc.id}-${idx}`] || 0, allInputs)}

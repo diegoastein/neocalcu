@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { scores } from '../data/scores';
 import { useFavorites } from '../context/FavoritesContext';
+import BilirubinCalculator from '../components/BilirubinCalculator';
+import ROPCalculator from '../components/ROPCalculator';
 
 interface ScoreState {
   [itemId: string]: number;
@@ -73,9 +75,17 @@ export default function ScoresPage() {
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">{currentScore.description}</p>
             </section>
 
+            {/* Calculadores especiales */}
+            {currentScore.bilirubinCalculator && (
+              <BilirubinCalculator references={currentScore.references} />
+            )}
+            {currentScore.ropCalculator && (
+              <ROPCalculator references={currentScore.references} />
+            )}
+
             {/* Items */}
             <section className="space-y-4">
-              {currentScore.items.map((item) => (
+              {!currentScore.bilirubinCalculator && currentScore.items.map((item) => (
                 <div key={item.id} className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">{item.name}</h3>
                   <div className="space-y-2">
@@ -95,7 +105,7 @@ export default function ScoresPage() {
                             <p className="text-xs text-slate-500 dark:text-slate-400">{value.description}</p>
                           )}
                         </div>
-                        <span className="text-sm font-semibold text-brand-800 dark:text-brand-400 bg-brand-50 dark:bg-brand-950 px-2 py-1 rounded">
+                        <span className="text-sm font-semibold text-brand-800 dark:text-brand-400 bg-brand-50 dark:bg-slate-800 px-2 py-1 rounded">
                           {value.score}
                         </span>
                       </label>
@@ -106,10 +116,10 @@ export default function ScoresPage() {
             </section>
 
             {/* Score summary */}
-            {allItemsAnswered && (
+            {!currentScore.bilirubinCalculator && allItemsAnswered && (
               <section className="space-y-4">
                 {/* Total score */}
-                <div className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
+                <div className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
                   <p className="text-xs text-brand-600 dark:text-brand-400 mb-1">Puntuación total</p>
                   <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{totalScore}</p>
                   <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
@@ -141,7 +151,7 @@ export default function ScoresPage() {
             )}
 
             {/* Reset button */}
-            {Object.keys(scoreState).length > 0 && (
+            {!currentScore.bilirubinCalculator && Object.keys(scoreState).length > 0 && (
               <button
                 onClick={() => setScoreState({})}
                 className="w-full mt-4 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-sm"

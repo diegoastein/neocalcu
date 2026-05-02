@@ -46,56 +46,29 @@ export default function FormulasPage() {
   };
 
   const calculateMultipleFormulas = (): Record<string, number> => {
-    if (!currentFormula || !('calculations' in currentFormula)) return {};
+    if (!currentFormula?.calculations) return {};
 
     const variables: Record<string, number> = { ...inputs };
+    if (!variables['peso']) variables['peso'] = patient.weightGrams / 1000;
+    currentFormula.inputs.forEach((inp) => {
+      if (!(inp.id in variables)) variables[inp.id] = 0;
+    });
 
-    // Agregar peso automáticamente
-    if (!variables['peso']) {
-      variables['peso'] = patient.weightGrams / 1000;
-    }
-
-    // Agregar defaults para inputs opcionales no ingresados
-    if (currentFormula.inputs) {
-      currentFormula.inputs.forEach((inp) => {
-        if (!(inp.id in variables)) {
-          variables[inp.id] = 0;
-        }
-      });
-    }
-
-    const results: Record<string, number> = {};
     const calculations = currentFormula.calculations as Record<string, string>;
+    const hidden = new Set(currentFormula.calculationsHidden ?? []);
+    const results: Record<string, number> = {};
 
-    // Calcular en orden, agregando resultados intermedios a variables
-    // Calcular los totales primero, luego mostrar solo los por kg
-    const orderedKeys = [
-      'ingreso_total', 'egreso_total', // calcular primero los totales (pero no mostrar)
-      'ingreso_kg', 'egreso_kg', 'relacion_ei', 'ritmo_diuretico' // mostrar estos
-    ];
-
-    for (const key of orderedKeys) {
-      if (!calculations[key]) continue;
-
+    for (const key of Object.keys(calculations)) {
       try {
-        const formula = calculations[key];
-        const processedFormula = formula.replace(/\b([a-z_][a-z0-9_]*)\b/g, (match) => {
-          if (variables[match] !== undefined) {
-            return variables[match].toString();
-          }
-          return match;
-        });
-        const result = eval(processedFormula);
-        if (typeof result === 'number' && !isNaN(result)) {
-          variables[key] = result; // siempre agregar a variables para fórmulas dependientes
-          // solo agregar a results si no es un total intermedio
-          if (!['ingreso_total', 'egreso_total'].includes(key)) {
-            results[key] = result;
-          }
+        const processed = calculations[key].replace(/\b([a-z_][a-z0-9_]*)\b/g, (m) =>
+          variables[m] !== undefined ? variables[m].toString() : m
+        );
+        const val = eval(processed);
+        if (typeof val === 'number' && !isNaN(val)) {
+          variables[key] = val;
+          if (!hidden.has(key)) results[key] = val;
         }
-      } catch {
-        // silently skip calculation errors
-      }
+      } catch { /* skip */ }
     }
 
     return results;
@@ -154,7 +127,7 @@ export default function FormulasPage() {
 
             {/* Formula display */}
             {currentFormula.formula && (
-              <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-3">
+              <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-3">
                 <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Fórmula</p>
                 <code className="text-sm text-brand-900 dark:text-brand-200 font-mono break-words">{currentFormula.formula}</code>
               </section>
@@ -206,37 +179,27 @@ export default function FormulasPage() {
             </section>
 
             {/* Result - Single formula */}
-            {currentFormula.id !== 'balance_hidroelectrolitico' && allRequiredInputsFilled && result !== null && (
-              <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
+            {!currentFormula.calculations && allRequiredInputsFilled && result !== null && (
+              <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
                 <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Resultado</p>
                 <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{result.toFixed(2)}</p>
                 <p className="text-sm text-brand-700 dark:text-brand-300 mt-2">{currentFormula.resultLabel}: {currentFormula.resultUnit}</p>
               </section>
             )}
 
-            {/* Result - Multiple formulas (Balance Hidroelectrolítico) */}
-            {currentFormula.id === 'balance_hidroelectrolitico' && inputs.peso && inputs.diuresis && (
+            {/* Result - Multiple calculations */}
+            {currentFormula.calculations && allRequiredInputsFilled && (
               <section className="space-y-3">
-                <h3 className="font-semibold text-slate-900 dark:text-slate-100">Resultados detallados</h3>
+                <h3 className="font-semibold text-slate-900 dark:text-slate-100">Resultados</h3>
                 {(() => {
                   const results = calculateMultipleFormulas();
-                  const labels: Record<string, string> = {
-                    ingreso_kg: 'Ingreso / kg',
-                    egreso_kg: 'Egreso / kg',
-                    relacion_ei: 'Relación E/I',
-                    ritmo_diuretico: 'Ritmo Diurético',
-                  };
-
+                  const labels = currentFormula.calculationsLabels ?? {};
+                  const units = currentFormula.calculationsUnits ?? {};
                   return Object.entries(results).map(([key, value]) => (
-                    <div key={key} className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-3">
-                      <p className="text-xs text-brand-600 dark:text-brand-400 font-medium mb-1">{labels[key] || key}</p>
+                    <div key={key} className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-3">
+                      <p className="text-xs text-brand-600 dark:text-brand-400 font-medium mb-1">{labels[key] ?? key}</p>
                       <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">{value.toFixed(2)}</p>
-                      <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">
-                        {key === 'relacion_ei' ? 'adimensional' :
-                         key === 'ritmo_diuretico' ? 'mL/kg/h' :
-                         key === 'balance' ? 'mL' :
-                         'mL/kg/24h'}
-                      </p>
+                      {units[key] && <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">{units[key]}</p>}
                     </div>
                   ));
                 })()}
