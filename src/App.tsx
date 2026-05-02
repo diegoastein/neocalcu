@@ -4,9 +4,9 @@ import { PatientProvider } from './context/PatientContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import MedicationsPage from './pages/MedicationsPage';
 import ProceduresPage from './pages/ProceduresPage';
-import ScoresPage from './pages/ScoresPage';
+import CalculadorasPage from './pages/CalculadorasPage';
+import LaboratoryPage from './pages/LaboratoryPage';
 import FavoritesPage from './pages/FavoritesPage';
-import FormulasPage from './pages/FormulasPage';
 import BottomNav from './components/BottomNav';
 
 function AppContent() {
@@ -28,12 +28,12 @@ function AppContent() {
         return <MedicationsPage />;
       case 'procedimientos':
         return <ProceduresPage />;
-      case 'indices':
-        return <ScoresPage />;
+      case 'calculadoras':
+        return <CalculadorasPage />;
+      case 'laboratorio':
+        return <LaboratoryPage />;
       case 'favoritos':
         return <FavoritesPage />;
-      case 'formulas':
-        return <FormulasPage />;
     }
   };
 
