@@ -44,7 +44,7 @@ El workflow `.github/workflows/deploy.yml` usa las Actions oficiales de GitHub P
 
 ### Datos clínicos — fuente de verdad
 
-`docs/clinical_knowledge.json` contiene todas las drogas, procedimientos, índices clínicos y fórmulas. Este archivo es **importado estáticamente** en la capa de datos de TypeScript; jamás se fetchea en runtime. Al modificar datos clínicos, siempre editar este JSON.
+`docs/clinical_knowledge.json` contiene todas las drogas, procedimientos, índices clínicos, fórmulas y valores de laboratorio. Este archivo es **importado estáticamente** en la capa de datos de TypeScript; jamás se fetchea en runtime. Al modificar datos clínicos, siempre editar este JSON.
 
 Estructura del JSON:
 ```
@@ -52,6 +52,7 @@ drugs[]        → medicamentos con dosingRules[], infusionRules[] y/o inotropic
 procedures[]   → procedimientos con formulas[] y steps[]
 scores[]       → escalas clínicas con items[] e interpretation[]
 formulas[]     → calculadoras médicas (BSA, clearance, etc.)
+laboratory[]   → valores de referencia neonatal por categoría
 ```
 
 ### Tipos
@@ -62,10 +63,10 @@ formulas[]     → calculadoras médicas (BSA, clearance, etc.)
 - **`Drug`** — puede tener `dosingRules` (bolos/intervalos), `infusionRules` (infusiones), y/o `inotropicConfig` (calculador inotrópico interactivo)
 - **`DosingRule`** — filtra por `gaMin/gaMax`, `dolMin/dolMax`, `weightMinG/weightMaxG` para llegar a la dosis correcta
 - **`InfusionRule`** — incluye `ruleOf3` con `multiplier` y `volumeMl` para calcular la "regla de 3" bedside
-- **`InotropicConfig`** — configuración del calculador interactivo: rangos de dosis, flujo, volúmenes disponibles
-- **`Procedure`** — procedimientos con fórmulas y pasos paso-a-paso
-- **`Score`** — escalas clínicas con items evaluables e interpretación por rango de puntuación
-- **`Formula`** — calculadoras médicas con inputs dinámicos y evaluación de fórmulas
+- **`InotropicConfig`** — configuración del calculador interactivo: rangos de dosis (`doseMin/doseMax/doseStep`), flujo (`flowMin/flowMax/flowStep`), volúmenes disponibles
+- **`Score`** — escalas clínicas; puede tener `bilirubinCalculator: true` o `ropCalculator: true` para activar componentes especiales
+- **`Formula`** — calculadoras médicas con inputs dinámicos; puede tener `calculations` (objeto de fórmulas dependientes) con `calculationsLabels`, `calculationsUnits`, `calculationsHidden`
+- **`LabCategory`** / **`LabParameter`** / **`LabReference`** — estructura para valores de referencia de laboratorio neonatal
 
 ### Capa de datos (`src/data/`)
 
@@ -74,6 +75,7 @@ Los archivos de datos importan el JSON y re-exportan arrays tipados:
 - `procedures.ts` → exporta `procedures: Procedure[]`
 - `scores.ts` → exporta `scores: Score[]`
 - `formulas.ts` → exporta `formulas: Formula[]`
+- `laboratory.ts` → exporta `labCategories: LabCategory[]`
 
 Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - `matchDosingRule(rules, patient)` — devuelve la primera regla que cumple todos los matchers
@@ -83,27 +85,43 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 ### Contextos globales (`src/context/`)
 
 - **`PatientContext.tsx`** — provee `patient` y `setPatient` a toda la app. Peso, E.G. (edad gestacional), Días persisten en `sessionStorage`
-- **`FavoritesContext.tsx`** — maneja marcadores (favoritos) de medicamentos, procedimientos y fórmulas. Persiste en `localStorage`
+- **`FavoritesContext.tsx`** — maneja marcadores (favoritos) de medicamentos, procedimientos, índices y fórmulas. Persiste en `localStorage`
 
 ### Componentes clave
 
 - **`DrugDetail.tsx`** — modal de detalle de medicamento. Si el drug tiene `inotropicConfig`, muestra `InotropicCalculator` en lugar de la sección de dosificación estándar.
-- **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: slider de dosis, selector de flujo (+/−), toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`.
+- **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: sliders de dosis y flujo, toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`.
+- **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según AAP 2022. Interpolación por horas de vida, ajuste por EG y factores de riesgo.
+- **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
 
 ### Páginas y navegación
 
 5 páginas sin router externo — la navegación es un simple `useState<ActivePage>` en `App.tsx`:
 
-| `ActivePage`      | Página                | Contenido principal                                                     |
-|-------------------|-----------------------|-------------------------------------------------------------------------|
-| `medicamentos`    | `MedicationsPage`     | Buscador + calculadora de dosis por peso + botón favoritos              |
-| `procedimientos`  | `ProceduresPage`      | 23 procedimientos con fórmulas interactivas + pasos                     |
-| `indices`         | `ScoresPage`          | Silverman-Andersen, Apgar, Sarnat interactivos + botón favoritos        |
-| `formulas`        | `FormulasPage`        | 11 calculadoras médicas + botón favoritos                               |
-| `favoritos`       | `FavoritesPage`       | Listado de todos los items marcados como favoritos                      |
+| `ActivePage`      | Página                | Contenido principal                                                                    |
+|-------------------|-----------------------|----------------------------------------------------------------------------------------|
+| `medicamentos`    | `MedicationsPage`     | Buscador + calculadora de dosis por peso + botón favoritos                             |
+| `procedimientos`  | `ProceduresPage`      | 24 procedimientos con fórmulas interactivas + pasos                                    |
+| `calculadoras`    | `CalculadorasPage`    | Índices clínicos + Fórmulas en un único selector con optgroups                         |
+| `laboratorio`     | `LaboratoryPage`      | Valores de referencia neonatal por categoría (9 categorías, fuente Garrahan)           |
+| `favoritos`       | `FavoritesPage`       | Listado de todos los items marcados como favoritos (drugs, procedures, scores, formulas)|
 
 La barra de navegación inferior (`BottomNav`) es el único mecanismo de routing. Usa iconos SVG (no emojis).
+
+#### Tab Calculadoras (`CalculadorasPage`)
+
+Unifica `ScoresPage` y `FormulasPage` en una sola vista. El `<select>` usa `<optgroup>` para separar "Índices clínicos" de "Fórmulas". El estado interno (`selectedType: 'score' | 'formula'`) determina qué lógica de renderizado usar. Incluye `PatientInput` siempre visible para auto-rellenar el peso.
+
+Calculadoras especiales activadas por flags en el tipo `Score`:
+- `bilirubinCalculator: true` → renderiza `BilirubinCalculator`
+- `ropCalculator: true` → renderiza `ROPCalculator`
+
+#### Tab Laboratorio (`LaboratoryPage`)
+
+Muestra valores de referencia neonatal organizados en 9 categorías con pills deslizables horizontales. Cada parámetro es expandible para ver rangos estratificados (por EG/edad postnatal), valores críticos y notas clínicas. Nota especial destacada para el pico fisiológico de PCT (0–72h hasta 21 ng/mL).
+
+Fuentes: Hospital Garrahan (primaria), Harriet Lane 23ª ed., Gomella 8ª ed., COBICO Argentina (coagulación).
 
 ### PWA / Offline
 
@@ -137,7 +155,7 @@ Diluir en volumeMl (50 mL)
 
 ### Calculador inotrópico interactivo (`inotropicConfig`)
 
-Para drogas con `inotropicConfig`, la UI muestra `InotropicCalculator` en lugar de la dosificación estándar. El usuario elige dosis, flujo y volumen; la app calcula los mg a preparar:
+Para drogas con `inotropicConfig`, la UI muestra `InotropicCalculator` en lugar de la dosificación estándar. El usuario elige dosis y flujo con sliders, y volumen con un toggle; la app calcula los mg a preparar:
 
 ```
 mg = dosis (mcg/kg/min) × peso (kg) × volumen (mL) × 60 / (flujo (mL/h) × 1000)
@@ -152,6 +170,9 @@ Para agregar un nuevo inotrópico, agregar `inotropicConfig` al objeto del drug 
   "doseMax": 1,
   "doseStep": 0.05,
   "defaultDose": 0.1,
+  "flowMin": 0.5,
+  "flowMax": 5,
+  "flowStep": 0.5,
   "defaultFlow": 1,
   "volumes": [12, 24, 50],
   "defaultVolume": 50,
@@ -162,11 +183,17 @@ Para agregar un nuevo inotrópico, agregar `inotropicConfig` al objeto del drug 
 
 ### Fórmulas con múltiples resultados (`calculations`)
 
-Algunas fórmulas (Balance Hidroelectrolítico) definen un objeto `calculations` con fórmulas dependientes. El orden de evaluación es fijo y los resultados intermedios se acumulan en `variables` antes de calcular los derivados. Variables con números en el nombre (ingreso1, ingreso2) requieren el regex `/\b([a-z_][a-z0-9_]*)\b/g`.
+Algunas fórmulas (Balance Hidroelectrolítico, Cilindro O₂) definen un objeto `calculations` con fórmulas dependientes. El orden de evaluación es fijo y los resultados intermedios se acumulan en `variables` antes de calcular los derivados. Variables con números en el nombre (ingreso1, ingreso2) requieren el regex `/\b([a-z_][a-z0-9_]*)\b/g`.
+
+Metadatos opcionales:
+- `calculationsLabels` — mapa `key → label` para mostrar en la UI
+- `calculationsUnits` — mapa `key → unidad`
+- `calculationsHidden` — array de keys a no mostrar en resultados
 
 ## Convenciones de UI
 
-- Colores `brand-*` (verde esmeralda: `#065f46` a `#ecfdf5`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
+- Colores `brand-*` (verde esmeralda: `#022c22` a `#ecfdf5`, incluye `950`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
+- **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
 - Dark mode completo con toggle 🌙/☀️ en header superior
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
@@ -175,36 +202,42 @@ Algunas fórmulas (Balance Hidroelectrolítico) definen un objeto `calculations`
 - Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
 - Medicamentos agrupados por categoría con headers no pegajosos
 
-## Estado actual (2026-05-01)
+## Estado actual (2026-05-02)
 
 **✅ Aplicación completamente funcional y en producción.**
 
 **Medicamentos (MedicationsPage):**
-- ✅ 239+ medicamentos de NEOFAX 2024
+- ✅ 223 medicamentos de NEOFAX 2024 (limpios, sin duplicados, en español)
 - ✅ Buscador por nombre, genérico, indicaciones
 - ✅ Agrupados por categoría
 - ✅ Filtrado automático por peso, E.G., Días de vida
 - ✅ Modal con calculadora de dosis
-- ✅ **Calculador inotrópico interactivo** para Dopamina, Dobutamina, Adrenalina, Milrinona, Norepinefrina
+- ✅ **Calculador inotrópico interactivo** (sliders) para Dopamina, Dobutamina, Adrenalina, Milrinona, Norepinefrina
 
 **Procedimientos (ProceduresPage):**
-- ✅ **23 procedimientos** (5 originales + 18 nuevos):
+- ✅ **24 procedimientos**:
   - Vías/accesos: Punción Lumbar, Toracocentesis, Paracentesis, Acceso Intraóseo
   - Vía aérea: Surfactante, VM Convencional (inicio), CPAP Nasal, Cricotiroidotomía
   - Cardiovascular: Pericardiocentesis, RCP Neonatal
   - Nutrición: Nutrición Parenteral
   - Bilirrubina: Fototerapia Intensiva, Exanguinotransfusión Parcial, Exanguinotransfusión Doble Volumen
   - Metabólico/urgencias: Hipoglucemia, Hiperkalemia, Acidosis Metabólica, Hipotermia Terapéutica
+  - Transporte: Transporte Neonatal
 - ✅ Fórmulas interactivas con cálculo en tiempo real
 - ✅ Pasos, materiales, advertencias y referencias
 
-**Índices Clínicos (ScoresPage):**
-- ✅ Silverman-Andersen, Apgar, Sarnat — interactivos con interpretación por severidad
+**Calculadoras (CalculadorasPage — tab unificado):**
+- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, Bilirrubina AAP 2022, Screening ROP SAP
+- ✅ **Fórmulas** (12): BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CaO₂, Balance Hidroelectrolítico, BSA simplificada, Capacidad Cilindro O₂
+- ✅ Selector único con `<optgroup>` para separar índices de fórmulas
+- ✅ PatientInput siempre visible para auto-rellenar peso
 
-**Fórmulas (FormulasPage):**
-- ✅ 11 calculadoras: BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CDO₂, Balance Hidroelectrolítico, BSA simplificada
-- ✅ MAP usa FR (rpm) en lugar de Ttotal — fórmula: `(pip - peep) × (ti × fr / 60) + peep`
-- ✅ Balance Hidroelectrolítico con cálculos dependientes en orden fijo
+**Laboratorio (LaboratoryPage):**
+- ✅ **9 categorías**: Gasometría, Hemograma, Electrolitos, Química básica, Función hepática, Coagulación, Infección/Inflamación, Función tiroidea, LCR
+- ✅ Parámetros estratificados por EG y edad postnatal
+- ✅ Valores críticos marcados (criticalLow / criticalHigh)
+- ✅ Nota especial sobre pico fisiológico de PCT (0–72h hasta 21 ng/mL)
+- ✅ Fuente primaria: Hospital Garrahan; complementado con Harriet Lane, Gomella, COBICO Argentina
 
 **Deploy:**
 - ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
@@ -214,10 +247,18 @@ Algunas fórmulas (Balance Hidroelectrolítico) definen un objeto `calculations`
 ## Agregar un medicamento nuevo
 
 1. Agregar el objeto en `docs/clinical_knowledge.json` → array `drugs[]`, respetando la interfaz `Drug`
-2. Si es inotrópico: agregar `inotropicConfig` con rangos de dosis apropiados
+2. Si es inotrópico: agregar `inotropicConfig` con rangos de dosis y flujo apropiados
 3. Si usa regla de 3: agregar `infusionRules` con `ruleOf3.multiplier` correcto
 4. Si es bolo: agregar `dosingRules` de más restrictiva a menos restrictiva
 5. La UI lo muestra automáticamente — no se necesita código adicional
+
+## Agregar valores de laboratorio
+
+1. Editar `docs/clinical_knowledge.json` → array `laboratory[]`
+2. Cada categoría tiene `id`, `name`, `source` y `parameters[]`
+3. Cada parámetro tiene `id`, `name`, `abbreviation?`, `unit`, `references[]`, `notes?`, `criticalLow?`, `criticalHigh?`
+4. Cada referencia tiene `label`, `min?`, `max?`, `notes?`
+5. `src/data/laboratory.ts` re-exporta automáticamente — no se necesita código adicional
 
 ## Próximas tareas / Mejoras futuras
 
