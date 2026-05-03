@@ -13,9 +13,18 @@ interface ScoreState {
   [itemId: string]: number;
 }
 
-export default function CalculadorasPage() {
-  const [selectedId, setSelectedId] = useState<string>(scores[0]?.id || '');
-  const [selectedType, setSelectedType] = useState<ItemType>('score');
+interface CalculadorasPageProps {
+  initialId?: string | null;
+}
+
+export default function CalculadorasPage({ initialId }: CalculadorasPageProps = {}) {
+  const getInitialType = (id: string | null | undefined): ItemType => {
+    if (id && formulas.some((f) => f.id === id)) return 'formula';
+    return 'score';
+  };
+
+  const [selectedId, setSelectedId] = useState<string>(initialId || scores[0]?.id || '');
+  const [selectedType, setSelectedType] = useState<ItemType>(getInitialType(initialId));
   const [scoreState, setScoreState] = useState<ScoreState>({});
   const [inputs, setInputs] = useState<Record<string, number>>({});
   const { patient } = usePatient();

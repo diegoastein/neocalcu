@@ -5,11 +5,15 @@ import { procedures } from '../data/procedures';
 import { scores } from '../data/scores';
 import { formulas } from '../data/formulas';
 import DrugDetail from '../components/DrugDetail';
-import { Drug } from '../types';
+import { Drug, ActivePage } from '../types';
 
 type FavoriteItem = { type: 'drug' | 'procedure' | 'score' | 'formula'; id: string; name: string };
 
-export default function FavoritesPage() {
+interface FavoritesPageProps {
+  onNavigate: (page: ActivePage, itemId?: string) => void;
+}
+
+export default function FavoritesPage({ onNavigate }: FavoritesPageProps) {
   const { favorites } = useFavorites();
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
 
@@ -98,6 +102,10 @@ export default function FavoritesPage() {
                   if (item.type === 'drug') {
                     const drug = drugs.find((d) => d.id === item.id);
                     setSelectedDrug(drug || null);
+                  } else if (item.type === 'procedure') {
+                    onNavigate('procedimientos', item.id);
+                  } else if (item.type === 'score' || item.type === 'formula') {
+                    onNavigate('calculadoras', item.id);
                   }
                 }}
                 className="w-full text-left bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 p-4 transition border-0"

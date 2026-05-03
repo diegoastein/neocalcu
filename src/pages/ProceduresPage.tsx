@@ -4,8 +4,12 @@ import { procedures } from '../data/procedures';
 import { useFavorites } from '../context/FavoritesContext';
 import { usePatient } from '../context/PatientContext';
 
-export default function ProceduresPage() {
-  const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
+interface ProceduresPageProps {
+  initialExpanded?: string | null;
+}
+
+export default function ProceduresPage({ initialExpanded = null }: ProceduresPageProps) {
+  const [expandedProcedure, setExpandedProcedure] = useState<string | null>(initialExpanded);
   const [formulaInputs, setFormulaInputs] = useState<Record<string, number>>({});
   const { toggleFavorite, isFavorite } = useFavorites();
   const { patient } = usePatient();

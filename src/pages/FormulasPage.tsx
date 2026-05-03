@@ -4,8 +4,12 @@ import { formulas } from '../data/formulas';
 import { usePatient } from '../context/PatientContext';
 import { useFavorites } from '../context/FavoritesContext';
 
-export default function FormulasPage() {
-  const [selectedFormula, setSelectedFormula] = useState<string>(formulas[0]?.id || '');
+interface FormulasPageProps {
+  initialFormula?: string | null;
+}
+
+export default function FormulasPage({ initialFormula = null }: FormulasPageProps) {
+  const [selectedFormula, setSelectedFormula] = useState<string>(initialFormula || formulas[0]?.id || '');
   const [inputs, setInputs] = useState<Record<string, number>>({});
   const { patient } = usePatient();
   const { toggleFavorite, isFavorite } = useFavorites();
