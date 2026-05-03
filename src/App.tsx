@@ -12,6 +12,16 @@ import BottomNav from './components/BottomNav';
 function AppContent() {
   const [activePage, setActivePage] = useState<ActivePage>('medicamentos');
   const [isDark, setIsDark] = useState(false);
+  const [focusedProcedureId, setFocusedProcedureId] = useState<string | null>(null);
+  const [focusedScoreId, setFocusedScoreId] = useState<string | null>(null);
+  const [focusedFormulaId, setFocusedFormulaId] = useState<string | null>(null);
+
+  const navigateToItem = (page: ActivePage, itemId?: string) => {
+    if (page === 'procedimientos') setFocusedProcedureId(itemId || null);
+    if (page === 'indices') setFocusedScoreId(itemId || null);
+    if (page === 'formulas') setFocusedFormulaId(itemId || null);
+    setActivePage(page);
+  };
 
   useEffect(() => {
     const html = document.documentElement;
@@ -27,13 +37,13 @@ function AppContent() {
       case 'medicamentos':
         return <MedicationsPage />;
       case 'procedimientos':
-        return <ProceduresPage />;
+        return <ProceduresPage initialExpanded={focusedProcedureId} />;
       case 'indices':
-        return <ScoresPage />;
+        return <ScoresPage initialScore={focusedScoreId} />;
       case 'favoritos':
-        return <FavoritesPage />;
+        return <FavoritesPage onNavigate={navigateToItem} />;
       case 'formulas':
-        return <FormulasPage />;
+        return <FormulasPage initialFormula={focusedFormulaId} />;
     }
   };
 

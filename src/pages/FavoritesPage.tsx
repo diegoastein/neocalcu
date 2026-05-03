@@ -3,12 +3,17 @@ import { useFavorites } from '../context/FavoritesContext';
 import { drugs } from '../data/medications';
 import { procedures } from '../data/procedures';
 import { scores } from '../data/scores';
+import { formulas } from '../data/formulas';
 import DrugDetail from '../components/DrugDetail';
-import { Drug } from '../types';
+import { Drug, ActivePage } from '../types';
 
-type FavoriteItem = { type: 'drug' | 'procedure' | 'score'; id: string; name: string };
+type FavoriteItem = { type: 'drug' | 'procedure' | 'score' | 'formula'; id: string; name: string };
 
-export default function FavoritesPage() {
+interface FavoritesPageProps {
+  onNavigate: (page: ActivePage, itemId?: string) => void;
+}
+
+export default function FavoritesPage({ onNavigate }: FavoritesPageProps) {
   const { favorites } = useFavorites();
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
 
@@ -32,18 +37,26 @@ export default function FavoritesPage() {
       favoriteItems.push({ type: 'score', id, name: score.name });
       return;
     }
+
+    const formula = formulas.find((f) => f.id === id);
+    if (formula) {
+      favoriteItems.push({ type: 'formula', id, name: formula.name });
+      return;
+    }
   });
 
   const categoryColors: { [key: string]: string } = {
     drug: 'bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-300',
     procedure: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300',
     score: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
+    formula: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300',
   };
 
   const iconMap: { [key: string]: string } = {
     drug: '💊',
     procedure: '📋',
     score: '📊',
+    formula: '🧮',
   };
 
   return (
@@ -73,6 +86,12 @@ export default function FavoritesPage() {
                   if (item.type === 'drug') {
                     const drug = drugs.find((d) => d.id === item.id);
                     setSelectedDrug(drug || null);
+                  } else if (item.type === 'procedure') {
+                    onNavigate('procedimientos', item.id);
+                  } else if (item.type === 'score') {
+                    onNavigate('indices', item.id);
+                  } else if (item.type === 'formula') {
+                    onNavigate('formulas', item.id);
                   }
                 }}
                 className="w-full text-left bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 p-4 transition border-0"
@@ -84,7 +103,7 @@ export default function FavoritesPage() {
                     <span
                       className={`text-xs font-semibold px-2 py-1 rounded inline-block mt-1 ${categoryColors[item.type]}`}
                     >
-                      {item.type === 'drug' ? 'Medicamento' : item.type === 'procedure' ? 'Procedimiento' : 'Índice'}
+                      {item.type === 'drug' ? 'Medicamento' : item.type === 'procedure' ? 'Procedimiento' : item.type === 'score' ? 'Índice' : 'Fórmula'}
                     </span>
                   </div>
                   <span className="text-2xl text-slate-300 dark:text-slate-600">›</span>

@@ -6,8 +6,12 @@ interface ScoreState {
   [itemId: string]: number;
 }
 
-export default function ScoresPage() {
-  const [selectedScore, setSelectedScore] = useState<string>(scores[0]?.id || '');
+interface ScoresPageProps {
+  initialScore?: string | null;
+}
+
+export default function ScoresPage({ initialScore = null }: ScoresPageProps) {
+  const [selectedScore, setSelectedScore] = useState<string>(initialScore || scores[0]?.id || '');
   const [scoreState, setScoreState] = useState<ScoreState>({});
   const { toggleFavorite, isFavorite } = useFavorites();
 
