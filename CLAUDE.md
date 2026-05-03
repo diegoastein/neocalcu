@@ -202,7 +202,7 @@ Metadatos opcionales:
 - Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
 - Medicamentos agrupados por categoría con headers no pegajosos
 
-## Estado actual (2026-05-02)
+## Estado actual (2026-05-03)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -213,6 +213,7 @@ Metadatos opcionales:
 - ✅ Filtrado automático por peso, E.G., Días de vida
 - ✅ Modal con calculadora de dosis
 - ✅ **Calculador inotrópico interactivo** (sliders) para Dopamina, Dobutamina, Adrenalina, Milrinona, Norepinefrina
+- ✅ Dosis por m² (ej. Didanosina): muestran la dosis informativa sin calcular, con aviso de que requieren SC
 
 **Procedimientos (ProceduresPage):**
 - ✅ **24 procedimientos**:
@@ -239,6 +240,9 @@ Metadatos opcionales:
 - ✅ Nota especial sobre pico fisiológico de PCT (0–72h hasta 21 ng/mL)
 - ✅ Fuente primaria: Hospital Garrahan; complementado con Harriet Lane, Gomella, COBICO Argentina
 
+**Favoritos (FavoritesPage):**
+- ✅ Navegación funcional desde favoritos: click en procedimiento → abre `ProceduresPage` expandido; click en índice/fórmula → abre `CalculadorasPage` con el ítem preseleccionado
+
 **Deploy:**
 - ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
 - ✅ Push a `main` → deploy automático en ~1 minuto
@@ -250,7 +254,8 @@ Metadatos opcionales:
 2. Si es inotrópico: agregar `inotropicConfig` con rangos de dosis y flujo apropiados
 3. Si usa regla de 3: agregar `infusionRules` con `ruleOf3.multiplier` correcto
 4. Si es bolo: agregar `dosingRules` de más restrictiva a menos restrictiva
-5. La UI lo muestra automáticamente — no se necesita código adicional
+5. Si la dosis es por m²: usar `unit: "mg/m²/dosis"` — la UI omite el cálculo automático y muestra aviso de SC
+6. La UI lo muestra automáticamente — no se necesita código adicional
 
 ## Agregar valores de laboratorio
 
@@ -262,13 +267,15 @@ Metadatos opcionales:
 
 ## Próximas tareas / Mejoras futuras
 
-1. **Enriquecer medicamentos** — expandir estructura simplificada
+1. **Fix dosis m² en DrugDetail** — al abrir Didanosina sigue apareciendo "1 mg/kg" (pendiente de depurar; el `isPerM2` no está bloqueando el cálculo en todos los casos)
+
+2. **Enriquecer medicamentos** — expandir estructura simplificada
    - Agregar `preparation` detallada (diluciones, estabilidad, reconstitución)
    - Agregar `administration` (routes, iv rates, incompatibilities)
    - Agregar `monitoring` y `contraindications`
 
-2. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
+3. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
 
-3. **Historial de pacientes** — almacenamiento de cálculos recientes (opcional)
+4. **Historial de pacientes** — almacenamiento de cálculos recientes (opcional)
 
-4. **Tabla de velocidades para inotrópicos** — mostrar tabla de dosis vs. flujo para todas las combinaciones posibles
+5. **Tabla de velocidades para inotrópicos** — mostrar tabla de dosis vs. flujo para todas las combinaciones posibles
