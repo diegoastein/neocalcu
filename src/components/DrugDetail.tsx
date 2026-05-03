@@ -31,7 +31,8 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
 
   const selectedRule = availableRules[selectedRuleIndex];
   const hasValidPreparation = drug.preparation && drug.preparation.concentrationMgMl;
-  const calculation = selectedRule && hasValidPreparation ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
+  const isPerM2 = selectedRule?.unit?.includes('m²') || selectedRule?.unit?.includes('m2');
+  const calculation = selectedRule && hasValidPreparation && !isPerM2 ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
   const matchedRule = matchDosingRule(rules, patient);
 
   const categoryBadgeColor: { [key: string]: string } = {
@@ -136,12 +137,40 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                 </div>
               )}
 
+              {isPerM2 && selectedRule && (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} {selectedRule.unit}</p>
+                    </div>
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.frequency}</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded p-3">
+                    <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">Requiere cálculo de superficie corporal (m²)</p>
+                    <p className="text-xs text-amber-700 dark:text-amber-400">La dosis está expresada por m². Calcular el SC del paciente antes de preparar.</p>
+                  </div>
+
+                  {selectedRule.notes && (
+                    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded p-2">
+                      <p className="text-xs text-yellow-800 dark:text-yellow-300">
+                        <strong>Nota:</strong> {selectedRule.notes}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {calculation && (
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-2">
                     <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
-                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis/kg</p>
-                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} mg/kg</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} {selectedRule.unit}</p>
                     </div>
                     <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
                       <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
@@ -172,7 +201,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                 </div>
               )}
 
-              {!calculation && (
+              {!isPerM2 && !calculation && (
                 <div className="text-sm text-slate-600 dark:text-slate-400 p-3 bg-white dark:bg-slate-800 rounded">
                   Datos de dosis disponibles pero sin información de preparación.
                 </div>
