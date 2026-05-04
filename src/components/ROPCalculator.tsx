@@ -91,40 +91,40 @@ export default function ROPCalculator({ references }: { references: string[] }) 
         </div>
       </div>
 
-      {/* Factores de riesgo (relevantes para EG 33-36s) */}
-      <div>
-        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-          Factores de riesgo asociados
-          {ga >= 33 && ga <= 36 && (
+      {/* Factores de riesgo — solo relevantes para EG 33–36s */}
+      {ga >= 33 && ga <= 36 && (
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            Factores de riesgo asociados
             <span className="ml-2 text-xs font-normal text-amber-600 dark:text-amber-400">
               (determinantes para EG 33–36s)
             </span>
-          )}
-        </label>
-        <div className="space-y-2">
-          {RISK_FACTORS.map((rf) => (
-            <label
-              key={rf.id}
-              className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition ${
-                riskFactors.has(rf.id)
-                  ? 'bg-amber-50 dark:bg-amber-950 border-amber-300 dark:border-amber-700'
-                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700'
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={riskFactors.has(rf.id)}
-                onChange={() => toggleRisk(rf.id)}
-                className="mt-0.5 w-4 h-4 accent-brand-700 flex-shrink-0"
-              />
-              <div>
-                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{rf.label}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{rf.desc}</p>
-              </div>
-            </label>
-          ))}
+          </label>
+          <div className="space-y-2">
+            {RISK_FACTORS.map((rf) => (
+              <label
+                key={rf.id}
+                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition ${
+                  riskFactors.has(rf.id)
+                    ? 'bg-amber-50 dark:bg-amber-950 border-amber-300 dark:border-amber-700'
+                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={riskFactors.has(rf.id)}
+                  onChange={() => toggleRisk(rf.id)}
+                  className="mt-0.5 w-4 h-4 accent-brand-700 flex-shrink-0"
+                />
+                <div>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{rf.label}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{rf.desc}</p>
+                </div>
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Resultado de indicación */}
       {ga > 0 && (
@@ -157,7 +157,7 @@ export default function ROPCalculator({ references }: { references: string[] }) 
             {indicacionObligatoria && `Criterio: EG ≤ 32s${weight > 0 && weight <= 1500 ? ' y PN ≤ 1500g' : ''}`}
             {indicacionCondicional && 'Criterio: EG 33–36s con factor de riesgo presente'}
             {requiereFactores && 'EG 33–36s: screening solo si presenta factores de riesgo'}
-            {noIndicado && 'EG > 36s sin factores de riesgo — no cumple criterios SAP'}
+            {noIndicado && 'EG > 36s — no cumple criterios de screening SAP'}
           </p>
         </div>
       )}
