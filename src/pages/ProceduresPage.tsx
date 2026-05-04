@@ -48,7 +48,7 @@ export default function ProceduresPage({ initialExpanded = null }: ProceduresPag
       {/* Procedures list */}
       <div className="flex-1 overflow-y-auto pb-20">
         <div className="divide-y divide-slate-200 dark:divide-slate-700">
-          {procedures.map((proc) => (
+          {[...procedures].sort((a, b) => a.name.localeCompare(b.name, 'es')).map((proc) => (
             <div key={proc.id} className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition">
               <div className="flex items-start p-4">
                 <button
