@@ -120,26 +120,33 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
       <PatientInput />
 
       {/* Selector unificado */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-16 z-10">
-        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
+      <div className="bg-brand-50 dark:bg-slate-900 border-b border-brand-200 dark:border-slate-700 px-4 py-3 sticky top-16 z-10">
+        <label className="block text-xs font-semibold text-brand-700 dark:text-brand-400 uppercase tracking-wide mb-2">
           Selecciona índice o fórmula
         </label>
-        <select
-          value={selectedId}
-          onChange={(e) => handleSelect(e.target.value)}
-          className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
-        >
-          <optgroup label="Índices clínicos">
-            {scores.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </optgroup>
-          <optgroup label="Fórmulas">
-            {formulas.map((f) => (
-              <option key={f.id} value={f.id}>{f.name}</option>
-            ))}
-          </optgroup>
-        </select>
+        <div className="relative">
+          <select
+            value={selectedId}
+            onChange={(e) => handleSelect(e.target.value)}
+            className="w-full appearance-none px-4 py-3 pr-10 border-2 border-brand-400 dark:border-brand-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium text-base focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+          >
+            <optgroup label="Índices clínicos">
+              {scores.map((s) => (
+                <option key={s.id} value={s.id}>{s.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="Fórmulas">
+              {formulas.map((f) => (
+                <option key={f.id} value={f.id}>{f.name}</option>
+              ))}
+            </optgroup>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <svg className="w-5 h-5 text-brand-500 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto pb-20">
