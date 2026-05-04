@@ -210,7 +210,7 @@ Metadatos opcionales:
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
 - `lightSensitive: true` en `preparation` → mostrar ícono de protección de luz en la UI
 - Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
-- Medicamentos agrupados por categoría (ordenados alfabéticamente) con headers no pegajosos
+- Medicamentos: **Antibióticos siempre primero**, resto de categorías alfabético, medicamentos dentro de cada categoría también alfabéticos
 
 ## Estado actual (2026-05-04)
 
@@ -219,7 +219,7 @@ Metadatos opcionales:
 **Medicamentos (MedicationsPage):**
 - ✅ 223 medicamentos de NEOFAX 2024 (limpios, sin duplicados, en español)
 - ✅ Buscador por nombre, genérico, indicaciones
-- ✅ Agrupados por categoría, ordenados alfabéticamente (categorías y medicamentos dentro de cada categoría)
+- ✅ Agrupados por categoría: **Antibióticos siempre primero**, resto en orden alfabético; medicamentos dentro de cada categoría también alfabéticos
 - ✅ Filtrado automático por peso, E.G., Días de vida
 - ✅ Modal con calculadora de dosis
 - ✅ **Calculador inotrópico interactivo** (sliders) para Dopamina, Dobutamina, Adrenalina, Milrinona, Norepinefrina
@@ -265,8 +265,8 @@ Metadatos opcionales:
 **Deploy:**
 - ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
 - ✅ Push a `main` → deploy automático en ~1 minuto
-- ✅ PWA con Service Worker offline
-- ✅ Íconos PNG nativos: icon-192, icon-512, apple-touch-icon, favicon-32
+- ✅ PWA con Service Worker offline e íconos PNG nativos (icon-192, icon-512, apple-touch-icon, favicon-32)
+- ✅ Manifest con `start_url` y `scope` correctos → genera acceso directo en lanzador Android/iOS
 
 ## Agregar un medicamento nuevo
 
