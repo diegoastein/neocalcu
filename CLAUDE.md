@@ -237,9 +237,10 @@ Metadatos opcionales:
 - ✅ Ordenados alfabéticamente por nombre
 - ✅ Fórmulas interactivas con cálculo en tiempo real
 - ✅ Pasos, materiales, advertencias y referencias
+- ✅ Referencias de Fototerapia y Exanguinotransfusión actualizadas a NICE CG98 (2023)
 
 **Calculadoras (CalculadorasPage — tab unificado):**
-- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, Bilirrubina NICE CG98 (2023), Screening ROP SAP
+- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, **Bilirrubina NICE CG98 (2023)**, Screening ROP SAP
 - ✅ **Fórmulas** (12): BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CaO₂, Balance Hidroelectrolítico, BSA simplificada, Capacidad Cilindro O₂
 - ✅ Selector único con `<optgroup>` para separar índices de fórmulas
 - ✅ PatientInput siempre visible para auto-rellenar peso
