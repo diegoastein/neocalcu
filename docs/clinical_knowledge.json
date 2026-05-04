@@ -2833,14 +2833,14 @@
       ],
       "dosingRules": [
         {
-          "label": "Carga / Mantenimiento",
-          "dosePerKg": 1,
-          "unit": "mg/kg/dosis",
-          "frequency": "c/24h (tras carga)",
+          "label": "Neonatos",
+          "dosePerKg": 25,
+          "unit": "mg/m²/dosis",
+          "frequency": "c/24h",
           "routes": [
             "IV"
           ],
-          "notes": "Carga: 70 mg/m² (máx 70 mg), luego 50 mg/m² diarios"
+          "notes": "Infundir en 1 hora. En pediatría mayor: carga 70 mg/m² (máx 70 mg), luego 50 mg/m²/día."
         }
       ],
       "preparation": {
