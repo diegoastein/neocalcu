@@ -13,6 +13,13 @@
   </head>
   <body class="bg-slate-50">
     <div id="root"></div>
+    <!-- Capturar beforeinstallprompt antes de que React monte -->
+    <script>
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        window.__pwaInstallPrompt = e;
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

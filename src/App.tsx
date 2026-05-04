@@ -33,11 +33,16 @@ function AppContent() {
     setActivePage(page);
   };
 
-  // Capture PWA install prompt
+  // Capture PWA install prompt (puede haber disparado antes de que React monte)
   useEffect(() => {
+    const early = (window as Window & { __pwaInstallPrompt?: BeforeInstallPromptEvent }).__pwaInstallPrompt;
+    if (early) setInstallPrompt(early);
+
     const handler = (e: Event) => {
       e.preventDefault();
-      setInstallPrompt(e as BeforeInstallPromptEvent);
+      const prompt = e as BeforeInstallPromptEvent;
+      (window as Window & { __pwaInstallPrompt?: BeforeInstallPromptEvent }).__pwaInstallPrompt = prompt;
+      setInstallPrompt(prompt);
     };
     window.addEventListener('beforeinstallprompt', handler);
     return () => window.removeEventListener('beforeinstallprompt', handler);
