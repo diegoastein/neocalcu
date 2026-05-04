@@ -94,6 +94,7 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según AAP 2022. Interpolación por horas de vida, ajuste por EG y factores de riesgo.
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
+- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), contacto, enlace Neomonitor, aviso legal.
 
 ### Páginas y navegación
 
@@ -125,7 +126,15 @@ Fuentes: Hospital Garrahan (primaria), Harriet Lane 23ª ed., Gomella 8ª ed., C
 
 ### PWA / Offline
 
-`vite.config.ts` configura `vite-plugin-pwa` con Workbox. El service worker precachea **todos** los assets (JS, CSS, HTML, JSON, SVG). No hay runtime caching — todo debe estar en el bundle. Para agregar datos nuevos, siempre agregarlos al JSON o importarlos estáticamente.
+`vite.config.ts` configura `vite-plugin-pwa` con Workbox. El service worker precachea **todos** los assets (JS, CSS, HTML, JSON, PNG). No hay runtime caching — todo debe estar en el bundle. Para agregar datos nuevos, siempre agregarlos al JSON o importarlos estáticamente.
+
+**Íconos PWA** (`public/`):
+- `icon-192.png` y `icon-512.png` — íconos del manifest (Android/desktop)
+- `apple-touch-icon.png` — ícono 180×180 para iOS ("Agregar a pantalla de inicio")
+- `favicon-32.png` — favicon de pestaña del navegador
+- Fuente original: `docs/Gemini_Generated_Image_gz1wa5gz1wa5gz1w.png` (2816×1536), recortada al cuadrado central con `sharp`
+
+**Instalación PWA desde la app**: `App.tsx` captura el evento `beforeinstallprompt` y expone `handleInstall()` al `SettingsPanel`. El botón de instalación solo aparece cuando el evento está disponible (`canInstall = true`).
 
 ## Lógica de dosificación
 
@@ -194,22 +203,23 @@ Metadatos opcionales:
 
 - Colores `brand-*` (verde esmeralda: `#022c22` a `#ecfdf5`, incluye `950`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
 - **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
-- Dark mode completo con toggle 🌙/☀️ en header superior
+- Dark mode con tres modos: **Sistema** (sigue `prefers-color-scheme`), **Día**, **Noche** — controlado desde `SettingsPanel`. El estado `themeMode: 'system'|'light'|'dark'` persiste en `localStorage`
+- Header superior contiene solo el ícono engranaje (vértice superior izquierdo) que abre `SettingsPanel`
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
 - `lightSensitive: true` en `preparation` → mostrar ícono de protección de luz en la UI
 - Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
-- Medicamentos agrupados por categoría con headers no pegajosos
+- Medicamentos agrupados por categoría (ordenados alfabéticamente) con headers no pegajosos
 
-## Estado actual (2026-05-03)
+## Estado actual (2026-05-04)
 
 **✅ Aplicación completamente funcional y en producción.**
 
 **Medicamentos (MedicationsPage):**
 - ✅ 223 medicamentos de NEOFAX 2024 (limpios, sin duplicados, en español)
 - ✅ Buscador por nombre, genérico, indicaciones
-- ✅ Agrupados por categoría
+- ✅ Agrupados por categoría, ordenados alfabéticamente (categorías y medicamentos dentro de cada categoría)
 - ✅ Filtrado automático por peso, E.G., Días de vida
 - ✅ Modal con calculadora de dosis
 - ✅ **Calculador inotrópico interactivo** (sliders) para Dopamina, Dobutamina, Adrenalina, Milrinona, Norepinefrina
@@ -224,6 +234,7 @@ Metadatos opcionales:
   - Bilirrubina: Fototerapia Intensiva, Exanguinotransfusión Parcial, Exanguinotransfusión Doble Volumen
   - Metabólico/urgencias: Hipoglucemia, Hiperkalemia, Acidosis Metabólica, Hipotermia Terapéutica
   - Transporte: Transporte Neonatal
+- ✅ Ordenados alfabéticamente por nombre
 - ✅ Fórmulas interactivas con cálculo en tiempo real
 - ✅ Pasos, materiales, advertencias y referencias
 
@@ -243,10 +254,19 @@ Metadatos opcionales:
 **Favoritos (FavoritesPage):**
 - ✅ Navegación funcional desde favoritos: click en procedimiento → abre `ProceduresPage` expandido; click en índice/fórmula → abre `CalculadorasPage` con el ítem preseleccionado
 
+**Configuración (SettingsPanel):**
+- ✅ Ícono engranaje en vértice superior izquierdo del header
+- ✅ Selector de tema: Sistema / Día / Noche (persiste en `localStorage`)
+- ✅ Botón de instalación PWA (visible solo cuando el navegador lo permite)
+- ✅ Contacto: info@neomonitor.pro
+- ✅ Enlace "Más de Neomonitor" → www.getneomonitor.pro
+- ✅ Aviso legal / disclaimer de responsabilidad
+
 **Deploy:**
 - ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
 - ✅ Push a `main` → deploy automático en ~1 minuto
 - ✅ PWA con Service Worker offline
+- ✅ Íconos PNG nativos: icon-192, icon-512, apple-touch-icon, favicon-32
 
 ## Agregar un medicamento nuevo
 
