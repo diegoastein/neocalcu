@@ -163,6 +163,24 @@ export default function SettingsPanel({
             </a>
           </section>
 
+          {/* Cafecito */}
+          <section>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+              Apoyá el proyecto
+            </h3>
+            <a
+              href="https://cafecito.app/neomonitor"
+              rel="noopener"
+              target="_blank"
+            >
+              <img
+                srcSet="https://cdn.cafecito.app/imgs/buttons/button_4.png 1x, https://cdn.cafecito.app/imgs/buttons/button_4_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_4_3.75x.png 3.75x"
+                src="https://cdn.cafecito.app/imgs/buttons/button_4.png"
+                alt="Invitame un café en cafecito.app"
+              />
+            </a>
+          </section>
+
           {/* Más de Neomonitor */}
           <section>
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
@@ -180,24 +198,17 @@ export default function SettingsPanel({
               www.getneomonitor.pro
             </a>
           </section>
-
-          {/* Aviso legal */}
-          <section>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
-              Aviso legal
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              NeoCalcu es una herramienta de referencia clínica con fines informativos y educativos. Los cálculos y la información proporcionada no reemplazan el juicio clínico del profesional de la salud ni constituyen una recomendación médica.
-            </p>
-            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              El uso de esta aplicación es responsabilidad exclusiva del usuario. Los autores, colaboradores y Neomonitor no asumen ninguna responsabilidad por daños, perjuicios o consecuencias derivadas directa o indirectamente del uso de esta información en la práctica clínica.
-            </p>
-          </section>
         </div>
 
-        {/* Footer */}
-        <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-700">
-          <p className="text-xs text-center text-slate-400 dark:text-slate-500">
+        {/* Footer — Aviso legal */}
+        <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-700 space-y-1">
+          <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+            NeoCalcu es una herramienta de referencia clínica con fines informativos y educativos. No reemplaza el juicio clínico ni constituye una recomendación médica.
+          </p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+            El uso es responsabilidad exclusiva del usuario. Los autores y Neomonitor no asumen responsabilidad por consecuencias derivadas de su uso en la práctica clínica.
+          </p>
+          <p className="text-xs text-center text-slate-300 dark:text-slate-600 pt-1">
             NeoCalcu · Neomonitor
           </p>
         </div>
