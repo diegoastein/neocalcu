@@ -83,7 +83,11 @@ export default function MedicationsPage() {
           </div>
         ) : (
           <div>
-            {Object.entries(groupedDrugs).sort(([a], [b]) => (categoryLabels[a] || a).localeCompare(categoryLabels[b] || b, 'es')).map(([category, drugsInCategory]) => (
+            {Object.entries(groupedDrugs).sort(([a], [b]) => {
+              if (a === 'antibiotico') return -1;
+              if (b === 'antibiotico') return 1;
+              return (categoryLabels[a] || a).localeCompare(categoryLabels[b] || b, 'es');
+            }).map(([category, drugsInCategory]) => (
               <div key={category}>
                 <div className="bg-slate-100 dark:bg-slate-800 px-4 py-2">
                   <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
