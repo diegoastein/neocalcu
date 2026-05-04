@@ -9663,7 +9663,7 @@
       "formulas": [],
       "steps": [
         {
-          "step": "Indicar fototerapia según nomograma AAP 2022: bilirrubina total (mg/dL) vs. horas de vida, ajustado por factores de riesgo (isoinmunización, G6PD, etc.)."
+          "step": "Indicar fototerapia según umbrales NICE CG98 (2023): bilirrubina total (mg/dL o µmol/L) vs. horas de vida, ajustado por EG. Usar la calculadora de Umbral de Bilirrubina (NICE 2023)."
         },
         {
           "step": "Usar fototerapia LED de alta intensidad (irradiancia ≥ 30 μW/cm²/nm)."
@@ -9696,7 +9696,7 @@
         "Hiperbilirrubinemia con encefalopatía aguda → indicación de exanguinotransfusión urgente"
       ],
       "references": [
-        "AAP Clinical Practice Guideline 2022",
+        "NICE Clinical Guideline CG98 — Jaundice in newborn babies under 28 days (2023).",
         "NEOFAX 2024"
       ]
     },
@@ -9775,7 +9775,7 @@
       ],
       "steps": [
         {
-          "step": "Indicación: bilirrubina en zona de exanguinotransfusión según nomograma AAP 2022, o encefalopatía bilirrubínica aguda."
+          "step": "Indicación: bilirrubina en zona de exanguinotransfusión según umbrales NICE CG98 (2023) — ≥38s: ≥450 µmol/L (26.3 mg/dL) después de las 42h; pretérminos: EG×10 µmol/L — o encefalopatía bilirrubínica aguda."
         },
         {
           "step": "Solicitar sangre total reconstituida: GRD irradiados + PFC (relación ~2:1), compatible con madre e hijo."
@@ -9809,7 +9809,7 @@
         "ECN post-exsanguinotransfusión: ayuno 24 h después del procedimiento"
       ],
       "references": [
-        "AAP Clinical Practice Guideline 2022",
+        "NICE Clinical Guideline CG98 — Jaundice in newborn babies under 28 days (2023).",
         "NEOFAX 2024"
       ]
     },
@@ -10708,17 +10708,17 @@
     },
     {
       "id": "bilirrubina_aap2022",
-      "name": "Umbral de Bilirrubina (AAP 2022)",
+      "name": "Umbral de Bilirrubina (NICE 2023)",
       "subtitle": "Indicación de fototerapia y exanguinotransfusión",
-      "description": "Calcula los umbrales de fototerapia y exanguinotransfusión según la EG, horas de vida y factores de riesgo de neurotoxicidad (AAP 2022).",
+      "description": "Calcula los umbrales de fototerapia y exanguinotransfusión según la EG y las horas de vida (NICE CG98, vigilancia excepcional 2023). ≥38s: valores exactos de la tabla consensuada NICE. 35-37s: escalados mediante fórmula NICE para pretérminos (EG×10−100 µmol/L).",
       "bilirubinCalculator": true,
       "items": [],
       "interpretation": [],
       "minScore": 0,
       "maxScore": 0,
       "references": [
-        "AAP Clinical Practice Guideline — Hyperbilirubinemia in the Newborn Infant ≥35 Weeks. Pediatrics 2022.",
-        "Kemper AR et al. Pediatrics. 2022;150(3):e2022058859."
+        "NICE Clinical Guideline CG98 — Jaundice in newborn babies under 28 days (2010, actualizado 2016, vigilancia 2023).",
+        "NICE. Exceptional surveillance of CG98: 2023 update. nice.org.uk/guidance/cg98."
       ]
     },
     {

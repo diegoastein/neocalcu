@@ -91,7 +91,7 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 
 - **`DrugDetail.tsx`** — modal de detalle de medicamento. Si el drug tiene `inotropicConfig`, muestra `InotropicCalculator` en lugar de la sección de dosificación estándar.
 - **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: sliders de dosis y flujo, toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`.
-- **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según AAP 2022. Interpolación por horas de vida, ajuste por EG y factores de riesgo.
+- **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según **NICE CG98 (2023)**. ≥38s: valores exactos del Excel oficial NICE (interpolación hora a hora). 35-37s: escalados con fórmula NICE para pretérminos (EG×10−100 µmol/L). Muestra umbrales en mg/dL y µmol/L. 5 zonas: normal / limítrofe / fototerapia / intensiva / exanguino. Factores de monitorización (no modifican umbral, solo frecuencia de control).
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
 - **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), contacto, enlace Neomonitor, aviso legal.
@@ -239,7 +239,7 @@ Metadatos opcionales:
 - ✅ Pasos, materiales, advertencias y referencias
 
 **Calculadoras (CalculadorasPage — tab unificado):**
-- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, Bilirrubina AAP 2022, Screening ROP SAP
+- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, Bilirrubina NICE CG98 (2023), Screening ROP SAP
 - ✅ **Fórmulas** (12): BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CaO₂, Balance Hidroelectrolítico, BSA simplificada, Capacidad Cilindro O₂
 - ✅ Selector único con `<optgroup>` para separar índices de fórmulas
 - ✅ PatientInput siempre visible para auto-rellenar peso
