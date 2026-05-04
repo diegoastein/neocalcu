@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PatientInput from '../components/PatientInput';
 import { procedures } from '../data/procedures';
 import { useFavorites } from '../context/FavoritesContext';
@@ -13,9 +13,16 @@ export default function ProceduresPage({ initialExpanded = null }: ProceduresPag
   const [formulaInputs, setFormulaInputs] = useState<Record<string, number>>({});
   const { toggleFavorite, isFavorite } = useFavorites();
   const { patient } = usePatient();
+  const procedureRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const toggleProcedure = (id: string) => {
-    setExpandedProcedure(expandedProcedure === id ? null : id);
+    const next = expandedProcedure === id ? null : id;
+    setExpandedProcedure(next);
+    if (next) {
+      setTimeout(() => {
+        procedureRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 0);
+    }
   };
 
   const calculateFormula = (formula: string, input: number, allInputs?: Record<string, number>): string => {
@@ -49,7 +56,7 @@ export default function ProceduresPage({ initialExpanded = null }: ProceduresPag
       <div className="flex-1 overflow-y-auto pb-20">
         <div className="divide-y divide-slate-200 dark:divide-slate-700">
           {[...procedures].sort((a, b) => a.name.localeCompare(b.name, 'es')).map((proc) => (
-            <div key={proc.id} className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition">
+            <div key={proc.id} ref={el => { procedureRefs.current[proc.id] = el; }} className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition">
               <div className="flex items-start p-4">
                 <button
                   onClick={() => toggleProcedure(proc.id)}
