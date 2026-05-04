@@ -268,6 +268,7 @@ Metadatos opcionales:
 - ✅ Push a `main` → deploy automático en ~1 minuto
 - ✅ PWA con Service Worker offline e íconos PNG nativos (icon-192, icon-512, apple-touch-icon, favicon-32)
 - ✅ Manifest con `start_url` y `scope` correctos → genera acceso directo en lanzador Android/iOS
+- ✅ Google Analytics 4 integrado (ID: `G-V37SQEN7J7`) — snippet en `<head>` de `index.html`
 
 ## Agregar un medicamento nuevo
 
