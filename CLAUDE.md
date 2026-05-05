@@ -204,7 +204,7 @@ Metadatos opcionales:
 - Colores `brand-*` (verde esmeralda: `#022c22` a `#ecfdf5`, incluye `950`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
 - **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
 - Dark mode con tres modos: **Sistema** (sigue `prefers-color-scheme`), **Día**, **Noche** — controlado desde `SettingsPanel`. El estado `themeMode: 'system'|'light'|'dark'` persiste en `localStorage`
-- Header superior contiene solo el ícono engranaje (vértice superior izquierdo) que abre `SettingsPanel`
+- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + botón **Cafecito** custom (vértice superior derecho) con colores brand (`bg-brand-700`, texto blanco, ícono SVG de taza) que enlaza a `https://cafecito.app/neomonitor`
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
@@ -212,7 +212,7 @@ Metadatos opcionales:
 - Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
 - Medicamentos: **Antibióticos siempre primero**, resto de categorías alfabético, medicamentos dentro de cada categoría también alfabéticos
 
-## Estado actual (2026-05-04)
+## Estado actual (2026-05-05)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -256,7 +256,8 @@ Metadatos opcionales:
 - ✅ Navegación funcional desde favoritos: click en procedimiento → abre `ProceduresPage` expandido; click en índice/fórmula → abre `CalculadorasPage` con el ítem preseleccionado
 
 **Configuración (SettingsPanel):**
-- ✅ Ícono engranaje en vértice superior izquierdo del header
+- ✅ Ícono hamburguesa en vértice superior izquierdo del header
+- ✅ Botón Cafecito custom (brand colors) en vértice superior derecho del header
 - ✅ Selector de tema: Sistema / Día / Noche (persiste en `localStorage`)
 - ✅ Botón de instalación PWA (visible solo cuando el navegador lo permite)
 - ✅ Contacto: info@neomonitor.pro
