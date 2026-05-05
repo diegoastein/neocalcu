@@ -111,8 +111,14 @@ function AppContent() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </button>
-        {/* Spacer so the header looks balanced */}
-        <div className="w-8" />
+        <a href='https://cafecito.app/neomonitor' rel='noopener' target='_blank'>
+          <img
+            srcSet='https://cdn.cafecito.app/imgs/buttons/button_6.png 1x, https://cdn.cafecito.app/imgs/buttons/button_6_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_6_3.75x.png 3.75x'
+            src='https://cdn.cafecito.app/imgs/buttons/button_6.png'
+            alt='Invitame un café en cafecito.app'
+            className="h-7"
+          />
+        </a>
       </div>
 
       <main className="flex-1 overflow-y-auto pb-20">
