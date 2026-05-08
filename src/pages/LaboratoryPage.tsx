@@ -96,93 +96,153 @@ function ReferenceRow({ param }: { param: LabParameter }) {
 }
 
 export default function LaboratoryPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>(labCategories[0]?.id || '');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set([labCategories[0]?.id])
+  );
 
-  const current = labCategories.find((c) => c.id === selectedCategory);
+  const q = searchQuery.toLowerCase().trim();
+
+  const filteredCategories = q
+    ? labCategories
+        .map((cat) => ({
+          ...cat,
+          parameters: cat.parameters.filter(
+            (p) =>
+              p.name.toLowerCase().includes(q) ||
+              (p.abbreviation?.toLowerCase().includes(q) ?? false)
+          ),
+        }))
+        .filter((cat) => cat.parameters.length > 0)
+    : labCategories;
+
+  const toggleCategory = (id: string) => {
+    setExpandedCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+    if (value.trim()) {
+      setExpandedCategories(new Set(labCategories.map((c) => c.id)));
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-slate-950 pb-20">
-      {/* Header */}
+      {/* Header con buscador */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
         <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-3">Valores de referencia neonatal</h1>
-        {/* Category pills */}
-        <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 scrollbar-hide">
-          {labCategories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition whitespace-nowrap ${
-                selectedCategory === cat.id
-                  ? 'bg-brand-800 dark:bg-brand-700 text-white'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
+        <div className="relative">
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+          </svg>
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="Buscar determinación..."
+            className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+          />
         </div>
       </div>
 
-      {/* Content */}
+      {/* Contenido */}
       <div className="flex-1 overflow-y-auto">
-        {current && (
-          <div>
-            {/* Category header */}
-            <div className="px-4 pt-4 pb-2">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">{current.name}</h2>
-              {current.source && (
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  Fuente: {current.source}
-                </p>
-              )}
-            </div>
-
-            {/* Parameters list */}
-            <div className="mx-4 mb-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
-              {current.parameters.map((param) => (
-                <ReferenceRow key={param.id} param={param} />
-              ))}
-            </div>
-
-            {/* Nota PCT */}
-            {current.id === 'infeccion' && (
-              <div className="mx-4 mb-4 bg-amber-50 dark:bg-amber-950 border border-amber-300 dark:border-amber-700 rounded-xl p-4">
-                <p className="text-sm font-bold text-amber-900 dark:text-amber-200 mb-1">
-                  Pico fisiológico de PCT en neonatos
-                </p>
-                <p className="text-xs text-amber-800 dark:text-amber-300">
-                  La procalcitonina presenta un pico fisiológico en las primeras 72 horas de vida que puede alcanzar
-                  hasta 21 ng/mL. <strong>No debe interpretarse como marcador de sepsis durante este período.</strong>{' '}
-                  Usar PCR, hemograma con diferencial y hemocultivo como complemento diagnóstico.
-                </p>
-              </div>
-            )}
-
-            {/* Helper note for LCR */}
-            {current.id === 'lcr' && (
-              <div className="mx-4 mb-4 bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-slate-700 rounded-xl p-4">
-                <p className="text-xs font-semibold text-brand-800 dark:text-brand-300 mb-2">Interpretación del LCR neonatal</p>
-                <ul className="space-y-1 text-xs text-brand-700 dark:text-brand-400">
-                  <li>• Meningitis bacteriana: GB elevados (PMN predominante), glucosa baja, proteínas altas</li>
-                  <li>• Meningitis viral: GB elevados (MN predominante), glucosa normal, proteínas leve–moderadamente elevadas</li>
-                  <li>• LCR hemático: descartar hemorragia interventricular antes de interpretar</li>
-                  <li>• Siempre comparar glucosa LCR con glucemia simultánea</li>
-                </ul>
-              </div>
-            )}
-
-            {/* Note sobre coagulacion */}
-            {current.id === 'coagulacion' && (
-              <div className="mx-4 mb-4 bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-slate-700 rounded-xl p-4">
-                <p className="text-xs font-semibold text-brand-800 dark:text-brand-300 mb-1">Nota sobre coagulación neonatal</p>
-                <p className="text-xs text-brand-700 dark:text-brand-400">
-                  Los neonatos tienen valores fisiológicamente prolongados de TP y KPTT respecto al adulto, por inmadurez
-                  en factores vitamina K-dependientes. Esto no implica coagulopatía. Fuente: COBICO Argentina.
-                </p>
-              </div>
-            )}
+        {filteredCategories.length === 0 && (
+          <div className="p-10 text-center">
+            <p className="text-slate-400 dark:text-slate-500 text-sm">Sin resultados para "{searchQuery}"</p>
           </div>
         )}
+
+        {filteredCategories.map((cat) => {
+          const isExpanded = expandedCategories.has(cat.id);
+          return (
+            <div key={cat.id} className="border-b border-slate-100 dark:border-slate-800 last:border-0">
+              {/* Cabecera de categoría */}
+              <button
+                className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left"
+                onClick={() => toggleCategory(cat.id)}
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-slate-900 dark:text-slate-100">{cat.name}</p>
+                  {cat.source && (
+                    <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{cat.source}</p>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                  <span className="text-xs text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                    {cat.parameters.length}
+                  </span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className={`w-4 h-4 text-slate-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </div>
+              </button>
+
+              {/* Parámetros */}
+              {isExpanded && (
+                <div className="mx-4 mb-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                  {cat.parameters.map((param) => (
+                    <ReferenceRow key={param.id} param={param} />
+                  ))}
+                </div>
+              )}
+
+              {/* Notas clínicas especiales por categoría */}
+              {isExpanded && cat.id === 'infeccion' && (
+                <div className="mx-4 mb-4 bg-amber-50 dark:bg-amber-950 border border-amber-300 dark:border-amber-700 rounded-xl p-4">
+                  <p className="text-sm font-bold text-amber-900 dark:text-amber-200 mb-1">
+                    Pico fisiológico de PCT en neonatos
+                  </p>
+                  <p className="text-xs text-amber-800 dark:text-amber-300">
+                    La procalcitonina presenta un pico fisiológico en las primeras 72 horas de vida que puede alcanzar
+                    hasta 21 ng/mL. <strong>No debe interpretarse como marcador de sepsis durante este período.</strong>{' '}
+                    Usar PCR, hemograma con diferencial y hemocultivo como complemento diagnóstico.
+                  </p>
+                </div>
+              )}
+
+              {isExpanded && cat.id === 'lcr' && (
+                <div className="mx-4 mb-4 bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-slate-700 rounded-xl p-4">
+                  <p className="text-xs font-semibold text-brand-800 dark:text-brand-300 mb-2">Interpretación del LCR neonatal</p>
+                  <ul className="space-y-1 text-xs text-brand-700 dark:text-brand-400">
+                    <li>• Meningitis bacteriana: GB elevados (PMN predominante), glucosa baja, proteínas altas</li>
+                    <li>• Meningitis viral: GB elevados (MN predominante), glucosa normal, proteínas leve–moderadamente elevadas</li>
+                    <li>• LCR hemático: descartar hemorragia interventricular antes de interpretar</li>
+                    <li>• Siempre comparar glucosa LCR con glucemia simultánea</li>
+                  </ul>
+                </div>
+              )}
+
+              {isExpanded && cat.id === 'coagulacion' && (
+                <div className="mx-4 mb-4 bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-slate-700 rounded-xl p-4">
+                  <p className="text-xs font-semibold text-brand-800 dark:text-brand-300 mb-1">Nota sobre coagulación neonatal</p>
+                  <p className="text-xs text-brand-700 dark:text-brand-400">
+                    Los neonatos tienen valores fisiológicamente prolongados de TP y KPTT respecto al adulto, por inmadurez
+                    en factores vitamina K-dependientes. Esto no implica coagulopatía. Fuente: COBICO Argentina.
+                  </p>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

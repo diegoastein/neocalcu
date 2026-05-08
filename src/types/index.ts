@@ -156,6 +156,7 @@ export interface Score {
   references: string[];
   bilirubinCalculator?: boolean;
   ropCalculator?: boolean;
+  finneganCalculator?: boolean;
 }
 
 export interface FormulaInput {

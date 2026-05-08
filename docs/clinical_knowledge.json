@@ -10735,6 +10735,22 @@
         "SAP — Guía para la Prevención, Diagnóstico y Tratamiento de la Retinopatía del Prematuro. Actualización 2021.",
         "AAP Section on Ophthalmology. Screening Examination of Premature Infants for ROP. Pediatrics 2018."
       ]
+    },
+    {
+      "id": "finnegan",
+      "name": "Finnegan Modificado (NAS)",
+      "subtitle": "Síndrome de abstinencia neonatal",
+      "description": "Escala para evaluar la severidad del síndrome de abstinencia neonatal (NAS). Se evalúa cada 4 h (o cada 2 h si puntaje 8–12). Incluye 22 ítems en 3 secciones: SNC, Metabólico/Vasomotor/Respiratorio y Gastrointestinal. Puntaje máximo teórico: 48.",
+      "finneganCalculator": true,
+      "items": [],
+      "interpretation": [],
+      "minScore": 0,
+      "maxScore": 48,
+      "references": [
+        "Finnegan LP. Neonatal abstinence syndrome. In: Hoekelman RA, et al. (eds). Primary Pediatric Care. 1992.",
+        "Gomella TL. Neonatología 8ª ed. Capítulo NAS.",
+        "Hudak ML, Tan RC; AAP Committee on Drugs. Neonatal drug withdrawal. Pediatrics. 2012;129(2):e540–e560."
+      ]
     }
   ],
   "formulas": [
@@ -11416,6 +11432,114 @@
               "max": 2.0
             }
           ]
+        },
+        {
+          "id": "vcm",
+          "name": "Volumen corpuscular medio",
+          "abbreviation": "VCM",
+          "unit": "fL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 95,
+              "max": 115
+            },
+            {
+              "label": "RN prematuro",
+              "min": 90,
+              "max": 120
+            }
+          ],
+          "notes": "VCM elevado fisiológico en neonatos. Macrocitosis patológica: descartar déficit de folato/B12 materno o hemoglobinopatía"
+        },
+        {
+          "id": "hcm",
+          "name": "Hemoglobina corpuscular media",
+          "abbreviation": "HCM",
+          "unit": "pg",
+          "references": [
+            {
+              "label": "RN",
+              "min": 30,
+              "max": 37
+            }
+          ]
+        },
+        {
+          "id": "chcm",
+          "name": "Concentración de Hb corpuscular media",
+          "abbreviation": "CHCM",
+          "unit": "g/dL",
+          "references": [
+            {
+              "label": "RN",
+              "min": 31,
+              "max": 37
+            }
+          ],
+          "notes": "CHCM elevada (>37 g/dL): pensar esferocitosis hereditaria"
+        },
+        {
+          "id": "rdw",
+          "name": "Amplitud distribución eritrocitaria",
+          "abbreviation": "RDW",
+          "unit": "%",
+          "references": [
+            {
+              "label": "RN",
+              "min": 11.5,
+              "max": 18.0
+            }
+          ],
+          "notes": "RDW >18% sugiere anisocitosis significativa; en neonatos puede ser fisiológico en las primeras semanas"
+        },
+        {
+          "id": "nrbc",
+          "name": "Eritroblastos (nucleated RBC)",
+          "abbreviation": "NRBC",
+          "unit": "/100 GB",
+          "references": [
+            {
+              "label": "RN término (1–3 días)",
+              "min": 0,
+              "max": 10,
+              "notes": "Descenso rápido tras el parto"
+            },
+            {
+              "label": "RN prematuro (<32s)",
+              "min": 0,
+              "max": 50,
+              "notes": "Puede ser mayor por eritropoyesis acelerada"
+            }
+          ],
+          "notes": "Eritroblastosis persistente o >50/100 GB sugiere hemólisis, hipoxia crónica o infección. Siempre corregir recuento leucocitario si NRBC >5/100 GB"
+        },
+        {
+          "id": "monocitos",
+          "name": "Monocitos",
+          "abbreviation": "Mono",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "RN",
+              "min": 300,
+              "max": 1000
+            }
+          ]
+        },
+        {
+          "id": "eosinofilos",
+          "name": "Eosinófilos",
+          "abbreviation": "Eos",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 700
+            }
+          ],
+          "notes": "Eosinofilia neonatal (>700/mm³): frecuente en prematuros con NPT prolongada, infección parasitaria o reacción alérgica. Considerar adrenal insuficiency si marcada"
         }
       ]
     },
@@ -11646,6 +11770,76 @@
             }
           ],
           "criticalHigh": 200
+        },
+        {
+          "id": "acido_urico",
+          "name": "Ácido úrico",
+          "abbreviation": "AU",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN",
+              "min": 2.0,
+              "max": 7.0
+            }
+          ],
+          "notes": "Hiperuricemia (>8 mg/dL): puede verse en asfixia perinatal, síndrome de lisis tumoral o déficit de xantino-oxidasa",
+          "criticalHigh": 10.0
+        },
+        {
+          "id": "trigliceridos",
+          "name": "Triglicéridos",
+          "abbreviation": "TG",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN (sin NP lipídica)",
+              "min": 0,
+              "max": 150
+            },
+            {
+              "label": "RN con NPT lipídica",
+              "min": 0,
+              "max": 250,
+              "notes": "Umbral para reducir o suspender lípidos EV"
+            }
+          ],
+          "notes": "Monitorear TG en neonatos con NPT y lípidos EV. Suspender o reducir lípidos si TG >250 mg/dL",
+          "criticalHigh": 300
+        },
+        {
+          "id": "colesterol",
+          "name": "Colesterol total",
+          "abbreviation": "Col",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN",
+              "min": 45,
+              "max": 170
+            }
+          ],
+          "notes": "Valores bajos en prematuros. Hipercolesterolemia en RN: considerar hipotiroidismo congénito o errores metabólicos"
+        },
+        {
+          "id": "ldh",
+          "name": "Lactato deshidrogenasa",
+          "abbreviation": "LDH",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "RN (fisiológicamente elevado)",
+              "min": 300,
+              "max": 1200,
+              "notes": "Liberación celular por trauma perinatal"
+            },
+            {
+              "label": "Después de la 1ª semana",
+              "min": 200,
+              "max": 800
+            }
+          ],
+          "notes": "Elevación sostenida de LDH: pensar hemólisis, daño hepático, asfixia, linfoma/leucemia. Inespecífica como marcador aislado"
         }
       ]
     },
@@ -11839,6 +12033,46 @@
           ],
           "notes": "CID (coagulación intravascular diseminada): fibrinógeno bajo + plaquetas bajas + TP/KPTT prolongados",
           "criticalLow": 100
+        },
+        {
+          "id": "dimero_d",
+          "name": "Dímero D",
+          "abbreviation": "DD",
+          "unit": "μg/mL",
+          "references": [
+            {
+              "label": "RN (1ª semana — puede estar elevado fisiológicamente)",
+              "min": 0,
+              "max": 2.0,
+              "notes": "Valores pueden alcanzar 4–5 μg/mL en primeras 72h sin patología"
+            },
+            {
+              "label": "Después de 1ª semana",
+              "min": 0,
+              "max": 0.5
+            }
+          ],
+          "notes": "Alta sensibilidad pero baja especificidad en neonatos. Elevado fisiológicamente en primeras 72 h. Útil para descartar trombosis o CID en contexto clínico",
+          "criticalHigh": 5.0
+        },
+        {
+          "id": "at3",
+          "name": "Antitrombina III",
+          "abbreviation": "AT-III",
+          "unit": "%",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 40,
+              "max": 65
+            },
+            {
+              "label": "RN prematuro",
+              "min": 30,
+              "max": 55
+            }
+          ],
+          "notes": "Déficit de AT-III predispone a trombosis y CID. Consumo en sepsis grave. Valores <25%: considerar suplementación según guías"
         }
       ]
     },
@@ -11909,6 +12143,46 @@
             }
           ],
           "notes": "Fórmula: neutrófilos inmaduros (bandas + metamielocitos + mielocitos) ÷ neutrófilos totales. Mejor utilidad en contexto clínico"
+        },
+        {
+          "id": "il6",
+          "name": "Interleucina 6",
+          "abbreviation": "IL-6",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 10
+            },
+            {
+              "label": "Sospecha de infección bacteriana",
+              "min": 50,
+              "notes": "Alta sensibilidad en sepsis temprana (pico a las 2–4 h)"
+            }
+          ],
+          "notes": "Biomarcador de respuesta inflamatoria precoz — se eleva antes de PCR y PCT. Útil en sepsis temprana pero disponibilidad limitada. Valor >200 pg/mL con alta sospecha clínica de sepsis",
+          "criticalHigh": 200
+        },
+        {
+          "id": "ferritina",
+          "name": "Ferritina",
+          "abbreviation": "Ferr",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "RN (fisiológicamente elevada en 1ª semana)",
+              "min": 200,
+              "max": 600,
+              "notes": "Pico en 1ª semana, luego descenso progresivo"
+            },
+            {
+              "label": "RN (1–2 meses)",
+              "min": 50,
+              "max": 400
+            }
+          ],
+          "notes": "Ferritina muy elevada (>1500 ng/mL): pensar hemocromatosis neonatal, linfohistiocitosis hemofagocítica (HLH) o enfermedad de Still neonatal. Como marcador de inflamación: menor especificidad que PCT/PCR en neonatos"
         }
       ]
     },
@@ -11978,6 +12252,26 @@
               "max": 12
             }
           ]
+        },
+        {
+          "id": "t3_libre",
+          "name": "T3 libre",
+          "abbreviation": "FT3",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 2.0,
+              "max": 6.0
+            },
+            {
+              "label": "RN prematuro",
+              "min": 1.5,
+              "max": 4.0,
+              "notes": "Síndrome de T3 baja frecuente en gran prematuro (conversión periférica reducida)"
+            }
+          ],
+          "notes": "FT3 baja con TSH normal: síndrome de enfermedad no tiroidea (euthyroid sick syndrome). Común en prematuros graves. No siempre requiere tratamiento"
         }
       ]
     },
@@ -12059,6 +12353,332 @@
             }
           ],
           "notes": "Medición en posición lateral. Hipertensión endocraneana: >100 mmH₂O"
+        }
+      ]
+    },
+    {
+      "id": "orina",
+      "name": "Análisis de orina",
+      "source": "Hospital Garrahan / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "densidad_orina",
+          "name": "Densidad urinaria",
+          "abbreviation": "Den. U.",
+          "unit": "g/mL",
+          "references": [
+            {
+              "label": "Neonato (rango habitual)",
+              "min": 1005,
+              "max": 1015
+            },
+            {
+              "label": "Prematuro (<32s, capacidad concentración reducida)",
+              "min": 1002,
+              "max": 1010
+            }
+          ],
+          "notes": "Densidad >1020 sugiere deshidratación. Densidad fija en 1010 puede indicar daño tubular. El prematuro tiene capacidad de concentración reducida"
+        },
+        {
+          "id": "ph_orina",
+          "name": "pH urinario",
+          "abbreviation": "pH U.",
+          "unit": "unidades",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 5,
+              "max": 8
+            }
+          ],
+          "notes": "pH persistentemente alcalino (>7): pensar acidosis tubular renal. pH ácido con acidosis metabólica hiperclorémica: sugestivo de pérdida urinaria de bicarbonato"
+        },
+        {
+          "id": "proteinuria",
+          "name": "Proteinuria",
+          "abbreviation": "Prot. U.",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal (primeros días)",
+              "min": 0,
+              "max": 30,
+              "notes": "Trazas pueden ser normales en primeros días"
+            },
+            {
+              "label": "Proteinuria significativa",
+              "min": 100,
+              "notes": "Requiere evaluación"
+            }
+          ],
+          "notes": "Proteinuria >200 mg/dL o relación Pr/Cr >2: pensar síndrome nefrótico. En neonatos, la proteinuria puede ser transitoria en primeros días de vida"
+        },
+        {
+          "id": "glucosuria",
+          "name": "Glucosuria",
+          "abbreviation": "Glu U.",
+          "unit": "cualitativo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 0,
+              "notes": "Negativa"
+            }
+          ],
+          "notes": "Glucosuria con normoglucemia: disfunción tubular proximal (síndrome de Fanconi). Glucosuria con hiperglucemia (>180 mg/dL): umbral tubular superado — normal"
+        },
+        {
+          "id": "hematuria",
+          "name": "Hematuria (microscópica)",
+          "abbreviation": "Hem. U.",
+          "unit": "eritrocitos/campo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 5
+            },
+            {
+              "label": "Hematuria microscópica",
+              "min": 5,
+              "notes": "Evaluar causa"
+            }
+          ],
+          "notes": "Hematuria macroscópica siempre es patológica. Causas neonatales: trombosis renal, obstrucción, infección, coagulopatía"
+        },
+        {
+          "id": "leucocituria",
+          "name": "Leucocituria",
+          "abbreviation": "Leu. U.",
+          "unit": "leucocitos/campo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 5
+            },
+            {
+              "label": "Sugestivo de infección urinaria",
+              "min": 10,
+              "notes": "Confirmar con urocultivo"
+            }
+          ],
+          "notes": "Leucocituria sin bacteriuria puede verse en neonatos febriles sin ITU. Siempre confirmar con urocultivo obtenido por cateterismo"
+        },
+        {
+          "id": "nitritos",
+          "name": "Nitritos",
+          "abbreviation": "Nitr. U.",
+          "unit": "cualitativo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 0,
+              "notes": "Negativo"
+            }
+          ],
+          "notes": "Positivo sugiere bacteriuria por gram negativos (E. coli, Klebsiella). Puede ser negativo en infección por gram positivos o Candida. Confirmar con urocultivo"
+        },
+        {
+          "id": "na_urinario",
+          "name": "Sodio urinario",
+          "abbreviation": "Na⁺ U.",
+          "unit": "mEq/L",
+          "references": [
+            {
+              "label": "Normal (variable según hidratación)",
+              "min": 20,
+              "max": 120
+            },
+            {
+              "label": "Hiponatremia con Na⁺ U. > 20 mEq/L",
+              "min": 20,
+              "notes": "Pérdida renal de sodio (insuficiencia adrenal, diuréticos, SIADH)"
+            },
+            {
+              "label": "Hiponatremia con Na⁺ U. < 10 mEq/L",
+              "max": 10,
+              "notes": "Conservación renal adecuada (hipovolemia, pérdidas extrarrenales)"
+            }
+          ],
+          "notes": "Muy útil en el diagnóstico diferencial de hiponatremia. FENa = (Na U. × Cr pl.) / (Na pl. × Cr U.) × 100. FENa <1% en oliguria prerrenal, >2% en NTA"
+        },
+        {
+          "id": "pr_cr_ratio",
+          "name": "Relación proteína/creatinina urinaria",
+          "abbreviation": "Pr/Cr U.",
+          "unit": "ratio",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 0.2
+            },
+            {
+              "label": "Proteinuria moderada",
+              "min": 0.2,
+              "max": 2.0,
+              "notes": "Evaluar causa"
+            },
+            {
+              "label": "Síndrome nefrótico",
+              "min": 2.0,
+              "notes": "Proteinuria masiva"
+            }
+          ],
+          "notes": "Alternativa a la proteinuria de 24h. Muestra aislada de primera orina de la mañana. Más confiable que proteinuria aislada para seguimiento"
+        }
+      ]
+    },
+    {
+      "id": "cardiaco",
+      "name": "Marcadores cardíacos",
+      "source": "Gomella 8ª ed. / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "troponina",
+          "name": "Troponina I cardíaca",
+          "abbreviation": "cTnI",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "RN (valores aún no estandarizados universalmente)",
+              "min": 0,
+              "max": 0.1,
+              "notes": "Varía según laboratorio y método"
+            },
+            {
+              "label": "Daño miocárdico significativo",
+              "min": 0.2,
+              "notes": "Alta sospecha en contexto clínico"
+            }
+          ],
+          "notes": "Elevada en asfixia perinatal, miocarditis, cardiopatía congénita con isquemia subendocárdica. Valores de referencia neonatal no universalmente estandarizados — interpretar con clínica",
+          "criticalHigh": 1.0
+        },
+        {
+          "id": "nt_probnp",
+          "name": "NT-proBNP",
+          "abbreviation": "NT-proBNP",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "RN (1–3 días — pico fisiológico)",
+              "min": 0,
+              "max": 3500,
+              "notes": "Pico fisiológico en primeros días por adaptación circulatoria"
+            },
+            {
+              "label": "RN (>1 semana)",
+              "min": 0,
+              "max": 1000
+            },
+            {
+              "label": "Disfunción cardíaca / CAP hemodinámicamente significativo",
+              "min": 3500,
+              "notes": "Considerar ecocardiograma"
+            }
+          ],
+          "notes": "Elevado fisiológicamente en primeras 48–72 h. Útil para seguimiento de CAP, falla cardíaca y respuesta al tratamiento. Interpretar siempre con ecocardiograma",
+          "criticalHigh": 10000
+        },
+        {
+          "id": "ck_mb",
+          "name": "CK-MB",
+          "abbreviation": "CK-MB",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "RN (puede estar elevada por trauma perinatal)",
+              "min": 0,
+              "max": 25
+            }
+          ],
+          "notes": "CK-MB >10% de CK total o >25 U/L: pensar daño miocárdico. Puede estar elevada en asfixia, miocarditis o cardiomiopatía. Menos específica que troponina"
+        }
+      ]
+    },
+    {
+      "id": "metabolico",
+      "name": "Metabólico / Endócrino",
+      "source": "Programa Nacional de Pesquisa Neonatal Argentina / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "insulina",
+          "name": "Insulina",
+          "abbreviation": "Ins",
+          "unit": "mU/L",
+          "references": [
+            {
+              "label": "RN (ayuno)",
+              "min": 0,
+              "max": 15
+            }
+          ],
+          "notes": "Hiperinsulinismo congénito: insulina >5 mU/L con glucemia <45 mg/dL. Relación glucosa/insulina <3 sugiere hiperinsulinismo. Causa más frecuente de hipoglucemia neonatal persistente",
+          "criticalHigh": 30
+        },
+        {
+          "id": "cortisol",
+          "name": "Cortisol basal",
+          "abbreviation": "Cortisol",
+          "unit": "μg/dL",
+          "references": [
+            {
+              "label": "Respuesta adecuada al estrés",
+              "min": 18,
+              "notes": "Normal en neonato enfermo o estresado"
+            },
+            {
+              "label": "Insuficiencia adrenal relativa (en contexto de hipotensión refractaria)",
+              "max": 15,
+              "notes": "Considerar hidrocortisona empírica"
+            }
+          ],
+          "notes": "Insuficiencia adrenal relativa del prematuro: cortisol <15 μg/dL con hipotensión refractaria a volumen y catecolaminas. Considerar hidrocortisona 1 mg/kg/dosis c/12h según protocolo"
+        },
+        {
+          "id": "acth",
+          "name": "ACTH",
+          "abbreviation": "ACTH",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "Normal (muestra matutina)",
+              "min": 5,
+              "max": 46
+            }
+          ],
+          "notes": "ACTH muy elevada + cortisol bajo = insuficiencia suprarrenal primaria. ACTH baja + cortisol bajo = insuficiencia hipofisaria. Colectar muestra en hielo al laboratorio"
+        },
+        {
+          "id": "17ohp",
+          "name": "17-OH Progesterona",
+          "abbreviation": "17-OHP",
+          "unit": "nmol/L",
+          "references": [
+            {
+              "label": "RN término (>48h)",
+              "min": 0,
+              "max": 10,
+              "notes": "Corte de pesquisa neonatal Argentina"
+            },
+            {
+              "label": "RN prematuro (puede estar elevada fisiológicamente)",
+              "min": 0,
+              "max": 15,
+              "notes": "Ajustar por peso y EG"
+            },
+            {
+              "label": "Sospecha de HCSR (HSC clásica 21-hidroxilasa)",
+              "min": 100,
+              "notes": "Requiere confirmación por laboratorio especializado"
+            }
+          ],
+          "notes": "Biomarcador principal del programa de pesquisa de Hiperplasia Suprarrenal Congénita (HCSR). Valor elevado (>30 nmol/L en RN término) requiere confirmación. Prematuros y neonatos enfermos tienen valores fisiológicamente más altos"
         }
       ]
     }
