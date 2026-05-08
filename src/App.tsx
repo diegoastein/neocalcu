@@ -9,6 +9,7 @@ import LaboratoryPage from './pages/LaboratoryPage';
 import FavoritesPage from './pages/FavoritesPage';
 import BottomNav from './components/BottomNav';
 import SettingsPanel from './components/SettingsPanel';
+import FirstAccessDisclaimer from './components/FirstAccessDisclaimer';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -26,6 +27,7 @@ function AppContent() {
   const [focusedCalculadoraId, setFocusedCalculadoraId] = useState<string | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
 
   const navigateToItem = (page: ActivePage, itemId?: string) => {
     if (page === 'procedimientos') setFocusedProcedureId(itemId || null);
@@ -139,6 +141,8 @@ function AppContent() {
         canInstall={!!installPrompt}
         onInstall={handleInstall}
       />
+
+      <FirstAccessDisclaimer onAccept={() => setDisclaimerAccepted(true)} />
     </div>
   );
 }

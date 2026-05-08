@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import DisclaimerModal from './DisclaimerModal';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -26,6 +27,7 @@ export default function SettingsPanel({
   onInstall,
 }: SettingsPanelProps) {
   const [copied, setCopied] = useState(false);
+  const [disclaimerOpen, setDisclaimerOpen] = useState(false);
 
   const handleShare = async () => {
     const url = 'https://diegoastein.github.io/neocalcu/';
@@ -200,19 +202,21 @@ export default function SettingsPanel({
           </section>
         </div>
 
-        {/* Footer — Aviso legal */}
-        <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-700 space-y-1">
-          <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
-            NeoCalcu es una herramienta de referencia clínica con fines informativos y educativos. No reemplaza el juicio clínico ni constituye una recomendación médica.
-          </p>
-          <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
-            El uso es responsabilidad exclusiva del usuario. Los autores y Neomonitor no asumen responsabilidad por consecuencias derivadas de su uso en la práctica clínica.
-          </p>
-          <p className="text-xs text-center text-slate-300 dark:text-slate-600 pt-1">
+        {/* Footer — Acerca de */}
+        <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-700 space-y-2">
+          <button
+            onClick={() => setDisclaimerOpen(true)}
+            className="w-full text-left text-xs text-brand-700 dark:text-brand-400 hover:underline font-medium"
+          >
+            Acerca de NeoCalcu
+          </button>
+          <p className="text-xs text-center text-slate-300 dark:text-slate-600">
             NeoCalcu · Neomonitor
           </p>
         </div>
       </aside>
+
+      <DisclaimerModal isOpen={disclaimerOpen} onClose={() => setDisclaimerOpen(false)} />
     </>
   );
 }
