@@ -64,7 +64,7 @@ laboratory[]   → valores de referencia neonatal por categoría
 - **`DosingRule`** — filtra por `gaMin/gaMax`, `dolMin/dolMax`, `weightMinG/weightMaxG` para llegar a la dosis correcta
 - **`InfusionRule`** — incluye `ruleOf3` con `multiplier` y `volumeMl` para calcular la "regla de 3" bedside
 - **`InotropicConfig`** — configuración del calculador interactivo: rangos de dosis (`doseMin/doseMax/doseStep`), flujo (`flowMin/flowMax/flowStep`), volúmenes disponibles
-- **`Score`** — escalas clínicas; puede tener `bilirubinCalculator: true` o `ropCalculator: true` para activar componentes especiales
+- **`Score`** — escalas clínicas; puede tener `bilirubinCalculator: true`, `ropCalculator: true` o `finneganCalculator: true` para activar componentes especiales
 - **`Formula`** — calculadoras médicas con inputs dinámicos; puede tener `calculations` (objeto de fórmulas dependientes) con `calculationsLabels`, `calculationsUnits`, `calculationsHidden`
 - **`LabCategory`** / **`LabParameter`** / **`LabReference`** — estructura para valores de referencia de laboratorio neonatal
 
@@ -93,6 +93,7 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: sliders de dosis y flujo, toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`.
 - **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según **NICE CG98 (2023)**. ≥38s: valores exactos del Excel oficial NICE (interpolación hora a hora). 35-37s: escalados con fórmula NICE para pretérminos (EG×10−100 µmol/L). Muestra umbrales en mg/dL y µmol/L. 5 zonas: normal / limítrofe / fototerapia / intensiva / exanguino. Factores de monitorización (no modifican umbral, solo frecuencia de control).
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
+- **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
 - **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), contacto, enlace Neomonitor, aviso legal.
 
@@ -105,7 +106,7 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 | `medicamentos`    | `MedicationsPage`     | Buscador + calculadora de dosis por peso + botón favoritos                             |
 | `procedimientos`  | `ProceduresPage`      | 24 procedimientos con fórmulas interactivas + pasos                                    |
 | `calculadoras`    | `CalculadorasPage`    | Índices clínicos + Fórmulas en un único selector con optgroups                         |
-| `laboratorio`     | `LaboratoryPage`      | Valores de referencia neonatal por categoría (9 categorías, fuente Garrahan)           |
+| `laboratorio`     | `LaboratoryPage`      | Valores de referencia neonatal — buscador cross-categoría + acordeones (12 categorías) |
 | `favoritos`       | `FavoritesPage`       | Listado de todos los items marcados como favoritos (drugs, procedures, scores, formulas)|
 
 La barra de navegación inferior (`BottomNav`) es el único mecanismo de routing. Usa iconos SVG (no emojis).
@@ -117,12 +118,21 @@ Unifica `ScoresPage` y `FormulasPage` en una sola vista. El `<select>` usa `<opt
 Calculadoras especiales activadas por flags en el tipo `Score`:
 - `bilirubinCalculator: true` → renderiza `BilirubinCalculator`
 - `ropCalculator: true` → renderiza `ROPCalculator`
+- `finneganCalculator: true` → renderiza `FinnceganCalculator`
+
+Cuando un score tiene cualquiera de estos flags, la UI de ítems/resultado/limpiar queda completamente suprimida y solo se muestra el componente especializado.
 
 #### Tab Laboratorio (`LaboratoryPage`)
 
-Muestra valores de referencia neonatal organizados en 9 categorías con pills deslizables horizontales. Cada parámetro es expandible para ver rangos estratificados (por EG/edad postnatal), valores críticos y notas clínicas. Nota especial destacada para el pico fisiológico de PCT (0–72h hasta 21 ng/mL).
+Buscador cross-categoría: el input filtra simultáneamente en todos los parámetros (`name` y `abbreviation`). Sin búsqueda activa, muestra todas las categorías como acordeones colapsables (la primera expandida por defecto). Al escribir, se expanden todas las categorías con matches y se ocultan las vacías.
 
-Fuentes: Hospital Garrahan (primaria), Harriet Lane 23ª ed., Gomella 8ª ed., COBICO Argentina (coagulación).
+**85 parámetros en 12 categorías:**
+- Gasometría, Hemograma, Electrolitos, Química básica, Función hepática, Coagulación, Infección/Inflamación, Función tiroidea, LCR (originales)
+- **Análisis de orina** (nueva): densidad, pH, proteinuria, hematuria, leucocituria, nitritos, Na urinario, relación Pr/Cr
+- **Marcadores cardíacos** (nueva): Troponina I, NT-proBNP, CK-MB
+- **Metabólico/Endócrino** (nueva): insulina, cortisol, ACTH, 17-OHP
+
+Fuentes: Hospital Garrahan (primaria), Harriet Lane 23ª ed., Gomella 8ª ed., COBICO Argentina.
 
 ### PWA / Offline
 
@@ -212,7 +222,7 @@ Metadatos opcionales:
 - Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
 - Medicamentos: **Antibióticos siempre primero**, resto de categorías alfabético, medicamentos dentro de cada categoría también alfabéticos
 
-## Estado actual (2026-05-05)
+## Estado actual (2026-05-08)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -240,13 +250,14 @@ Metadatos opcionales:
 - ✅ Referencias de Fototerapia y Exanguinotransfusión actualizadas a NICE CG98 (2023)
 
 **Calculadoras (CalculadorasPage — tab unificado):**
-- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, **Bilirrubina NICE CG98 (2023)**, Screening ROP SAP
+- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, **Bilirrubina NICE CG98 (2023)**, Screening ROP SAP, **Finnegan Modificado (NAS)**
 - ✅ **Fórmulas** (12): BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CaO₂, Balance Hidroelectrolítico, BSA simplificada, Capacidad Cilindro O₂
 - ✅ Selector único con `<optgroup>` para separar índices de fórmulas
 - ✅ PatientInput siempre visible para auto-rellenar peso
 
 **Laboratorio (LaboratoryPage):**
-- ✅ **9 categorías**: Gasometría, Hemograma, Electrolitos, Química básica, Función hepática, Coagulación, Infección/Inflamación, Función tiroidea, LCR
+- ✅ **12 categorías, 85 parámetros**: Gasometría, Hemograma, Electrolitos, Química básica, Función hepática, Coagulación, Infección/Inflamación, Función tiroidea, LCR, Análisis de orina, Marcadores cardíacos, Metabólico/Endócrino
+- ✅ Buscador cross-categoría (reemplaza pills de categoría) con acordeones colapsables
 - ✅ Parámetros estratificados por EG y edad postnatal
 - ✅ Valores críticos marcados (criticalLow / criticalHigh)
 - ✅ Nota especial sobre pico fisiológico de PCT (0–72h hasta 21 ng/mL)
