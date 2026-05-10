@@ -22,6 +22,10 @@ export default function MedicationsPage() {
       }
       grouped[category].push(drug);
     });
+    // Ordenar medicamentos dentro de cada categoría
+    Object.values(grouped).forEach((list) =>
+      list.sort((a, b) => a.name.localeCompare(b.name, 'es'))
+    );
     return grouped;
   };
 
@@ -41,16 +45,16 @@ export default function MedicationsPage() {
   };
 
   const categoryBadgeColor: { [key: string]: string } = {
-    antibiotico: 'bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-300',
-    antiviral: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300',
-    antifungico: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300',
-    cardiovascular: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300',
-    analgesico_sedante: 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300',
-    diuretico: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
-    surfactante: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300',
-    respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-300',
-    emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-300',
-    vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-300',
+    antibiotico: 'bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-100',
+    antiviral: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100',
+    antifungico: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-100',
+    cardiovascular: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100',
+    analgesico_sedante: 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100',
+    diuretico: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100',
+    surfactante: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100',
+    respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-100',
+    emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-100',
+    vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-100',
   };
 
   return (
@@ -79,7 +83,11 @@ export default function MedicationsPage() {
           </div>
         ) : (
           <div>
-            {Object.entries(groupedDrugs).map(([category, drugsInCategory]) => (
+            {Object.entries(groupedDrugs).sort(([a], [b]) => {
+              if (a === 'antibiotico') return -1;
+              if (b === 'antibiotico') return 1;
+              return (categoryLabels[a] || a).localeCompare(categoryLabels[b] || b, 'es');
+            }).map(([category, drugsInCategory]) => (
               <div key={category}>
                 <div className="bg-slate-100 dark:bg-slate-800 px-4 py-2">
                   <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
@@ -99,7 +107,7 @@ export default function MedicationsPage() {
                         <div className="flex flex-wrap gap-1 mt-2">
                           {drug.category.slice(0, 2).map((cat) => (
                             <span key={cat} className={`text-xs px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100'}`}>
-                              {cat}
+                              {categoryLabels[cat] || cat}
                             </span>
                           ))}
                         </div>

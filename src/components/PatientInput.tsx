@@ -3,7 +3,7 @@ import { usePatient } from '../context/PatientContext';
 
 export default function PatientInput() {
   const { patient, setPatient } = usePatient();
-  const [localWeight, setLocalWeight] = useState(patient.weightGrams.toString());
+  const [localWeight, setLocalWeight] = useState(patient.weightGrams > 0 ? patient.weightGrams.toString() : '');
   const [localGA, setLocalGA] = useState(patient.gestAgeWeeks?.toString() ?? '');
   const [localDOL, setLocalDOL] = useState(patient.dayOfLife?.toString() ?? '');
 
@@ -19,6 +19,13 @@ export default function PatientInput() {
       gestAgeWeeks: localGA ? parseInt(localGA, 10) : undefined,
       dayOfLife: localDOL ? parseInt(localDOL, 10) : undefined,
     });
+  };
+
+  const handleReset = () => {
+    setLocalWeight('');
+    setLocalGA('');
+    setLocalDOL('');
+    setPatient({ weightGrams: 0 });
   };
 
   return (
@@ -56,12 +63,21 @@ export default function PatientInput() {
           />
         </div>
       </div>
-      <button
-        onClick={handleSave}
-        className="mt-3 w-full bg-brand-800 hover:bg-brand-900 dark:bg-brand-700 dark:hover:bg-brand-600 text-white font-semibold py-2 rounded transition"
-      >
-        Registrar datos
-      </button>
+      <div className="mt-3 flex gap-2">
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-brand-800 hover:bg-brand-900 dark:bg-brand-700 dark:hover:bg-brand-600 text-white font-semibold py-2 rounded transition"
+        >
+          Registrar datos
+        </button>
+        <button
+          onClick={handleReset}
+          className="px-4 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 font-semibold py-2 rounded transition"
+          title="Resetear datos del paciente"
+        >
+          ↻
+        </button>
+      </div>
     </div>
   );
 }

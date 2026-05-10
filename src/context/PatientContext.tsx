@@ -11,7 +11,7 @@ const PatientContext = createContext<PatientContextType | undefined>(undefined);
 export function PatientProvider({ children }: { children: ReactNode }) {
   const [patient, setPatientState] = useState<Patient>(() => {
     const stored = sessionStorage.getItem('patient');
-    return stored ? JSON.parse(stored) : { weightGrams: 2500 };
+    return stored ? JSON.parse(stored) : { weightGrams: 0 };
   });
 
   useEffect(() => {

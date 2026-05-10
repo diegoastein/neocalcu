@@ -46,6 +46,21 @@ export interface InfusionRule {
   notes?: string;
 }
 
+export interface InotropicConfig {
+  doseMin: number;
+  doseMax: number;
+  doseStep: number;
+  defaultDose: number;
+  flowMin: number;
+  flowMax: number;
+  flowStep: number;
+  defaultFlow: number;
+  volumes: number[];
+  defaultVolume: number;
+  diluent: string;
+  unit: string;
+}
+
 export interface DrugPreparation {
   stockForm: string;
   reconstitution?: string;
@@ -64,6 +79,7 @@ export interface Drug {
   indications: string[];
   dosingRules?: DosingRule[];
   infusionRules?: InfusionRule[];
+  inotropicConfig?: InotropicConfig;
   preparation: DrugPreparation;
   administration: {
     routes: string[];
@@ -138,6 +154,9 @@ export interface Score {
   minScore: number;
   maxScore: number;
   references: string[];
+  bilirubinCalculator?: boolean;
+  ropCalculator?: boolean;
+  finneganCalculator?: boolean;
 }
 
 export interface FormulaInput {
@@ -156,8 +175,36 @@ export interface Formula {
   resultLabel?: string;
   resultUnit?: string;
   calculations?: Record<string, string>;
+  calculationsLabels?: Record<string, string>;
+  calculationsUnits?: Record<string, string>;
+  calculationsHidden?: string[];
   notes?: string;
   reference: string;
 }
 
-export type ActivePage = 'medicamentos' | 'procedimientos' | 'indices' | 'favoritos' | 'formulas';
+export interface LabReference {
+  label: string;
+  min?: number;
+  max?: number;
+  notes?: string;
+}
+
+export interface LabParameter {
+  id: string;
+  name: string;
+  abbreviation?: string;
+  unit: string;
+  references: LabReference[];
+  notes?: string;
+  criticalLow?: number;
+  criticalHigh?: number;
+}
+
+export interface LabCategory {
+  id: string;
+  name: string;
+  source?: string;
+  parameters: LabParameter[];
+}
+
+export type ActivePage = 'medicamentos' | 'procedimientos' | 'calculadoras' | 'laboratorio' | 'favoritos';

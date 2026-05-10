@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Drug, DosingRule } from '../types';
 import { usePatient } from '../context/PatientContext';
 import { matchDosingRule, calcDose } from '../utils/calculations';
+import InotropicCalculator from './InotropicCalculator';
 
 interface DrugDetailProps {
   drug: Drug;
@@ -29,20 +30,28 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
       : rules;
 
   const selectedRule = availableRules[selectedRuleIndex];
-  const calculation = selectedRule ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
+  const hasValidPreparation = drug.preparation && drug.preparation.concentrationMgMl;
+  const isPerM2 = selectedRule?.unit?.includes('m²') || selectedRule?.unit?.includes('m2');
+  const isWeightBased = !!(selectedRule?.unit?.toLowerCase().includes('kg'));
+  const calculation = selectedRule && hasValidPreparation && !isPerM2 && isWeightBased ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
+  const fixedVolume =
+    !isPerM2 && !isWeightBased && selectedRule?.dosePerKg && hasValidPreparation &&
+    selectedRule.unit.toLowerCase().includes('mg') && !selectedRule.unit.includes('%') && !selectedRule.unit.toLowerCase().includes('ml')
+      ? parseFloat((selectedRule.dosePerKg / (drug.preparation?.concentrationMgMl ?? 1)).toFixed(2))
+      : null;
   const matchedRule = matchDosingRule(rules, patient);
 
   const categoryBadgeColor: { [key: string]: string } = {
-    antibiotico: 'bg-blue-100 text-blue-800',
-    antiviral: 'bg-purple-100 text-purple-800',
-    antifungico: 'bg-orange-100 text-orange-800',
-    cardiovascular: 'bg-red-100 text-red-800',
-    analgesico_sedante: 'bg-indigo-100 text-indigo-800',
-    diuretico: 'bg-green-100 text-green-800',
-    surfactante: 'bg-yellow-100 text-yellow-800',
-    respiratorio: 'bg-cyan-100 text-cyan-800',
-    emergencia: 'bg-red-200 text-red-900',
-    vitaminas_electrolitos: 'bg-amber-100 text-amber-800',
+    antibiotico: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+    antiviral: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
+    antifungico: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+    cardiovascular: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
+    analgesico_sedante: 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200',
+    diuretico: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+    surfactante: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+    respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200',
+    emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-200',
+    vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200',
   };
 
   return (
@@ -55,7 +64,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
             {drug.genericName && <p className="text-sm text-slate-500 dark:text-slate-400">{drug.genericName}</p>}
             <div className="flex flex-wrap gap-2 mt-2">
               {drug.category.map((cat) => (
-                <span key={cat} className={`text-xs font-semibold px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100'}`}>
+                <span key={cat} className={`text-xs font-semibold px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'}`}>
                   {cat}
                 </span>
               ))}
@@ -86,9 +95,9 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
 
           {/* Contraindications */}
           {drug.contraindications && drug.contraindications.length > 0 && (
-            <section className="bg-red-50 border border-red-200 rounded p-3">
-              <h3 className="font-semibold text-red-900 mb-2">⚠️ Contraindicaciones</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-red-800">
+            <section className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded p-3">
+              <h3 className="font-semibold text-red-900 dark:text-red-300 mb-2">⚠️ Contraindicaciones</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-red-800 dark:text-red-300">
                 {drug.contraindications.map((contra, i) => (
                   <li key={i}>{contra}</li>
                 ))}
@@ -96,10 +105,26 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
             </section>
           )}
 
+          {/* Calculador inotrópico */}
+          {drug.inotropicConfig && (
+            <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded-xl p-4">
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Calculador de infusión</h3>
+              <InotropicCalculator config={drug.inotropicConfig} drugName={drug.name} />
+            </section>
+          )}
+
           {/* Dosing Rules */}
-          {availableRules.length > 0 && (
-            <section className="bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 rounded p-4">
+          {!drug.inotropicConfig && availableRules.length > 0 && (
+            <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Dosificación</h3>
+
+              {!hasValidPreparation && (
+                <div className="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded p-3 mb-4">
+                  <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                    ⚠️ Información de preparación incompleta. Consultar con farmacéutico.
+                  </p>
+                </div>
+              )}
 
               {availableRules.length > 1 && (
                 <div className="mb-4">
@@ -118,8 +143,77 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                 </div>
               )}
 
+              {!isPerM2 && !isWeightBased && selectedRule && (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} {selectedRule.unit}</p>
+                    </div>
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.frequency}</p>
+                    </div>
+                  </div>
+
+                  {fixedVolume !== null && (
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Volumen</p>
+                      <p className="text-3xl font-bold text-brand-900 dark:text-brand-200">{fixedVolume} mL</p>
+                    </div>
+                  )}
+
+                  {selectedRule.notes && (
+                    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded p-2">
+                      <p className="text-xs text-yellow-800 dark:text-yellow-300">
+                        <strong>Nota:</strong> {selectedRule.notes}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {isPerM2 && selectedRule && (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} {selectedRule.unit}</p>
+                    </div>
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.frequency}</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded p-3">
+                    <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">Requiere cálculo de superficie corporal (m²)</p>
+                    <p className="text-xs text-amber-700 dark:text-amber-400">La dosis está expresada por m². Calcular el SC del paciente antes de preparar.</p>
+                  </div>
+
+                  {selectedRule.notes && (
+                    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded p-2">
+                      <p className="text-xs text-yellow-800 dark:text-yellow-300">
+                        <strong>Nota:</strong> {selectedRule.notes}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {calculation && (
                 <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} {selectedRule.unit}</p>
+                    </div>
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.frequency}</p>
+                    </div>
+                  </div>
+
                   <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
                     <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis calculada</p>
                     <p className="text-3xl font-bold text-brand-900 dark:text-brand-200">{calculation.doseTotal} mg</p>
@@ -134,53 +228,67 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                   </div>
 
                   {selectedRule.notes && (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded p-2">
-                      <p className="text-xs text-yellow-800">
+                    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded p-2">
+                      <p className="text-xs text-yellow-800 dark:text-yellow-300">
                         <strong>Nota:</strong> {selectedRule.notes}
                       </p>
                     </div>
                   )}
                 </div>
               )}
+
+              {!isPerM2 && isWeightBased && !calculation && (
+                <div className="text-sm text-slate-600 dark:text-slate-400 p-3 bg-white dark:bg-slate-800 rounded">
+                  Datos de dosis disponibles pero sin información de preparación.
+                </div>
+              )}
             </section>
           )}
 
           {/* Preparation */}
-          <section>
-            <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Preparación</h3>
-            <div className="space-y-2 text-sm">
-              <p>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Presentación:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stockForm}</span>
-              </p>
-              <p>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Concentración:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.concentrationMgMl} mg/mL</span>
-              </p>
-              {drug.preparation.reconstitution && (
-                <p>
-                  <span className="font-medium text-slate-700 dark:text-slate-300">Reconstitución:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.reconstitution}</span>
-                </p>
-              )}
-              <div>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Diluciones:</span>
-                <ul className="list-disc list-inside mt-1 text-slate-700 dark:text-slate-300">
-                  {drug.preparation.dilutionInstructions.map((instr, i) => (
-                    <li key={i}>{instr}</li>
-                  ))}
-                </ul>
+          {drug.preparation && (
+            <section>
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Preparación</h3>
+              <div className="space-y-2 text-sm">
+                {drug.preparation.stockForm && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Presentación:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stockForm}</span>
+                  </p>
+                )}
+                {drug.preparation.concentrationMgMl && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Concentración:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.concentrationMgMl} mg/mL</span>
+                  </p>
+                )}
+                {drug.preparation.reconstitution && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Reconstitución:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.reconstitution}</span>
+                  </p>
+                )}
+                {drug.preparation.dilutionInstructions && drug.preparation.dilutionInstructions.length > 0 && (
+                  <div>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Diluciones:</span>
+                    <ul className="list-disc list-inside mt-1 text-slate-700 dark:text-slate-300">
+                      {drug.preparation.dilutionInstructions.map((instr, i) => (
+                        <li key={i}>{instr}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {drug.preparation.stability && (
+                  <p>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Estabilidad:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stability}</span>
+                  </p>
+                )}
+                {drug.preparation.lightSensitive && (
+                  <p className="text-amber-700 dark:text-amber-300 font-semibold">🛡️ Sensible a la luz — proteger de exposición directa</p>
+                )}
               </div>
-              {drug.preparation.stability && (
-                <p>
-                  <span className="font-medium text-slate-700 dark:text-slate-300">Estabilidad:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.stability}</span>
-                </p>
-              )}
-              {drug.preparation.lightSensitive && (
-                <p className="text-amber-700 dark:text-amber-300 font-semibold">🛡️ Sensible a la luz — proteger de exposición directa</p>
-              )}
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* Incompatibilities */}
-          {(drug.administration.compatibleWith || drug.administration.incompatibleWith) && (
+          {drug.administration && (drug.administration.compatibleWith || drug.administration.incompatibleWith) && (
             <section>
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Compatibilidad IV</h3>
               <div className="space-y-2 text-sm">
@@ -201,7 +309,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
           )}
 
           {/* Monitoring */}
-          {drug.monitoring && drug.monitoring.length > 0 && (
+          {drug.monitoring?.length && drug.monitoring.length > 0 && (
             <section>
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Monitorización</h3>
               <ul className="list-disc list-inside space-y-1 text-sm text-slate-700 dark:text-slate-300">
@@ -213,7 +321,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
           )}
 
           {/* Adverse Effects */}
-          {drug.adverseEffects && drug.adverseEffects.length > 0 && (
+          {drug.adverseEffects?.length && drug.adverseEffects.length > 0 && (
             <section>
               <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Efectos adversos</h3>
               <ul className="list-disc list-inside space-y-1 text-sm text-slate-700 dark:text-slate-300">

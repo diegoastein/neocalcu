@@ -582,7 +582,7 @@
           "routes": [
             "IV"
           ],
-          "notes": "SEM = Skin, Eyes, Mouth"
+          "notes": "SEM = Piel, Ojos, Boca"
         },
         {
           "label": "Infección SNC o diseminada",
@@ -802,6 +802,24 @@
         "Vasoconstricción periférica (dosis altas)",
         "Necrosis si extravasación"
       ],
+      "inotropicConfig": {
+        "doseMin": 2,
+        "doseMax": 20,
+        "doseStep": 1,
+        "defaultDose": 5,
+        "flowMin": 0.5,
+        "flowMax": 10,
+        "flowStep": 0.5,
+        "defaultFlow": 1,
+        "volumes": [
+          12,
+          24,
+          50
+        ],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
+      },
       "references": [
         "NEOFAX 2024 p. 305"
       ]
@@ -859,6 +877,24 @@
         "Presión arterial",
         "Ecocardiograma"
       ],
+      "inotropicConfig": {
+        "doseMin": 2,
+        "doseMax": 20,
+        "doseStep": 1,
+        "defaultDose": 5,
+        "flowMin": 0.5,
+        "flowMax": 10,
+        "flowStep": 0.5,
+        "defaultFlow": 1,
+        "volumes": [
+          12,
+          24,
+          50
+        ],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
+      },
       "references": [
         "NEOFAX 2024 p. 300"
       ]
@@ -923,6 +959,24 @@
         "Isquemia periférica",
         "Hiperglucemia"
       ],
+      "inotropicConfig": {
+        "doseMin": 0.05,
+        "doseMax": 1,
+        "doseStep": 0.05,
+        "defaultDose": 0.1,
+        "flowMin": 0.5,
+        "flowMax": 10,
+        "flowStep": 0.5,
+        "defaultFlow": 1,
+        "volumes": [
+          12,
+          24,
+          50
+        ],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
+      },
       "references": [
         "NEOFAX 2024 p. 340"
       ]
@@ -2026,39 +2080,6 @@
       ]
     },
     {
-      "id": "aciclovir_neonatal",
-      "name": "Aciclovir",
-      "genericName": "Acyclovir",
-      "category": [
-        "antiviral"
-      ],
-      "indications": [
-        "Infección por VHS neonatal",
-        "Varicela",
-        "Herpes zóster"
-      ],
-      "dosingRules": [
-        {
-          "label": "IV - EG >= 34 semanas",
-          "gaMin": 34,
-          "dosePerKg": 10,
-          "unit": "mg/kg/dosis",
-          "frequency": "c/8h",
-          "routes": [
-            "IV"
-          ],
-          "notes": "Infusión en 60 minutos"
-        }
-      ],
-      "preparation": {
-        "stockForm": "Polvo IV 500mg/vial, Suspensión oral 200mg/5mL",
-        "concentrationMgMl": 50
-      },
-      "references": [
-        "NEOFAX 2024 p. 20"
-      ]
-    },
-    {
       "id": "adenosina",
       "name": "Adenosina",
       "genericName": "Adenosine",
@@ -2799,71 +2820,6 @@
       ]
     },
     {
-      "id": "cafeina_citrato_batch2",
-      "name": "Cafeína Citrato",
-      "genericName": "Caffeine Citrate",
-      "category": [
-        "stimulant",
-        "methylxanthine"
-      ],
-      "indications": [
-        "Apnea del prematuro",
-        "Estimulación respiratoria"
-      ],
-      "dosingRules": [
-        {
-          "label": "IV/PO - Carga",
-          "dosePerKg": 20,
-          "unit": "mg/kg",
-          "frequency": "única",
-          "routes": [
-            "IV",
-            "PO"
-          ],
-          "notes": "Mantenimiento: 5 mg/kg/día"
-        }
-      ],
-      "preparation": {
-        "stockForm": "Vial 20mg citrato/mL, Solución oral 20mg/mL",
-        "concentrationMgMl": 20
-      },
-      "references": [
-        "NEOFAX 2024 p. 164"
-      ]
-    },
-    {
-      "id": "calcio_gluconato_batch2",
-      "name": "Gluconato de Calcio",
-      "genericName": "Calcium Gluconate",
-      "category": [
-        "electrolyte",
-        "supplement"
-      ],
-      "indications": [
-        "Hipocalcemia",
-        "Hiperkalemia con cambios ECG"
-      ],
-      "dosingRules": [
-        {
-          "label": "IV lento",
-          "dosePerKg": 0.2,
-          "unit": "g/kg",
-          "frequency": "única",
-          "routes": [
-            "IV"
-          ],
-          "notes": "Infundir lentamente, máximo 100 mg/min"
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 10% (100mg/mL)",
-        "concentrationMgMl": 100
-      },
-      "references": [
-        "NEOFAX 2024 p. 177"
-      ]
-    },
-    {
       "id": "caspofungina",
       "name": "Caspofungina",
       "genericName": "Caspofungin",
@@ -2877,14 +2833,14 @@
       ],
       "dosingRules": [
         {
-          "label": "Carga / Mantenimiento",
-          "dosePerKg": 1,
-          "unit": "mg/kg/dosis",
-          "frequency": "c/24h (tras carga)",
+          "label": "Neonatos",
+          "dosePerKg": 25,
+          "unit": "mg/m²/dosis",
+          "frequency": "c/24h",
           "routes": [
             "IV"
           ],
-          "notes": "Carga: 70 mg/m² (máx 70 mg), luego 50 mg/m² diarios"
+          "notes": "Infundir en 1 hora. En pediatría mayor: carga 70 mg/m² (máx 70 mg), luego 50 mg/m²/día."
         }
       ],
       "preparation": {
@@ -3079,36 +3035,6 @@
       },
       "references": [
         "NEOFAX 2024 p. 216"
-      ]
-    },
-    {
-      "id": "cefotaxima_batch2",
-      "name": "Cefotaxima (Lote 2)",
-      "genericName": "Cefotaxime Extended",
-      "category": [
-        "antibiotico"
-      ],
-      "indications": [
-        "Infecciones severas por gram-negativos",
-        "Meningitis"
-      ],
-      "dosingRules": [
-        {
-          "label": "Meningitis",
-          "dosePerKg": 50,
-          "unit": "mg/kg/dosis",
-          "frequency": "c/6h",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Vial 500 mg, 1 g, 2 g",
-        "concentrationMgMl": 50
-      },
-      "references": [
-        "NEOFAX 2024 p. 209"
       ]
     },
     {
@@ -3536,66 +3462,6 @@
       ]
     },
     {
-      "id": "dobutamina_batch2",
-      "name": "Dobutamina (Lote 2)",
-      "genericName": "Dobutamine Extended",
-      "category": [
-        "cardiovascular"
-      ],
-      "indications": [
-        "Soporte inotrópico refractario"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión",
-          "doseMin": 5,
-          "doseMax": 20,
-          "unit": "mcg/kg/min",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 250 mg/20 mL",
-        "concentrationMgMl": 12.5
-      },
-      "references": [
-        "NEOFAX 2024 p. 300"
-      ]
-    },
-    {
-      "id": "dopamina_batch2",
-      "name": "Dopamina (Lote 2)",
-      "genericName": "Dopamine Extended",
-      "category": [
-        "cardiovascular"
-      ],
-      "indications": [
-        "Soporte hemodinámico"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión",
-          "doseMin": 2,
-          "doseMax": 20,
-          "unit": "mcg/kg/min",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 200 mg/5 mL",
-        "concentrationMgMl": 40
-      },
-      "references": [
-        "NEOFAX 2024 p. 305"
-      ]
-    },
-    {
       "id": "dornasa_alfa",
       "name": "Dornasa Alfa",
       "genericName": "Dornase Alfa",
@@ -3724,37 +3590,6 @@
       },
       "references": [
         "NEOFAX 2024 p. 334"
-      ]
-    },
-    {
-      "id": "epinefrina_batch2",
-      "name": "Epinefrina (Lote 2)",
-      "genericName": "Epinephrine Extended",
-      "category": [
-        "cardiovascular",
-        "emergencia"
-      ],
-      "indications": [
-        "Shock refractario"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión",
-          "doseMin": 0.05,
-          "doseMax": 1,
-          "unit": "mcg/kg/min",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 1 mg/1 mL",
-        "concentrationMgMl": 1
-      },
-      "references": [
-        "NEOFAX 2024 p. 340"
       ]
     },
     {
@@ -3891,36 +3726,6 @@
       ]
     },
     {
-      "id": "fentanilo_batch2",
-      "name": "Fentanilo (Lote 2)",
-      "genericName": "Fentanyl Extended",
-      "category": [
-        "analgesico_sedante"
-      ],
-      "indications": [
-        "Analgesia profunda"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión",
-          "doseMin": 1,
-          "doseMax": 5,
-          "unit": "mcg/kg/h",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 500 mcg/10 mL",
-        "concentrationMgMl": 0.05
-      },
-      "references": [
-        "NEOFAX 2024 p. 394"
-      ]
-    },
-    {
       "id": "ferrous_sulfate",
       "name": "Sulfato Ferroso",
       "genericName": "Ferrous Sulfate",
@@ -4007,36 +3812,6 @@
       },
       "references": [
         "NEOFAX 2024 p. 424"
-      ]
-    },
-    {
-      "id": "furosemida_batch2",
-      "name": "Furosemida (Lote 2)",
-      "genericName": "Furosemide Extended",
-      "category": [
-        "diuretico"
-      ],
-      "indications": [
-        "Diuresis mantenida"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión continua",
-          "doseMin": 0.1,
-          "doseMax": 0.4,
-          "unit": "mg/kg/h",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 20 mg/2 mL",
-        "concentrationMgMl": 10
-      },
-      "references": [
-        "NEOFAX 2024 p. 432"
       ]
     },
     {
@@ -4320,35 +4095,6 @@
       },
       "references": [
         "NEOFAX 2024 p. 521"
-      ]
-    },
-    {
-      "id": "vitamina_k1_batch2",
-      "name": "Vitamina K1 (Lote 2)",
-      "genericName": "Phytonadione Extended",
-      "category": [
-        "vitaminas_electrolitos"
-      ],
-      "indications": [
-        "Tratamiento de EHRN establecida"
-      ],
-      "dosingRules": [
-        {
-          "label": "IV",
-          "dosePerKg": 1,
-          "unit": "mg/kg/dosis",
-          "frequency": "c/8h × 3 dosis",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 10 mg/mL",
-        "concentrationMgMl": 10
-      },
-      "references": [
-        "NEOFAX 2024 p. 927"
       ]
     },
     {
@@ -4795,36 +4541,6 @@
       ]
     },
     {
-      "id": "midazolam_batch2",
-      "name": "Midazolam (Lote 2)",
-      "genericName": "Midazolam Extended",
-      "category": [
-        "sedante"
-      ],
-      "indications": [
-        "Sedación prolongada"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión continua",
-          "doseMin": 0.05,
-          "doseMax": 0.2,
-          "unit": "mg/kg/h",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 5 mg/mL",
-        "concentrationMgMl": 5
-      },
-      "references": [
-        "NEOFAX 2024 p. 629"
-      ]
-    },
-    {
       "id": "milrinone",
       "name": "Milrinona",
       "genericName": "Milrinone",
@@ -4860,38 +4576,26 @@
         "stockForm": "Vial 1 mg/mL",
         "concentrationMgMl": 1
       },
-      "references": [
-        "NEOFAX 2024 p. 634"
-      ]
-    },
-    {
-      "id": "morfina_batch2",
-      "name": "Morfina (Lote 2)",
-      "genericName": "Morphine Extended",
-      "category": [
-        "analgesico_sedante"
-      ],
-      "indications": [
-        "Analgesia severa prolongada"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión continua",
-          "doseMin": 0.01,
-          "doseMax": 0.05,
-          "unit": "mg/kg/h",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 10 mg/mL",
-        "concentrationMgMl": 10
+      "inotropicConfig": {
+        "doseMin": 0.25,
+        "doseMax": 0.75,
+        "doseStep": 0.05,
+        "defaultDose": 0.5,
+        "flowMin": 0.5,
+        "flowMax": 10,
+        "flowStep": 0.5,
+        "defaultFlow": 1,
+        "volumes": [
+          12,
+          24,
+          50
+        ],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
       },
       "references": [
-        "NEOFAX 2024 p. 640"
+        "NEOFAX 2024 p. 634"
       ]
     },
     {
@@ -4986,36 +4690,6 @@
       },
       "references": [
         "NEOFAX 2024 p. 653"
-      ]
-    },
-    {
-      "id": "naloxona_batch2",
-      "name": "Naloxona (Lote 2)",
-      "genericName": "Naloxone Extended",
-      "category": [
-        "emergencia"
-      ],
-      "indications": [
-        "Sedación opioide severa con apnea"
-      ],
-      "dosingRules": [
-        {
-          "label": "Infusión continua",
-          "doseMin": 0.002,
-          "doseMax": 0.01,
-          "unit": "mg/kg/h",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 0.4 mg/mL",
-        "concentrationMgMl": 0.4
-      },
-      "references": [
-        "NEOFAX 2024 p. 658"
       ]
     },
     {
@@ -5350,6 +5024,24 @@
       "preparation": {
         "stockForm": "Ampolla 1 mg/mL",
         "concentrationMgMl": 1
+      },
+      "inotropicConfig": {
+        "doseMin": 0.05,
+        "doseMax": 2,
+        "doseStep": 0.05,
+        "defaultDose": 0.1,
+        "flowMin": 0.5,
+        "flowMax": 10,
+        "flowStep": 0.5,
+        "defaultFlow": 1,
+        "volumes": [
+          12,
+          24,
+          50
+        ],
+        "defaultVolume": 50,
+        "diluent": "D5% o SF 0.9%",
+        "unit": "mcg/kg/min"
       },
       "references": [
         "NEOFAX 2024 p. 689"
@@ -5789,36 +5481,6 @@
       ]
     },
     {
-      "id": "fenobarbital_batch2",
-      "name": "Fenobarbital (Lote 2)",
-      "genericName": "Phenobarbital Extended",
-      "category": [
-        "anticonvulsivante"
-      ],
-      "indications": [
-        "Convulsiones refractarias"
-      ],
-      "dosingRules": [
-        {
-          "label": "Dosis de mantenimiento",
-          "dosePerKg": 5,
-          "unit": "mg/kg/día",
-          "frequency": "dividido c/12h",
-          "routes": [
-            "IV",
-            "PO"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 65 mg/mL, Jarabe 20 mg/5 mL",
-        "concentrationMgMl": 20
-      },
-      "references": [
-        "NEOFAX 2024 p. 749"
-      ]
-    },
-    {
       "id": "fenitoina",
       "name": "Fenitoína",
       "genericName": "Phenytoin",
@@ -5886,65 +5548,6 @@
       },
       "references": [
         "NEOFAX 2024 p. 758"
-      ]
-    },
-    {
-      "id": "fentanilo_batch3",
-      "name": "Fentanilo (Lote 3)",
-      "genericName": "Fentanyl For Transdermal",
-      "category": [
-        "analgesico_sedante"
-      ],
-      "indications": [
-        "Analgesia crónica (uso limitado en neonatos)"
-      ],
-      "dosingRules": [
-        {
-          "label": "Transdermal (excepcional)",
-          "dosePerKg": 25,
-          "unit": "mcg/72h patch",
-          "frequency": "cada 72 horas",
-          "routes": [
-            "Transdermal"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Parche transdérmico 25/50/75/100 mcg/72h",
-        "concentrationMgMl": 25
-      },
-      "references": [
-        "NEOFAX 2024 p. 394"
-      ]
-    },
-    {
-      "id": "fluconazol_batch2",
-      "name": "Fluconazol (Lote 2)",
-      "genericName": "Fluconazole Extended",
-      "category": [
-        "antifungico"
-      ],
-      "indications": [
-        "Candidiasis invasiva mantenida"
-      ],
-      "dosingRules": [
-        {
-          "label": "Tratamiento prolongado",
-          "dosePerKg": 12,
-          "unit": "mg/kg/dosis",
-          "frequency": "c/24h",
-          "routes": [
-            "IV",
-            "PO"
-          ]
-        }
-      ],
-      "preparation": {
-        "stockForm": "Ampolla 200 mg/100 mL, Suspensión 10/40 mg/mL",
-        "concentrationMgMl": 2
-      },
-      "references": [
-        "NEOFAX 2024 p. 406"
       ]
     },
     {
@@ -6095,7 +5698,7 @@
           "label": "Acetaminophen overdose - Maintenance",
           "dosePerKg": 50,
           "unit": "mg/kg/dose",
-          "frequency": "every 4-6h",
+          "frequency": "c/4-6h",
           "routes": [
             "IV",
             "Oral"
@@ -6108,7 +5711,7 @@
         "concentrationMgMl": 200,
         "diluent": "D5W or NS",
         "dilutionInstructions": [
-          "Dilute to 5% (50 mg/mL) for IV use"
+          "Diluir a 5% (50 mg/mL) para uso IV"
         ]
       },
       "references": [
@@ -6132,7 +5735,7 @@
           "label": "Hypocalcemia",
           "dosePerKg": 10,
           "unit": "mg/kg/dose",
-          "frequency": "every 6-12h",
+          "frequency": "c/6-12h",
           "routes": [
             "IV"
           ],
@@ -6198,7 +5801,7 @@
           "label": "RDS prophylaxis or treatment",
           "dosePerKg": 105,
           "unit": "mg/kg",
-          "frequency": "every 12h x 2 doses, then every 24h",
+          "frequency": "c/12h × 2 dosis, luego c/24h",
           "routes": [
             "Intratracheal"
           ],
@@ -6231,11 +5834,11 @@
           "label": "Hypertension",
           "dosePerKg": 0.3,
           "unit": "mg/kg/dose",
-          "frequency": "every 6-12h",
+          "frequency": "c/6-12h",
           "routes": [
             "Oral"
           ],
-          "notes": "Start low, titrate up"
+          "notes": "Iniciar a dosis bajas, titular"
         }
       ],
       "preparation": {
@@ -6301,7 +5904,7 @@
           "dolMax": 7,
           "dosePerKg": 25,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV"
           ]
@@ -6312,7 +5915,7 @@
           "dolMax": 7,
           "dosePerKg": 25,
           "unit": "mg/kg/dose",
-          "frequency": "every 8h",
+          "frequency": "c/8h",
           "routes": [
             "IV"
           ]
@@ -6358,7 +5961,7 @@
         "stockForm": "Suspension 250 mg/5 mL, Tablet 500 mg",
         "concentrationMgMl": 50,
         "dilutionInstructions": [
-          "Suspension ready to use or dissolve tablet"
+          "Suspensión lista para usar o disolver comprimido"
         ]
       },
       "references": [
@@ -6381,7 +5984,7 @@
           "label": "Neonatal abstinence",
           "dosePerKg": 0.5,
           "unit": "mcg/kg/dose",
-          "frequency": "every 4-6h",
+          "frequency": "c/4-6h",
           "routes": [
             "Oral"
           ],
@@ -6415,7 +6018,7 @@
           "label": "Ophthalmic use",
           "dosePerKg": null,
           "unit": "drops",
-          "frequency": "2-3 drops, 2-3 times daily as needed",
+          "frequency": "2-3 gotas, 2-3 veces al día según necesidad",
           "routes": [
             "Ophthalmic"
           ],
@@ -6515,7 +6118,7 @@
           "label": "IV Hypertension",
           "dosePerKg": 5,
           "unit": "mcg/kg/dose",
-          "frequency": "every 8-24h",
+          "frequency": "c/8-24h",
           "routes": [
             "IV"
           ],
@@ -6535,38 +6138,38 @@
     },
     {
       "id": "epinephrine_expanded",
-      "name": "EPINEPHrine (Adrenaline)",
+      "name": "EPINEFrina (Adrenalina)",
       "genericName": "Epinephrine",
       "category": [
         "inotropico"
       ],
       "indications": [
-        "Cardiac arrest",
+        "Paro cardíaco",
         "Shock",
-        "Anaphylaxis",
-        "Continuous infusion for low BP"
+        "Anafilaxia",
+        "Infusión continua para hipotensión"
       ],
       "dosingRules": [
         {
-          "label": "Cardiac arrest (IV/IO)",
+          "label": "Paro cardíaco (IV/IO)",
           "dosePerKg": 0.01,
           "unit": "mg/kg",
-          "frequency": "every 3-5 min",
+          "frequency": "c/3-5 min",
           "routes": [
             "IV",
             "IO"
           ],
-          "notes": "Max single dose 1 mg; can use 0.1 mg/kg via ET tube"
+          "notes": "Dosis máxima única 1 mg; puede usarse 0.1 mg/kg por tubo ET"
         },
         {
-          "label": "Refractory shock infusion",
+          "label": "Infusión shock refractario",
           "dosePerKg": 0.1,
           "unit": "mcg/kg/min",
           "frequency": "continuous",
           "routes": [
             "IV"
           ],
-          "notes": "Titrate 0.1 mcg/kg/min up to 1 mcg/kg/min"
+          "notes": "Titular desde 0.1 mcg/kg/min hasta 1 mcg/kg/min"
         }
       ],
       "infusionRules": [
@@ -6583,7 +6186,7 @@
         "stockForm": "1:1000 (1 mg/mL) for bolus; 1:10000 (0.1 mg/mL) for infusion",
         "concentrationMgMl": 1,
         "dilutionInstructions": [
-          "For infusion: dilute 1:1000 solution in NS to 0.1 mg/mL (1:10000)"
+          "Para infusión: diluir solución 1:1000 en SF 0.9% a 0.1 mg/mL (1:10000)"
         ]
       },
       "references": [
@@ -6606,18 +6209,18 @@
           "label": "SVT/HTN",
           "dosePerKg": 100,
           "unit": "mcg/kg/min",
-          "frequency": "initial, titrate up",
+          "frequency": "inicial, titular",
           "routes": [
             "IV"
           ],
-          "notes": "Increase by 50 mcg/kg/min every 5-10 min up to 500 mcg/kg/min"
+          "notes": "Aumentar 50 mcg/kg/min c/5-10 min hasta 500 mcg/kg/min"
         }
       ],
       "preparation": {
         "stockForm": "Vial 250 mg/mL",
         "concentrationMgMl": 250,
         "dilutionInstructions": [
-          "Dilute in NS to 10 mg/mL for infusion pump"
+          "Diluir en SF 0.9% a 10 mg/mL para bomba de infusión"
         ]
       },
       "references": [
@@ -6640,7 +6243,7 @@
           "label": "Hemophilia B replacement",
           "dosePerKg": 50,
           "unit": "IU/kg",
-          "frequency": "every 12-24h",
+          "frequency": "c/12-24h",
           "routes": [
             "IV"
           ],
@@ -6675,7 +6278,7 @@
           "label": "Hemophilia/bleeding",
           "dosePerKg": 90,
           "unit": "mcg/kg",
-          "frequency": "every 2-3h",
+          "frequency": "c/2-3h",
           "routes": [
             "IV"
           ],
@@ -6708,7 +6311,7 @@
           "label": "Factor X deficiency",
           "dosePerKg": 15,
           "unit": "IU/kg",
-          "frequency": "once, repeat in 12-24h",
+          "frequency": "única, repetir en 12-24h",
           "routes": [
             "IV"
           ],
@@ -6742,7 +6345,7 @@
           "label": "Factor XIII deficiency",
           "dosePerKg": 40,
           "unit": "IU/kg",
-          "frequency": "every 28 days (prophylaxis) or as needed",
+          "frequency": "c/28 días (profilaxis) o según necesidad",
           "routes": [
             "IV"
           ],
@@ -6823,7 +6426,7 @@
         "stockForm": "Tablet 50, 100, 150 mg; Solution for IV",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Tablets can be crushed or dissolved; IV dilute in NS"
+          "Comprimidos pueden triturarse o disolverse; IV diluir en SF 0.9%"
         ]
       },
       "references": [
@@ -6838,27 +6441,27 @@
         "antifungico"
       ],
       "indications": [
-        "Candida infections (with amphotericin B)",
-        "Cryptococcus"
+        "Infecciones por Cándida (con anfotericina B)",
+        "Criptococosis"
       ],
       "dosingRules": [
         {
-          "label": "Antifungal therapy",
+          "label": "Terapia antifúngica",
           "dosePerKg": 25,
           "unit": "mg/kg/dose",
-          "frequency": "every 6h",
+          "frequency": "c/6h",
           "routes": [
             "Oral",
             "IV"
           ],
-          "notes": "Potentiate amphotericin B; monitor renal function"
+          "notes": "Potencia anfotericina B; monitorizar función renal"
         }
       ],
       "preparation": {
         "stockForm": "Capsule 250, 500 mg; Solution 250 mg/5 mL",
         "concentrationMgMl": 50,
         "dilutionInstructions": [
-          "Oral capsules or solution ready to use"
+          "Cápsulas orales o solución listas para usar"
         ]
       },
       "references": [
@@ -6881,13 +6484,13 @@
           "label": "Hypoglycemia",
           "dosePerKg": 0.03,
           "unit": "mg/kg",
-          "frequency": "once, can repeat in 15 min",
+          "frequency": "única, puede repetir en 15 min",
           "routes": [
             "IV",
             "IM",
             "SC"
           ],
-          "notes": "Max single dose 1 mg; IV preferred"
+          "notes": "Dosis máxima única 1 mg; preferir IV"
         }
       ],
       "preparation": {
@@ -7051,20 +6654,20 @@
           "label": "Hypertension",
           "dosePerKg": 0.25,
           "unit": "mg/kg/dose",
-          "frequency": "every 6-8h",
+          "frequency": "c/6-8h",
           "routes": [
             "IV",
             "IM",
             "Oral"
           ],
-          "notes": "IV preferred for acute use; titrate slowly"
+          "notes": "Preferir IV para uso agudo; titular lentamente"
         }
       ],
       "preparation": {
         "stockForm": "Vial 20 mg/mL (IV), Tablet 10, 25, 50 mg (oral)",
         "concentrationMgMl": 20,
         "dilutionInstructions": [
-          "IV: dilute in NS; Oral: can crush tablet"
+          "IV: diluir en SF 0.9%; Oral: puede triturar comprimido"
         ]
       },
       "references": [
@@ -7099,7 +6702,7 @@
         "stockForm": "Tablet 25, 50 mg; Suspension 50 mg/5 mL",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Oral suspension ready to use"
+          "Suspensión oral lista para usar"
         ]
       },
       "references": [
@@ -7123,7 +6726,7 @@
           "label": "Acute adrenal crisis",
           "dosePerKg": 50,
           "unit": "mg/kg/dose",
-          "frequency": "every 6h",
+          "frequency": "c/6h",
           "routes": [
             "IV"
           ],
@@ -7179,7 +6782,7 @@
           "label": "Fever/analgesia",
           "dosePerKg": 5,
           "unit": "mg/kg/dose",
-          "frequency": "every 6-8h",
+          "frequency": "c/6-8h",
           "routes": [
             "Oral"
           ],
@@ -7205,9 +6808,9 @@
         "antibiotico"
       ],
       "indications": [
-        "Serious gram-negative infections",
+        "Infecciones gram-negativas graves",
         "Pseudomonas",
-        "Anaerobes"
+        "Anaerobios"
       ],
       "dosingRules": [
         {
@@ -7216,7 +6819,7 @@
           "dolMax": 7,
           "dosePerKg": 20,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV"
           ]
@@ -7228,7 +6831,7 @@
           "dolMax": 7,
           "dosePerKg": 25,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV"
           ]
@@ -7261,7 +6864,7 @@
           "label": "Sepsis prophylaxis",
           "dosePerKg": 500,
           "unit": "mg/kg",
-          "frequency": "every 2 weeks",
+          "frequency": "c/2 semanas",
           "routes": [
             "IV"
           ],
@@ -7339,7 +6942,7 @@
           "label": "Hyperglycemia correction",
           "dosePerKg": 0.1,
           "unit": "unit/kg/dose",
-          "frequency": "every 6h",
+          "frequency": "c/6h",
           "routes": [
             "IV",
             "SC"
@@ -7361,7 +6964,7 @@
         "stockForm": "Vial 100 unit/mL",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Dilute in NS for IV; use undiluted for SC"
+          "Diluir en SF 0.9% para IV; usar sin diluir para SC"
         ]
       },
       "references": [
@@ -7419,7 +7022,7 @@
           "label": "Neonatal HIV/HBV",
           "dosePerKg": 4,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "Oral"
           ],
@@ -7487,7 +7090,7 @@
           "label": "Seizures",
           "dosePerKg": 10,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "Oral",
             "IV"
@@ -7499,7 +7102,7 @@
         "stockForm": "Tablet 250, 500, 750 mg; Solution 100 mg/mL",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "Solution ready to use; tablets can be crushed"
+          "Solución lista para usar; comprimidos pueden triturarse"
         ]
       },
       "references": [
@@ -7508,42 +7111,42 @@
     },
     {
       "id": "lidocaine_antiarrhythmic",
-      "name": "Lidocaine - Antiarrhythmic",
+      "name": "Lidocaína - Antiarrítmico",
       "genericName": "Lidocaine",
       "category": [
         "cardiovascular"
       ],
       "indications": [
-        "Ventricular arrhythmias",
-        "Cardiac arrest"
+        "Arritmias ventriculares",
+        "Paro cardíaco"
       ],
       "dosingRules": [
         {
-          "label": "VT/VF (cardiac arrest)",
+          "label": "TV/FV (paro cardíaco)",
           "dosePerKg": 1,
-          "unit": "mg/kg IV bolus",
-          "frequency": "once, repeat in 5-10 min",
+          "unit": "mg/kg (bolo IV)",
+          "frequency": "única, repetir en 5-10 min",
           "routes": [
             "IV"
           ],
-          "notes": "Max 3 mg/kg total; then continuous infusion"
+          "notes": "Máx 3 mg/kg total; luego infusión continua"
         },
         {
-          "label": "Continuous infusion",
+          "label": "Infusión continua",
           "dosePerKg": 20,
           "unit": "mcg/kg/min",
-          "frequency": "titrate",
+          "frequency": "titular",
           "routes": [
             "IV"
           ],
-          "notes": "Start 20, increase by 5 mcg/kg/min as needed"
+          "notes": "Iniciar 20, aumentar 5 mcg/kg/min según necesidad"
         }
       ],
       "preparation": {
         "stockForm": "Vial 1% (10 mg/mL), 2% (20 mg/mL)",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Dilute in D5W or NS for IV infusion"
+          "Diluir en D5% o SF 0.9% para infusión IV"
         ]
       },
       "references": [
@@ -7552,22 +7155,22 @@
     },
     {
       "id": "lidocaine_cns",
-      "name": "Lidocaine - CNS",
+      "name": "Lidocaína - Anestésico local",
       "genericName": "Lidocaine",
       "category": [
         "local_anesthetic"
       ],
       "indications": [
-        "Local anesthesia",
-        "Topical anesthesia",
-        "Regional blocks"
+        "Anestesia local",
+        "Anestesia tópica",
+        "Bloqueos regionales"
       ],
       "dosingRules": [
         {
-          "label": "Local infiltration",
+          "label": "Infiltración local",
           "dosePerKg": 4.5,
           "unit": "mg/kg",
-          "frequency": "as needed",
+          "frequency": "según necesidad",
           "routes": [
             "SC",
             "Local"
@@ -7579,7 +7182,7 @@
         "stockForm": "Solution 0.5%, 1%, 2% (with or without epi)",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Ready to use for local injection"
+          "Lista para usar en inyección local"
         ]
       },
       "references": [
@@ -7594,11 +7197,11 @@
         "local_anesthetic"
       ],
       "indications": [
-        "Topical anesthesia (venipuncture, procedures)"
+        "Anestesia tópica (venopunción, procedimientos)"
       ],
       "dosingRules": [
         {
-          "label": "Topical anesthesia",
+          "label": "Anestesia tópica",
           "dosePerKg": null,
           "unit": "1 g per 10 cm2",
           "frequency": "apply 60 min before procedure",
@@ -7612,7 +7215,7 @@
         "stockForm": "Cream 2.5% lidocaine + 2.5% prilocaine in 5g, 30g tubes",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Apply topically; ready to use"
+          "Aplicar tópicamente; listo para usar"
         ]
       },
       "references": [
@@ -7635,7 +7238,7 @@
           "label": "Neonatal HIV (with other agents)",
           "dosePerKg": 4.3,
           "unit": "mg/kg/dose (lopinavir)",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "Oral"
           ],
@@ -7806,7 +7409,7 @@
           "label": "Influenza treatment",
           "dosePerKg": 2,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h x 5 days",
+          "frequency": "c/12h × 5 días",
           "routes": [
             "Oral"
           ],
@@ -7832,29 +7435,29 @@
         "cardiovascular"
       ],
       "indications": [
-        "Hypotension",
-        "Shock (with low systemic vascular resistance)"
+        "Hipotensión",
+        "Shock (con baja resistencia vascular sistémica)"
       ],
       "dosingRules": [
         {
-          "label": "IV bolus",
+          "label": "Bolo IV",
           "dosePerKg": 2,
           "unit": "mcg/kg",
-          "frequency": "every 5-15 min",
+          "frequency": "c/5-15 min",
           "routes": [
             "IV"
           ],
-          "notes": "Given via central line preferred"
+          "notes": "Preferir vía central"
         },
         {
-          "label": "Continuous infusion",
+          "label": "Infusión continua",
           "dosePerKg": 0.5,
           "unit": "mcg/kg/min",
-          "frequency": "initial, titrate",
+          "frequency": "inicial, titular",
           "routes": [
             "IV"
           ],
-          "notes": "Increase by 0.5 mcg/kg/min as needed up to 1 mcg/kg/min"
+          "notes": "Aumentar 0.5 mcg/kg/min según necesidad hasta 1 mcg/kg/min"
         }
       ],
       "preparation": {
@@ -7886,7 +7489,7 @@
           "dolMax": 7,
           "dosePerKg": 75,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV",
             "IM"
@@ -7898,7 +7501,7 @@
           "dolMax": 7,
           "dosePerKg": 75,
           "unit": "mg/kg/dose",
-          "frequency": "every 8h",
+          "frequency": "c/8h",
           "routes": [
             "IV",
             "IM"
@@ -7924,9 +7527,9 @@
         "antibiotico"
       ],
       "indications": [
-        "Polymicrobial infections",
-        "ESBL gram-negatives",
-        "Anaerobes"
+        "Infecciones polimicrobianas",
+        "Gram-negativos productores de BLEE",
+        "Anaerobios"
       ],
       "dosingRules": [
         {
@@ -7935,7 +7538,7 @@
           "dolMax": 7,
           "dosePerKg": 80,
           "unit": "mg/kg/dose (piperacillin)",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV"
           ]
@@ -7946,7 +7549,7 @@
           "dolMax": 7,
           "dosePerKg": 80,
           "unit": "mg/kg/dose (piperacillin)",
-          "frequency": "every 8h",
+          "frequency": "c/8h",
           "routes": [
             "IV"
           ]
@@ -8014,7 +7617,7 @@
           "label": "Thyroid protection/saturation",
           "dosePerKg": 0.2,
           "unit": "mg/kg/dose",
-          "frequency": "every 6h",
+          "frequency": "c/6h",
           "routes": [
             "Oral"
           ],
@@ -8025,7 +7628,7 @@
         "stockForm": "Solution 100 mg/mL (Lugol), Solution 65 mg/mL (saturated)",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "Dilute in water; very bitter taste"
+          "Diluir en agua; sabor muy amargo"
         ]
       },
       "references": [
@@ -8040,7 +7643,7 @@
         "cardiovascular"
       ],
       "indications": [
-        "Ventricular arrhythmias",
+        "Arritmias ventriculares",
         "SVT (refractory)"
       ],
       "dosingRules": [
@@ -8048,28 +7651,28 @@
           "label": "IV loading",
           "dosePerKg": 12,
           "unit": "mg/kg",
-          "frequency": "once over 5-30 min",
+          "frequency": "única en 5-30 min",
           "routes": [
             "IV"
           ],
-          "notes": "Slower than lidocaine onset"
+          "notes": "Inicio de acción más lento que lidocaína"
         },
         {
-          "label": "Continuous infusion",
+          "label": "Infusión continua",
           "dosePerKg": 20,
           "unit": "mcg/kg/min",
-          "frequency": "initial, titrate",
+          "frequency": "inicial, titular",
           "routes": [
             "IV"
           ],
-          "notes": "Monitor QT interval; risk of lupus-like syndrome"
+          "notes": "Monitorizar intervalo QT; riesgo de síndrome lupus-like"
         }
       ],
       "preparation": {
         "stockForm": "Vial 100 mg/mL, 500 mg/mL",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "Dilute in D5W or NS for infusion"
+          "Diluir en D5% o SF 0.9% para infusión"
         ]
       },
       "references": [
@@ -8093,7 +7696,7 @@
           "label": "HTN/arrhythmia",
           "dosePerKg": 0.01,
           "unit": "mg/kg/dose",
-          "frequency": "every 6-8h",
+          "frequency": "c/6-8h",
           "routes": [
             "IV",
             "Oral"
@@ -8138,7 +7741,7 @@
         "stockForm": "Vial 10 mg/mL",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Dilute in NS; infuse slowly over 10 min"
+          "Diluir en SF 0.9%; infundir lentamente en 10 min"
         ]
       },
       "references": [
@@ -8161,7 +7764,7 @@
           "label": "Protein C deficiency",
           "dosePerKg": 10,
           "unit": "IU/kg",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV"
           ],
@@ -8195,7 +7798,7 @@
           "label": "Pyridoxine-dependent seizures",
           "dosePerKg": 50,
           "unit": "mg/kg/day",
-          "frequency": "once or divided",
+          "frequency": "única o dividida",
           "routes": [
             "Oral",
             "IV"
@@ -8207,7 +7810,7 @@
         "stockForm": "Vial 100 mg/mL (IV), Tablet 10, 25, 50, 100 mg (oral)",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "IV: dilute in NS; Oral: tablets can be crushed"
+          "IV: diluir en SF 0.9%; Oral: comprimidos pueden triturarse"
         ]
       },
       "references": [
@@ -8222,15 +7825,15 @@
         "antibiotico"
       ],
       "indications": [
-        "Vancomycin-resistant Enterococcus (VRE)",
-        "Resistant gram-positives"
+        "Enterococo resistente a vancomicina (ERV)",
+        "Gram-positivos resistentes"
       ],
       "dosingRules": [
         {
-          "label": "VRE infection",
+          "label": "Infección por ERV",
           "dosePerKg": 7.5,
           "unit": "mg/kg/dose",
-          "frequency": "every 8-12h",
+          "frequency": "c/8-12h",
           "routes": [
             "IV"
           ],
@@ -8299,7 +7902,7 @@
           "label": "GI protection",
           "dosePerKg": 2,
           "unit": "mg/kg/dose",
-          "frequency": "every 6-8h",
+          "frequency": "c/6-8h",
           "routes": [
             "IV",
             "Oral"
@@ -8311,7 +7914,7 @@
         "stockForm": "Vial 25 mg/mL, Syrup 15 mg/mL",
         "concentrationMgMl": 25,
         "dilutionInstructions": [
-          "IV: dilute in NS; Oral: syrup ready to use"
+          "IV: diluir en SF 0.9%; Oral: jarabe listo para usar"
         ]
       },
       "references": [
@@ -8369,7 +7972,7 @@
           "label": "Intubation/paralysis",
           "dosePerKg": 0.6,
           "unit": "mg/kg",
-          "frequency": "once for intubation; repeat 0.075 mg/kg as needed",
+          "frequency": "única para intubación; repetir 0.075 mg/kg según necesidad",
           "routes": [
             "IV"
           ],
@@ -8403,7 +8006,7 @@
           "label": "Pulmonary HTN",
           "dosePerKg": 0.4,
           "unit": "mg/kg/dose",
-          "frequency": "every 4-6h",
+          "frequency": "c/4-6h",
           "routes": [
             "Oral",
             "IV"
@@ -8564,7 +8167,7 @@
         "stockForm": "Vial 50 mL (100 mg/mL each agent)",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "Dilute in D5W or NS; infuse over 90-120 min initially"
+          "Diluir en D5% o SF 0.9%; infundir en 90-120 min inicialmente"
         ]
       },
       "references": [
@@ -8579,7 +8182,7 @@
         "cardiovascular"
       ],
       "indications": [
-        "Ventricular arrhythmias",
+        "Arritmias ventriculares",
         "SVT (refractory)"
       ],
       "dosingRules": [
@@ -8599,7 +8202,7 @@
         "stockForm": "Tablet 80, 120, 160, 240 mg; Solution (IV)",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Tablets can be crushed; IV dilute in NS"
+          "Comprimidos pueden triturarse; IV diluir en SF 0.9%"
         ]
       },
       "references": [
@@ -8620,21 +8223,21 @@
       ],
       "dosingRules": [
         {
-          "label": "CLD diuresis",
+          "label": "Diuresis en DBP/EPC",
           "dosePerKg": 1,
           "unit": "mg/kg/day",
-          "frequency": "once or divided",
+          "frequency": "única o dividida",
           "routes": [
             "Oral"
           ],
-          "notes": "Potassium-sparing; monitor renal function and K+"
+          "notes": "Ahorrador de potasio; monitorizar función renal y K+"
         }
       ],
       "preparation": {
         "stockForm": "Tablet 25, 50, 100 mg; Suspension 25 mg/5 mL",
         "concentrationMgMl": 5,
         "dilutionInstructions": [
-          "Tablets can be crushed; suspension ready to use"
+          "Comprimidos pueden triturarse; suspensión lista para usar"
         ]
       },
       "references": [
@@ -8751,8 +8354,8 @@
         "antibiotico"
       ],
       "indications": [
-        "Beta-lactamase producing gram-negatives",
-        "Anaerobes (abdominal)"
+        "Gram-negativos productores de beta-lactamasa",
+        "Anaerobios (abdominales)"
       ],
       "dosingRules": [
         {
@@ -8761,7 +8364,7 @@
           "dolMax": 7,
           "dosePerKg": 75,
           "unit": "mg/kg/dose (ticarcillin)",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV",
             "IM"
@@ -8773,7 +8376,7 @@
           "dolMax": 7,
           "dosePerKg": 75,
           "unit": "mg/kg/dose (ticarcillin)",
-          "frequency": "every 8h",
+          "frequency": "c/8h",
           "routes": [
             "IV",
             "IM"
@@ -8799,8 +8402,8 @@
         "antibiotico"
       ],
       "indications": [
-        "Gram-negative infections (Pseudomonas, E. coli)",
-        "Combined with other agents for gram-positives"
+        "Infecciones gram-negativas (Pseudomonas, E. coli)",
+        "En combinación con otros agentes para gram-positivos"
       ],
       "dosingRules": [
         {
@@ -8809,7 +8412,7 @@
           "dolMax": 7,
           "dosePerKg": 4,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV",
             "IM"
@@ -8821,7 +8424,7 @@
           "dolMax": 7,
           "dosePerKg": 4,
           "unit": "mg/kg/dose",
-          "frequency": "every 8h",
+          "frequency": "c/8h",
           "routes": [
             "IV",
             "IM"
@@ -8832,7 +8435,7 @@
         "stockForm": "Vial 10 mg/mL, 40 mg/mL",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Dilute in NS or D5W; infuse over 30 min"
+          "Diluir en SF 0.9% o D5%; infundir en 30 min"
         ]
       },
       "references": [
@@ -8865,7 +8468,7 @@
         "stockForm": "Tablet 25, 50, 100, 200 mg; Sprinkle capsule 15, 25 mg",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Tablets can be crushed; sprinkle capsules open on soft food"
+          "Comprimidos pueden triturarse; abrir cápsulas y esparcir sobre alimento blando"
         ]
       },
       "references": [
@@ -8887,7 +8490,7 @@
           "label": "Ophthalmic mydriasis",
           "dosePerKg": null,
           "unit": "1 drop",
-          "frequency": "every 5 min x 2 doses",
+          "frequency": "c/5 min × 2 dosis",
           "routes": [
             "Ophthalmic"
           ],
@@ -8932,7 +8535,7 @@
         "stockForm": "Tablet 250, 500 mg; Suspension 50 mg/mL",
         "concentrationMgMl": 50,
         "dilutionInstructions": [
-          "Tablets can be crushed; suspension ready to use"
+          "Comprimidos pueden triturarse; suspensión lista para usar"
         ]
       },
       "references": [
@@ -8955,7 +8558,7 @@
           "label": "Congenital CMV treatment",
           "dosePerKg": 16,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "Oral"
           ],
@@ -8966,7 +8569,7 @@
         "stockForm": "Tablet 450 mg; Solution 50 mg/mL",
         "concentrationMgMl": 50,
         "dilutionInstructions": [
-          "Solution ready to use; tablets can be crushed"
+          "Solución lista para usar; comprimidos pueden triturarse"
         ]
       },
       "references": [
@@ -8988,7 +8591,7 @@
           "label": "Intubation/paralysis",
           "dosePerKg": 0.1,
           "unit": "mg/kg",
-          "frequency": "once for intubation; repeat 0.03 mg/kg/dose every 1-2h",
+          "frequency": "única para intubación; repetir 0.03 mg/kg/dosis c/1-2h",
           "routes": [
             "IV"
           ],
@@ -9138,7 +8741,7 @@
           "label": "Treatment of deficiency",
           "dosePerKg": 0.1,
           "unit": "mg/kg/dose",
-          "frequency": "every 12h",
+          "frequency": "c/12h",
           "routes": [
             "IV",
             "IM",
@@ -9151,7 +8754,7 @@
         "stockForm": "Vial 1 mg/0.5 mL (IM/IV), 5 mg/mL (oral), Tablet 5 mg",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "IM/IV undiluted or dilute in NS; Oral ready to use"
+          "IM/IV sin diluir o diluir en SF 0.9%; Oral listo para usar"
         ]
       },
       "references": [
@@ -9174,7 +8777,7 @@
           "label": "Neonatal HIV prevention (maternal transmission)",
           "dosePerKg": 4,
           "unit": "mg/kg/dose",
-          "frequency": "every 6h",
+          "frequency": "c/6h",
           "routes": [
             "Oral"
           ],
@@ -9184,7 +8787,7 @@
           "label": "HIV treatment (active)",
           "dosePerKg": 4,
           "unit": "mg/kg/dose",
-          "frequency": "every 6h",
+          "frequency": "c/6h",
           "routes": [
             "Oral",
             "IV"
@@ -9196,7 +8799,7 @@
         "stockForm": "Syrup 10 mg/mL; IV 10 mg/mL",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Syrup ready to use; IV dilute in D5W"
+          "Jarabe listo para usar; IV diluir en D5%"
         ]
       },
       "references": [
@@ -9214,7 +8817,7 @@
         {
           "label": "Posición alta (T6–T9)",
           "description": "Extremo del catéter entre T6 y T9 (encima del diafragma). Posición estándar.",
-          "formula": "3 × peso(kg) + 9",
+          "formula": "3 * peso(kg) + 9",
           "variableLabel": "Peso de nacimiento",
           "variableUnit": "kg",
           "resultUnit": "cm desde el ombligo",
@@ -9283,7 +8886,7 @@
         {
           "label": "Longitud CVU (estándar)",
           "description": "Extremo en unión cava inferior / aurícula derecha (T8–T9). Fórmula basada en CAU alta.",
-          "formula": "(3 × peso(kg) + 9) / 2 + 1",
+          "formula": "(3 * peso(kg) + 9) / 2 + 1",
           "variableLabel": "Peso de nacimiento",
           "variableUnit": "kg",
           "resultUnit": "cm desde el ombligo",
@@ -9420,18 +9023,32 @@
     },
     {
       "id": "gir",
-      "name": "Velocidad de Infusión de Glucosa (VIG)",
+      "name": "Flujo de Glucosa (VIG)",
       "category": "calculo",
       "description": "Cálculo de la velocidad de infusión de glucosa para mantener normoglucemia",
       "formulas": [
         {
           "label": "VIG en mg/kg/min",
           "description": "Fórmula para calcular la velocidad de infusión de glucosa.",
-          "formula": "VIG = (concentración dextrosa % × velocidad mL/h) / (peso kg × 6)",
+          "formula": "(concentracion_dextrosa * velocidad_ml_h) / (peso_kg * 6)",
           "variableLabel": "Concentración de dextrosa",
           "variableUnit": "%",
           "resultUnit": "mg/kg/min",
-          "reference": "VIG objetivo neonatal: 4–8 mg/kg/min. Máx 12."
+          "reference": "VIG objetivo neonatal: 4–8 mg/kg/min. Máx 12.",
+          "inputs": [
+            {
+              "id": "concentracion_dextrosa",
+              "label": "Concentración de dextrosa",
+              "unit": "%",
+              "required": true
+            },
+            {
+              "id": "velocidad_ml_h",
+              "label": "Velocidad de infusión",
+              "unit": "mL/h",
+              "required": true
+            }
+          ]
         }
       ],
       "warnings": [
@@ -9441,6 +9058,1081 @@
       ],
       "references": [
         "SEGNNEO 2019"
+      ]
+    },
+    {
+      "id": "puncion_lumbar",
+      "name": "Punción Lumbar (PL)",
+      "category": "procedimiento",
+      "description": "Obtención de líquido cefalorraquídeo para diagnóstico de meningitis u otras patologías del SNC",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Posición: decúbito lateral en posición fetal (flexión máxima) o sentado."
+        },
+        {
+          "step": "Referencia anatómica: espacio L3–L4 o L4–L5 (línea interilíaca)."
+        },
+        {
+          "step": "Técnica estéril estricta. Limpiar con iodopovidona o clorhexidina."
+        },
+        {
+          "step": "Insertar aguja espinal 22–24G en la línea media, bisel hacia arriba, dirección levemente cefálica."
+        },
+        {
+          "step": "Avanzar lentamente. Sensación de 'pop' al atravesar ligamento amarillo y duramadre."
+        },
+        {
+          "step": "Retirar estilete y verificar flujo de LCR."
+        },
+        {
+          "step": "Recolectar 4 tubos: tubo 1 (cultivo), tubo 2 (bioquímica), tubo 3 (citoquímica), tubo 4 (reserva).",
+          "note": "0.5–1 mL por tubo es suficiente"
+        },
+        {
+          "step": "Retirar aguja y comprimir el sitio."
+        }
+      ],
+      "materials": [
+        "Aguja espinal 22G (término) o 24G (prematuro)",
+        "Tubos de LCR × 4",
+        "Guantes estériles, campo estéril",
+        "Iodopovidona o clorhexidina",
+        "Gasas estériles"
+      ],
+      "warnings": [
+        "No realizar si hay inestabilidad hemodinámica, coagulopatía grave o signos de HTE",
+        "Monitorear saturación durante el procedimiento — desaturaciones frecuentes",
+        "LCR normal neonato: hasta 20–30 células, proteínas 60–150 mg/dL, glucosa > 50% de glucemia"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "AAP Red Book 2021"
+      ]
+    },
+    {
+      "id": "toracocentesis",
+      "name": "Toracocentesis",
+      "category": "procedimiento",
+      "description": "Evacuación de aire o líquido pleural en neumotórax a tensión o derrame pleural",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Neumotórax a tensión: urgencia — no esperar Rx."
+        },
+        {
+          "step": "Posición: decúbito supino con brazo ipsilateral elevado."
+        },
+        {
+          "step": "Referencia: 2do espacio intercostal, línea medioclavicular (aire) o 4to–5to espacio, línea medioaxilar (líquido)."
+        },
+        {
+          "step": "Técnica estéril. Limpiar la zona."
+        },
+        {
+          "step": "Insertar catéter IV 20–22G en el borde SUPERIOR de la costilla inferior (evitar paquete vasculonervioso)."
+        },
+        {
+          "step": "Retirar estilete al entrar al espacio pleural. Aspirar con jeringa."
+        },
+        {
+          "step": "Si neumotórax a tensión → drenaje continuo con sello de agua o aspiración.",
+          "note": "Urgencia vital: descompresión inmediata"
+        },
+        {
+          "step": "Confirmar con Rx de tórax post-procedimiento."
+        }
+      ],
+      "materials": [
+        "Catéter IV 20–22G con estilete",
+        "Jeringa 10–20 mL",
+        "Llave de 3 vías",
+        "Campo estéril, guantes",
+        "Tubo de drenaje pleural si requiere drenaje continuo"
+      ],
+      "warnings": [
+        "Neumotórax a tensión = emergencia. No demorar por Rx si hay deterioro brusco",
+        "Punción siempre en borde superior de costilla inferior — evitar nervio y vaso intercostal",
+        "Monitoreo continuo de SpO2 y FC durante el procedimiento"
+      ],
+      "references": [
+        "NRP 8a edición AAP",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "paracentesis",
+      "name": "Paracentesis Neonatal",
+      "category": "procedimiento",
+      "description": "Evacuación de líquido ascítico en hidrops fetal u otras causas de ascitis neonatal",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Confirmar ascitis con ecografía abdominal antes del procedimiento."
+        },
+        {
+          "step": "Posición: decúbito supino."
+        },
+        {
+          "step": "Referencia: cuadrante inferior izquierdo (evitar hígado y vejiga) o línea media infraumbilical."
+        },
+        {
+          "step": "Técnica estéril. Limpiar la zona con antiséptico."
+        },
+        {
+          "step": "Insertar catéter IV 22–24G con jeringa en ángulo de 45°, aspirando continuamente."
+        },
+        {
+          "step": "Al obtener líquido, fijar el catéter y retirar el estilete."
+        },
+        {
+          "step": "Drenar lentamente. Máximo 10–20 mL/kg por sesión para evitar hipotensión.",
+          "note": "Recolectar muestra para citoquímica, cultivo y bioquímica"
+        },
+        {
+          "step": "Retirar catéter y comprimir el sitio."
+        }
+      ],
+      "materials": [
+        "Catéter IV 22–24G",
+        "Jeringas 10–20 mL",
+        "Llave de 3 vías",
+        "Tubos de recolección",
+        "Guantes y campo estéril"
+      ],
+      "warnings": [
+        "Monitorear hemodinámicamente durante y después — drenaje rápido puede causar hipotensión",
+        "Guiar con ecografía si es posible",
+        "Recolectar muestra siempre para análisis del líquido"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "acceso_intraoseo",
+      "name": "Acceso Intraóseo",
+      "category": "procedimiento",
+      "description": "Acceso vascular de emergencia cuando no es posible el acceso venoso periférico en < 90 segundos",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Indicación: neonato en paro o shock sin acceso venoso en < 90 segundos."
+        },
+        {
+          "step": "Sitio de elección: tibia proximal, cara anteromedial, 1–2 cm por debajo de la tuberosidad tibial."
+        },
+        {
+          "step": "Sitio alternativo: fémur distal o maléolo tibial."
+        },
+        {
+          "step": "Limpiar la zona con antiséptico."
+        },
+        {
+          "step": "Insertar aguja intraósea 18G perpendicular al hueso con movimiento rotatorio firme."
+        },
+        {
+          "step": "Confirmar posición: aguja firme, flujo libre al aspirar o lavado con 5 mL de SF sin extravasación.",
+          "note": "La médula puede no fluir libremente — lavar con SF para confirmar"
+        },
+        {
+          "step": "Fijar la aguja. Reemplazar por acceso venoso definitivo cuanto antes."
+        }
+      ],
+      "materials": [
+        "Aguja intraósea 18G neonatal",
+        "Jeringa 5–10 mL",
+        "SF 0.9% para lavado",
+        "Antiséptico, guantes"
+      ],
+      "warnings": [
+        "Máximo 24 horas de uso — reemplazar con acceso vascular definitivo",
+        "Contraindicado en hueso fracturado o con IO previo reciente en el mismo sitio",
+        "Posibles complicaciones: extravasación, osteomielitis, fractura"
+      ],
+      "references": [
+        "NRP 8a edición AAP",
+        "PALS 2020 AHA"
+      ]
+    },
+    {
+      "id": "surfactante",
+      "name": "Surfactante Exógeno",
+      "category": "via_aerea",
+      "description": "Administración de surfactante en síndrome de dificultad respiratoria (SDR) neonatal",
+      "formulas": [
+        {
+          "label": "Poractant alfa (Curosurf) — dosis inicial",
+          "description": "200 mg/kg vía intratraqueal. Dosis de rescate: 100 mg/kg. Concentración: 80 mg/mL.",
+          "formula": "peso(kg) * 2.5",
+          "variableLabel": "Peso de nacimiento",
+          "variableUnit": "kg",
+          "resultUnit": "mL (200 mg/kg = 2.5 mL/kg)",
+          "reference": "NEOFAX 2024. Poractant alfa 80 mg/mL."
+        },
+        {
+          "label": "Beractant (Survanta) — dosis inicial",
+          "description": "100 mg/kg vía intratraqueal. Máximo 4 dosis cada 6 horas. Concentración: 25 mg/mL.",
+          "formula": "peso(kg) * 4",
+          "variableLabel": "Peso de nacimiento",
+          "variableUnit": "kg",
+          "resultUnit": "mL (100 mg/kg = 4 mL/kg)",
+          "reference": "NEOFAX 2024. Beractant 25 mg/mL."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Confirmar indicación: SDR con FiO₂ > 0.30 y/o Rx con patrón reticulogranular difuso."
+        },
+        {
+          "step": "Técnica INSURE (Intubación-Surfactante-Extubación): preferida en prematuros estables.",
+          "note": "Pre-medicar con atropina 0.02 mg/kg ± analgesia"
+        },
+        {
+          "step": "Técnica LISA (Less Invasive Surfactant Administration): paciente en CPAP, catéter fino sin intubación formal — preferida si el equipo está entrenado."
+        },
+        {
+          "step": "Calcular la dosis según el peso de nacimiento."
+        },
+        {
+          "step": "Calentar el surfactante a temperatura ambiente antes de administrar."
+        },
+        {
+          "step": "Administrar en 2–4 alícuotas mientras se ventila."
+        },
+        {
+          "step": "Monitorear SpO₂ y FiO₂ — respuesta esperable en 30–60 min. Reducir FiO₂ rápidamente para evitar hiperoxia.",
+          "note": "Rx de tórax de control 2–4 h post-administración"
+        }
+      ],
+      "materials": [
+        "Surfactante (Curosurf o Survanta) a temperatura ambiente",
+        "TET del tamaño adecuado o catéter fino para LISA",
+        "Jeringa precargada",
+        "Laringoscopio"
+      ],
+      "warnings": [
+        "Calentar el surfactante — no agitar, solo rotar suavemente",
+        "Monitorear obstrucción transitoria de vía aérea durante la administración",
+        "Reducir FiO₂ agresivamente post-respuesta — riesgo de hiperoxia"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "European Consensus Guidelines on RDS 2022"
+      ]
+    },
+    {
+      "id": "vm_convencional",
+      "name": "Ventilación Mecánica Convencional — Inicio",
+      "category": "via_aerea",
+      "description": "Parámetros iniciales del respirador en neonatos con insuficiencia respiratoria",
+      "formulas": [
+        {
+          "label": "Volumen corriente objetivo",
+          "description": "4–6 mL/kg en ventilación por volumen garantizado (VG).",
+          "formula": "peso(kg) * 5",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL objetivo (rango 4–6 mL/kg)",
+          "reference": "NEOFAX 2024. Ventilación protectora neonatal."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Modo inicial: SIMV + PS (sincronizado) o VGAP/VG (volumen garantizado) si disponible."
+        },
+        {
+          "step": "PIP inicial: 16–20 cmH₂O (ajustar por expansión torácica visible y simétrica)."
+        },
+        {
+          "step": "PEEP: 4–5 cmH₂O (5–6 en SDR grave)."
+        },
+        {
+          "step": "FR inicial: 40–60 rpm (ajustar según PaCO₂ objetivo)."
+        },
+        {
+          "step": "TI: 0.3–0.4 s en prematuros; 0.4–0.5 s en término."
+        },
+        {
+          "step": "FiO₂: titular para SpO₂ 90–95% (prematuro < 32 sem) o 94–98% (término)."
+        },
+        {
+          "step": "Volumen corriente objetivo: 4–6 mL/kg. Ajustar PIP hasta lograrlo.",
+          "note": "Usar modo VG si disponible"
+        },
+        {
+          "step": "Gasometría de control en 30–60 min. Objetivo: pH 7.25–7.40, PaCO₂ 45–55 mmHg."
+        }
+      ],
+      "materials": [
+        "Respirador neonatal con SIMV/VGAP",
+        "TET del tamaño correcto fijado",
+        "Sensor de flujo neonatal",
+        "Pulsioxímetro continuo"
+      ],
+      "warnings": [
+        "Evitar hiperventilación: PaCO₂ < 35 mmHg aumenta riesgo de leucomalacia periventricular",
+        "Tolerar hipercapnia permisiva: PaCO₂ 45–55 en SDRA neonatal",
+        "MAP > 15 cmH₂O: aumenta riesgo de barotrauma y neumotórax"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "European Consensus Guidelines on RDS 2022"
+      ]
+    },
+    {
+      "id": "cpap_nasal",
+      "name": "CPAP Nasal",
+      "category": "via_aerea",
+      "description": "Presión positiva continua en la vía aérea para soporte respiratorio no invasivo",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Indicaciones: SDR leve-moderado, apnea del prematuro, post-extubación, taquipnea transitoria."
+        },
+        {
+          "step": "Seleccionar interface: cánula binasal corta o máscara nasal."
+        },
+        {
+          "step": "Tamaño de la cánula: mayor tamaño que entre sin comprimir el tabique nasal.",
+          "note": "Ocluir las narinas sin presión sobre el tabique"
+        },
+        {
+          "step": "Presión inicial: 5–6 cmH₂O. Aumentar a 7–8 si persiste dificultad respiratoria."
+        },
+        {
+          "step": "FiO₂: titular para SpO₂ 90–95% (< 32 sem) o 91–95% (> 32 sem)."
+        },
+        {
+          "step": "Posición semifowler 30°. Cabeza en posición neutra."
+        },
+        {
+          "step": "Sonda orogástrica abierta para descomprimir el estómago.",
+          "note": "Cambiar de coana cada 4–6 h para prevenir necrosis del tabique"
+        },
+        {
+          "step": "Criterios de fallo de CPAP: FiO₂ > 0.40, apneas frecuentes, acidosis respiratoria → intubar."
+        }
+      ],
+      "materials": [
+        "Sistema CPAP con humidificación activa",
+        "Cánulas binasales o máscara nasal (tamaños neonatal/prematuro)",
+        "Gorro y velcro de fijación",
+        "Sonda orogástrica"
+      ],
+      "warnings": [
+        "Proteger el tabique nasal — revisar en cada turno de enfermería",
+        "Distensión gástrica frecuente — mantener SNG abierta",
+        "No demorar intubación si hay criterios de fallo de CPAP"
+      ],
+      "references": [
+        "European Consensus Guidelines on RDS 2022",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "cricotiroidotomia",
+      "name": "Cricotiroidotomía de Urgencia",
+      "category": "via_aerea",
+      "description": "Acceso de emergencia a la vía aérea cuando la intubación es imposible ('no puedo intubar, no puedo oxigenar')",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Indicación exclusiva: fracaso de intubación + incapacidad de oxigenar — última línea."
+        },
+        {
+          "step": "Posición: cuello en extensión máxima (rollo bajo los hombros)."
+        },
+        {
+          "step": "Identificar la membrana cricotiroidea: entre cartílago tiroides (superior) y cricoides (inferior)."
+        },
+        {
+          "step": "En neonatos: técnica de punción — insertar catéter IV 14G perpendicularmente en la membrana, aspirando.",
+          "note": "La técnica quirúrgica con bisturí es muy difícil en neonatos por el tamaño"
+        },
+        {
+          "step": "Confirmar posición aspirando aire libremente con jeringa."
+        },
+        {
+          "step": "Ventilar con jet de O₂ a alta presión o bolsa-válvula conectada al catéter."
+        },
+        {
+          "step": "Es un acceso temporal (< 30 min) — organizar traqueotomía definitiva de inmediato."
+        }
+      ],
+      "materials": [
+        "Catéter IV 14G",
+        "Jeringa 5 mL",
+        "Fuente de O₂ de alta presión o bolsa-válvula",
+        "Antiséptico"
+      ],
+      "warnings": [
+        "Procedimiento de última instancia — agotar todas las alternativas primero",
+        "Riesgo de enfisema subcutáneo y barotrauma con ventilación a presión",
+        "No sustituye la traqueotomía formal — tiempo máximo 30 minutos"
+      ],
+      "references": [
+        "NRP 8a edición AAP",
+        "Difficult Airway Society Guidelines"
+      ]
+    },
+    {
+      "id": "pericardiocentesis",
+      "name": "Pericardiocentesis",
+      "category": "procedimiento",
+      "description": "Evacuación de líquido pericárdico en taponamiento cardíaco neonatal",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Indicación: taponamiento cardíaco (hipotensión + ruidos cardíacos apagados + distensión venosa)."
+        },
+        {
+          "step": "Guiar con ecocardiograma si disponible. Si urgencia vital: abordaje a ciegas."
+        },
+        {
+          "step": "Posición: decúbito supino con cabeza ligeramente elevada."
+        },
+        {
+          "step": "Abordaje subxifoideo: insertar aguja 22G entre apéndice xifoides y borde costal izquierdo en ángulo de 45°, dirigida hacia el hombro izquierdo."
+        },
+        {
+          "step": "Avanzar lentamente aspirando. Al obtener líquido, detener el avance.",
+          "note": "Si la sangre no se coagula → es pericárdica. Si se coagula → es cardíaca → retirar de inmediato"
+        },
+        {
+          "step": "Aspirar el mínimo necesario para estabilizar hemodinámicamente."
+        },
+        {
+          "step": "Considerar catéter pericárdico de drenaje continuo si hay riesgo de recidiva."
+        }
+      ],
+      "materials": [
+        "Aguja 22G con catéter o set de pericardiocentesis neonatal",
+        "Jeringa 10–20 mL",
+        "Monitor ECG continuo",
+        "Ecógrafo (si disponible)"
+      ],
+      "warnings": [
+        "Riesgo de perforación cardíaca — avanzar muy lentamente",
+        "Monitorizar ECG: extrasístoles o elevación del ST → retirar la aguja inmediatamente",
+        "El líquido pericárdico no se coagula — útil para distinguir de punción cardíaca"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "rcp_neonatal",
+      "name": "RCP Neonatal — Masaje Cardíaco",
+      "category": "procedimiento",
+      "description": "Reanimación cardiopulmonar neonatal según protocolo NRP 2021",
+      "formulas": [
+        {
+          "label": "Adrenalina IV/IO — dosis de reanimación",
+          "description": "Dosis IV/IO: 0.01–0.03 mg/kg. Usar solución 1:10.000 (0.1 mg/mL).",
+          "formula": "peso(kg) * 0.2",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de adrenalina 1:10.000 (dosis 0.02 mg/kg)",
+          "reference": "NRP 8a edición AAP 2021."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Iniciar masaje cardíaco si FC < 60 lpm a pesar de 30 s de VPP efectiva."
+        },
+        {
+          "step": "Técnica de 2 pulgares (preferida): rodear el tórax, pulgares sobre el tercio inferior del esternón."
+        },
+        {
+          "step": "Técnica de 2 dedos: si se necesita acceso umbilical simultáneo."
+        },
+        {
+          "step": "Profundidad: 1/3 del diámetro anteroposterior del tórax."
+        },
+        {
+          "step": "Relación 3:1 — 90 compresiones + 30 ventilaciones por minuto.",
+          "note": "Contar: uno-dos-tres-ventila"
+        },
+        {
+          "step": "Intubar si no lo está. Colocar acceso venoso umbilical o intraóseo."
+        },
+        {
+          "step": "Verificar FC cada 30–60 s. Si FC > 60 → suspender masaje, continuar VPP."
+        },
+        {
+          "step": "Si FC < 60 con masaje + VPP efectiva → adrenalina IV/IO 0.01–0.03 mg/kg. Repetir cada 3–5 min."
+        }
+      ],
+      "materials": [
+        "Bolsa autoinflable neonatal con reservorio",
+        "Máscara facial tamaño 0/1",
+        "Laringoscopio y TET",
+        "Adrenalina 1:10.000",
+        "Acceso venoso umbilical o intraóseo"
+      ],
+      "warnings": [
+        "VPP efectiva es la intervención más importante — verificar antes de iniciar masaje",
+        "O₂ al 21% para RN a término; 21–30% para prematuros al inicio",
+        "Adrenalina intratraqueal solo si no hay acceso IV/IO: dosis 0.05–0.10 mg/kg"
+      ],
+      "references": [
+        "NRP 8a edición AAP 2021",
+        "ILCOR 2020"
+      ]
+    },
+    {
+      "id": "nutricion_parenteral",
+      "name": "Nutrición Parenteral Neonatal",
+      "category": "fluidos",
+      "description": "Cálculo de macronutrientes para nutrición parenteral total o parcial en neonatos",
+      "formulas": [
+        {
+          "label": "Aporte de glucosa inicial (VIG 5 mg/kg/min en D10%)",
+          "description": "VIG de inicio: 4–6 mg/kg/min. Ajustar según glucemias.",
+          "formula": "peso(kg) * 5 * 1.44",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL/día de D10% (VIG 5 mg/kg/min)",
+          "reference": "SEGNNEO 2019."
+        },
+        {
+          "label": "Aporte proteico inicial",
+          "description": "Inicio día 1: 2–3 g/kg/día. Objetivo prematuro extremo: 3.5–4 g/kg/día.",
+          "formula": "peso(kg) * 3",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "g/día de aminoácidos (3 g/kg/día)",
+          "reference": "SEGNNEO 2019."
+        },
+        {
+          "label": "Lípidos IV — dosis de inicio",
+          "description": "Iniciar día 1–2: 1–2 g/kg/día. Progresar hasta 3–3.5 g/kg/día.",
+          "formula": "peso(kg) * 2",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "g/día de lípidos (2 g/kg/día = 10 mL/día de Intralipid 20%)",
+          "reference": "SEGNNEO 2019. Intralipid 20% = 0.2 g/mL."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Iniciar aminoácidos desde el día 1 de vida — no esperar."
+        },
+        {
+          "step": "Glucosa: comenzar con VIG 4–6 mg/kg/min. Ajustar según glucemias (objetivo 60–120 mg/dL)."
+        },
+        {
+          "step": "Lípidos: iniciar en primeras 24–48 h por vía separada, en infusión continua de 24 h."
+        },
+        {
+          "step": "Electrolitos: Na y K desde el día 2–3 (K solo con diuresis establecida). Ajustar según ionograma.",
+          "note": "Calcio gluconato: 1–2 mEq/kg/día desde el día 1"
+        },
+        {
+          "step": "Vitaminas y oligoelementos: desde el día 1 si disponibles."
+        },
+        {
+          "step": "Control laboratorio: glucemia cada 6–12 h, ionograma diario, TG y función hepática semanal."
+        }
+      ],
+      "materials": [
+        "Acceso venoso central o periférico adecuado",
+        "Solución de aminoácidos pediátricos",
+        "Solución glucosada (D5%, D10%, D12.5%)",
+        "Intralipid 20%",
+        "Electrolitos, vitaminas, oligoelementos"
+      ],
+      "warnings": [
+        "Concentración máxima periférica: D10–12.5%, aminoácidos ≤ 2%, calcio ≤ 10 mEq/L",
+        "Lípidos IV: no superar 3.5 g/kg/día — riesgo de hipertrigliceridemia",
+        "No agregar K hasta confirmar diuresis establecida"
+      ],
+      "references": [
+        "SEGNNEO 2019",
+        "ESPGHAN/ESPEN Guidelines Parenteral Nutrition 2018"
+      ]
+    },
+    {
+      "id": "fototerapia",
+      "name": "Fototerapia Intensiva",
+      "category": "procedimiento",
+      "description": "Indicación y técnica de fototerapia para hiperbilirrubinemia neonatal",
+      "formulas": [],
+      "steps": [
+        {
+          "step": "Indicar fototerapia según umbrales NICE CG98 (2023): bilirrubina total (mg/dL o µmol/L) vs. horas de vida, ajustado por EG. Usar la calculadora de Umbral de Bilirrubina (NICE 2023)."
+        },
+        {
+          "step": "Usar fototerapia LED de alta intensidad (irradiancia ≥ 30 μW/cm²/nm)."
+        },
+        {
+          "step": "Máxima superficie expuesta: cubrir solo ojos y genitales con mínimo material."
+        },
+        {
+          "step": "Distancia de la lámpara: 25–30 cm del neonato (ajustar según fabricante)."
+        },
+        {
+          "step": "Fototerapia continua — interrumpir solo para lactancia y cuidados esenciales.",
+          "note": "Fototerapia intensiva = continua + irradiancia máxima + máxima superficie"
+        },
+        {
+          "step": "Control de bilirrubina: cada 4–6 h en fototerapia intensiva; cada 8–12 h si estable."
+        },
+        {
+          "step": "Asegurar hidratación — aumentar aportes hídricos 10–20% por pérdidas insensibles aumentadas."
+        }
+      ],
+      "materials": [
+        "Unidad de fototerapia LED (con radiómetro para medir irradiancia)",
+        "Antifaz ocular neonatal",
+        "Cobertor genital mínimo"
+      ],
+      "warnings": [
+        "Proteger los ojos siempre — riesgo de daño retinal",
+        "Bronze baby syndrome: si hay colestasis → suspender fototerapia",
+        "Hiperbilirrubinemia con encefalopatía aguda → indicación de exanguinotransfusión urgente"
+      ],
+      "references": [
+        "NICE Clinical Guideline CG98 — Jaundice in newborn babies under 28 days (2023).",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "exsanguino_parcial",
+      "name": "Exanguinotransfusión Parcial (Policitemia)",
+      "category": "procedimiento",
+      "description": "Reducción del hematocrito en policitemia neonatal sintomática (Hto venoso > 65–70%)",
+      "formulas": [
+        {
+          "label": "Volumen de recambio",
+          "description": "Volemia neonatal ≈ 80 mL/kg (término) o 90 mL/kg (prematuro). Hto objetivo = 55%. Reemplazar con SF 0.9%.",
+          "formula": "((hto_real - 55) / hto_real) * peso(kg) * 80",
+          "variableLabel": "Hto real (%) / Peso",
+          "variableUnit": "% / kg",
+          "resultUnit": "mL a recambiar (reemplazar con SF 0.9%)",
+          "reference": "Fórmula estándar. NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Confirmar Hto > 65% en sangre venosa central (el capilar sobreestima)."
+        },
+        {
+          "step": "Indicación en sintomáticos: letargia, convulsiones, dificultad respiratoria, hipoglucemia refractaria."
+        },
+        {
+          "step": "Calcular el volumen de recambio con la fórmula."
+        },
+        {
+          "step": "Acceso: catéter venoso umbilical o periférico grueso."
+        },
+        {
+          "step": "Técnica: extraer e infundir en alícuotas de 5–10 mL, alternando extracción e infusión.",
+          "note": "Reemplazar con igual volumen de SF 0.9% — no usar plasma ni albúmina"
+        },
+        {
+          "step": "Monitorizar FC, PA y glucemia durante el procedimiento."
+        },
+        {
+          "step": "Control de Hto 2 h post-procedimiento."
+        }
+      ],
+      "materials": [
+        "Catéter venoso umbilical o periférico",
+        "SF 0.9%",
+        "Jeringas 5–10 mL",
+        "Llave de 3 vías",
+        "Monitor continuo"
+      ],
+      "warnings": [
+        "Hto venoso > 65% + síntomas = indicación clara",
+        "Hto > 70% asintomático: indicación controversial — evaluar caso a caso",
+        "SF 0.9% es el sustituto de elección — no usar plasma ni sangre"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "exsanguino_doble",
+      "name": "Exanguinotransfusión Doble Volumen",
+      "category": "procedimiento",
+      "description": "Tratamiento de hiperbilirrubinemia severa con riesgo de encefalopatía bilirrubínica (kernicterus)",
+      "formulas": [
+        {
+          "label": "Volumen total de sangre para recambio",
+          "description": "Doble volemia: 160–180 mL/kg. Usar sangre total reconstituida (GRD + PFC irradiados).",
+          "formula": "peso(kg) * 170",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de sangre reconstituida (170 mL/kg)",
+          "reference": "NEOFAX 2024. Volemia neonatal 80–90 mL/kg × 2."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Indicación: bilirrubina en zona de exanguinotransfusión según umbrales NICE CG98 (2023) — ≥38s: ≥450 µmol/L (26.3 mg/dL) después de las 42h; pretérminos: EG×10 µmol/L — o encefalopatía bilirrubínica aguda."
+        },
+        {
+          "step": "Solicitar sangre total reconstituida: GRD irradiados + PFC (relación ~2:1), compatible con madre e hijo."
+        },
+        {
+          "step": "Calentar la sangre a temperatura corporal con calentador de línea."
+        },
+        {
+          "step": "Acceso: catéter venoso umbilical (extracción/infusión alternada) — técnica empuje-tira."
+        },
+        {
+          "step": "Alícuotas: 5 mL en < 1 kg, 10 mL en 1–2 kg, 15–20 mL en > 2 kg."
+        },
+        {
+          "step": "Velocidad: completar en 60–90 minutos.",
+          "note": "Monitoreo continuo de FC, SpO₂, PA y temperatura durante todo el procedimiento"
+        },
+        {
+          "step": "Control post-procedimiento: bilirrubina, glucemia, ionograma, calcio, hemograma."
+        }
+      ],
+      "materials": [
+        "Sangre total reconstituida irradiada y filtrada",
+        "Calentador de línea",
+        "Catéter venoso umbilical 5 Fr",
+        "Llaves de 3 vías, jeringas"
+      ],
+      "warnings": [
+        "Riesgo de hipocalcemia sintomática — tener calcio gluconato disponible y listo",
+        "Hipoglucemia reactiva — monitorear glucemia estrechamente post-procedimiento",
+        "ECN post-exsanguinotransfusión: ayuno 24 h después del procedimiento"
+      ],
+      "references": [
+        "NICE Clinical Guideline CG98 — Jaundice in newborn babies under 28 days (2023).",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "hipoglucemia",
+      "name": "Manejo de Hipoglucemia Neonatal",
+      "category": "procedimiento",
+      "description": "Protocolo escalonado para el tratamiento de hipoglucemia neonatal (glucemia < 45 mg/dL en primeras 24 h o < 50 mg/dL posteriormente)",
+      "formulas": [
+        {
+          "label": "Bolo IV de dextrosa 10%",
+          "description": "Bolo de rescate: 2 mL/kg de D10% en 1–2 minutos. Control glucémico a los 30 min.",
+          "formula": "peso(kg) * 2",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de D10% en bolo IV",
+          "reference": "NRP 8a edición AAP. NEOFAX 2024."
+        },
+        {
+          "label": "VIG de mantenimiento post-bolo",
+          "description": "Velocidad de infusión de glucosa post-bolo: 6–8 mg/kg/min.",
+          "formula": "peso(kg) * 6 * 1.44",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL/día de D10% (VIG 6 mg/kg/min)",
+          "reference": "NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Glucemia < 45 mg/dL en primeras 24 h (o < 50 mg/dL después): confirmar con muestra venosa si hay síntomas."
+        },
+        {
+          "step": "Asintomático: estimular la alimentación enteral (pecho o biberón). Repetir glucemia en 30 min."
+        },
+        {
+          "step": "Sintomático o glucemia < 25 mg/dL: bolo IV de D10% 2 mL/kg en 1–2 minutos.",
+          "note": "Síntomas: temblores, cianosis, hipotonía, apneas, convulsiones"
+        },
+        {
+          "step": "Post-bolo: iniciar infusión IV de D10% a VIG 6–8 mg/kg/min."
+        },
+        {
+          "step": "Control glucémico a los 30 min. Ajustar VIG hasta lograr glucemia > 50 mg/dL."
+        },
+        {
+          "step": "Si requiere VIG > 12 mg/kg/min → sospechar hiperinsulinismo. Consultar endocrinología."
+        }
+      ],
+      "materials": [
+        "Dextrosa 10% (D10%)",
+        "Acceso IV periférico o umbilical",
+        "Glucómetro + tiras reactivas",
+        "Bomba de infusión"
+      ],
+      "warnings": [
+        "Hipoglucemia neonatal no tratada → daño neurológico permanente",
+        "No usar concentraciones > D12.5% por vía periférica",
+        "Convulsiones hipoglucémicas = emergencia — bolo IV inmediato sin esperar confirmación"
+      ],
+      "references": [
+        "Pediatric Endocrine Society 2015",
+        "NEOFAX 2024",
+        "AAP 2011"
+      ]
+    },
+    {
+      "id": "hiperkalemia",
+      "name": "Manejo de Hiperkalemia Neonatal",
+      "category": "procedimiento",
+      "description": "Tratamiento de hiperkalemia (K > 6.5 mEq/L con cambios en ECG, o K > 7 mEq/L) en neonatos",
+      "formulas": [
+        {
+          "label": "Calcio gluconato 10% — estabilización de membrana",
+          "description": "1–2 mL/kg IV lento en 5–10 minutos. No mezclar con bicarbonato (precipita).",
+          "formula": "peso(kg) * 1",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mL de calcio gluconato 10% IV (1 mL/kg)",
+          "reference": "NEOFAX 2024."
+        },
+        {
+          "label": "Bicarbonato de sodio 8.4% — redistribución",
+          "description": "1–2 mEq/kg IV en 20–30 minutos. Diluir 1:1 con agua destilada.",
+          "formula": "peso(kg) * 1",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "mEq de NaHCO₃ (= mL de 8.4%) a diluir 1:1",
+          "reference": "NEOFAX 2024."
+        },
+        {
+          "label": "Insulina regular — redistribución",
+          "description": "Insulina 0.1 U/kg IV siempre acompañada de glucosa (D10% 2 mL/kg o equivalente).",
+          "formula": "peso(kg) * 0.1",
+          "variableLabel": "Peso",
+          "variableUnit": "kg",
+          "resultUnit": "unidades de insulina regular IV",
+          "reference": "NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Confirmar hiperkalemia real (descartar pseudohiperkalemia por hemólisis de muestra)."
+        },
+        {
+          "step": "ECG inmediato: onda T picuda, QRS ancho u onda sinusoidal = emergencia."
+        },
+        {
+          "step": "Suspender todo aporte de potasio (líquidos IV, nutrición parenteral)."
+        },
+        {
+          "step": "Si hay cambios en ECG o K > 7 mEq/L: calcio gluconato 10% 1–2 mL/kg IV lento (estabiliza membrana en minutos).",
+          "note": "Monitorizar ECG continuo durante la infusión"
+        },
+        {
+          "step": "Bicarbonato de sodio 1–2 mEq/kg IV en 20–30 min (redistribuye K al intracelular)."
+        },
+        {
+          "step": "Insulina 0.1 U/kg + D10% 2 mL/kg simultáneamente para evitar hipoglucemia."
+        },
+        {
+          "step": "Salbutamol nebulizado 2.5 mg (redistribución — efecto en 30 min)."
+        },
+        {
+          "step": "Para eliminación definitiva: resinas de intercambio iónico, furosemida o diálisis."
+        }
+      ],
+      "materials": [
+        "Calcio gluconato 10%",
+        "Bicarbonato de sodio 8.4%",
+        "Insulina regular",
+        "Dextrosa 10% o 25%",
+        "Monitor ECG continuo"
+      ],
+      "warnings": [
+        "Calcio gluconato NO mezclar con bicarbonato — precipitan juntos",
+        "Insulina SIEMPRE con glucosa — hipoglucemia grave si se da sola",
+        "Las medidas redistribuyen el K pero no lo eliminan — usar resinas o diálisis para eliminación"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "Fanaroff & Martin Neonatal-Perinatal Medicine"
+      ]
+    },
+    {
+      "id": "acidosis_metabolica",
+      "name": "Corrección de Acidosis Metabólica",
+      "category": "procedimiento",
+      "description": "Administración de bicarbonato de sodio para corrección de acidosis metabólica en neonatos",
+      "formulas": [
+        {
+          "label": "Dosis de bicarbonato de sodio",
+          "description": "mEq NaHCO₃ = déficit de base × peso (kg) × 0.3. Administrar la mitad y reevaluar gasometría.",
+          "formula": "deficitBase * peso(kg) * 0.3",
+          "variableLabel": "Déficit de base (valor absoluto) / Peso",
+          "variableUnit": "mEq/L / kg",
+          "resultUnit": "mEq de NaHCO₃ totales (dar la mitad, reevaluar)",
+          "reference": "Fórmula estándar. NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Indicación: pH < 7.20 con déficit de base < −10 mEq/L y componente metabólico predominante."
+        },
+        {
+          "step": "Tratar la causa primero: hipoxia, hipovolemia, sepsis — el bicarbonato es un adjunto."
+        },
+        {
+          "step": "Calcular la dosis: déficit de base × peso × 0.3. Administrar la mitad en primera instancia."
+        },
+        {
+          "step": "Diluir NaHCO₃ 8.4% (1 mEq/mL) 1:1 con agua destilada → 0.5 mEq/mL.",
+          "note": "Nunca administrar sin diluir en neonatos — hiperosmolaridad"
+        },
+        {
+          "step": "Infundir en 20–30 minutos por vía central (preferible) o periférica de buen calibre."
+        },
+        {
+          "step": "Control gasométrico 30–60 min después. Ajustar si es necesario."
+        }
+      ],
+      "materials": [
+        "Bicarbonato de sodio 8.4% (1 mEq/mL)",
+        "Agua destilada para dilución",
+        "Acceso venoso central (preferible)",
+        "Bomba de infusión"
+      ],
+      "warnings": [
+        "NO administrar en bolo rápido → riesgo de hemorragia intraventricular",
+        "NO usar si predomina acidosis respiratoria → empeora la hipercapnia",
+        "Siempre diluir 1:1 con agua destilada antes de administrar"
+      ],
+      "references": [
+        "NEOFAX 2024",
+        "NRP 8a edición AAP"
+      ]
+    },
+    {
+      "id": "hipotermia_terapeutica",
+      "name": "Hipotermia Terapéutica (EHI)",
+      "category": "procedimiento",
+      "description": "Enfriamiento activo para neuroprotección en encefalopatía hipóxico-isquémica (EHI) moderada-grave",
+      "formulas": [
+        {
+          "label": "Temperatura objetivo",
+          "description": "Temperatura corporal central: 33.5°C (rango 33–34°C). Mantener 72 horas continuas.",
+          "formula": "33.5",
+          "variableLabel": "—",
+          "variableUnit": "—",
+          "resultUnit": "°C (temperatura rectal u esofágica objetivo)",
+          "reference": "CoolCap Trial. TOBY Trial. NEOFAX 2024."
+        }
+      ],
+      "steps": [
+        {
+          "step": "Criterios de inclusión: EG ≥ 36 semanas + ≤ 6 h de vida + al menos uno de: pH < 7.0, EB < −16, Apgar ≤ 5 a los 10 min, reanimación ≥ 10 min o convulsiones."
+        },
+        {
+          "step": "Confirmar con evaluación neurológica: EHI moderada o grave en escala de Sarnat."
+        },
+        {
+          "step": "Iniciar dentro de las 6 horas de vida — ventana terapéutica."
+        },
+        {
+          "step": "Método de elección: manta o colchón de enfriamiento con servo-control. Objetivo rectal/esofágico: 33.5°C.",
+          "note": "Si no hay equipo disponible: enfriamiento pasivo (apagar calefactor) — monitorizar temperatura cada 15 min"
+        },
+        {
+          "step": "Monitorización continua: temperatura, FC, SpO₂, PA, glucemia y diuresis."
+        },
+        {
+          "step": "EEG de amplitud (aEEG) o EEG convencional para detección de convulsiones subclínicas."
+        },
+        {
+          "step": "Recalentamiento al completar 72 h: lento, 0.5°C/h durante 6–12 h.",
+          "note": "El recalentamiento rápido puede desencadenar convulsiones"
+        },
+        {
+          "step": "RMN cerebral a los 5–7 días para evaluar extensión del daño y pronóstico."
+        }
+      ],
+      "materials": [
+        "Sistema de enfriamiento con servo-control (manta o colchón cooling)",
+        "Sonda de temperatura rectal o esofágica",
+        "Monitor multiparamétrico continuo",
+        "aEEG o EEG convencional"
+      ],
+      "warnings": [
+        "Ventana terapéutica: iniciar antes de las 6 h de vida — después pierde efectividad",
+        "Contraindicaciones: EG < 36 semanas, malformaciones congénitas mayores, coagulopatía grave",
+        "Efectos esperables: bradicardia sinusal (tolerada si FC > 80), hipotensión, leve coagulopatía"
+      ],
+      "references": [
+        "CoolCap Trial. Gluckman et al. Lancet 2005",
+        "TOBY Trial. Azzopardi et al. NEJM 2008",
+        "NEOFAX 2024"
+      ]
+    },
+    {
+      "id": "transporte_neonatal",
+      "name": "Transporte Neonatal",
+      "category": "urgencia",
+      "description": "Estabilización y traslado seguro del recién nacido de alto riesgo entre centros de salud",
+      "steps": [
+        {
+          "step": "S — AZÚCAR: Glucemia antes del traslado. Objetivo: 50–150 mg/dL.",
+          "note": "Si hipoglucemia: bolo 2 mL/kg dextrosa 10% IV, luego infusión"
+        },
+        {
+          "step": "T — TEMPERATURA: Asegurar normotermia (36.5–37.5 °C). Incubadora de transporte precalentada.",
+          "note": "En hipotermia terapéutica activa: mantener protocolo de enfriamiento durante traslado"
+        },
+        {
+          "step": "A — VÍA AÉREA: Confirmar permeabilidad y soporte respiratorio adecuado. Si intubado: verificar posición del tubo, fijación y ventilación simétrica."
+        },
+        {
+          "step": "B — PRESIÓN ARTERIAL: Confirmar hemodinamia estable. PAM según EG. Acceso venoso permeable."
+        },
+        {
+          "step": "L — LABORATORIO: Hemograma, glucemia, electrolitos, gases arteriales antes de salir."
+        },
+        {
+          "step": "E — SOPORTE EMOCIONAL: Informar a los padres. Obtener consentimiento de traslado. Entregar epicrisis y estudios."
+        },
+        {
+          "step": "Calcular O₂ necesario: usar la calculadora \"Capacidad de Cilindro de O₂\" en la sección Fórmulas. Agregar ≥ 30 min de margen de seguridad al tiempo estimado de traslado."
+        },
+        {
+          "step": "Comunicarse con el centro receptor: confirmar cama disponible, nivel de cuidado, y médico receptor."
+        },
+        {
+          "step": "Verificar equipo: monitor, AMBU + máscara, laringoscopio, tubo ET de reserva, bombas de infusión, medicamentos de emergencia."
+        },
+        {
+          "step": "Durante el traslado: monitorización continua de FC, SpO₂, FR y temperatura cada 15 min."
+        },
+        {
+          "step": "Al llegar: entrega formal al equipo receptor con informe verbal + epicrisis escrita."
+        }
+      ],
+      "materials": [
+        "Incubadora de transporte (precalentada)",
+        "Monitor multiparamétrico (FC, SpO₂, FR, PA)",
+        "Respirador de transporte (si ventilación mecánica)",
+        "Bolsa autoinflable + máscaras (tamaño neonatal y prematuro)",
+        "Laringoscopio neonatal + hojas 00, 0, 1",
+        "Tubos endotraqueales (2.5, 3.0, 3.5, 4.0 mm)",
+        "Bomba de infusión + jeringas",
+        "Cilindros de O₂ (calcular según tiempo de traslado)",
+        "Acceso venoso periférico o catéter umbilical permeable",
+        "Medicamentos: adrenalina, glucosa 10%, SF 0.9%, sedoanalgesia según protocolo",
+        "Historia clínica completa + consentimiento firmado"
+      ],
+      "warnings": [
+        "No trasladar RN inestable — estabilizar primero con protocolo STABLE",
+        "Verificar O₂ suficiente: calcular consumo + 30 min de margen de seguridad",
+        "En RN con sospecha de cardiopatía ducto-dependiente: infusión de PGE₁ antes y durante el traslado",
+        "Hipotermia terapéutica: no interrumpir el protocolo de enfriamiento durante el traslado"
+      ],
+      "references": [
+        "Programa STABLE (Sugar, Temperature, Airway, Blood pressure, Lab, Emotional support)",
+        "AAP Guidelines for Neonatal Transport 2022",
+        "SEGNNEO — Transporte Neonatal 2019"
       ]
     }
   ],
@@ -10013,6 +10705,52 @@
         "Sarnat HB, Sarnat MS. J Pediatr 1976",
         "SEGNNEO 2019"
       ]
+    },
+    {
+      "id": "bilirrubina_aap2022",
+      "name": "Umbral de Bilirrubina (NICE 2023)",
+      "subtitle": "Indicación de fototerapia y exanguinotransfusión",
+      "description": "Calcula los umbrales de fototerapia y exanguinotransfusión según la EG y las horas de vida (NICE CG98, vigilancia excepcional 2023). ≥38s: valores exactos de la tabla consensuada NICE. 35-37s: escalados mediante fórmula NICE para pretérminos (EG×10−100 µmol/L).",
+      "bilirubinCalculator": true,
+      "items": [],
+      "interpretation": [],
+      "minScore": 0,
+      "maxScore": 0,
+      "references": [
+        "NICE Clinical Guideline CG98 — Jaundice in newborn babies under 28 days (2010, actualizado 2016, vigilancia 2023).",
+        "NICE. Exceptional surveillance of CG98: 2023 update. nice.org.uk/guidance/cg98."
+      ]
+    },
+    {
+      "id": "rop_screening",
+      "name": "Screening de ROP (SAP)",
+      "subtitle": "Primer control oftalmológico en el prematuro",
+      "description": "Determina si el RN requiere screening de retinopatía del prematuro y calcula el momento del primer examen según EG, peso de nacimiento y factores de riesgo (SAP 2021).",
+      "ropCalculator": true,
+      "items": [],
+      "interpretation": [],
+      "minScore": 0,
+      "maxScore": 0,
+      "references": [
+        "SAP — Guía para la Prevención, Diagnóstico y Tratamiento de la Retinopatía del Prematuro. Actualización 2021.",
+        "AAP Section on Ophthalmology. Screening Examination of Premature Infants for ROP. Pediatrics 2018."
+      ]
+    },
+    {
+      "id": "finnegan",
+      "name": "Finnegan Modificado (NAS)",
+      "subtitle": "Síndrome de abstinencia neonatal",
+      "description": "Escala para evaluar la severidad del síndrome de abstinencia neonatal (NAS). Se evalúa cada 4 h (o cada 2 h si puntaje 8–12). Incluye 22 ítems en 3 secciones: SNC, Metabólico/Vasomotor/Respiratorio y Gastrointestinal. Puntaje máximo teórico: 48.",
+      "finneganCalculator": true,
+      "items": [],
+      "interpretation": [],
+      "minScore": 0,
+      "maxScore": 48,
+      "references": [
+        "Finnegan LP. Neonatal abstinence syndrome. In: Hoekelman RA, et al. (eds). Primary Pediatric Care. 1992.",
+        "Gomella TL. Neonatología 8ª ed. Capítulo NAS.",
+        "Hudak ML, Tan RC; AAP Committee on Drugs. Neonatal drug withdrawal. Pediatrics. 2012;129(2):e540–e560."
+      ]
     }
   ],
   "formulas": [
@@ -10213,16 +10951,16 @@
           "required": true
         },
         {
-          "id": "ttotal",
-          "label": "Tiempo Total del Ciclo (Ttotal)",
-          "unit": "s",
+          "id": "fr",
+          "label": "Frecuencia Respiratoria (FR)",
+          "unit": "rpm",
           "required": true
         }
       ],
-      "formula": "(pip - peep) * (ti / ttotal) + peep",
+      "formula": "(pip - peep) * (ti * fr / 60) + peep",
       "resultLabel": "MAP",
       "resultUnit": "cmH₂O",
-      "notes": "MAP > 15 cmH₂O sugiere enfermedad grave. Se correlaciona con riesgo de barotrauma. Ttotal = TI + TE (tiempo espiratorio).",
+      "notes": "MAP > 15 cmH₂O sugiere enfermedad grave. Se correlaciona con riesgo de barotrauma. Ttotal = 60 / FR.",
       "reference": "Fisiología de ventilación mecánica neonatal. NEOFAX 2024."
     },
     {
@@ -10257,7 +10995,7 @@
     },
     {
       "id": "cdo2",
-      "name": "Aporte de Oxígeno (CDO₂)",
+      "name": "Contenido Arterial de Oxígeno (CaO₂)",
       "description": "Cálculo simplificado del contenido arterial de oxígeno",
       "inputs": [
         {
@@ -10333,10 +11071,1616 @@
           "required": false
         }
       ],
+      "calculations": {
+        "ingreso_total": "ingreso1 + ingreso2 + ingreso3",
+        "egreso_total": "diuresis + catarsis + otros",
+        "ingreso_kg": "ingreso_total / peso",
+        "egreso_kg": "egreso_total / peso",
+        "relacion_ei": "egreso_total / ingreso_total",
+        "ritmo_diuretico": "diuresis / peso / 24"
+      },
       "resultLabel": "Balance Detallado",
       "resultUnit": "Variables",
       "notes": "Calcular: Ingreso/kg, Egreso/kg, Relacion E/I, Ritmo diuretico. Objetivo: balance cercano a cero.",
-      "reference": "SEGNNEO 2019"
+      "reference": "SEGNNEO 2019",
+      "calculationsLabels": {
+        "ingreso_kg": "Ingreso / kg",
+        "egreso_kg": "Egreso / kg",
+        "relacion_ei": "Relación E/I",
+        "ritmo_diuretico": "Ritmo Diurético"
+      },
+      "calculationsUnits": {
+        "ingreso_kg": "mL/kg/24h",
+        "egreso_kg": "mL/kg/24h",
+        "relacion_ei": "adimensional",
+        "ritmo_diuretico": "mL/kg/h"
+      },
+      "calculationsHidden": [
+        "ingreso_total",
+        "egreso_total"
+      ]
+    },
+    {
+      "id": "cilindro_o2",
+      "name": "Capacidad de Cilindro de O₂",
+      "description": "Volumen disponible y duración estimada de un cilindro de O₂ según presión y flujo",
+      "inputs": [
+        {
+          "id": "presion",
+          "label": "Presión actual del manómetro",
+          "unit": "bar",
+          "required": true
+        },
+        {
+          "id": "presion_llena",
+          "label": "Presión de cilindro lleno",
+          "unit": "bar",
+          "required": true
+        },
+        {
+          "id": "capacidad",
+          "label": "Capacidad nominal del cilindro",
+          "unit": "L",
+          "required": true
+        },
+        {
+          "id": "flujo",
+          "label": "Flujo de O₂",
+          "unit": "L/min",
+          "required": true
+        }
+      ],
+      "calculations": {
+        "volumen_restante": "(presion / presion_llena) * capacidad",
+        "duracion": "(presion / presion_llena) * capacidad / flujo"
+      },
+      "resultLabel": "Duración estimada",
+      "resultUnit": "minutos",
+      "notes": "Cilindros portátiles frecuentes: 200 L, 400 L, 600 L (presión llena = 200 bar). Cilindro tipo D ≈ 400 L, tipo E ≈ 660 L (presión llena ≈ 138 bar). Flujo de referencia: 0.5–2 L/min cánula nasal, 5–10 L/min máscara, 10–15 L/min bolsa-máscara. Agregar ≥ 30 min de margen al tiempo de traslado.",
+      "reference": "Fórmula estándar: V_restante = (P_actual / P_llena) × V_nominal",
+      "calculationsLabels": {
+        "volumen_restante": "Volumen restante",
+        "duracion": "Duración estimada"
+      },
+      "calculationsUnits": {
+        "volumen_restante": "L de O₂",
+        "duracion": "minutos"
+      }
+    }
+  ],
+  "laboratory": [
+    {
+      "id": "gasometria",
+      "name": "Gasometría",
+      "source": "Hospital Garrahan / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "ph",
+          "name": "pH",
+          "abbreviation": "pH",
+          "unit": "unidades",
+          "references": [
+            {
+              "label": "RN término (arterial)",
+              "min": 7.35,
+              "max": 7.45
+            },
+            {
+              "label": "RN prematuro (arterial)",
+              "min": 7.3,
+              "max": 7.45
+            },
+            {
+              "label": "Capilar (suma +0.02–0.04 al arterial)",
+              "min": 7.32,
+              "max": 7.42
+            }
+          ],
+          "criticalLow": 7.2,
+          "criticalHigh": 7.6
+        },
+        {
+          "id": "pco2",
+          "name": "pCO₂",
+          "abbreviation": "pCO₂",
+          "unit": "mmHg",
+          "references": [
+            {
+              "label": "RN término (arterial)",
+              "min": 35,
+              "max": 45
+            },
+            {
+              "label": "RN prematuro en VM (hipercapnia permisiva)",
+              "min": 45,
+              "max": 55
+            },
+            {
+              "label": "Capilar (aprox. +3–5 mmHg sobre arterial)",
+              "min": 38,
+              "max": 50
+            }
+          ],
+          "criticalLow": 20,
+          "criticalHigh": 80
+        },
+        {
+          "id": "hco3",
+          "name": "Bicarbonato (HCO₃⁻)",
+          "abbreviation": "HCO₃⁻",
+          "unit": "mEq/L",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 20,
+              "max": 26
+            },
+            {
+              "label": "RN prematuro",
+              "min": 18,
+              "max": 25
+            }
+          ],
+          "notes": "Calculado a partir de pH y pCO₂ (ecuación Henderson-Hasselbalch)"
+        },
+        {
+          "id": "be",
+          "name": "Exceso de base",
+          "abbreviation": "EB / BE",
+          "unit": "mEq/L",
+          "references": [
+            {
+              "label": "RN término",
+              "min": -4,
+              "max": 2
+            },
+            {
+              "label": "RN prematuro",
+              "min": -6,
+              "max": 2
+            }
+          ],
+          "criticalLow": -12
+        },
+        {
+          "id": "pao2",
+          "name": "PaO₂",
+          "abbreviation": "PaO₂",
+          "unit": "mmHg",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 60,
+              "max": 90
+            },
+            {
+              "label": "RN prematuro en VM",
+              "min": 50,
+              "max": 80
+            }
+          ],
+          "notes": "Target SpO₂: 92–97% en término; 90–95% en prematuro (prevención ROP)",
+          "criticalLow": 40
+        },
+        {
+          "id": "lactato",
+          "name": "Lactato",
+          "abbreviation": "Lac",
+          "unit": "mmol/L",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0.5,
+              "max": 2.0
+            },
+            {
+              "label": "Hiperlactatemia",
+              "min": 2.0,
+              "max": 5.0,
+              "notes": "Vigilancia estrecha"
+            },
+            {
+              "label": "Acidosis láctica",
+              "min": 5.0,
+              "notes": "Contexto clínico urgente"
+            }
+          ],
+          "criticalHigh": 5.0
+        }
+      ]
+    },
+    {
+      "id": "hemograma",
+      "name": "Hemograma",
+      "source": "Hospital Garrahan / Gomella 8ª ed.",
+      "parameters": [
+        {
+          "id": "hb",
+          "name": "Hemoglobina",
+          "abbreviation": "Hb",
+          "unit": "g/dL",
+          "references": [
+            {
+              "label": "RN término (1–3 días)",
+              "min": 14.0,
+              "max": 22.0
+            },
+            {
+              "label": "RN término (1 semana)",
+              "min": 12.0,
+              "max": 20.0
+            },
+            {
+              "label": "RN prematuro <28s (1–3 días)",
+              "min": 13.5,
+              "max": 19.0
+            },
+            {
+              "label": "RN prematuro 28–34s (1–3 días)",
+              "min": 13.0,
+              "max": 18.5
+            }
+          ],
+          "notes": "Umbral transfusión: ver guías institucionales según EG, DOL y condición clínica",
+          "criticalLow": 7.0,
+          "criticalHigh": 25.0
+        },
+        {
+          "id": "hto",
+          "name": "Hematocrito",
+          "abbreviation": "Hto",
+          "unit": "%",
+          "references": [
+            {
+              "label": "RN término (1–3 días)",
+              "min": 42,
+              "max": 65
+            },
+            {
+              "label": "RN prematuro",
+              "min": 38,
+              "max": 60
+            }
+          ],
+          "notes": "Policitemia: Hto venoso central >65%"
+        },
+        {
+          "id": "leucocitos",
+          "name": "Leucocitos",
+          "abbreviation": "GB",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "RN (1–3 días)",
+              "min": 9000,
+              "max": 30000
+            },
+            {
+              "label": "RN (1 semana–1 mes)",
+              "min": 5000,
+              "max": 21000
+            }
+          ],
+          "criticalLow": 1500,
+          "criticalHigh": 50000
+        },
+        {
+          "id": "neutrofilos",
+          "name": "Neutrófilos",
+          "abbreviation": "RAN",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "RN término (>1 semana)",
+              "min": 1800,
+              "max": 7500
+            },
+            {
+              "label": "RN prematuro",
+              "min": 1000,
+              "max": 5000
+            }
+          ],
+          "notes": "Neutropenia neonatal: <1,500/mm³ (término) o <1,000/mm³ (prematuro). Ratio I/T >0.16–0.20 sugiere infección",
+          "criticalLow": 500
+        },
+        {
+          "id": "plaquetas",
+          "name": "Plaquetas",
+          "abbreviation": "PLQ",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 150000,
+              "max": 400000
+            },
+            {
+              "label": "Trombocitopenia leve",
+              "min": 100000,
+              "max": 150000,
+              "notes": "Vigilancia"
+            },
+            {
+              "label": "Trombocitopenia moderada",
+              "min": 50000,
+              "max": 100000,
+              "notes": "Evaluar transfusión según clínica"
+            },
+            {
+              "label": "Trombocitopenia grave",
+              "max": 50000,
+              "notes": "Transfusión según guía institucional"
+            }
+          ],
+          "criticalLow": 20000
+        },
+        {
+          "id": "reticulocitos",
+          "name": "Reticulocitos",
+          "abbreviation": "Retic",
+          "unit": "%",
+          "references": [
+            {
+              "label": "RN (primeros días)",
+              "min": 3.0,
+              "max": 7.0
+            },
+            {
+              "label": "Semana 2–4",
+              "min": 0.5,
+              "max": 2.0
+            }
+          ]
+        },
+        {
+          "id": "vcm",
+          "name": "Volumen corpuscular medio",
+          "abbreviation": "VCM",
+          "unit": "fL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 95,
+              "max": 115
+            },
+            {
+              "label": "RN prematuro",
+              "min": 90,
+              "max": 120
+            }
+          ],
+          "notes": "VCM elevado fisiológico en neonatos. Macrocitosis patológica: descartar déficit de folato/B12 materno o hemoglobinopatía"
+        },
+        {
+          "id": "hcm",
+          "name": "Hemoglobina corpuscular media",
+          "abbreviation": "HCM",
+          "unit": "pg",
+          "references": [
+            {
+              "label": "RN",
+              "min": 30,
+              "max": 37
+            }
+          ]
+        },
+        {
+          "id": "chcm",
+          "name": "Concentración de Hb corpuscular media",
+          "abbreviation": "CHCM",
+          "unit": "g/dL",
+          "references": [
+            {
+              "label": "RN",
+              "min": 31,
+              "max": 37
+            }
+          ],
+          "notes": "CHCM elevada (>37 g/dL): pensar esferocitosis hereditaria"
+        },
+        {
+          "id": "rdw",
+          "name": "Amplitud distribución eritrocitaria",
+          "abbreviation": "RDW",
+          "unit": "%",
+          "references": [
+            {
+              "label": "RN",
+              "min": 11.5,
+              "max": 18.0
+            }
+          ],
+          "notes": "RDW >18% sugiere anisocitosis significativa; en neonatos puede ser fisiológico en las primeras semanas"
+        },
+        {
+          "id": "nrbc",
+          "name": "Eritroblastos (nucleated RBC)",
+          "abbreviation": "NRBC",
+          "unit": "/100 GB",
+          "references": [
+            {
+              "label": "RN término (1–3 días)",
+              "min": 0,
+              "max": 10,
+              "notes": "Descenso rápido tras el parto"
+            },
+            {
+              "label": "RN prematuro (<32s)",
+              "min": 0,
+              "max": 50,
+              "notes": "Puede ser mayor por eritropoyesis acelerada"
+            }
+          ],
+          "notes": "Eritroblastosis persistente o >50/100 GB sugiere hemólisis, hipoxia crónica o infección. Siempre corregir recuento leucocitario si NRBC >5/100 GB"
+        },
+        {
+          "id": "monocitos",
+          "name": "Monocitos",
+          "abbreviation": "Mono",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "RN",
+              "min": 300,
+              "max": 1000
+            }
+          ]
+        },
+        {
+          "id": "eosinofilos",
+          "name": "Eosinófilos",
+          "abbreviation": "Eos",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 700
+            }
+          ],
+          "notes": "Eosinofilia neonatal (>700/mm³): frecuente en prematuros con NPT prolongada, infección parasitaria o reacción alérgica. Considerar adrenal insuficiency si marcada"
+        }
+      ]
+    },
+    {
+      "id": "electrolitos",
+      "name": "Electrolitos",
+      "source": "Hospital Garrahan",
+      "parameters": [
+        {
+          "id": "sodio",
+          "name": "Sodio",
+          "abbreviation": "Na⁺",
+          "unit": "mEq/L",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 135,
+              "max": 145
+            },
+            {
+              "label": "Hiponatremia leve",
+              "min": 130,
+              "max": 135,
+              "notes": "Vigilancia y aporte oral/EV"
+            },
+            {
+              "label": "Hiponatremia grave",
+              "max": 125,
+              "notes": "Corrección urgente"
+            }
+          ],
+          "criticalLow": 120,
+          "criticalHigh": 160
+        },
+        {
+          "id": "potasio",
+          "name": "Potasio",
+          "abbreviation": "K⁺",
+          "unit": "mEq/L",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 3.5,
+              "max": 5.5
+            },
+            {
+              "label": "RN prematuro (1ª semana)",
+              "min": 3.5,
+              "max": 6.0,
+              "notes": "Pseudohiperpotasemia por liberación celular"
+            }
+          ],
+          "notes": "K⁺ >7.0 mEq/L con cambios en ECG: emergencia cardíaca. Siempre correlacionar con ECG",
+          "criticalLow": 2.5,
+          "criticalHigh": 7.0
+        },
+        {
+          "id": "cloro",
+          "name": "Cloro",
+          "abbreviation": "Cl⁻",
+          "unit": "mEq/L",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 98,
+              "max": 108
+            }
+          ]
+        },
+        {
+          "id": "calcio_total",
+          "name": "Calcio total",
+          "abbreviation": "Ca²⁺",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 8.0,
+              "max": 10.5
+            },
+            {
+              "label": "RN prematuro",
+              "min": 7.0,
+              "max": 10.0
+            }
+          ],
+          "notes": "Hipocalcemia: <7.0 mg/dL (término), <7.5 (prematuro). Hipercalcemia: >11.0",
+          "criticalLow": 6.5,
+          "criticalHigh": 13.0
+        },
+        {
+          "id": "calcio_ionico",
+          "name": "Calcio iónico",
+          "abbreviation": "Ca²⁺ ión",
+          "unit": "mmol/L",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 1.1,
+              "max": 1.35
+            }
+          ],
+          "notes": "Hipocalcemia iónica: <1.0 mmol/L. Más confiable que Ca total en acidosis/hipoalbuminemia",
+          "criticalLow": 0.9
+        },
+        {
+          "id": "magnesio",
+          "name": "Magnesio",
+          "abbreviation": "Mg²⁺",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 1.6,
+              "max": 2.6
+            }
+          ],
+          "notes": "Hipomagnesemia: <1.4 mg/dL — puede perpetuar hipocalcemia refractaria",
+          "criticalLow": 1.0,
+          "criticalHigh": 5.0
+        },
+        {
+          "id": "fosforo",
+          "name": "Fósforo",
+          "abbreviation": "P",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN (fisiológico)",
+              "min": 5.0,
+              "max": 8.5
+            }
+          ],
+          "notes": "Hipofosforemia (<4 mg/dL): pensar en enfermedad ósea metabólica del prematuro"
+        }
+      ]
+    },
+    {
+      "id": "quimica",
+      "name": "Química básica",
+      "source": "Hospital Garrahan / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "glucosa",
+          "name": "Glucosa",
+          "abbreviation": "Glu",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal (neonato)",
+              "min": 45,
+              "max": 125
+            },
+            {
+              "label": "Hipoglucemia (umbral acción)",
+              "max": 45,
+              "notes": "AAP 2011 / Garrahan"
+            },
+            {
+              "label": "Hipoglucemia grave",
+              "max": 25,
+              "notes": "Tratamiento urgente EV"
+            }
+          ],
+          "criticalLow": 25,
+          "criticalHigh": 250
+        },
+        {
+          "id": "creatinina",
+          "name": "Creatinina",
+          "abbreviation": "Cr",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN <28s",
+              "min": 0.5,
+              "max": 1.5,
+              "notes": "Refleja creatinina materna en primeros días"
+            },
+            {
+              "label": "RN 28–34s",
+              "min": 0.3,
+              "max": 0.9
+            },
+            {
+              "label": "RN >34s (término)",
+              "min": 0.2,
+              "max": 0.6
+            }
+          ],
+          "notes": "Esperado descenso >50% en primeros 7–14 días. Persistencia de valores altos = disfunción renal"
+        },
+        {
+          "id": "urea",
+          "name": "Urea",
+          "abbreviation": "Urea",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal (neonato)",
+              "min": 7,
+              "max": 18
+            }
+          ],
+          "criticalHigh": 50
+        },
+        {
+          "id": "amonio",
+          "name": "Amonio",
+          "abbreviation": "NH₃",
+          "unit": "μmol/L",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 80
+            },
+            {
+              "label": "Patológico",
+              "min": 100,
+              "max": 200,
+              "notes": "Vigilancia, buscar causa"
+            },
+            {
+              "label": "Hiperamonemia grave",
+              "min": 200,
+              "notes": "Posible error metabólico congénito — consultar con urgencia"
+            }
+          ],
+          "criticalHigh": 200
+        },
+        {
+          "id": "acido_urico",
+          "name": "Ácido úrico",
+          "abbreviation": "AU",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN",
+              "min": 2.0,
+              "max": 7.0
+            }
+          ],
+          "notes": "Hiperuricemia (>8 mg/dL): puede verse en asfixia perinatal, síndrome de lisis tumoral o déficit de xantino-oxidasa",
+          "criticalHigh": 10.0
+        },
+        {
+          "id": "trigliceridos",
+          "name": "Triglicéridos",
+          "abbreviation": "TG",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN (sin NP lipídica)",
+              "min": 0,
+              "max": 150
+            },
+            {
+              "label": "RN con NPT lipídica",
+              "min": 0,
+              "max": 250,
+              "notes": "Umbral para reducir o suspender lípidos EV"
+            }
+          ],
+          "notes": "Monitorear TG en neonatos con NPT y lípidos EV. Suspender o reducir lípidos si TG >250 mg/dL",
+          "criticalHigh": 300
+        },
+        {
+          "id": "colesterol",
+          "name": "Colesterol total",
+          "abbreviation": "Col",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN",
+              "min": 45,
+              "max": 170
+            }
+          ],
+          "notes": "Valores bajos en prematuros. Hipercolesterolemia en RN: considerar hipotiroidismo congénito o errores metabólicos"
+        },
+        {
+          "id": "ldh",
+          "name": "Lactato deshidrogenasa",
+          "abbreviation": "LDH",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "RN (fisiológicamente elevado)",
+              "min": 300,
+              "max": 1200,
+              "notes": "Liberación celular por trauma perinatal"
+            },
+            {
+              "label": "Después de la 1ª semana",
+              "min": 200,
+              "max": 800
+            }
+          ],
+          "notes": "Elevación sostenida de LDH: pensar hemólisis, daño hepático, asfixia, linfoma/leucemia. Inespecífica como marcador aislado"
+        }
+      ]
+    },
+    {
+      "id": "hepatico",
+      "name": "Función hepática",
+      "source": "Hospital Garrahan",
+      "parameters": [
+        {
+          "id": "alt",
+          "name": "ALT / TGP",
+          "abbreviation": "ALT",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "Normal (neonato)",
+              "min": 10,
+              "max": 45
+            }
+          ],
+          "criticalHigh": 200
+        },
+        {
+          "id": "ast",
+          "name": "AST / TGO",
+          "abbreviation": "AST",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "RN (1–3 días, por trauma perinatal)",
+              "min": 10,
+              "max": 100
+            },
+            {
+              "label": "RN (>1 semana)",
+              "min": 20,
+              "max": 60
+            }
+          ],
+          "criticalHigh": 300
+        },
+        {
+          "id": "ggt",
+          "name": "GGT",
+          "abbreviation": "GGT",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "RN (primeros 3 meses — fisiológico)",
+              "min": 14,
+              "max": 270
+            }
+          ],
+          "notes": "Alta en RN por transferencia placentaria. Valor persistente >3x LSN después del mes sugiere colestasis"
+        },
+        {
+          "id": "fal",
+          "name": "Fosfatasa alcalina",
+          "abbreviation": "FAL / ALP",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "RN (fracción ósea elevada)",
+              "min": 150,
+              "max": 450
+            }
+          ],
+          "notes": "FAL muy alta (>800 U/L) con P bajo: pensar enfermedad ósea metabólica del prematuro"
+        },
+        {
+          "id": "bili_directa",
+          "name": "Bilirrubina directa",
+          "abbreviation": "BD",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 1.5
+            }
+          ],
+          "notes": "Colestasis neonatal: BD >2.0 mg/dL o >20% de la bilirrubina total — requiere evaluación",
+          "criticalHigh": 2.0
+        },
+        {
+          "id": "albumina",
+          "name": "Albúmina",
+          "abbreviation": "Alb",
+          "unit": "g/dL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 2.5,
+              "max": 3.8
+            },
+            {
+              "label": "RN prematuro",
+              "min": 2.0,
+              "max": 3.0
+            }
+          ],
+          "criticalLow": 1.5
+        },
+        {
+          "id": "proteinas_totales",
+          "name": "Proteínas totales",
+          "abbreviation": "PT",
+          "unit": "g/dL",
+          "references": [
+            {
+              "label": "RN",
+              "min": 4.5,
+              "max": 6.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coagulacion",
+      "name": "Coagulación",
+      "source": "COBICO Argentina / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "tp",
+          "name": "Tiempo de protrombina",
+          "abbreviation": "TP",
+          "unit": "segundos",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 11,
+              "max": 17,
+              "notes": "Prolongado vs adulto (11–13 s) — normal en neonato"
+            },
+            {
+              "label": "RN prematuro",
+              "min": 14,
+              "max": 22
+            }
+          ],
+          "notes": "Valores prolongados en RN son fisiológicos por inmadurez de factores vitamina K-dependientes"
+        },
+        {
+          "id": "kptt",
+          "name": "KPTT",
+          "abbreviation": "KPTT",
+          "unit": "segundos",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 35,
+              "max": 80
+            },
+            {
+              "label": "RN prematuro",
+              "min": 40,
+              "max": 100
+            }
+          ]
+        },
+        {
+          "id": "inr",
+          "name": "INR",
+          "abbreviation": "INR",
+          "unit": "ratio",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 0.9,
+              "max": 1.5
+            },
+            {
+              "label": "RN prematuro",
+              "min": 1.0,
+              "max": 2.0
+            }
+          ]
+        },
+        {
+          "id": "fibrinogeno",
+          "name": "Fibrinógeno",
+          "abbreviation": "Fg",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 150,
+              "max": 300
+            }
+          ],
+          "notes": "CID (coagulación intravascular diseminada): fibrinógeno bajo + plaquetas bajas + TP/KPTT prolongados",
+          "criticalLow": 100
+        },
+        {
+          "id": "dimero_d",
+          "name": "Dímero D",
+          "abbreviation": "DD",
+          "unit": "μg/mL",
+          "references": [
+            {
+              "label": "RN (1ª semana — puede estar elevado fisiológicamente)",
+              "min": 0,
+              "max": 2.0,
+              "notes": "Valores pueden alcanzar 4–5 μg/mL en primeras 72h sin patología"
+            },
+            {
+              "label": "Después de 1ª semana",
+              "min": 0,
+              "max": 0.5
+            }
+          ],
+          "notes": "Alta sensibilidad pero baja especificidad en neonatos. Elevado fisiológicamente en primeras 72 h. Útil para descartar trombosis o CID en contexto clínico",
+          "criticalHigh": 5.0
+        },
+        {
+          "id": "at3",
+          "name": "Antitrombina III",
+          "abbreviation": "AT-III",
+          "unit": "%",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 40,
+              "max": 65
+            },
+            {
+              "label": "RN prematuro",
+              "min": 30,
+              "max": 55
+            }
+          ],
+          "notes": "Déficit de AT-III predispone a trombosis y CID. Consumo en sepsis grave. Valores <25%: considerar suplementación según guías"
+        }
+      ]
+    },
+    {
+      "id": "infeccion",
+      "name": "Infección / Inflamación",
+      "source": "Hospital Garrahan / Gomella 8ª ed.",
+      "parameters": [
+        {
+          "id": "pcr",
+          "name": "Proteína C reactiva",
+          "abbreviation": "PCR",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 1.0
+            },
+            {
+              "label": "Elevada (sospecha infección)",
+              "min": 1.0,
+              "notes": "Sensibilidad baja en primeras 12h — repetir a las 24–48h"
+            }
+          ],
+          "criticalHigh": 10.0
+        },
+        {
+          "id": "pct",
+          "name": "Procalcitonina",
+          "abbreviation": "PCT",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "Normal (>72h de vida)",
+              "min": 0,
+              "max": 0.5
+            },
+            {
+              "label": "Pico FISIOLÓGICO neonatal (0–72h)",
+              "min": 0,
+              "max": 21.0,
+              "notes": "⚠️ No usar PCT como marcador de infección en las primeras 72h de vida"
+            },
+            {
+              "label": "Sepsis tardía (>72h)",
+              "min": 2.0,
+              "notes": "Alta sospecha de infección bacteriana"
+            }
+          ],
+          "notes": "⚠️ IMPORTANTE: PCT presenta pico fisiológico neonatal de hasta 21 ng/mL en las primeras 72 horas de vida. No interpretar como marcador de sepsis en ese período."
+        },
+        {
+          "id": "ratio_it",
+          "name": "Ratio I/T (inmaduros/totales)",
+          "abbreviation": "I/T",
+          "unit": "ratio",
+          "references": [
+            {
+              "label": "Normal (neonato)",
+              "min": 0,
+              "max": 0.16
+            },
+            {
+              "label": "Sugestivo de sepsis",
+              "min": 0.2,
+              "notes": "Especificidad moderada"
+            }
+          ],
+          "notes": "Fórmula: neutrófilos inmaduros (bandas + metamielocitos + mielocitos) ÷ neutrófilos totales. Mejor utilidad en contexto clínico"
+        },
+        {
+          "id": "il6",
+          "name": "Interleucina 6",
+          "abbreviation": "IL-6",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 10
+            },
+            {
+              "label": "Sospecha de infección bacteriana",
+              "min": 50,
+              "notes": "Alta sensibilidad en sepsis temprana (pico a las 2–4 h)"
+            }
+          ],
+          "notes": "Biomarcador de respuesta inflamatoria precoz — se eleva antes de PCR y PCT. Útil en sepsis temprana pero disponibilidad limitada. Valor >200 pg/mL con alta sospecha clínica de sepsis",
+          "criticalHigh": 200
+        },
+        {
+          "id": "ferritina",
+          "name": "Ferritina",
+          "abbreviation": "Ferr",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "RN (fisiológicamente elevada en 1ª semana)",
+              "min": 200,
+              "max": 600,
+              "notes": "Pico en 1ª semana, luego descenso progresivo"
+            },
+            {
+              "label": "RN (1–2 meses)",
+              "min": 50,
+              "max": 400
+            }
+          ],
+          "notes": "Ferritina muy elevada (>1500 ng/mL): pensar hemocromatosis neonatal, linfohistiocitosis hemofagocítica (HLH) o enfermedad de Still neonatal. Como marcador de inflamación: menor especificidad que PCT/PCR en neonatos"
+        }
+      ]
+    },
+    {
+      "id": "tiroides",
+      "name": "Función tiroidea",
+      "source": "Programa Nacional de Pesquisa Neonatal Argentina / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "tsh",
+          "name": "TSH",
+          "abbreviation": "TSH",
+          "unit": "mU/L",
+          "references": [
+            {
+              "label": "Pico fisiológico (primeras horas)",
+              "min": 30,
+              "max": 100,
+              "notes": "Normal — no confundir con hipotiroidismo congénito"
+            },
+            {
+              "label": "Normal (>48h de vida)",
+              "min": 0.5,
+              "max": 10.0
+            },
+            {
+              "label": "Pesquisa neonatal (corte Argentina)",
+              "max": 15.0,
+              "notes": "Programa Nacional — muestra de talón 48–72h"
+            }
+          ],
+          "notes": "Pico fisiológico de TSH en las primeras horas de vida: hasta 100 mU/L — es respuesta normal al frío del parto"
+        },
+        {
+          "id": "t4_libre",
+          "name": "T4 libre",
+          "abbreviation": "T4L",
+          "unit": "ng/dL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 0.9,
+              "max": 2.0
+            },
+            {
+              "label": "RN prematuro",
+              "min": 0.7,
+              "max": 1.8,
+              "notes": "Hipotiroxinemia transitoria del prematuro — frecuente, no siempre requiere tratamiento"
+            }
+          ]
+        },
+        {
+          "id": "t4_total",
+          "name": "T4 total",
+          "abbreviation": "T4",
+          "unit": "μg/dL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 7,
+              "max": 15
+            },
+            {
+              "label": "RN prematuro",
+              "min": 5,
+              "max": 12
+            }
+          ]
+        },
+        {
+          "id": "t3_libre",
+          "name": "T3 libre",
+          "abbreviation": "FT3",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 2.0,
+              "max": 6.0
+            },
+            {
+              "label": "RN prematuro",
+              "min": 1.5,
+              "max": 4.0,
+              "notes": "Síndrome de T3 baja frecuente en gran prematuro (conversión periférica reducida)"
+            }
+          ],
+          "notes": "FT3 baja con TSH normal: síndrome de enfermedad no tiroidea (euthyroid sick syndrome). Común en prematuros graves. No siempre requiere tratamiento"
+        }
+      ]
+    },
+    {
+      "id": "lcr",
+      "name": "LCR",
+      "source": "Hospital Garrahan / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "lcr_leucocitos",
+          "name": "Leucocitos",
+          "abbreviation": "GB (LCR)",
+          "unit": "/mm³",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 0,
+              "max": 15,
+              "notes": "Algunos laboratorios aceptan hasta 20/mm³ en 1ª semana"
+            },
+            {
+              "label": "RN prematuro",
+              "min": 0,
+              "max": 25
+            }
+          ],
+          "notes": "PMN normales: 0–2/mm³. Pleocitosis con PMN predominante sugiere meningitis bacteriana",
+          "criticalHigh": 30
+        },
+        {
+          "id": "lcr_proteinas",
+          "name": "Proteínas",
+          "abbreviation": "PT (LCR)",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "RN término (1ª semana)",
+              "min": 45,
+              "max": 150
+            },
+            {
+              "label": "RN término (>1 semana)",
+              "min": 20,
+              "max": 90
+            },
+            {
+              "label": "RN prematuro",
+              "min": 65,
+              "max": 170
+            }
+          ],
+          "notes": "Valores más altos que en niños mayores son normales en neonatos por mayor permeabilidad de barrera hematoencefálica"
+        },
+        {
+          "id": "lcr_glucosa",
+          "name": "Glucosa",
+          "abbreviation": "Glu (LCR)",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 40,
+              "max": 100
+            }
+          ],
+          "notes": "Debe ser >60% de glucemia simultánea. Hipoglucorraquia: <40 mg/dL — sugiere meningitis bacteriana o TBC",
+          "criticalLow": 20
+        },
+        {
+          "id": "lcr_presion",
+          "name": "Presión de apertura",
+          "abbreviation": "PA (LCR)",
+          "unit": "mmH₂O",
+          "references": [
+            {
+              "label": "RN normal",
+              "min": 40,
+              "max": 100
+            }
+          ],
+          "notes": "Medición en posición lateral. Hipertensión endocraneana: >100 mmH₂O"
+        }
+      ]
+    },
+    {
+      "id": "orina",
+      "name": "Análisis de orina",
+      "source": "Hospital Garrahan / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "densidad_orina",
+          "name": "Densidad urinaria",
+          "abbreviation": "Den. U.",
+          "unit": "g/mL",
+          "references": [
+            {
+              "label": "Neonato (rango habitual)",
+              "min": 1005,
+              "max": 1015
+            },
+            {
+              "label": "Prematuro (<32s, capacidad concentración reducida)",
+              "min": 1002,
+              "max": 1010
+            }
+          ],
+          "notes": "Densidad >1020 sugiere deshidratación. Densidad fija en 1010 puede indicar daño tubular. El prematuro tiene capacidad de concentración reducida"
+        },
+        {
+          "id": "ph_orina",
+          "name": "pH urinario",
+          "abbreviation": "pH U.",
+          "unit": "unidades",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 5,
+              "max": 8
+            }
+          ],
+          "notes": "pH persistentemente alcalino (>7): pensar acidosis tubular renal. pH ácido con acidosis metabólica hiperclorémica: sugestivo de pérdida urinaria de bicarbonato"
+        },
+        {
+          "id": "proteinuria",
+          "name": "Proteinuria",
+          "abbreviation": "Prot. U.",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal (primeros días)",
+              "min": 0,
+              "max": 30,
+              "notes": "Trazas pueden ser normales en primeros días"
+            },
+            {
+              "label": "Proteinuria significativa",
+              "min": 100,
+              "notes": "Requiere evaluación"
+            }
+          ],
+          "notes": "Proteinuria >200 mg/dL o relación Pr/Cr >2: pensar síndrome nefrótico. En neonatos, la proteinuria puede ser transitoria en primeros días de vida"
+        },
+        {
+          "id": "glucosuria",
+          "name": "Glucosuria",
+          "abbreviation": "Glu U.",
+          "unit": "cualitativo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 0,
+              "notes": "Negativa"
+            }
+          ],
+          "notes": "Glucosuria con normoglucemia: disfunción tubular proximal (síndrome de Fanconi). Glucosuria con hiperglucemia (>180 mg/dL): umbral tubular superado — normal"
+        },
+        {
+          "id": "hematuria",
+          "name": "Hematuria (microscópica)",
+          "abbreviation": "Hem. U.",
+          "unit": "eritrocitos/campo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 5
+            },
+            {
+              "label": "Hematuria microscópica",
+              "min": 5,
+              "notes": "Evaluar causa"
+            }
+          ],
+          "notes": "Hematuria macroscópica siempre es patológica. Causas neonatales: trombosis renal, obstrucción, infección, coagulopatía"
+        },
+        {
+          "id": "leucocituria",
+          "name": "Leucocituria",
+          "abbreviation": "Leu. U.",
+          "unit": "leucocitos/campo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 5
+            },
+            {
+              "label": "Sugestivo de infección urinaria",
+              "min": 10,
+              "notes": "Confirmar con urocultivo"
+            }
+          ],
+          "notes": "Leucocituria sin bacteriuria puede verse en neonatos febriles sin ITU. Siempre confirmar con urocultivo obtenido por cateterismo"
+        },
+        {
+          "id": "nitritos",
+          "name": "Nitritos",
+          "abbreviation": "Nitr. U.",
+          "unit": "cualitativo",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 0,
+              "notes": "Negativo"
+            }
+          ],
+          "notes": "Positivo sugiere bacteriuria por gram negativos (E. coli, Klebsiella). Puede ser negativo en infección por gram positivos o Candida. Confirmar con urocultivo"
+        },
+        {
+          "id": "na_urinario",
+          "name": "Sodio urinario",
+          "abbreviation": "Na⁺ U.",
+          "unit": "mEq/L",
+          "references": [
+            {
+              "label": "Normal (variable según hidratación)",
+              "min": 20,
+              "max": 120
+            },
+            {
+              "label": "Hiponatremia con Na⁺ U. > 20 mEq/L",
+              "min": 20,
+              "notes": "Pérdida renal de sodio (insuficiencia adrenal, diuréticos, SIADH)"
+            },
+            {
+              "label": "Hiponatremia con Na⁺ U. < 10 mEq/L",
+              "max": 10,
+              "notes": "Conservación renal adecuada (hipovolemia, pérdidas extrarrenales)"
+            }
+          ],
+          "notes": "Muy útil en el diagnóstico diferencial de hiponatremia. FENa = (Na U. × Cr pl.) / (Na pl. × Cr U.) × 100. FENa <1% en oliguria prerrenal, >2% en NTA"
+        },
+        {
+          "id": "pr_cr_ratio",
+          "name": "Relación proteína/creatinina urinaria",
+          "abbreviation": "Pr/Cr U.",
+          "unit": "ratio",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0,
+              "max": 0.2
+            },
+            {
+              "label": "Proteinuria moderada",
+              "min": 0.2,
+              "max": 2.0,
+              "notes": "Evaluar causa"
+            },
+            {
+              "label": "Síndrome nefrótico",
+              "min": 2.0,
+              "notes": "Proteinuria masiva"
+            }
+          ],
+          "notes": "Alternativa a la proteinuria de 24h. Muestra aislada de primera orina de la mañana. Más confiable que proteinuria aislada para seguimiento"
+        }
+      ]
+    },
+    {
+      "id": "cardiaco",
+      "name": "Marcadores cardíacos",
+      "source": "Gomella 8ª ed. / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "troponina",
+          "name": "Troponina I cardíaca",
+          "abbreviation": "cTnI",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "RN (valores aún no estandarizados universalmente)",
+              "min": 0,
+              "max": 0.1,
+              "notes": "Varía según laboratorio y método"
+            },
+            {
+              "label": "Daño miocárdico significativo",
+              "min": 0.2,
+              "notes": "Alta sospecha en contexto clínico"
+            }
+          ],
+          "notes": "Elevada en asfixia perinatal, miocarditis, cardiopatía congénita con isquemia subendocárdica. Valores de referencia neonatal no universalmente estandarizados — interpretar con clínica",
+          "criticalHigh": 1.0
+        },
+        {
+          "id": "nt_probnp",
+          "name": "NT-proBNP",
+          "abbreviation": "NT-proBNP",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "RN (1–3 días — pico fisiológico)",
+              "min": 0,
+              "max": 3500,
+              "notes": "Pico fisiológico en primeros días por adaptación circulatoria"
+            },
+            {
+              "label": "RN (>1 semana)",
+              "min": 0,
+              "max": 1000
+            },
+            {
+              "label": "Disfunción cardíaca / CAP hemodinámicamente significativo",
+              "min": 3500,
+              "notes": "Considerar ecocardiograma"
+            }
+          ],
+          "notes": "Elevado fisiológicamente en primeras 48–72 h. Útil para seguimiento de CAP, falla cardíaca y respuesta al tratamiento. Interpretar siempre con ecocardiograma",
+          "criticalHigh": 10000
+        },
+        {
+          "id": "ck_mb",
+          "name": "CK-MB",
+          "abbreviation": "CK-MB",
+          "unit": "U/L",
+          "references": [
+            {
+              "label": "RN (puede estar elevada por trauma perinatal)",
+              "min": 0,
+              "max": 25
+            }
+          ],
+          "notes": "CK-MB >10% de CK total o >25 U/L: pensar daño miocárdico. Puede estar elevada en asfixia, miocarditis o cardiomiopatía. Menos específica que troponina"
+        }
+      ]
+    },
+    {
+      "id": "metabolico",
+      "name": "Metabólico / Endócrino",
+      "source": "Programa Nacional de Pesquisa Neonatal Argentina / Harriet Lane 23ª ed.",
+      "parameters": [
+        {
+          "id": "insulina",
+          "name": "Insulina",
+          "abbreviation": "Ins",
+          "unit": "mU/L",
+          "references": [
+            {
+              "label": "RN (ayuno)",
+              "min": 0,
+              "max": 15
+            }
+          ],
+          "notes": "Hiperinsulinismo congénito: insulina >5 mU/L con glucemia <45 mg/dL. Relación glucosa/insulina <3 sugiere hiperinsulinismo. Causa más frecuente de hipoglucemia neonatal persistente",
+          "criticalHigh": 30
+        },
+        {
+          "id": "cortisol",
+          "name": "Cortisol basal",
+          "abbreviation": "Cortisol",
+          "unit": "μg/dL",
+          "references": [
+            {
+              "label": "Respuesta adecuada al estrés",
+              "min": 18,
+              "notes": "Normal en neonato enfermo o estresado"
+            },
+            {
+              "label": "Insuficiencia adrenal relativa (en contexto de hipotensión refractaria)",
+              "max": 15,
+              "notes": "Considerar hidrocortisona empírica"
+            }
+          ],
+          "notes": "Insuficiencia adrenal relativa del prematuro: cortisol <15 μg/dL con hipotensión refractaria a volumen y catecolaminas. Considerar hidrocortisona 1 mg/kg/dosis c/12h según protocolo"
+        },
+        {
+          "id": "acth",
+          "name": "ACTH",
+          "abbreviation": "ACTH",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "Normal (muestra matutina)",
+              "min": 5,
+              "max": 46
+            }
+          ],
+          "notes": "ACTH muy elevada + cortisol bajo = insuficiencia suprarrenal primaria. ACTH baja + cortisol bajo = insuficiencia hipofisaria. Colectar muestra en hielo al laboratorio"
+        },
+        {
+          "id": "17ohp",
+          "name": "17-OH Progesterona",
+          "abbreviation": "17-OHP",
+          "unit": "nmol/L",
+          "references": [
+            {
+              "label": "RN término (>48h)",
+              "min": 0,
+              "max": 10,
+              "notes": "Corte de pesquisa neonatal Argentina"
+            },
+            {
+              "label": "RN prematuro (puede estar elevada fisiológicamente)",
+              "min": 0,
+              "max": 15,
+              "notes": "Ajustar por peso y EG"
+            },
+            {
+              "label": "Sospecha de HCSR (HSC clásica 21-hidroxilasa)",
+              "min": 100,
+              "notes": "Requiere confirmación por laboratorio especializado"
+            }
+          ],
+          "notes": "Biomarcador principal del programa de pesquisa de Hiperplasia Suprarrenal Congénita (HCSR). Valor elevado (>30 nmol/L en RN término) requiere confirmación. Prematuros y neonatos enfermos tienen valores fisiológicamente más altos"
+        }
+      ]
     }
   ]
 }
