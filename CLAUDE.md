@@ -95,7 +95,9 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
-- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), contacto, enlace Neomonitor, aviso legal.
+- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), botón "Apoyá este proyecto" (llama a `onDonate`), contacto, enlace Neomonitor, aviso legal.
+- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 5 aperturas si el usuario no donó. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `loading`.
+- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación: contador en localStorage (`neo_open_count`), supresión de 30 días (`neo_donated_at`), `device_id` único (`neo_device_id`). Exporta `showToast`, `dismissToast`, `handleDonate`, `handleVerify`, `loading`. Falla silenciosamente sin conexión.
 
 ### Páginas y navegación
 
@@ -214,7 +216,7 @@ Metadatos opcionales:
 - Colores `brand-*` (verde esmeralda: `#022c22` a `#ecfdf5`, incluye `950`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
 - **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
 - Dark mode con tres modos: **Sistema** (sigue `prefers-color-scheme`), **Día**, **Noche** — controlado desde `SettingsPanel`. El estado `themeMode: 'system'|'light'|'dark'` persiste en `localStorage`
-- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + botón **Cafecito** custom (vértice superior derecho) con colores brand (`bg-brand-700`, texto blanco, ícono SVG de taza) que enlaza a `https://cafecito.app/neomonitor`
+- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + botón **"Apoyar"** (vértice superior derecho) con colores brand (`bg-brand-700`, texto blanco, ícono SVG de taza) que llama a `handleDonate()` del hook `useDonationReminder`
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
@@ -222,7 +224,35 @@ Metadatos opcionales:
 - Navegación inferior con 5 tabs (BottomNav) con iconos SVG minimalistas
 - Medicamentos: **Antibióticos siempre primero**, resto de categorías alfabético, medicamentos dentro de cada categoría también alfabéticos
 
-## Estado actual (2026-05-08)
+## Sistema de donación (MercadoPago + Cloudflare Worker)
+
+La app tiene un sistema de donación verificado con backend real — no honor system.
+
+### Arquitectura
+1. `device_id` único por dispositivo (UUID en localStorage)
+2. Botón "Apoyar" (header) o toast (cada 5 aperturas) → llama al Worker → crea preferencia de pago en MercadoPago
+3. Usuario paga → MercadoPago dispara webhook al Worker → Worker guarda `device_id` en KV Store
+4. App vuelve con `?paid=1` → verifica con Worker → suprime toast 30 días
+
+### Worker (`worker/`)
+- Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
+- Endpoints: `GET /crear-pago`, `POST /webhook`, `GET /verificar`
+- Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`
+- KV namespace: `DONATIONS_KV` (id: `594254b8fb874cea90ae91bb21fa52ad`)
+- CORS: permite `https://diegoastein.github.io`, `http://localhost:5173`, `http://localhost:4173`
+- Para redesployar: `CLOUDFLARE_API_TOKEN=... npx wrangler deploy --cwd worker`
+
+### Precio y configuración
+- Monto: **ARS $3.500** (editar `unit_price` en `worker/index.ts` y redesployar)
+- Toast cada **5 aperturas** (editar `% 5` en `src/hooks/useDonationReminder.ts`)
+- Supresión de **30 días** tras donación verificada (`THIRTY_DAYS_MS` en el hook)
+
+### localStorage keys
+- `neo_device_id` — UUID del dispositivo
+- `neo_open_count` — contador de aperturas
+- `neo_donated_at` — timestamp de última donación verificada
+
+## Estado actual (2026-05-10)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -268,12 +298,19 @@ Metadatos opcionales:
 
 **Configuración (SettingsPanel):**
 - ✅ Ícono hamburguesa en vértice superior izquierdo del header
-- ✅ Botón Cafecito custom (brand colors) en vértice superior derecho del header
+- ✅ Botón **"Apoyar"** (brand colors) en vértice superior derecho del header → abre checkout MercadoPago
 - ✅ Selector de tema: Sistema / Día / Noche (persiste en `localStorage`)
 - ✅ Botón de instalación PWA (visible solo cuando el navegador lo permite)
+- ✅ Botón "Apoyá este proyecto — $3500" en SettingsPanel → mismo flujo MercadoPago
 - ✅ Contacto: info@neomonitor.pro
 - ✅ Enlace "Más de Neomonitor" → www.getneomonitor.pro
 - ✅ Aviso legal / disclaimer de responsabilidad
+
+**Sistema de donación:**
+- ✅ Toast cada 5 aperturas con countdown de 30s
+- ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
+- ✅ Supresión de 30 días tras donación verificada
+- ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
 
 **Deploy:**
 - ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
