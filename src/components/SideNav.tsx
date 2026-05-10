@@ -21,8 +21,8 @@ export default function SideNav({ activePage, setActivePage }: SideNavProps) {
   const navItems: { id: ActivePage; label: string; icon: string }[] = [
     { id: 'medicamentos', label: 'Medicamentos', icon: '💊' },
     { id: 'procedimientos', label: 'Procedimientos', icon: '📋' },
-    { id: 'indices', label: 'Índices', icon: '📊' },
-    { id: 'formulas', label: 'Fórmulas', icon: '📐' },
+    { id: 'calculadoras', label: 'Calculadoras', icon: '📊' },
+    { id: 'laboratorio', label: 'Laboratorio', icon: '🧪' },
     { id: 'favoritos', label: 'Favoritos', icon: '⭐' },
   ];
 
