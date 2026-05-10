@@ -44,7 +44,7 @@ export default function DonationToast({ onDonate, onDismiss, loading }: Props) {
           ¿Te resulta útil NeoCalcu?
         </p>
         <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-          Invitame un cafecito y ayudás a que siga creciendo.
+          Apoyá este proyecto y ayudás a que siga creciendo.
         </p>
         <p className="text-xs text-brand-700 dark:text-brand-300 mb-4">
           Un cafecito silencia este aviso por 30 días ☕
@@ -64,7 +64,7 @@ export default function DonationToast({ onDonate, onDismiss, loading }: Props) {
               Preparando pago...
             </>
           ) : (
-            'Invitar un cafecito — $3500'
+            'Apoyá este proyecto — $3500'
           )}
         </button>
       </div>

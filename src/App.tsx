@@ -125,18 +125,16 @@ function AppContent() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </button>
-        <a
-          href='https://cafecito.app/neomonitor'
-          rel='noopener'
-          target='_blank'
+        <button
+          onClick={handleDonate}
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-700 hover:bg-brand-800 dark:bg-brand-800 dark:hover:bg-brand-900 text-white text-xs font-semibold transition-colors"
-          aria-label="Invitame un café en cafecito.app"
+          aria-label="Apoyá este proyecto"
         >
           <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
             <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
           </svg>
-          <span>Cafecito</span>
-        </a>
+          <span>Apoyar</span>
+        </button>
       </div>
 
       <main className="flex-1 overflow-y-auto pb-20">
@@ -152,6 +150,7 @@ function AppContent() {
         onThemeChange={setThemeMode}
         canInstall={!!installPrompt}
         onInstall={handleInstall}
+        onDonate={handleDonate}
       />
 
       <FirstAccessDisclaimer onAccept={() => setDisclaimerAccepted(true)} />

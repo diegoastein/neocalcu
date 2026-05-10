@@ -10,6 +10,7 @@ interface SettingsPanelProps {
   onThemeChange: (mode: ThemeMode) => void;
   canInstall: boolean;
   onInstall: () => void;
+  onDonate: () => Promise<void>;
 }
 
 const themeModes: { value: ThemeMode; label: string }[] = [
@@ -25,6 +26,7 @@ export default function SettingsPanel({
   onThemeChange,
   canInstall,
   onInstall,
+  onDonate,
 }: SettingsPanelProps) {
   const [copied, setCopied] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
@@ -165,22 +167,20 @@ export default function SettingsPanel({
             </a>
           </section>
 
-          {/* Cafecito */}
+          {/* Donación */}
           <section>
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
               Apoyá el proyecto
             </h3>
-            <a
-              href="https://cafecito.app/neomonitor"
-              rel="noopener"
-              target="_blank"
+            <button
+              onClick={() => { onClose(); onDonate(); }}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors"
             >
-              <img
-                srcSet="https://cdn.cafecito.app/imgs/buttons/button_4.png 1x, https://cdn.cafecito.app/imgs/buttons/button_4_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_4_3.75x.png 3.75x"
-                src="https://cdn.cafecito.app/imgs/buttons/button_4.png"
-                alt="Invitame un café en cafecito.app"
-              />
-            </a>
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
+                <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+              </svg>
+              Apoyá este proyecto — $3500
+            </button>
           </section>
 
           {/* Más de Neomonitor */}

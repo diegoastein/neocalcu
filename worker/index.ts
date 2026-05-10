@@ -4,7 +4,7 @@ interface Env {
   MP_WEBHOOK_SECRET: string;
 }
 
-const ALLOWED_ORIGINS = ['https://diegoastein.github.io', 'http://localhost:5173'];
+const ALLOWED_ORIGINS = ['https://diegoastein.github.io', 'http://localhost:5173', 'http://localhost:4173'];
 const MP_API = 'https://api.mercadopago.com';
 
 function corsHeaders(origin: string): HeadersInit {
