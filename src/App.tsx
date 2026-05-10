@@ -8,6 +8,8 @@ import ScoresPage from './pages/ScoresPage';
 import FavoritesPage from './pages/FavoritesPage';
 import FormulasPage from './pages/FormulasPage';
 import BottomNav from './components/BottomNav';
+import DonationToast from './components/DonationToast';
+import { useDonationReminder } from './hooks/useDonationReminder';
 
 function AppContent() {
   const [activePage, setActivePage] = useState<ActivePage>('medicamentos');
@@ -15,6 +17,7 @@ function AppContent() {
   const [focusedProcedureId, setFocusedProcedureId] = useState<string | null>(null);
   const [focusedScoreId, setFocusedScoreId] = useState<string | null>(null);
   const [focusedFormulaId, setFocusedFormulaId] = useState<string | null>(null);
+  const { showToast, dismissToast, handleDonate, handleVerify, loading } = useDonationReminder();
 
   const navigateToItem = (page: ActivePage, itemId?: string) => {
     if (page === 'procedimientos') setFocusedProcedureId(itemId || null);
@@ -31,6 +34,15 @@ function AppContent() {
       html.classList.remove('dark');
     }
   }, [isDark]);
+
+  // Verificar donación cuando MercadoPago redirige de vuelta con ?paid=1
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('paid') === '1') {
+      handleVerify();
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, [handleVerify]);
 
   const renderPage = () => {
     switch (activePage) {
@@ -63,6 +75,13 @@ function AppContent() {
         {renderPage()}
       </main>
       <BottomNav activePage={activePage} setActivePage={setActivePage} />
+      {showToast && (
+        <DonationToast
+          onDonate={handleDonate}
+          onDismiss={dismissToast}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }
