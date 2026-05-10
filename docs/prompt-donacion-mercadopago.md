@@ -1,5 +1,59 @@
 # NeoCalcu — Sistema de donación con MercadoPago + Cloudflare Workers
 
+## Antes de codear: configurar el MCP oficial de MercadoPago
+
+MercadoPago tiene un MCP oficial (en beta) que se integra con Claude Code y
+simplifica el setup de webhooks y el testing. Configurarlo primero ahorra tiempo.
+
+### Opción A — MCP remoto (recomendada)
+
+Agregar en `.claude/settings.json`:
+```json
+{
+  "mcpServers": {
+    "mercadopago": {
+      "type": "http",
+      "url": "https://mcp.mercadopago.com/mcp",
+      "headers": {
+        "Authorization": "Bearer TU_ACCESS_TOKEN"
+      }
+    }
+  }
+}
+```
+
+### Opción B — Plugin de slash commands
+
+```bash
+/plugin install mercadopago@mercadopago-claude-marketplace
+/mp-setup
+```
+
+### Tools del MCP disponibles para este proyecto
+
+| Tool | Cuándo usarla |
+|---|---|
+| `search_documentation` | Generar el código del Worker adaptado a Argentina |
+| `save_webhook` | Configurar la URL del webhook sin entrar al dashboard de MP |
+| `simulate_webhook` | Enviar un webhook de prueba al Worker para verificar que responde 200 |
+| `create_test_user` | Crear comprador sandbox para probar sin dinero real |
+| `add_money_test_user` | Agregarle saldo al comprador de prueba |
+| `quality_checklist` | Validar la integración antes de pasar a producción |
+
+### Flujo de trabajo con el MCP activo
+
+1. Pedirle a Claude Code: "Usá `search_documentation` para generar el código
+   del Cloudflare Worker con los tres endpoints `/crear-pago`, `/webhook`,
+   `/verificar` para Argentina."
+2. Deployar el Worker en Cloudflare.
+3. Pedirle: "Usá `save_webhook` para configurar `https://mi-worker.workers.dev/webhook`
+   como notification_url en mi cuenta de MercadoPago."
+4. Pedirle: "Usá `create_test_user` y `add_money_test_user`, luego
+   `simulate_webhook` para testear el Worker."
+5. Pedirle: "Ejecutá `quality_checklist` sobre mi integración."
+
+---
+
 ## Contexto del proyecto
 
 NeoCalcu es una PWA clínica offline (React 18 + TypeScript + Tailwind CSS v3 + Vite).
