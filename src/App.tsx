@@ -30,7 +30,7 @@ function AppContent() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
-  const { showToast, dismissToast, handleDonate, handleVerify, loading } = useDonationReminder();
+  const { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, loadingPlan } = useDonationReminder();
 
   const navigateToItem = (page: ActivePage, itemId?: string) => {
     if (page === 'procedimientos') setFocusedProcedureId(itemId || null);
@@ -126,7 +126,7 @@ function AppContent() {
           </svg>
         </button>
         <button
-          onClick={handleDonate}
+          onClick={() => handleDonate('mensual')}
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-700 hover:bg-brand-800 dark:bg-brand-800 dark:hover:bg-brand-900 text-white text-xs font-semibold transition-colors"
           aria-label="Apoyá este proyecto"
         >
@@ -151,6 +151,7 @@ function AppContent() {
         canInstall={!!installPrompt}
         onInstall={handleInstall}
         onDonate={handleDonate}
+        onRedeem={handleRedeem}
       />
 
       <FirstAccessDisclaimer onAccept={() => setDisclaimerAccepted(true)} />
@@ -159,7 +160,7 @@ function AppContent() {
         <DonationToast
           onDonate={handleDonate}
           onDismiss={dismissToast}
-          loading={loading}
+          loadingPlan={loadingPlan}
         />
       )}
     </div>

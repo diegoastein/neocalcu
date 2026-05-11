@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import DisclaimerModal from './DisclaimerModal';
+import { RedeemResult } from '../hooks/useDonationReminder';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -10,7 +11,8 @@ interface SettingsPanelProps {
   onThemeChange: (mode: ThemeMode) => void;
   canInstall: boolean;
   onInstall: () => void;
-  onDonate: () => Promise<void>;
+  onDonate: (plan: 'mensual' | 'anual') => Promise<void>;
+  onRedeem: (code: string) => Promise<RedeemResult>;
 }
 
 const themeModes: { value: ThemeMode; label: string }[] = [
@@ -18,6 +20,13 @@ const themeModes: { value: ThemeMode; label: string }[] = [
   { value: 'light', label: 'Día' },
   { value: 'dark', label: 'Noche' },
 ];
+
+const redeemMessages: Record<RedeemResult, string> = {
+  success: '¡Código canjeado! Gracias por tu apoyo.',
+  invalid: 'Código inválido. Revisá que esté bien escrito.',
+  used: 'Este código ya fue utilizado.',
+  error: 'Sin conexión. Intentá de nuevo.',
+};
 
 export default function SettingsPanel({
   isOpen,
@@ -27,9 +36,14 @@ export default function SettingsPanel({
   canInstall,
   onInstall,
   onDonate,
+  onRedeem,
 }: SettingsPanelProps) {
   const [copied, setCopied] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
+  const [couponOpen, setCouponOpen] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponResult, setCouponResult] = useState<RedeemResult | null>(null);
 
   const handleShare = async () => {
     const url = 'https://diegoastein.github.io/neocalcu/';
@@ -43,6 +57,22 @@ export default function SettingsPanel({
     }
   };
 
+  const handleRedeemSubmit = async () => {
+    if (!couponCode.trim()) return;
+    setCouponLoading(true);
+    setCouponResult(null);
+    const result = await onRedeem(couponCode);
+    setCouponResult(result);
+    setCouponLoading(false);
+    if (result === 'success') setCouponCode('');
+  };
+
+  const handleCouponToggle = () => {
+    setCouponOpen(v => !v);
+    setCouponResult(null);
+    setCouponCode('');
+  };
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -50,6 +80,15 @@ export default function SettingsPanel({
     if (isOpen) document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, [isOpen, onClose]);
+
+  // Resetear cupón al cerrar el panel
+  useEffect(() => {
+    if (!isOpen) {
+      setCouponOpen(false);
+      setCouponCode('');
+      setCouponResult(null);
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -172,15 +211,68 @@ export default function SettingsPanel({
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
               Apoyá el proyecto
             </h3>
-            <button
-              onClick={() => { onClose(); onDonate(); }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
-                <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
-              </svg>
-              Apoyá este proyecto — $3500
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => { onClose(); onDonate('mensual'); }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
+                  <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+                </svg>
+                Apoyo mensual — $3.500
+              </button>
+              <button
+                onClick={() => { onClose(); onDonate('anual'); }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-800 hover:bg-brand-900 text-white text-sm font-semibold transition-colors"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                Apoyo anual — $28.000
+              </button>
+
+              {/* Cupón */}
+              <button
+                onClick={handleCouponToggle}
+                className="text-xs text-slate-400 dark:text-slate-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors text-center pt-1"
+              >
+                ¿Tenés un código de regalo?
+              </button>
+
+              {couponOpen && (
+                <div className="mt-1 space-y-2">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={e => { setCouponCode(e.target.value.toUpperCase()); setCouponResult(null); }}
+                      onKeyDown={e => e.key === 'Enter' && handleRedeemSubmit()}
+                      placeholder="XXXXXXXX"
+                      maxLength={12}
+                      className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm font-mono tracking-widest placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      autoFocus
+                    />
+                    <button
+                      onClick={handleRedeemSubmit}
+                      disabled={couponLoading || !couponCode.trim()}
+                      className="px-3 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
+                    >
+                      {couponLoading ? (
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                        </svg>
+                      ) : 'Canjear'}
+                    </button>
+                  </div>
+                  {couponResult && (
+                    <p className={`text-xs px-1 ${couponResult === 'success' ? 'text-brand-600 dark:text-brand-400' : 'text-red-500 dark:text-red-400'}`}>
+                      {redeemMessages[couponResult]}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </section>
 
           {/* Más de Neomonitor */}
