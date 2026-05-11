@@ -2,13 +2,20 @@ interface Env {
   DONATIONS_KV: KVNamespace;
   MP_ACCESS_TOKEN: string;
   MP_WEBHOOK_SECRET: string;
+  ADMIN_SECRET: string;
 }
 
-const ALLOWED_ORIGINS = ['https://diegoastein.github.io', 'http://localhost:5173', 'http://localhost:4173'];
+interface DonationRecord {
+  ts: number;
+  plan: 'mensual' | 'anual';
+}
+
+const ALLOWED_ORIGINS = ['https://diegoastein.github.io'];
 const MP_API = 'https://api.mercadopago.com';
 
 function corsHeaders(origin: string): HeadersInit {
-  if (ALLOWED_ORIGINS.includes(origin)) {
+  const isAllowed = ALLOWED_ORIGINS.includes(origin) || /^http:\/\/localhost:\d+$/.test(origin);
+  if (isAllowed) {
     return {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -16,6 +23,20 @@ function corsHeaders(origin: string): HeadersInit {
     };
   }
   return {};
+}
+
+function generateCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+}
+
+function parseDonationRecord(value: string): DonationRecord {
+  try {
+    return JSON.parse(value) as DonationRecord;
+  } catch {
+    // Formato anterior: solo timestamp → asumir mensual
+    return { ts: parseInt(value), plan: 'mensual' };
+  }
 }
 
 async function verifySignature(
@@ -59,6 +80,7 @@ export default {
       return new Response(null, { status: 204, headers: cors });
     }
 
+    // ── Crear pago MercadoPago ─────────────────────────────────────────────
     if (url.pathname === '/crear-pago' && request.method === 'GET') {
       const device = url.searchParams.get('device');
       if (!device) {
@@ -68,9 +90,13 @@ export default {
         });
       }
 
+      const plan = url.searchParams.get('plan') ?? 'mensual';
+      const unitPrice = plan === 'anual' ? 28000 : 3500;
+      const itemTitle = plan === 'anual' ? 'Apoyo anual a NeoCalcu' : 'Apoyo mensual a NeoCalcu';
+
       const notificationUrl = `${url.protocol}//${url.host}/webhook`;
       const body = {
-        items: [{ title: 'Cafecito para NeoCalcu', quantity: 1, currency_id: 'ARS', unit_price: 3500 }],
+        items: [{ title: itemTitle, quantity: 1, currency_id: 'ARS', unit_price: unitPrice }],
         back_urls: {
           success: 'https://diegoastein.github.io/neocalcu/?paid=1',
           failure: 'https://diegoastein.github.io/neocalcu/?paid=0',
@@ -104,6 +130,7 @@ export default {
       });
     }
 
+    // ── Webhook MercadoPago ────────────────────────────────────────────────
     if (url.pathname === '/webhook' && request.method === 'POST') {
       const xSignature = request.headers.get('x-signature') || '';
       const xRequestId = request.headers.get('x-request-id') || '';
@@ -126,15 +153,22 @@ export default {
       });
 
       if (paymentRes.ok) {
-        const payment = (await paymentRes.json()) as { status: string; external_reference: string };
+        const payment = (await paymentRes.json()) as {
+          status: string;
+          external_reference: string;
+          transaction_amount: number;
+        };
         if (payment.status === 'approved' && payment.external_reference) {
-          await env.DONATIONS_KV.put(payment.external_reference, Date.now().toString());
+          const plan: 'mensual' | 'anual' = payment.transaction_amount >= 28000 ? 'anual' : 'mensual';
+          const record: DonationRecord = { ts: Date.now(), plan };
+          await env.DONATIONS_KV.put(payment.external_reference, JSON.stringify(record));
         }
       }
 
       return new Response('ok', { status: 200 });
     }
 
+    // ── Verificar donación ─────────────────────────────────────────────────
     if (url.pathname === '/verificar' && request.method === 'GET') {
       const device = url.searchParams.get('device');
       if (!device) {
@@ -145,12 +179,78 @@ export default {
 
       const value = await env.DONATIONS_KV.get(device);
       if (value) {
-        return new Response(JSON.stringify({ donated: true, timestamp: value }), {
+        const record = parseDonationRecord(value);
+        return new Response(JSON.stringify({ donated: true, timestamp: record.ts.toString(), plan: record.plan }), {
           headers: { 'Content-Type': 'application/json', ...cors },
         });
       }
 
       return new Response(JSON.stringify({ donated: false }), {
+        headers: { 'Content-Type': 'application/json', ...cors },
+      });
+    }
+
+    // ── Generar cupón (admin) ──────────────────────────────────────────────
+    if (url.pathname === '/generar-cupon' && request.method === 'GET') {
+      const secret = url.searchParams.get('secret');
+      if (!secret || secret !== env.ADMIN_SECRET) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      const plan: 'mensual' | 'anual' = url.searchParams.get('plan') === 'anual' ? 'anual' : 'mensual';
+      const code = (url.searchParams.get('code') ?? generateCode()).toUpperCase();
+      const existing = await env.DONATIONS_KV.get(`coupon:${code}`);
+      if (existing) {
+        return new Response(JSON.stringify({ error: 'code_exists', code }), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify({ active: true, createdAt: Date.now(), plan }));
+      return new Response(JSON.stringify({ code, plan }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // ── Canjear cupón ─────────────────────────────────────────────────────
+    if (url.pathname === '/canjear-cupon' && request.method === 'GET') {
+      const device = url.searchParams.get('device');
+      const code = url.searchParams.get('code')?.toUpperCase();
+
+      if (!device || !code) {
+        return new Response(JSON.stringify({ error: 'missing_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const couponRaw = await env.DONATIONS_KV.get(`coupon:${code}`);
+      if (!couponRaw) {
+        return new Response(JSON.stringify({ error: 'invalid_code' }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const coupon = JSON.parse(couponRaw) as { active: boolean; plan: 'mensual' | 'anual' };
+      if (!coupon.active) {
+        return new Response(JSON.stringify({ error: 'used_code' }), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const now = Date.now();
+      const plan = coupon.plan ?? 'mensual';
+      await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify({ active: false, usedBy: device, usedAt: now, plan }));
+      const record: DonationRecord = { ts: now, plan };
+      await env.DONATIONS_KV.put(device, JSON.stringify(record));
+
+      return new Response(JSON.stringify({ success: true, plan }), {
         headers: { 'Content-Type': 'application/json', ...cors },
       });
     }
