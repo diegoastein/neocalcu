@@ -243,7 +243,8 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - Para redesployar: `CLOUDFLARE_API_TOKEN=... npx wrangler deploy --cwd worker`
 
 ### Precio y configuración
-- Monto: **ARS $3.500** (editar `unit_price` en `worker/index.ts` y redesployar)
+- Plan mensual: **ARS $3.500** | Plan anual: **ARS $28.000** (editar precios en `worker/index.ts` y redesployar)
+- El worker recibe `?plan=mensual|anual` y usa el precio correspondiente
 - Toast cada **5 aperturas** (editar `% 5` en `src/hooks/useDonationReminder.ts`)
 - Supresión de **30 días** tras donación verificada (`THIRTY_DAYS_MS` en el hook)
 
