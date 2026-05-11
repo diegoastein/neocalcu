@@ -26,6 +26,22 @@ function isDonationActive(): boolean {
   return Date.now() - parseInt(donatedAt) < duration;
 }
 
+export interface MembershipInfo {
+  active: boolean;
+  plan: 'mensual' | 'anual' | null;
+  expiresAt: Date | null;
+}
+
+function getMembershipInfo(): MembershipInfo {
+  const donatedAt = localStorage.getItem(DONATED_AT_KEY);
+  if (!donatedAt) return { active: false, plan: null, expiresAt: null };
+  const plan = (localStorage.getItem(DONATED_PLAN_KEY) ?? 'mensual') as 'mensual' | 'anual';
+  const duration = plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+  const ts = parseInt(donatedAt);
+  const active = Date.now() - ts < duration;
+  return { active, plan, expiresAt: new Date(ts + duration) };
+}
+
 interface VerifyResponse {
   donated: boolean;
   timestamp?: string;
@@ -47,6 +63,11 @@ export type RedeemResult = 'success' | 'invalid' | 'used' | 'error';
 export function useDonationReminder() {
   const [showToast, setShowToast] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState<'mensual' | 'anual' | null>(null);
+  const [membership, setMembership] = useState<MembershipInfo>(() => getMembershipInfo());
+
+  const refreshMembership = useCallback(() => {
+    setMembership(getMembershipInfo());
+  }, []);
 
   useEffect(() => {
     if (isDonationActive()) return;
@@ -63,6 +84,7 @@ export function useDonationReminder() {
         if (data.donated) {
           localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
           if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
+          refreshMembership();
         } else {
           setShowToast(true);
         }
@@ -70,7 +92,7 @@ export function useDonationReminder() {
       .catch(() => {
         // Sin conexión — no molestar al usuario
       });
-  }, []);
+  }, [refreshMembership]);
 
   const dismissToast = useCallback(() => {
     setShowToast(false);
@@ -99,11 +121,12 @@ export function useDonationReminder() {
         localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
         if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
         setShowToast(false);
+        refreshMembership();
       }
     } catch {
       // Sin conexión — falla silenciosamente
     }
-  }, []);
+  }, [refreshMembership]);
 
   const handleRedeem = useCallback(async (code: string): Promise<RedeemResult> => {
     try {
@@ -114,6 +137,7 @@ export function useDonationReminder() {
         localStorage.setItem(DONATED_AT_KEY, Date.now().toString());
         localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
         setShowToast(false);
+        refreshMembership();
         return 'success';
       }
       if (data.error === 'invalid_code') return 'invalid';
@@ -122,7 +146,7 @@ export function useDonationReminder() {
     } catch {
       return 'error';
     }
-  }, []);
+  }, [refreshMembership]);
 
-  return { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, loadingPlan };
+  return { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, loadingPlan, membership };
 }
