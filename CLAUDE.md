@@ -253,7 +253,7 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - `neo_open_count` — contador de aperturas
 - `neo_donated_at` — timestamp de última donación verificada
 
-## Estado actual (2026-05-10)
+## Estado actual (2026-05-11)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -285,6 +285,8 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - ✅ **Fórmulas** (12): BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CaO₂, Balance Hidroelectrolítico, BSA simplificada, Capacidad Cilindro O₂
 - ✅ Selector único con `<optgroup>` para separar índices de fórmulas
 - ✅ PatientInput siempre visible para auto-rellenar peso
+- ✅ Todos los inputs de fórmulas son visibles y editables (incluyendo peso, pre-poblado desde contexto del paciente)
+- ✅ BSA simplificada corregida: fórmula usa kg directamente (`Math.pow(peso, 0.67) * 4.84 / 100`)
 
 **Laboratorio (LaboratoryPage):**
 - ✅ **12 categorías, 85 parámetros**: Gasometría, Hemograma, Electrolitos, Química básica, Función hepática, Coagulación, Infección/Inflamación, Función tiroidea, LCR, Análisis de orina, Marcadores cardíacos, Metabólico/Endócrino
@@ -302,15 +304,18 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - ✅ Botón **"Apoyar"** (brand colors) en vértice superior derecho del header → abre checkout MercadoPago
 - ✅ Selector de tema: Sistema / Día / Noche (persiste en `localStorage`)
 - ✅ Botón de instalación PWA (visible solo cuando el navegador lo permite)
-- ✅ Botón "Apoyá este proyecto — $3500" en SettingsPanel → mismo flujo MercadoPago
+- ✅ Dos botones de apoyo: "Apoyo mensual — $3.500" y "Apoyo anual — $28.000" en SettingsPanel y Toast
+- ✅ Sección de cupones: "¿Tenés un código de regalo?" → input inline con feedback inmediato
 - ✅ Contacto: info@neomonitor.pro
 - ✅ Enlace "Más de Neomonitor" → www.getneomonitor.pro
 - ✅ Aviso legal / disclaimer de responsabilidad
 
 **Sistema de donación:**
-- ✅ Toast cada 5 aperturas con countdown de 30s
+- ✅ Toast cada 5 aperturas con countdown de 30s — cubre el BottomNav desde `bottom-0`
+- ✅ Dos planes: mensual ($3.500, suprime 30 días) y anual ($28.000, suprime 365 días)
+- ✅ Sistema de cupones: `/generar-cupon` (admin) y `/canjear-cupon` (usuario)
 - ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
-- ✅ Supresión de 30 días tras donación verificada
+- ✅ `neo_donated_plan` en localStorage guarda el plan canjeado/pagado
 - ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
 
 **Deploy:**
