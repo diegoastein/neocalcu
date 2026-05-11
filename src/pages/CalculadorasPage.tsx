@@ -282,39 +282,24 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
 
             <section className="space-y-3">
               <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
-              {currentFormula.inputs
-                .filter((input) => {
-                  if (input.id !== 'peso') return true;
-                  const hasFormula = currentFormula.formula?.includes('peso');
-                  const hasCalculations = Object.values(currentFormula.calculations || {}).some((calc: any) =>
-                    calc.toString().includes('peso')
-                  );
-                  return !(hasFormula || hasCalculations);
-                })
-                .map((input) => (
-                  <div key={input.id}>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                      {input.label} ({input.unit})
-                      {input.required && <span className="text-red-500 ml-1">*</span>}
-                    </label>
-                    <input
-                      type="number"
-                      value={inputs[input.id] || ''}
-                      onChange={(e) => {
-                        const value = parseFloat(e.target.value);
-                        if (!isNaN(value)) setInputs({ ...inputs, [input.id]: value });
-                      }}
-                      placeholder={`Ingresa ${input.label.toLowerCase()}`}
-                      className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
-                    />
-                  </div>
-                ))}
-              {currentFormula.formula && currentFormula.formula.includes('peso') && (
-                <div className="bg-slate-100 dark:bg-slate-800 rounded p-2 text-xs text-slate-600 dark:text-slate-300">
-                  <p className="font-medium mb-1">Peso registrado:</p>
-                  <p>{(patient.weightGrams / 1000).toFixed(2)} kg ({patient.weightGrams} g)</p>
+              {currentFormula.inputs.map((input) => (
+                <div key={input.id}>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    {input.label} ({input.unit})
+                    {input.required && <span className="text-red-500 ml-1">*</span>}
+                  </label>
+                  <input
+                    type="number"
+                    value={inputs[input.id] || ''}
+                    onChange={(e) => {
+                      const value = parseFloat(e.target.value);
+                      if (!isNaN(value)) setInputs({ ...inputs, [input.id]: value });
+                    }}
+                    placeholder={`Ingresa ${input.label.toLowerCase()}`}
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
+                  />
                 </div>
-              )}
+              ))}
             </section>
 
             {!currentFormula.calculations && allRequiredInputsFilled && formulaResult !== null && (

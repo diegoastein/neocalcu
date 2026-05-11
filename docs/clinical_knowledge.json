@@ -10815,11 +10815,11 @@
         {
           "id": "peso",
           "label": "Peso",
-          "unit": "g",
+          "unit": "kg",
           "required": true
         }
       ],
-      "formula": "Math.pow(peso / 1000, 0.67) * 4.84 / 100",
+      "formula": "Math.pow(peso, 0.67) * 4.84 / 100",
       "resultLabel": "Superficie Corporal (estimada)",
       "resultUnit": "m²",
       "notes": "Aproximación válida para RN y lactantes",
