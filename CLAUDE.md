@@ -95,9 +95,9 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
-- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), botón "Apoyá este proyecto" (llama a `onDonate`), contacto, enlace Neomonitor, aviso legal.
-- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 5 aperturas si el usuario no donó. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `loading`.
-- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación: contador en localStorage (`neo_open_count`), supresión de 30 días (`neo_donated_at`), `device_id` único (`neo_device_id`). Exporta `showToast`, `dismissToast`, `handleDonate`, `handleVerify`, `loading`. Falla silenciosamente sin conexión.
+- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate`, `onRedeem`, `membership`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), sección de apoyo (ver abajo), contacto, enlace Neomonitor, aviso legal. La sección de apoyo es condicional: si `membership.active` muestra una card verde "¡Gracias por apoyar NeoCalcu!" con tipo de plan y fecha de vencimiento; si no, muestra los botones de pago y el canje de cupón.
+- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 5 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `loading`.
+- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `handleDonate`, `handleVerify`, `handleRedeem`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión.
 
 ### Páginas y navegación
 
@@ -216,7 +216,7 @@ Metadatos opcionales:
 - Colores `brand-*` (verde esmeralda: `#022c22` a `#ecfdf5`, incluye `950`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
 - **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
 - Dark mode con tres modos: **Sistema** (sigue `prefers-color-scheme`), **Día**, **Noche** — controlado desde `SettingsPanel`. El estado `themeMode: 'system'|'light'|'dark'` persiste en `localStorage`
-- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + botón **"Apoyar"** (vértice superior derecho) con colores brand (`bg-brand-700`, texto blanco, ícono SVG de taza) que llama a `handleDonate()` del hook `useDonationReminder`
+- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + elemento dinámico en vértice superior derecho: si la membresía está activa → badge verde con corazón "¡Gracias!" (no clickeable); si no → botón **"Apoyar"** (brand colors, ícono SVG de taza) que llama a `handleDonate()`
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
@@ -253,7 +253,7 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - `neo_open_count` — contador de aperturas
 - `neo_donated_at` — timestamp de última donación verificada
 
-## Estado actual (2026-05-11)
+## Estado actual (2026-05-11, últ. actualización 2026-05-11)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -301,21 +301,21 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 **Configuración (SettingsPanel):**
 - ✅ Ícono hamburguesa en vértice superior izquierdo del header
-- ✅ Botón **"Apoyar"** (brand colors) en vértice superior derecho del header → abre checkout MercadoPago
+- ✅ Elemento dinámico en vértice superior derecho: badge verde "¡Gracias!" (membresía activa) o botón "Apoyar" (sin membresía)
 - ✅ Selector de tema: Sistema / Día / Noche (persiste en `localStorage`)
 - ✅ Botón de instalación PWA (visible solo cuando el navegador lo permite)
-- ✅ Dos botones de apoyo: "Apoyo mensual — $3.500" y "Apoyo anual — $28.000" en SettingsPanel y Toast
-- ✅ Sección de cupones: "¿Tenés un código de regalo?" → input inline con feedback inmediato
+- ✅ Sección de apoyo condicional en SettingsPanel: card verde con fecha de vencimiento (membresía activa) o botones de pago + cupón (sin membresía)
 - ✅ Contacto: info@neomonitor.pro
 - ✅ Enlace "Más de Neomonitor" → www.getneomonitor.pro
 - ✅ Aviso legal / disclaimer de responsabilidad
 
 **Sistema de donación:**
-- ✅ Toast cada 5 aperturas con countdown de 30s — cubre el BottomNav desde `bottom-0`
+- ✅ Toast cada 5 aperturas con countdown de 30s — cubre el BottomNav desde `bottom-0`; no aparece si la membresía está activa
 - ✅ Dos planes: mensual ($3.500, suprime 30 días) y anual ($28.000, suprime 365 días)
 - ✅ Sistema de cupones: `/generar-cupon` (admin) y `/canjear-cupon` (usuario)
 - ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
 - ✅ `neo_donated_plan` en localStorage guarda el plan canjeado/pagado
+- ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía hook
 - ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
 
 **Deploy:**
