@@ -230,16 +230,17 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 ### Arquitectura
 1. `device_id` único por dispositivo (UUID en localStorage)
-2. Botón "Apoyar" (header) o toast (cada 5 aperturas) → llama al Worker → crea preferencia de pago en MercadoPago
+2. Botón "Apoyar" (header) o toast (cada 3 aperturas) → llama al Worker → crea preferencia de pago en MercadoPago
 3. Usuario paga → MercadoPago dispara webhook al Worker → Worker guarda `device_id` en KV Store
 4. App vuelve con `?paid=1` → verifica con Worker → suprime toast 30 días
 
 ### Worker (`worker/`)
 - Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
-- Endpoints: `GET /crear-pago`, `POST /webhook`, `GET /verificar`
-- Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`
+- **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon`
+- **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `POST /admin/generar-contenido`
+- Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `ADMIN_SECRET`, `ANTHROPIC_API_KEY`
 - KV namespace: `DONATIONS_KV` (id: `594254b8fb874cea90ae91bb21fa52ad`)
-- CORS: permite `https://diegoastein.github.io`, `http://localhost:5173`, `http://localhost:4173`
+- CORS: endpoints públicos permiten `https://diegoastein.github.io` + localhost; endpoints admin permiten `*` (protegidos por secret)
 - Para redesployar: `CLOUDFLARE_API_TOKEN=... npx wrangler deploy --cwd worker`
 
 ### Precio y configuración
@@ -253,7 +254,33 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - `neo_open_count` — contador de aperturas
 - `neo_donated_at` — timestamp de última donación verificada
 
-## Estado actual (2026-05-11, últ. actualización 2026-05-11)
+## Dashboard admin (`neocalcu-admin`)
+
+Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoastein/neocalcu-admin`. Hosteada en Cloudflare Pages, protegida con Cloudflare Access (solo `diegosteinberg@gmail.com`).
+
+### Secciones
+- **Dashboard** — métricas en tiempo real via Worker: dispositivos totales, membresías activas (mensual/anual), cupones disponibles/usados, ingresos estimados
+- **Cupones** — generar cupones individuales o en lote (hasta 50), tabla de activos/usados, copy directo
+- **Contenido** — generador de material para Instagram y WhatsApp via Claude Haiku (`claude-haiku-4-5-20251001`):
+  - **Post** → tarjeta visual editable (título/cuerpo/hashtags) → descarga PNG 1080×1080
+  - **Reel** → 4 slides editables en formato 9:16 (GANCHO/PROBLEMA/SOLUCIÓN/CTA) → descarga PNG individual para importar en Instagram o CapCut
+  - **Stories** → secuencia de 4 slides en texto
+  - **WhatsApp** → mensaje para grupos médicos
+  - **Novedades** → release notes en tono clínico
+
+### Configuración del dashboard
+- `VITE_ADMIN_SECRET` — variable de entorno en Cloudflare Pages (misma clave que `ADMIN_SECRET` del Worker)
+- `ANTHROPIC_API_KEY` — secret en el Worker (no en el frontend)
+- Stack: Vite + React + TypeScript + Tailwind + html-to-image
+- Deploy: push a `main` → Cloudflare Pages rebuilds automáticamente
+
+### Prompts de contenido
+- Tono rioplatense, directo, "de colega a colega"
+- Siempre "UCIN", nunca "NICU"
+- Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
+- Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
+
+## Estado actual (2026-05-12, últ. actualización 2026-05-12)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -310,13 +337,21 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - ✅ Aviso legal / disclaimer de responsabilidad
 
 **Sistema de donación:**
-- ✅ Toast cada 5 aperturas con countdown de 30s — cubre el BottomNav desde `bottom-0`; no aparece si la membresía está activa
+- ✅ Toast cada **3 aperturas** con countdown de 30s — cubre el BottomNav desde `bottom-0`; no aparece si la membresía está activa
 - ✅ Dos planes: mensual ($3.500, suprime 30 días) y anual ($28.000, suprime 365 días)
 - ✅ Sistema de cupones: `/generar-cupon` (admin) y `/canjear-cupon` (usuario)
 - ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
 - ✅ `neo_donated_plan` en localStorage guarda el plan canjeado/pagado
 - ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía hook
 - ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
+
+**Dashboard admin (`neocalcu-admin`):**
+- ✅ Hosteado en Cloudflare Pages, protegido con Cloudflare Access
+- ✅ Dashboard de métricas en tiempo real (dispositivos, membresías, ingresos estimados)
+- ✅ Gestión de cupones: generar individual/lote, tabla de activos/usados
+- ✅ Generador de contenido con Claude Haiku: Post (PNG 1080×1080), Reel (4 slides PNG 9:16), Stories, WhatsApp, Release notes
+- ✅ Tono rioplatense, UCIN (no NICU), prompts directos sin frases de marketing
+- ✅ Banco de contenido guardado en localStorage
 
 **Deploy:**
 - ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
