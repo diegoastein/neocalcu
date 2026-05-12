@@ -94,7 +94,8 @@ export function PatientProvider({ children }: { children: ReactNode }) {
 
   const removePatient = (id: string) => {
     if (savedPatients.length <= 1) return;
-    const updated = savedPatients.filter((p) => p.id !== id);
+    let updated = savedPatients.filter((p) => p.id !== id);
+    if (updated.length === 1) updated = [{ ...updated[0], label: 'Paciente' }];
     persist(updated);
     if (activeId === id) switchPatient(updated[0].id);
   };
