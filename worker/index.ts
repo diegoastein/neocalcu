@@ -388,10 +388,49 @@ export default {
         });
       }
 
+      // Invalidar el dispositivo anterior para que la suscripción quede en uno solo
+      if (emailRecord.deviceId && emailRecord.deviceId !== device) {
+        await env.DONATIONS_KV.delete(emailRecord.deviceId);
+      }
       await env.DONATIONS_KV.put(device, JSON.stringify(record));
       await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify({ deviceId: device, ts: emailRecord.ts, plan: emailRecord.plan } as EmailRecord));
 
       return new Response(JSON.stringify({ success: true, plan: record.plan, timestamp: record.ts.toString() }), {
+        headers: { 'Content-Type': 'application/json', ...cors },
+      });
+    }
+
+    // ── Registrar email del suscriptor ────────────────────────────────────
+    if (url.pathname === '/registrar-email' && request.method === 'GET') {
+      const device = url.searchParams.get('device');
+      const email = url.searchParams.get('email')?.toLowerCase().trim();
+
+      if (!device || !email) {
+        return new Response(JSON.stringify({ error: 'missing_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const raw = await env.DONATIONS_KV.get(device);
+      if (!raw) {
+        return new Response(JSON.stringify({ error: 'not_found' }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const record = parseDonationRecord(raw);
+      if (!isMembershipActive(record)) {
+        return new Response(JSON.stringify({ error: 'expired' }), {
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const emailRecord: EmailRecord = { deviceId: device, ts: record.ts, plan: record.plan };
+      await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify(emailRecord));
+
+      return new Response(JSON.stringify({ success: true }), {
         headers: { 'Content-Type': 'application/json', ...cors },
       });
     }
