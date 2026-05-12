@@ -35,6 +35,12 @@ function init(): { patients: SavedPatient[]; activeId: string } {
     if (stored) patients = JSON.parse(stored);
   } catch {}
 
+  // Si solo hay 1 paciente con nombre personalizado, resetearlo
+  if (patients.length === 1 && patients[0].label !== 'Paciente') {
+    patients[0] = { ...patients[0], label: 'Paciente' };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(patients));
+  }
+
   if (patients.length === 0) {
     // Migrar desde sessionStorage si existe
     let initial: Patient = { weightGrams: 0 };
