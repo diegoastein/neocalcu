@@ -13,6 +13,7 @@ import FirstAccessDisclaimer from './components/FirstAccessDisclaimer';
 import DonationToast from './components/DonationToast';
 import EmailCaptureModal from './components/EmailCaptureModal';
 import { useDonationReminder } from './hooks/useDonationReminder';
+import { MembershipProvider } from './context/MembershipContext';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -118,6 +119,7 @@ function AppContent() {
   };
 
   return (
+    <MembershipProvider membership={membership}>
     <div className="h-screen flex flex-col bg-white dark:bg-slate-950">
       {/* Header */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-4 py-2 flex items-center justify-between">
@@ -192,6 +194,7 @@ function AppContent() {
         />
       )}
     </div>
+    </MembershipProvider>
   );
 }
 
