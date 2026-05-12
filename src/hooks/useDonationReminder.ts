@@ -75,7 +75,7 @@ export function useDonationReminder() {
     const count = parseInt(localStorage.getItem(OPEN_COUNT_KEY) || '0') + 1;
     localStorage.setItem(OPEN_COUNT_KEY, count.toString());
 
-    if (count % 5 !== 0) return;
+    if (count % 3 !== 0) return;
 
     const deviceId = getOrCreateDeviceId();
     fetch(`${WORKER_URL}/verificar?device=${deviceId}`)

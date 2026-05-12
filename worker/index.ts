@@ -3,6 +3,7 @@ interface Env {
   MP_ACCESS_TOKEN: string;
   MP_WEBHOOK_SECRET: string;
   ADMIN_SECRET: string;
+  ANTHROPIC_API_KEY: string;
 }
 
 interface DonationRecord {
@@ -10,8 +11,18 @@ interface DonationRecord {
   plan: 'mensual' | 'anual';
 }
 
+interface CouponRecord {
+  active: boolean;
+  createdAt: number;
+  plan: 'mensual' | 'anual';
+  usedBy?: string;
+  usedAt?: number;
+}
+
 const ALLOWED_ORIGINS = ['https://diegoastein.github.io'];
 const MP_API = 'https://api.mercadopago.com';
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
 function corsHeaders(origin: string): HeadersInit {
   const isAllowed = ALLOWED_ORIGINS.includes(origin) || /^http:\/\/localhost:\d+$/.test(origin);
@@ -25,6 +36,13 @@ function corsHeaders(origin: string): HeadersInit {
   return {};
 }
 
+// Admin endpoints permiten cualquier origen (protegidos por ADMIN_SECRET)
+const adminCors: HeadersInit = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Secret',
+};
+
 function generateCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
@@ -34,9 +52,13 @@ function parseDonationRecord(value: string): DonationRecord {
   try {
     return JSON.parse(value) as DonationRecord;
   } catch {
-    // Formato anterior: solo timestamp → asumir mensual
     return { ts: parseInt(value), plan: 'mensual' };
   }
+}
+
+function isMembershipActive(record: DonationRecord): boolean {
+  const duration = record.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+  return Date.now() - record.ts < duration;
 }
 
 async function verifySignature(
@@ -70,6 +92,76 @@ async function verifySignature(
   return computed === v1;
 }
 
+function checkAdminAuth(request: Request, url: URL, env: Env): boolean {
+  const secretParam = url.searchParams.get('secret');
+  const secretHeader = request.headers.get('X-Admin-Secret');
+  return (secretParam ?? secretHeader) === env.ADMIN_SECRET;
+}
+
+const CONTENT_SYSTEM_PROMPT = `Sos el community manager de NeoCalcu, una app de neonatología usada en Argentina. La usan médicos y enfermeras en la UCIN: calcula dosis de medicamentos, procedimientos neonatales, índices clínicos (Silverman, Apgar, bilirrubina NICE, screening ROP, Finnegan) y laboratorio neonatal. Es gratuita con suscripción voluntaria de $3.500/mes o $28.000/año.
+
+Tono: directo, de colega a colega. Como alguien que trabaja en la UCIN y encontró algo útil. Sin marketing, sin "revolucionario", sin "potente herramienta", sin "nos complace anunciar". Frases cortas y concretas.
+
+Reglas fijas:
+- Siempre "UCIN", nunca "NICU"
+- Español rioplatense: vos, ustedes
+- No inventés funciones que no existen
+- Devolvés solo el contenido pedido, sin explicaciones ni preambles`;
+
+type ContentType = 'post' | 'reel' | 'story' | 'whatsapp' | 'release';
+
+function buildContentPrompt(tipo: ContentType, contexto: string): string {
+  const prompts: Record<ContentType, string> = {
+    post: `Generá el contenido para un post de Instagram sobre NeoCalcu:
+
+"${contexto}"
+
+Devolvé ÚNICAMENTE este JSON válido, sin markdown, sin texto adicional:
+{"headline":"[título directo, máximo 8 palabras, sin signos de admiración innecesarios]","body":"[2-3 oraciones directas y útiles, máximo 180 caracteres, con emoji solo si aporta]","hashtags":"#neonatología #UCIN #pediatría #neonatólogos #medicamentos #calculadoramédica [3-4 hashtags más específicos al tema]"}`,
+
+    reel: `Generá el contenido para un Reel de Instagram (4 slides) sobre NeoCalcu:
+
+"${contexto}"
+
+Devolvé ÚNICAMENTE este JSON válido, sin markdown, sin texto adicional:
+{"slides":[{"label":"GANCHO","text":"[pregunta o dato que para el scroll, máx 10 palabras]"},{"label":"PROBLEMA","text":"[el dolor concreto que resuelve, máx 15 palabras]"},{"label":"SOLUCIÓN","text":"[cómo NeoCalcu lo resuelve, específico, máx 20 palabras]"},{"label":"CTA","text":"[acción concreta y simple, máx 8 palabras]"}]}`,
+
+    story: `Diseñá una secuencia de 4 stories de Instagram para comunicar:
+
+"${contexto}"
+
+Para cada story:
+SLIDE N | TEXTO PRINCIPAL: [1-2 líneas, tipografía grande] | INTERACTIVO: [encuesta/pregunta si aplica]
+
+El último slide tiene CTA con el link de la app. Tono directo, sin frases de relleno.`,
+
+    whatsapp: `Redactá un mensaje para grupos de WhatsApp de médicos neonatólogos sobre:
+
+"${contexto}"
+
+Máximo 4 líneas. Profesional y directo. Sin saludos genéricos. Incluí el link: https://diegoastein.github.io/neocalcu/
+Máximo 2 emojis. Apropiado para grupos con jefes de servicio.
+
+Devolvé solo el mensaje.`,
+
+    release: `Generá las novedades de NeoCalcu para comunicar a los usuarios:
+
+"${contexto}"
+
+Formato:
+🆕 Novedades — [mes año]
+
+• [emoji] [novedad en una línea, orientada al beneficio clínico]
+• ...
+
+[línea final agradeciendo a suscriptores]
+
+Sin jerga técnica. Como se lo contarías a un colega.`,
+  };
+
+  return prompts[tipo];
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -77,7 +169,8 @@ export default {
     const cors = corsHeaders(origin);
 
     if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: cors });
+      const isAdmin = url.pathname.startsWith('/admin/');
+      return new Response(null, { status: 204, headers: isAdmin ? adminCors : cors });
     }
 
     // ── Crear pago MercadoPago ─────────────────────────────────────────────
@@ -252,6 +345,188 @@ export default {
 
       return new Response(JSON.stringify({ success: true, plan }), {
         headers: { 'Content-Type': 'application/json', ...cors },
+      });
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // ENDPOINTS DE ADMIN
+    // ══════════════════════════════════════════════════════════════════════
+
+    // ── Admin: estadísticas ────────────────────────────────────────────────
+    if (url.pathname === '/admin/stats' && request.method === 'GET') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      // Listar todas las keys (paginado, máx 1000 por llamada)
+      let deviceCount = 0;
+      let activeMensual = 0;
+      let activeAnual = 0;
+      let couponActive = 0;
+      let couponUsed = 0;
+      let cursor: string | undefined;
+
+      do {
+        const result = await env.DONATIONS_KV.list({ cursor, limit: 1000 });
+        for (const key of result.keys) {
+          if (key.name.startsWith('coupon:')) {
+            const raw = await env.DONATIONS_KV.get(key.name);
+            if (raw) {
+              const c = JSON.parse(raw) as CouponRecord;
+              if (c.active) couponActive++;
+              else couponUsed++;
+            }
+          } else {
+            deviceCount++;
+            const raw = await env.DONATIONS_KV.get(key.name);
+            if (raw) {
+              const record = parseDonationRecord(raw);
+              if (isMembershipActive(record)) {
+                if (record.plan === 'anual') activeAnual++;
+                else activeMensual++;
+              }
+            }
+          }
+        }
+        cursor = result.list_complete ? undefined : (result as { cursor?: string }).cursor;
+      } while (cursor);
+
+      const revenueEstimate = activeMensual * 3500 + activeAnual * 28000;
+
+      return new Response(JSON.stringify({
+        deviceCount,
+        activeMensual,
+        activeAnual,
+        activeTotal: activeMensual + activeAnual,
+        couponActive,
+        couponUsed,
+        revenueEstimate,
+      }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: listar cupones ──────────────────────────────────────────────
+    if (url.pathname === '/admin/coupons' && request.method === 'GET') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const keys = await env.DONATIONS_KV.list({ prefix: 'coupon:' });
+      const coupons = await Promise.all(
+        keys.keys.map(async key => {
+          const raw = await env.DONATIONS_KV.get(key.name);
+          const code = key.name.replace('coupon:', '');
+          if (!raw) return { code, active: false, plan: 'mensual', createdAt: 0 };
+          const data = JSON.parse(raw) as CouponRecord;
+          return { code, ...data };
+        })
+      );
+
+      // Más recientes primero
+      coupons.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+
+      return new Response(JSON.stringify({ coupons }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: generar cupón (desde dashboard) ────────────────────────────
+    if (url.pathname === '/admin/generar-cupon' && request.method === 'POST') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const body = (await request.json()) as { plan?: string; cantidad?: number; code?: string };
+      const plan: 'mensual' | 'anual' = body.plan === 'anual' ? 'anual' : 'mensual';
+      const cantidad = Math.min(Math.max(parseInt(String(body.cantidad ?? 1)), 1), 50);
+
+      const generated: string[] = [];
+      for (let i = 0; i < cantidad; i++) {
+        const code = body.code ? body.code.toUpperCase() : generateCode();
+        const exists = await env.DONATIONS_KV.get(`coupon:${code}`);
+        if (!exists) {
+          await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify({ active: true, createdAt: Date.now(), plan }));
+          generated.push(code);
+        }
+      }
+
+      return new Response(JSON.stringify({ generated, plan }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: generar contenido con IA ───────────────────────────────────
+    if (url.pathname === '/admin/generar-contenido' && request.method === 'POST') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const body = (await request.json()) as { tipo: ContentType; contexto: string };
+      const { tipo, contexto } = body;
+
+      if (!tipo || !contexto) {
+        return new Response(JSON.stringify({ error: 'missing_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const userPrompt = buildContentPrompt(tipo, contexto);
+
+      const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': env.ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 1200,
+          system: CONTENT_SYSTEM_PROMPT,
+          messages: [{ role: 'user', content: userPrompt }],
+        }),
+      });
+
+      if (!anthropicRes.ok) {
+        const err = await anthropicRes.text();
+        return new Response(JSON.stringify({ error: err }), {
+          status: 502,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const data = (await anthropicRes.json()) as {
+        content: Array<{ type: string; text: string }>;
+      };
+      const text = data.content.find(c => c.type === 'text')?.text ?? '';
+
+      // Para post y reel, intentar parsear JSON estructurado
+      let structured: Record<string, unknown> | null = null;
+      if (tipo === 'post' || tipo === 'reel') {
+        try {
+          const jsonMatch = text.match(/\{[\s\S]*\}/);
+          if (jsonMatch) structured = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
+        } catch {
+          // Fallback a texto plano
+        }
+      }
+
+      return new Response(JSON.stringify({ content: text, structured }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }
 

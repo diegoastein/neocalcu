@@ -245,7 +245,7 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 ### Precio y configuración
 - Plan mensual: **ARS $3.500** | Plan anual: **ARS $28.000** (editar precios en `worker/index.ts` y redesployar)
 - El worker recibe `?plan=mensual|anual` y usa el precio correspondiente
-- Toast cada **5 aperturas** (editar `% 5` en `src/hooks/useDonationReminder.ts`)
+- Toast cada **3 aperturas** (editar `% 3` en `src/hooks/useDonationReminder.ts`)
 - Supresión de **30 días** tras donación verificada (`THIRTY_DAYS_MS` en el hook)
 
 ### localStorage keys
@@ -344,15 +344,24 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 ## Próximas tareas / Mejoras futuras
 
+### Bugs pendientes
 1. **Fix dosis m² en DrugDetail** — al abrir Didanosina sigue apareciendo "1 mg/kg" (pendiente de depurar; el `isPerM2` no está bloqueando el cálculo en todos los casos)
 
-2. **Enriquecer medicamentos** — expandir estructura simplificada
-   - Agregar `preparation` detallada (diluciones, estabilidad, reconstitución)
-   - Agregar `administration` (routes, iv rates, incompatibilities)
-   - Agregar `monitoring` y `contraindications`
+### Funciones premium para donantes (próximamente)
 
-3. **Exportación de datos** — generar PDF con cálculos para impresión/documentación
+La app va camino a modelo freemium. El core clínico permanece gratuito; las siguientes funciones serán exclusivas para suscriptores.
 
-4. **Historial de pacientes** — almacenamiento de cálculos recientes (opcional)
+**Alta prioridad (menor esfuerzo, mayor valor bedside):**
+- **Tabla de velocidades de inotrópicos** — tabla completa dosis × flujo × volumen para un peso dado. La lógica ya existe en `InotropicCalculator`; es solo UI adicional.
+- **Múltiples pacientes simultáneos** — guardar 3–5 pacientes con nombre/cama y alternar. Requiere refactorizar `PatientContext` para soportar array.
+- **Exportar cálculo como texto** — copiar al portapapeles un resumen listo para indicación médica (paciente, peso, droga, dosis, instrucción de enfermería).
 
-5. **Tabla de velocidades para inotrópicos** — mostrar tabla de dosis vs. flujo para todas las combinaciones posibles
+**Media prioridad:**
+- **Curvas de crecimiento Fenton 2013** — plotear peso/talla/PC por semana gestacional con percentil calculado. Completamente offline.
+- **Calculadora de Nutrición Parenteral completa** — VIG, proteínas g/kg/día, lípidos, volumen total. Más completa que el "Aporte Calórico" actual.
+- **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV. Solo para donantes.
+
+**Largo plazo:**
+- **Historial de cálculos** — últimos N cálculos con fecha y peso.
+- **Notas personales** — notas libres en medicamentos/procedimientos (ej: protocolo local del servicio).
+- **Temas de color adicionales** — incentivo freemium clásico.
