@@ -12,6 +12,7 @@ import SettingsPanel from './components/SettingsPanel';
 import FirstAccessDisclaimer from './components/FirstAccessDisclaimer';
 import DonationToast from './components/DonationToast';
 import EmailCaptureModal from './components/EmailCaptureModal';
+import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
 
@@ -32,6 +33,7 @@ function AppContent() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
+  const [showPremiumSheet, setShowPremiumSheet] = useState(false);
   const {
     showToast, dismissToast,
     showEmailCapture, dismissEmailCapture,
@@ -93,6 +95,14 @@ function AppContent() {
     await installPrompt.userChoice;
     setInstallPrompt(null);
   };
+
+  // Mostrar sheet de funciones premium al abrir si no hay membresía activa
+  useEffect(() => {
+    if (!membership.active) {
+      const t = setTimeout(() => setShowPremiumSheet(true), 600);
+      return () => clearTimeout(t);
+    }
+  }, [membership.active]);
 
   // Verificar donación cuando MercadoPago redirige de vuelta con ?paid=1
   useEffect(() => {
@@ -191,6 +201,13 @@ function AppContent() {
         <EmailCaptureModal
           onRegister={handleRegisterEmail}
           onDismiss={dismissEmailCapture}
+        />
+      )}
+
+      {showPremiumSheet && (
+        <PremiumFeaturesSheet
+          onSubscribe={(plan) => { setShowPremiumSheet(false); handleDonate(plan); }}
+          onDismiss={() => setShowPremiumSheet(false)}
         />
       )}
     </div>

@@ -100,6 +100,7 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate`, `onRedeem`, `membership`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), sección de apoyo (ver abajo), contacto, enlace Neomonitor, aviso legal. La sección de apoyo es condicional: si `membership.active` muestra una card verde "¡Gracias por apoyar NeoCalcu!" con tipo de plan y fecha de vencimiento; si no, muestra los botones de pago y el canje de cupón.
 - **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 3 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `onRecover`, `loadingPlan`.
 - **`EmailCaptureModal.tsx`** — modal centrado que aparece una sola vez tras el primer pago verificado o cupón canjeado. Llama a `/registrar-email` en el worker. Al guardar exitosamente escribe `neo_email_registered = '1'` en localStorage para no volver a mostrarse. Props: `onRegister`, `onDismiss`.
+- **`PremiumFeaturesSheet.tsx`** — bottom sheet que se muestra al abrir la app (600ms de delay) si el usuario no tiene membresía activa. Lista las funciones premium disponibles y próximas con badges "Disponible" / "Próximamente". CTA con botones mensual/anual y link "Ahora no". Se cierra tocando el backdrop, el botón X, o el link. Props: `onSubscribe`, `onDismiss`.
 - **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión.
 
 ### Páginas y navegación
@@ -404,14 +405,13 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 - ✅ **Múltiples pacientes simultáneos** — `PatientContext.tsx` + `PatientInput.tsx`. Hasta 4 pacientes, barra de tabs, nombre editable on blur.
 
 **Pendientes — alta prioridad:**
-- **Exportar cálculo como texto** — copiar al portapapeles un resumen listo para indicación médica (paciente, peso, droga, dosis, instrucción de enfermería).
+- **Exportar resultados de cálculo** — exportar el resultado de cualquier cálculo como texto para copiarlo o compartirlo. Descripción neutral: no enfocar en "indicación médica" ni en apps de mensajería específicas.
 
 **Media prioridad:**
-- **Curvas de crecimiento Fenton 2013** — plotear peso/talla/PC por semana gestacional con percentil calculado. Completamente offline.
+- **Notas en procedimientos** — campo de texto libre en cada procedimiento para que el médico anote adaptaciones al protocolo local del servicio.
 - **Calculadora de Nutrición Parenteral completa** — VIG, proteínas g/kg/día, lípidos, volumen total. Más completa que el "Aporte Calórico" actual.
-- **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV. Solo para donantes.
+- **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV. Solo para suscriptores.
 
 **Largo plazo:**
 - **Historial de cálculos** — últimos N cálculos con fecha y peso.
-- **Notas personales** — notas libres en medicamentos/procedimientos (ej: protocolo local del servicio).
 - **Temas de color adicionales** — incentivo freemium clásico.
