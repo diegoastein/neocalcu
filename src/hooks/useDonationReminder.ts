@@ -6,6 +6,7 @@ const OPEN_COUNT_KEY = 'neo_open_count';
 const DONATED_AT_KEY = 'neo_donated_at';
 const DONATED_PLAN_KEY = 'neo_donated_plan';
 const DEVICE_ID_KEY = 'neo_device_id';
+const EMAIL_REGISTERED_KEY = 'neo_email_registered';
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
@@ -60,9 +61,11 @@ interface RedeemResponse {
 
 export type RedeemResult = 'success' | 'invalid' | 'used' | 'error';
 export type RecoverResult = 'success' | 'not_found' | 'expired' | 'error';
+export type RegisterEmailResult = 'success' | 'error';
 
 export function useDonationReminder() {
   const [showToast, setShowToast] = useState(false);
+  const [showEmailCapture, setShowEmailCapture] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState<'mensual' | 'anual' | null>(null);
   const [membership, setMembership] = useState<MembershipInfo>(() => getMembershipInfo());
 
@@ -99,6 +102,10 @@ export function useDonationReminder() {
     setShowToast(false);
   }, []);
 
+  const dismissEmailCapture = useCallback(() => {
+    setShowEmailCapture(false);
+  }, []);
+
   const handleDonate = useCallback(async (plan: 'mensual' | 'anual' = 'mensual') => {
     setLoadingPlan(plan);
     try {
@@ -123,6 +130,7 @@ export function useDonationReminder() {
         if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
         setShowToast(false);
         refreshMembership();
+        if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);
       }
     } catch {
       // Sin conexión — falla silenciosamente
@@ -139,6 +147,7 @@ export function useDonationReminder() {
         localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
         setShowToast(false);
         refreshMembership();
+        if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);
         return 'success';
       }
       if (data.error === 'invalid_code') return 'invalid';
@@ -169,5 +178,28 @@ export function useDonationReminder() {
     }
   }, [refreshMembership]);
 
-  return { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, handleRecover, loadingPlan, membership };
+  const handleRegisterEmail = useCallback(async (email: string): Promise<RegisterEmailResult> => {
+    try {
+      const deviceId = getOrCreateDeviceId();
+      const res = await fetch(
+        `${WORKER_URL}/registrar-email?device=${deviceId}&email=${encodeURIComponent(email.trim().toLowerCase())}`
+      );
+      const data = await res.json() as { success?: boolean; error?: string };
+      if (data.success) {
+        localStorage.setItem(EMAIL_REGISTERED_KEY, '1');
+        setShowEmailCapture(false);
+        return 'success';
+      }
+      return 'error';
+    } catch {
+      return 'error';
+    }
+  }, []);
+
+  return {
+    showToast, dismissToast,
+    showEmailCapture, dismissEmailCapture,
+    handleDonate, handleVerify, handleRedeem, handleRecover, handleRegisterEmail,
+    loadingPlan, membership,
+  };
 }

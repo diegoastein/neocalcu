@@ -11,6 +11,7 @@ import BottomNav from './components/BottomNav';
 import SettingsPanel from './components/SettingsPanel';
 import FirstAccessDisclaimer from './components/FirstAccessDisclaimer';
 import DonationToast from './components/DonationToast';
+import EmailCaptureModal from './components/EmailCaptureModal';
 import { useDonationReminder } from './hooks/useDonationReminder';
 
 type ThemeMode = 'system' | 'light' | 'dark';
@@ -30,7 +31,12 @@ function AppContent() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
-  const { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, handleRecover, loadingPlan, membership } = useDonationReminder();
+  const {
+    showToast, dismissToast,
+    showEmailCapture, dismissEmailCapture,
+    handleDonate, handleVerify, handleRedeem, handleRecover, handleRegisterEmail,
+    loadingPlan, membership,
+  } = useDonationReminder();
 
   const navigateToItem = (page: ActivePage, itemId?: string) => {
     if (page === 'procedimientos') setFocusedProcedureId(itemId || null);
@@ -176,6 +182,13 @@ function AppContent() {
           onDismiss={dismissToast}
           onRecover={handleRecover}
           loadingPlan={loadingPlan}
+        />
+      )}
+
+      {showEmailCapture && (
+        <EmailCaptureModal
+          onRegister={handleRegisterEmail}
+          onDismiss={dismissEmailCapture}
         />
       )}
     </div>
