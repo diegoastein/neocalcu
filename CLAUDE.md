@@ -237,7 +237,7 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 ### Worker (`worker/`)
 - Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
 - **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon`
-- **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `POST /admin/generar-contenido`
+- **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `GET /admin/subscribers`, `POST /admin/generar-contenido`
 - Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `ADMIN_SECRET`, `ANTHROPIC_API_KEY`
 - KV namespace: `DONATIONS_KV` (id: `594254b8fb874cea90ae91bb21fa52ad`)
 - CORS: endpoints públicos permiten `https://diegoastein.github.io` + localhost; endpoints admin permiten `*` (protegidos por secret)
@@ -263,7 +263,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - **Cupones** — generar cupones individuales o en lote (hasta 50), tabla de activos/usados, copy directo
 - **Contenido** — generador de material para Instagram y WhatsApp via Claude Haiku (`claude-haiku-4-5-20251001`):
   - **Post** → tarjeta visual editable (título/cuerpo/hashtags) → descarga PNG 1080×1080
-  - **Reel** → 4 slides editables en formato 9:16 (GANCHO/PROBLEMA/SOLUCIÓN/CTA) → descarga PNG individual para importar en Instagram o CapCut
+  - **Reel** → 4 slides editables en formato 9:16 (SLIDE 1–4) → descarga PNG individual para importar en Instagram o CapCut
   - **Stories** → secuencia de 4 slides en texto
   - **WhatsApp** → mensaje para grupos médicos
   - **Novedades** → release notes en tono clínico
@@ -349,7 +349,8 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ Hosteado en Cloudflare Pages, protegido con Cloudflare Access
 - ✅ Dashboard de métricas en tiempo real (dispositivos, membresías, ingresos estimados)
 - ✅ Gestión de cupones: generar individual/lote, tabla de activos/usados
-- ✅ Generador de contenido con Claude Haiku: Post (PNG 1080×1080), Reel (4 slides PNG 9:16), Stories, WhatsApp, Release notes
+- ✅ Suscriptores: lista de usuarios que pagaron con email, búsqueda local, contador activos/total
+- ✅ Generador de contenido con Claude Haiku: Post (PNG 1080×1080), Reel (4 slides PNG 9:16 con labels SLIDE 1-4), Stories, WhatsApp, Release notes
 - ✅ Tono rioplatense, UCIN (no NICU), prompts directos sin frases de marketing
 - ✅ Banco de contenido guardado en localStorage
 
