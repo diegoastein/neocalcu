@@ -30,7 +30,7 @@ function AppContent() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
-  const { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, loadingPlan, membership } = useDonationReminder();
+  const { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, handleRecover, loadingPlan, membership } = useDonationReminder();
 
   const navigateToItem = (page: ActivePage, itemId?: string) => {
     if (page === 'procedimientos') setFocusedProcedureId(itemId || null);
@@ -164,6 +164,7 @@ function AppContent() {
         onInstall={handleInstall}
         onDonate={handleDonate}
         onRedeem={handleRedeem}
+        onRecover={handleRecover}
         membership={membership}
       />
 
@@ -173,6 +174,7 @@ function AppContent() {
         <DonationToast
           onDonate={handleDonate}
           onDismiss={dismissToast}
+          onRecover={handleRecover}
           loadingPlan={loadingPlan}
         />
       )}

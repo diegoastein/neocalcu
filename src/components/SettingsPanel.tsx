@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import DisclaimerModal from './DisclaimerModal';
-import { RedeemResult, MembershipInfo } from '../hooks/useDonationReminder';
+import { RedeemResult, RecoverResult, MembershipInfo } from '../hooks/useDonationReminder';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -13,6 +13,7 @@ interface SettingsPanelProps {
   onInstall: () => void;
   onDonate: (plan: 'mensual' | 'anual') => Promise<void>;
   onRedeem: (code: string) => Promise<RedeemResult>;
+  onRecover: (email: string) => Promise<RecoverResult>;
   membership?: MembershipInfo;
 }
 
@@ -29,6 +30,13 @@ const redeemMessages: Record<RedeemResult, string> = {
   error: 'Sin conexión. Intentá de nuevo.',
 };
 
+const recoverMessages: Record<RecoverResult, string> = {
+  success: '¡Suscripción recuperada! Gracias por tu apoyo.',
+  not_found: 'No encontramos una suscripción con ese email.',
+  expired: 'La suscripción de ese email venció. Podés renovar.',
+  error: 'Sin conexión. Intentá de nuevo.',
+};
+
 export default function SettingsPanel({
   isOpen,
   onClose,
@@ -38,6 +46,7 @@ export default function SettingsPanel({
   onInstall,
   onDonate,
   onRedeem,
+  onRecover,
   membership,
 }: SettingsPanelProps) {
   const [copied, setCopied] = useState(false);
@@ -46,6 +55,10 @@ export default function SettingsPanel({
   const [couponCode, setCouponCode] = useState('');
   const [couponLoading, setCouponLoading] = useState(false);
   const [couponResult, setCouponResult] = useState<RedeemResult | null>(null);
+  const [recoverOpen, setRecoverOpen] = useState(false);
+  const [recoverEmail, setRecoverEmail] = useState('');
+  const [recoverLoading, setRecoverLoading] = useState(false);
+  const [recoverResult, setRecoverResult] = useState<RecoverResult | null>(null);
 
   const handleShare = async () => {
     const url = 'https://diegoastein.github.io/neocalcu/';
@@ -75,6 +88,21 @@ export default function SettingsPanel({
     setCouponCode('');
   };
 
+  const handleRecoverToggle = () => {
+    setRecoverOpen(v => !v);
+    setRecoverResult(null);
+    setRecoverEmail('');
+  };
+
+  const handleRecoverSubmit = async () => {
+    if (!recoverEmail.trim()) return;
+    setRecoverLoading(true);
+    setRecoverResult(null);
+    const result = await onRecover(recoverEmail);
+    setRecoverResult(result);
+    setRecoverLoading(false);
+  };
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -83,12 +111,14 @@ export default function SettingsPanel({
     return () => document.removeEventListener('keydown', handleKey);
   }, [isOpen, onClose]);
 
-  // Resetear cupón al cerrar el panel
   useEffect(() => {
     if (!isOpen) {
       setCouponOpen(false);
       setCouponCode('');
       setCouponResult(null);
+      setRecoverOpen(false);
+      setRecoverEmail('');
+      setRecoverResult(null);
     }
   }, [isOpen]);
 
@@ -289,6 +319,47 @@ export default function SettingsPanel({
                     {couponResult && (
                       <p className={`text-xs px-1 ${couponResult === 'success' ? 'text-brand-600 dark:text-brand-400' : 'text-red-500 dark:text-red-400'}`}>
                         {redeemMessages[couponResult]}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Recuperar suscripción */}
+                <button
+                  onClick={handleRecoverToggle}
+                  className="text-xs text-slate-400 dark:text-slate-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors text-center"
+                >
+                  ¿Cambiaste de dispositivo?
+                </button>
+
+                {recoverOpen && (
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <input
+                        type="email"
+                        value={recoverEmail}
+                        onChange={e => { setRecoverEmail(e.target.value); setRecoverResult(null); }}
+                        onKeyDown={e => e.key === 'Enter' && handleRecoverSubmit()}
+                        placeholder="email con el que pagaste"
+                        className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        autoFocus
+                      />
+                      <button
+                        onClick={handleRecoverSubmit}
+                        disabled={recoverLoading || !recoverEmail.trim()}
+                        className="px-3 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
+                      >
+                        {recoverLoading ? (
+                          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                          </svg>
+                        ) : 'OK'}
+                      </button>
+                    </div>
+                    {recoverResult && (
+                      <p className={`text-xs px-1 ${recoverResult === 'success' ? 'text-brand-600 dark:text-brand-400' : 'text-red-500 dark:text-red-400'}`}>
+                        {recoverMessages[recoverResult]}
                       </p>
                     )}
                   </div>

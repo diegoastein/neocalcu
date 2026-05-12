@@ -11,6 +11,12 @@ interface DonationRecord {
   plan: 'mensual' | 'anual';
 }
 
+interface EmailRecord {
+  deviceId: string;
+  ts: number;
+  plan: 'mensual' | 'anual';
+}
+
 interface CouponRecord {
   active: boolean;
   createdAt: number;
@@ -124,7 +130,7 @@ Devolvé ÚNICAMENTE este JSON válido, sin markdown, sin texto adicional:
 "${contexto}"
 
 Devolvé ÚNICAMENTE este JSON válido, sin markdown, sin texto adicional:
-{"slides":[{"label":"GANCHO","text":"[pregunta o dato que para el scroll, máx 10 palabras]"},{"label":"PROBLEMA","text":"[el dolor concreto que resuelve, máx 15 palabras]"},{"label":"SOLUCIÓN","text":"[cómo NeoCalcu lo resuelve, específico, máx 20 palabras]"},{"label":"CTA","text":"[acción concreta y simple, máx 8 palabras]"}]}`,
+{"slides":[{"label":"SLIDE 1","text":"[pregunta o dato que para el scroll, máx 10 palabras]"},{"label":"SLIDE 2","text":"[el dolor concreto que resuelve, máx 15 palabras]"},{"label":"SLIDE 3","text":"[cómo NeoCalcu lo resuelve, específico, máx 20 palabras]"},{"label":"SLIDE 4","text":"[acción concreta y simple, máx 8 palabras]"}]}`,
 
     story: `Diseñá una secuencia de 4 stories de Instagram para comunicar:
 
@@ -250,11 +256,17 @@ export default {
           status: string;
           external_reference: string;
           transaction_amount: number;
+          payer?: { email?: string };
         };
         if (payment.status === 'approved' && payment.external_reference) {
           const plan: 'mensual' | 'anual' = payment.transaction_amount >= 28000 ? 'anual' : 'mensual';
           const record: DonationRecord = { ts: Date.now(), plan };
           await env.DONATIONS_KV.put(payment.external_reference, JSON.stringify(record));
+          if (payment.payer?.email) {
+            const emailKey = `email:${payment.payer.email.toLowerCase()}`;
+            const emailRecord: EmailRecord = { deviceId: payment.external_reference, ts: record.ts, plan };
+            await env.DONATIONS_KV.put(emailKey, JSON.stringify(emailRecord));
+          }
         }
       }
 
@@ -344,6 +356,42 @@ export default {
       await env.DONATIONS_KV.put(device, JSON.stringify(record));
 
       return new Response(JSON.stringify({ success: true, plan }), {
+        headers: { 'Content-Type': 'application/json', ...cors },
+      });
+    }
+
+    // ── Recuperar suscripción por email (nuevo dispositivo) ───────────────
+    if (url.pathname === '/recuperar' && request.method === 'GET') {
+      const email = url.searchParams.get('email')?.toLowerCase();
+      const device = url.searchParams.get('device');
+
+      if (!email || !device) {
+        return new Response(JSON.stringify({ success: false, error: 'missing_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const raw = await env.DONATIONS_KV.get(`email:${email}`);
+      if (!raw) {
+        return new Response(JSON.stringify({ success: false, error: 'not_found' }), {
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const emailRecord = JSON.parse(raw) as EmailRecord;
+      const record: DonationRecord = { ts: emailRecord.ts, plan: emailRecord.plan };
+
+      if (!isMembershipActive(record)) {
+        return new Response(JSON.stringify({ success: false, error: 'expired' }), {
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      await env.DONATIONS_KV.put(device, JSON.stringify(record));
+      await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify({ deviceId: device, ts: emailRecord.ts, plan: emailRecord.plan } as EmailRecord));
+
+      return new Response(JSON.stringify({ success: true, plan: record.plan, timestamp: record.ts.toString() }), {
         headers: { 'Content-Type': 'application/json', ...cors },
       });
     }
@@ -526,6 +574,43 @@ export default {
       }
 
       return new Response(JSON.stringify({ content: text, structured }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: listar suscriptores con email ──────────────────────────────
+    if (url.pathname === '/admin/subscribers' && request.method === 'GET') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const keys = await env.DONATIONS_KV.list({ prefix: 'email:' });
+      const subscribers = await Promise.all(
+        keys.keys.map(async key => {
+          const raw = await env.DONATIONS_KV.get(key.name);
+          const email = key.name.replace('email:', '');
+          if (!raw) return null;
+          const data = JSON.parse(raw) as EmailRecord;
+          const record: DonationRecord = { ts: data.ts, plan: data.plan };
+          const duration = data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+          return {
+            email,
+            deviceId: data.deviceId,
+            plan: data.plan,
+            ts: data.ts,
+            active: isMembershipActive(record),
+            expiresAt: new Date(data.ts + duration).toISOString(),
+          };
+        })
+      );
+
+      const result = subscribers.filter(Boolean);
+      result.sort((a, b) => (b!.ts ?? 0) - (a!.ts ?? 0));
+
+      return new Response(JSON.stringify({ subscribers: result }), {
         headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }

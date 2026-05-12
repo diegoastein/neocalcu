@@ -59,6 +59,7 @@ interface RedeemResponse {
 }
 
 export type RedeemResult = 'success' | 'invalid' | 'used' | 'error';
+export type RecoverResult = 'success' | 'not_found' | 'expired' | 'error';
 
 export function useDonationReminder() {
   const [showToast, setShowToast] = useState(false);
@@ -148,5 +149,25 @@ export function useDonationReminder() {
     }
   }, [refreshMembership]);
 
-  return { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, loadingPlan, membership };
+  const handleRecover = useCallback(async (email: string): Promise<RecoverResult> => {
+    try {
+      const deviceId = getOrCreateDeviceId();
+      const res = await fetch(`${WORKER_URL}/recuperar?device=${deviceId}&email=${encodeURIComponent(email.trim().toLowerCase())}`);
+      const data = await res.json() as { success: boolean; error?: string; plan?: 'mensual' | 'anual'; timestamp?: string };
+      if (data.success) {
+        localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
+        localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
+        setShowToast(false);
+        refreshMembership();
+        return 'success';
+      }
+      if (data.error === 'not_found') return 'not_found';
+      if (data.error === 'expired') return 'expired';
+      return 'error';
+    } catch {
+      return 'error';
+    }
+  }, [refreshMembership]);
+
+  return { showToast, dismissToast, handleDonate, handleVerify, handleRedeem, handleRecover, loadingPlan, membership };
 }
