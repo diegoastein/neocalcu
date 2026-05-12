@@ -84,13 +84,15 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 
 ### Contextos globales (`src/context/`)
 
-- **`PatientContext.tsx`** — provee `patient` y `setPatient` a toda la app. Peso, E.G. (edad gestacional), Días persisten en `sessionStorage`
+- **`PatientContext.tsx`** — provee `patient`, `setPatient` y la API multi-paciente a toda la app. Internamente maneja un array de `SavedPatient[]` (`{ id, label, patient }`) persistido en `localStorage` (`neo_patients`, `neo_active_patient`). La API pública (`patient`, `setPatient`) sigue siendo la misma para el resto de la app. Exporta además: `savedPatients`, `activeId`, `switchPatient(id)`, `addPatient()`, `removePatient(id)`, `renamePatient(id, label)`, `MAX_PATIENTS` (= 4). Migra automáticamente desde `sessionStorage` si existe un paciente previo.
+- **`MembershipContext.tsx`** — provee `useMembership()` a cualquier componente sin prop drilling. `MembershipProvider` recibe `membership` (de `useDonationReminder`) en `App.tsx` y lo expone globalmente. Usado para gatear funciones premium.
 - **`FavoritesContext.tsx`** — maneja marcadores (favoritos) de medicamentos, procedimientos, índices y fórmulas. Persiste en `localStorage`
 
 ### Componentes clave
 
 - **`DrugDetail.tsx`** — modal de detalle de medicamento. Si el drug tiene `inotropicConfig`, muestra `InotropicCalculator` en lugar de la sección de dosificación estándar.
-- **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: sliders de dosis y flujo, toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`.
+- **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: sliders de dosis y flujo, toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`. **Premium:** botón "Tabla de velocidades" expandible que muestra flujos (mL/h) para cada combinación dosis × volumen, usando los mg actuales como preparación base. Sin suscripción muestra un bloque con candado (patrón estándar de gate premium). Usa `useMembership()`.
+- **`PatientInput.tsx`** — barra sticky de datos del paciente activo. **Premium:** barra de tabs horizontal con todos los pacientes guardados (nombre + peso), botón "+" para agregar (hasta `MAX_PATIENTS = 4`), botón "×" para eliminar, campo "Nombre / cama" que se guarda on blur. Sin suscripción muestra bloque con candado. Usa `useMembership()` y la API multi-paciente de `PatientContext`.
 - **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según **NICE CG98 (2023)**. ≥38s: valores exactos del Excel oficial NICE (interpolación hora a hora). 35-37s: escalados con fórmula NICE para pretérminos (EG×10−100 µmol/L). Muestra umbrales en mg/dL y µmol/L. 5 zonas: normal / limítrofe / fototerapia / intensiva / exanguino. Factores de monitorización (no modifican umbral, solo frecuencia de control).
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
@@ -283,7 +285,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-12, últ. actualización 2026-05-12 tarde)
+## Estado actual (2026-05-12, últ. actualización 2026-05-12 noche)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -344,10 +346,14 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ Dos planes: mensual ($3.500, suprime 30 días) y anual ($28.000, suprime 365 días)
 - ✅ Sistema de cupones: `/generar-cupon` (admin) y `/canjear-cupon` (usuario)
 - ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
-- ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía hook
+- ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía `MembershipContext` (`useMembership()`)
 - ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
 - ✅ **Registro de email**: tras el primer pago o cupón, `EmailCaptureModal` invita a registrar el email vía `/registrar-email`; se muestra una sola vez
 - ✅ **Un dispositivo a la vez**: `/recuperar` invalida el dispositivo anterior en KV al transferir la suscripción; imposible tener la misma suscripción activa en dos dispositivos simultáneamente
+
+**Funciones premium (freemium):**
+- ✅ **Tabla de velocidades de inotrópicos** — toggle en `InotropicCalculator`, tabla dosis × volumen con flujos en mL/h; candado para no suscriptores
+- ✅ **Múltiples pacientes simultáneos** — `PatientContext` con array, `PatientInput` con barra de tabs, hasta 4 pacientes, nombre editable; candado para no suscriptores
 
 **Dashboard admin (`neocalcu-admin`):**
 - ✅ Hosteado en Cloudflare Pages, protegido con Cloudflare Access
@@ -387,13 +393,17 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 ### Bugs pendientes
 1. **Fix dosis m² en DrugDetail** — al abrir Didanosina sigue apareciendo "1 mg/kg" (pendiente de depurar; el `isPerM2` no está bloqueando el cálculo en todos los casos)
 
-### Funciones premium para donantes (próximamente)
+### Funciones premium para donantes
 
-La app va camino a modelo freemium. El core clínico permanece gratuito; las siguientes funciones serán exclusivas para suscriptores.
+La app es freemium. El core clínico es gratuito; las funciones de productividad son exclusivas para suscriptores.
 
-**Alta prioridad (menor esfuerzo, mayor valor bedside):**
-- **Tabla de velocidades de inotrópicos** — tabla completa dosis × flujo × volumen para un peso dado. La lógica ya existe en `InotropicCalculator`; es solo UI adicional.
-- **Múltiples pacientes simultáneos** — guardar 3–5 pacientes con nombre/cama y alternar. Requiere refactorizar `PatientContext` para soportar array.
+**Patrón de gate premium:** usar `useMembership()` de `MembershipContext`. Sin suscripción mostrar un bloque con `border-2 border-dashed border-slate-300`, ícono candado sobre `bg-brand-700` y texto "Suscriptores" en brand verde.
+
+**Implementadas:**
+- ✅ **Tabla de velocidades de inotrópicos** — `InotropicCalculator.tsx`. Toggle expandible, tabla dosis × volumen, flujos en mL/h.
+- ✅ **Múltiples pacientes simultáneos** — `PatientContext.tsx` + `PatientInput.tsx`. Hasta 4 pacientes, barra de tabs, nombre editable on blur.
+
+**Pendientes — alta prioridad:**
 - **Exportar cálculo como texto** — copiar al portapapeles un resumen listo para indicación médica (paciente, peso, droga, dosis, instrucción de enfermería).
 
 **Media prioridad:**
