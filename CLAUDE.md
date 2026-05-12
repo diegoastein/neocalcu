@@ -96,8 +96,9 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
 - **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate`, `onRedeem`, `membership`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), sección de apoyo (ver abajo), contacto, enlace Neomonitor, aviso legal. La sección de apoyo es condicional: si `membership.active` muestra una card verde "¡Gracias por apoyar NeoCalcu!" con tipo de plan y fecha de vencimiento; si no, muestra los botones de pago y el canje de cupón.
-- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 5 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `loading`.
-- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `handleDonate`, `handleVerify`, `handleRedeem`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión.
+- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 3 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `onRecover`, `loadingPlan`.
+- **`EmailCaptureModal.tsx`** — modal centrado que aparece una sola vez tras el primer pago verificado o cupón canjeado. Llama a `/registrar-email` en el worker. Al guardar exitosamente escribe `neo_email_registered = '1'` en localStorage para no volver a mostrarse. Props: `onRegister`, `onDismiss`.
+- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión.
 
 ### Páginas y navegación
 
@@ -236,7 +237,7 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 ### Worker (`worker/`)
 - Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
-- **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon`
+- **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon`, `GET /recuperar`, `GET /registrar-email`
 - **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `GET /admin/subscribers`, `POST /admin/generar-contenido`
 - Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `ADMIN_SECRET`, `ANTHROPIC_API_KEY`
 - KV namespace: `DONATIONS_KV` (id: `594254b8fb874cea90ae91bb21fa52ad`)
@@ -253,6 +254,8 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - `neo_device_id` — UUID del dispositivo
 - `neo_open_count` — contador de aperturas
 - `neo_donated_at` — timestamp de última donación verificada
+- `neo_donated_plan` — plan activo (`mensual` | `anual`)
+- `neo_email_registered` — `'1'` si el usuario ya registró su email; evita mostrar el modal nuevamente
 
 ## Dashboard admin (`neocalcu-admin`)
 
@@ -280,7 +283,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-12, últ. actualización 2026-05-12)
+## Estado actual (2026-05-12, últ. actualización 2026-05-12 tarde)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -341,9 +344,10 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ Dos planes: mensual ($3.500, suprime 30 días) y anual ($28.000, suprime 365 días)
 - ✅ Sistema de cupones: `/generar-cupon` (admin) y `/canjear-cupon` (usuario)
 - ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
-- ✅ `neo_donated_plan` en localStorage guarda el plan canjeado/pagado
 - ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía hook
 - ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
+- ✅ **Registro de email**: tras el primer pago o cupón, `EmailCaptureModal` invita a registrar el email vía `/registrar-email`; se muestra una sola vez
+- ✅ **Un dispositivo a la vez**: `/recuperar` invalida el dispositivo anterior en KV al transferir la suscripción; imposible tener la misma suscripción activa en dos dispositivos simultáneamente
 
 **Dashboard admin (`neocalcu-admin`):**
 - ✅ Hosteado en Cloudflare Pages, protegido con Cloudflare Access
