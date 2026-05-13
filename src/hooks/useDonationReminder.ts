@@ -74,13 +74,18 @@ export function useDonationReminder() {
   }, []);
 
   useEffect(() => {
-    if (isDonationActive()) return;
-
     const count = parseInt(localStorage.getItem(OPEN_COUNT_KEY) || '0') + 1;
     localStorage.setItem(OPEN_COUNT_KEY, count.toString());
 
-    if (count % 3 !== 0) return;
+    // Si la membresía está activa en localStorage, no hace falta llamar al worker.
+    // Pero si el email no está registrado, recordárselo en cada apertura.
+    if (isDonationActive()) {
+      if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);
+      return;
+    }
 
+    // Sin membresía en localStorage: siempre verificar contra el worker.
+    // Así se restaura automáticamente si el storage fue borrado pero el device_id sigue en KV.
     const deviceId = getOrCreateDeviceId();
     fetch(`${WORKER_URL}/verificar?device=${deviceId}`)
       .then(res => res.json())
@@ -89,7 +94,7 @@ export function useDonationReminder() {
           localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
           if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
           refreshMembership();
-        } else {
+        } else if (count % 3 === 0) {
           setShowToast(true);
         }
       })

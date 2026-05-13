@@ -47,7 +47,7 @@ export default function EmailCaptureModal({ onRegister, onDismiss }: Props) {
 
   return (
     <>
-      <div className="fixed inset-0 z-40 bg-black/40" onClick={onDismiss} />
+      <div className="fixed inset-0 z-40 bg-black/40" />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-5">
         <div className="w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 space-y-4">
           <div>
@@ -55,7 +55,7 @@ export default function EmailCaptureModal({ onRegister, onDismiss }: Props) {
               Registrá tu email
             </p>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Si cambiás de dispositivo podés recuperar tu suscripción con este email.
+              Es el único respaldo de tu suscripción. Si borrás la app o cambiás de dispositivo, lo necesitás para recuperar el acceso.
             </p>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
               Al recuperarla en otro dispositivo, este pierde el acceso — la suscripción queda activa en uno solo.
@@ -90,7 +90,7 @@ export default function EmailCaptureModal({ onRegister, onDismiss }: Props) {
               onClick={onDismiss}
               className="text-xs text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-center py-1"
             >
-              Ahora no
+              Lo hago en otro momento
             </button>
           </div>
         </div>
