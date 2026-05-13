@@ -3,6 +3,7 @@ import PatientInput from '../components/PatientInput';
 import BilirubinCalculator from '../components/BilirubinCalculator';
 import ROPCalculator from '../components/ROPCalculator';
 import FinnceganCalculator from '../components/FinnceganCalculator';
+import ShareResultButton from '../components/ShareResultButton';
 import { scores } from '../data/scores';
 import { formulas } from '../data/formulas';
 import { usePatient } from '../context/PatientContext';
@@ -233,6 +234,15 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
                     <p className="text-sm">{interpretation.action}</p>
                   </div>
                 )}
+                <ShareResultButton
+                  title={currentScore.name}
+                  text={[
+                    `${currentScore.name} — NeoCalcu`,
+                    `Puntuación: ${totalScore} / ${currentScore.maxScore}`,
+                    interpretation ? `${interpretation.label}` : '',
+                    interpretation ? interpretation.action : '',
+                  ].filter(Boolean).join('\n')}
+                />
                 {currentScore.references.length > 0 && (
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     <span className="font-medium">Referencias:</span> {currentScore.references.join(' • ')}
@@ -303,12 +313,18 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
             </section>
 
             {!currentFormula.calculations && allRequiredInputsFilled && formulaResult !== null && (
-              <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
-                <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Resultado</p>
-                <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{formulaResult.toFixed(2)}</p>
-                <p className="text-sm text-brand-700 dark:text-brand-300 mt-2">
-                  {currentFormula.resultLabel}: {currentFormula.resultUnit}
-                </p>
+              <section className="space-y-3">
+                <div className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
+                  <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Resultado</p>
+                  <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{formulaResult.toFixed(2)}</p>
+                  <p className="text-sm text-brand-700 dark:text-brand-300 mt-2">
+                    {currentFormula.resultLabel}: {currentFormula.resultUnit}
+                  </p>
+                </div>
+                <ShareResultButton
+                  title={currentFormula.name}
+                  text={`${currentFormula.name} — NeoCalcu\n${currentFormula.resultLabel}: ${formulaResult.toFixed(2)} ${currentFormula.resultUnit}`}
+                />
               </section>
             )}
 
@@ -319,13 +335,24 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
                   const results = calculateMultipleFormulas();
                   const labels = currentFormula.calculationsLabels ?? {};
                   const units = currentFormula.calculationsUnits ?? {};
-                  return Object.entries(results).map(([key, value]) => (
-                    <div key={key} className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-3">
-                      <p className="text-xs text-brand-600 dark:text-brand-400 font-medium mb-1">{labels[key] ?? key}</p>
-                      <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">{value.toFixed(2)}</p>
-                      {units[key] && <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">{units[key]}</p>}
-                    </div>
-                  ));
+                  const lines = Object.entries(results).map(([key, value]) =>
+                    `${labels[key] ?? key}: ${value.toFixed(2)}${units[key] ? ' ' + units[key] : ''}`
+                  );
+                  return (
+                    <>
+                      {Object.entries(results).map(([key, value]) => (
+                        <div key={key} className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-3">
+                          <p className="text-xs text-brand-600 dark:text-brand-400 font-medium mb-1">{labels[key] ?? key}</p>
+                          <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">{value.toFixed(2)}</p>
+                          {units[key] && <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">{units[key]}</p>}
+                        </div>
+                      ))}
+                      <ShareResultButton
+                        title={currentFormula.name}
+                        text={`${currentFormula.name} — NeoCalcu\n${lines.join('\n')}`}
+                      />
+                    </>
+                  );
                 })()}
               </section>
             )}

@@ -34,7 +34,7 @@ const features = [
     ),
     label: 'Exportar resultados de cálculo',
     description: 'Exportá el resultado de cualquier cálculo como texto para copiarlo o compartirlo.',
-    available: false,
+    available: true,
   },
   {
     icon: (
@@ -44,7 +44,7 @@ const features = [
     ),
     label: 'Notas en procedimientos',
     description: 'Agregá notas propias a cada procedimiento para adaptarlos al protocolo de tu servicio.',
-    available: false,
+    available: true,
   },
   {
     icon: (

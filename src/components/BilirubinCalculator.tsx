@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ShareResultButton from './ShareResultButton';
 
 // NICE CG98 — Phototherapy & exchange transfusion thresholds
 // ≥38 semanas: valores exactos del Excel oficial NICE (nice.org.uk/guidance/cg98)
@@ -277,6 +278,19 @@ export default function BilirubinCalculator({ references }: { references: string
             </p>
           </div>
         </div>
+      )}
+
+      {hasBili && status && (
+        <ShareResultButton
+          title="Bilirrubina NICE CG98"
+          text={[
+            `Bilirrubina NICE CG98 — NeoCalcu`,
+            `EG: ${ga} sem | DOL: ${horas}h | Bili: ${bili.toFixed(1)} mg/dL (${Math.round(biliUmol)} µmol/L)`,
+            `${STATUS_CONFIG[status].icon} ${STATUS_CONFIG[status].label}`,
+            status === 'borderline' ? getBorderlineAction() : STATUS_CONFIG[status].action,
+            `Umbral foto: ${(photoUmol * UMOL_TO_MGDL).toFixed(1)} mg/dL | Umbral exanguino: ${(exchUmol * UMOL_TO_MGDL).toFixed(1)} mg/dL`,
+          ].join('\n')}
+        />
       )}
 
       {/* Referencias */}

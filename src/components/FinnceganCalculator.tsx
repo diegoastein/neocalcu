@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ShareResultButton from './ShareResultButton';
 
 interface FinnceganItem {
   id: string;
@@ -350,6 +351,18 @@ export default function FinnceganCalculator({ references }: Props) {
           <p className="font-bold text-base mb-2">{interpretation.label}</p>
           <p className="text-sm leading-relaxed">{interpretation.action}</p>
         </div>
+      )}
+
+      {allAnswered && interpretation && (
+        <ShareResultButton
+          title="Finnegan NAS"
+          text={[
+            `Finnegan NAS — NeoCalcu`,
+            `Puntaje: ${total} / 40`,
+            interpretation.label,
+            interpretation.action,
+          ].join('\n')}
+        />
       )}
 
       {/* Guía de umbrales */}

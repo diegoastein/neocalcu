@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { InotropicConfig } from '../types';
 import { usePatient } from '../context/PatientContext';
 import { useMembership } from '../context/MembershipContext';
+import ShareResultButton from './ShareResultButton';
 
 interface Props {
   config: InotropicConfig;
@@ -69,6 +70,18 @@ export default function InotropicCalculator({ config, drugName }: Props) {
           </p>
         )}
       </div>
+
+      {hasWeight && (
+        <ShareResultButton
+          title={drugName}
+          text={[
+            `${drugName} — NeoCalcu`,
+            `Peso: ${patient.weightGrams}g (${weightKg.toFixed(2)} kg)`,
+            `Preparación: ${mgToPrepare.toFixed(2)} mg en ${volume} mL de ${config.diluent}`,
+            `Infundir a ${flow} mL/h → ${dose.toFixed(2)} ${config.unit}`,
+          ].join('\n')}
+        />
+      )}
 
       {/* Selector de dosis */}
       <div>

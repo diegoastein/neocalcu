@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { usePatient } from '../context/PatientContext';
+import ShareResultButton from './ShareResultButton';
 
 const RISK_FACTORS = [
   { id: 'o2', label: 'Oxigenoterapia prolongada', desc: '> 30 días o FiO₂ elevada' },
@@ -217,6 +218,18 @@ export default function ROPCalculator({ references }: { references: string[] }) 
             <li>• Alta: vascularización completa o involución confirmada</li>
           </ul>
         </div>
+      )}
+
+      {indicado && (
+        <ShareResultButton
+          title="Screening ROP"
+          text={[
+            `Screening ROP — NeoCalcu`,
+            `EG: ${ga} sem | PN: ${weight}g`,
+            semanasExamen ? `Primer examen: ${semanasExamen} semanas de vida (EPC: ${edadCorregidaExamen} sem)` : '',
+            fechaExamen ? `Fecha estimada: ${formatDate(fechaExamen)}` : '',
+          ].filter(Boolean).join('\n')}
+        />
       )}
 
       {/* Referencias */}
