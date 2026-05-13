@@ -56,6 +56,7 @@ interface CreatePaymentResponse {
 interface RedeemResponse {
   success?: boolean;
   plan?: 'mensual' | 'anual';
+  email?: string;
   error?: string;
 }
 
@@ -150,6 +151,8 @@ export function useDonationReminder() {
       if (data.success) {
         localStorage.setItem(DONATED_AT_KEY, Date.now().toString());
         localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
+        // Si el cupón tenía email asignado, ya está registrado en KV — no hace falta el modal
+        if (data.email) localStorage.setItem(EMAIL_REGISTERED_KEY, '1');
         setShowToast(false);
         refreshMembership();
         if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);

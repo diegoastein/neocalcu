@@ -21,6 +21,7 @@ interface CouponRecord {
   active: boolean;
   createdAt: number;
   plan: 'mensual' | 'anual';
+  email?: string;
   usedBy?: string;
   usedAt?: number;
 }
@@ -341,7 +342,7 @@ export default {
         });
       }
 
-      const coupon = JSON.parse(couponRaw) as { active: boolean; plan: 'mensual' | 'anual' };
+      const coupon = JSON.parse(couponRaw) as CouponRecord;
       if (!coupon.active) {
         return new Response(JSON.stringify({ error: 'used_code' }), {
           status: 409,
@@ -351,11 +352,17 @@ export default {
 
       const now = Date.now();
       const plan = coupon.plan ?? 'mensual';
-      await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify({ active: false, usedBy: device, usedAt: now, plan }));
+      await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify({ active: false, usedBy: device, usedAt: now, plan, email: coupon.email }));
       const record: DonationRecord = { ts: now, plan };
       await env.DONATIONS_KV.put(device, JSON.stringify(record));
 
-      return new Response(JSON.stringify({ success: true, plan }), {
+      // Si el cupón tenía email asignado, registrarlo automáticamente en KV
+      if (coupon.email) {
+        const emailRecord: EmailRecord = { deviceId: device, ts: now, plan };
+        await env.DONATIONS_KV.put(`email:${coupon.email}`, JSON.stringify(emailRecord));
+      }
+
+      return new Response(JSON.stringify({ success: true, plan, ...(coupon.email ? { email: coupon.email } : {}) }), {
         headers: { 'Content-Type': 'application/json', ...cors },
       });
     }
@@ -533,16 +540,18 @@ export default {
         });
       }
 
-      const body = (await request.json()) as { plan?: string; cantidad?: number; code?: string };
+      const body = (await request.json()) as { plan?: string; cantidad?: number; code?: string; email?: string };
       const plan: 'mensual' | 'anual' = body.plan === 'anual' ? 'anual' : 'mensual';
       const cantidad = Math.min(Math.max(parseInt(String(body.cantidad ?? 1)), 1), 50);
+      const email = body.email?.toLowerCase().trim() || undefined;
 
       const generated: string[] = [];
       for (let i = 0; i < cantidad; i++) {
         const code = body.code ? body.code.toUpperCase() : generateCode();
         const exists = await env.DONATIONS_KV.get(`coupon:${code}`);
         if (!exists) {
-          await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify({ active: true, createdAt: Date.now(), plan }));
+          const record: CouponRecord = { active: true, createdAt: Date.now(), plan, ...(email ? { email } : {}) };
+          await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify(record));
           generated.push(code);
         }
       }
