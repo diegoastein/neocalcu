@@ -391,9 +391,6 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 
 ## Próximas tareas / Mejoras futuras
 
-### Bugs pendientes
-1. **Fix dosis m² en DrugDetail** — al abrir Didanosina sigue apareciendo "1 mg/kg" (pendiente de depurar; el `isPerM2` no está bloqueando el cálculo en todos los casos)
-
 ### Funciones premium para donantes
 
 La app es freemium. El core clínico es gratuito; las funciones de productividad son exclusivas para suscriptores.

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Drug, DosingRule } from '../types';
 import { usePatient } from '../context/PatientContext';
-import { matchDosingRule, calcDose } from '../utils/calculations';
+import { calcDose } from '../utils/calculations';
 import InotropicCalculator from './InotropicCalculator';
+import ShareResultButton from './ShareResultButton';
 
 interface DrugDetailProps {
   drug: Drug;
@@ -39,8 +40,6 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
     selectedRule.unit.toLowerCase().includes('mg') && !selectedRule.unit.includes('%') && !selectedRule.unit.toLowerCase().includes('ml')
       ? parseFloat((selectedRule.dosePerKg / (drug.preparation?.concentrationMgMl ?? 1)).toFixed(2))
       : null;
-  const matchedRule = matchDosingRule(rules, patient);
-
   const categoryBadgeColor: { [key: string]: string } = {
     antibiotico: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
     antiviral: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
@@ -234,6 +233,17 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                       </p>
                     </div>
                   )}
+
+                  <ShareResultButton
+                    title={drug.name}
+                    text={[
+                      `${drug.name} — NeoCalcu`,
+                      `Peso: ${patient.weightGrams}g (${(patient.weightGrams / 1000).toFixed(2)} kg)`,
+                      `Dosis: ${selectedRule.dosePerKg} ${selectedRule.unit} → ${calculation.doseTotal} mg`,
+                      `Volumen: ${calculation.volumeMl} mL`,
+                      calculation.nursingInstruction,
+                    ].join('\n')}
+                  />
                 </div>
               )}
 

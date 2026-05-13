@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import PatientInput from '../components/PatientInput';
+import ProcedureNotes from '../components/ProcedureNotes';
 import { procedures } from '../data/procedures';
 import { useFavorites } from '../context/FavoritesContext';
 import { usePatient } from '../context/PatientContext';
@@ -229,6 +230,9 @@ export default function ProceduresPage({ initialExpanded = null }: ProceduresPag
                       </ul>
                     </section>
                   )}
+
+                  {/* Notas del servicio */}
+                  <ProcedureNotes procedureId={proc.id} />
 
                   {/* References */}
                   {proc.references.length > 0 && (
