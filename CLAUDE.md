@@ -99,11 +99,11 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
 - **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate`, `onRedeem`, `membership`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), sección de apoyo (ver abajo), contacto, enlace Neomonitor, aviso legal. La sección de apoyo es condicional: si `membership.active` muestra una card verde "¡Gracias por apoyar NeoCalcu!" con tipo de plan y fecha de vencimiento; si no, muestra los botones de pago y el canje de cupón.
 - **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 3 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `onRecover`, `loadingPlan`.
-- **`EmailCaptureModal.tsx`** — modal centrado que aparece una sola vez tras el primer pago verificado o cupón canjeado. Llama a `/registrar-email` en el worker. Al guardar exitosamente escribe `neo_email_registered = '1'` en localStorage para no volver a mostrarse. Props: `onRegister`, `onDismiss`.
+- **`EmailCaptureModal.tsx`** — modal centrado que aparece tras el primer pago verificado o cupón canjeado (y en cada apertura mientras el email no esté registrado). Llama a `/registrar-email` en el worker. Al guardar exitosamente escribe `neo_email_registered = '1'` en localStorage. El backdrop **no cierra** el modal — solo el botón "Lo hago en otro momento". Si el cupón canjeado ya tenía email asignado desde el admin, el modal no aparece y `neo_email_registered` se setea automáticamente. Props: `onRegister`, `onDismiss`.
 - **`PremiumFeaturesSheet.tsx`** — bottom sheet que se muestra al abrir la app (600ms de delay) si el usuario no tiene membresía activa. Lista las funciones premium disponibles y próximas con badges "Disponible" / "Próximamente". CTA con botones mensual/anual y link "Ahora no". Se cierra tocando el backdrop, el botón X, o el link. Props: `onSubscribe`, `onDismiss`.
 - **`ProcedureNotes.tsx`** — campo de notas libre por procedimiento. Lee/escribe `localStorage` en la clave `neo_procedure_notes` (objeto `{ [procedureId]: string }`). Guarda `onBlur`. Textarea de 1 línea que crece automáticamente al escribir. Gate premium: bloque dashed con candado. Sin relación con el paciente activo — las notas persisten siempre.
 - **`ShareResultButton.tsx`** — botón premium para compartir el resultado de cualquier cálculo. Usa Web Share API si está disponible (abre share sheet nativo); fallback a `navigator.clipboard.writeText()`. Props: `text: string`, `title?: string`. Muestra feedback "Compartido" / "Copiado" por 2s. Gate premium: bloque compacto inline con candado.
-- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión.
+- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión. **Lógica de verificación:** si hay membresía activa en localStorage → no llama al worker (eficiente), pero sí muestra `EmailCaptureModal` si el email no está registrado. Si no hay membresía → llama al worker en **cada apertura** (no solo cada 3) para restaurar automáticamente si el storage fue borrado. El toast de donación sigue mostrándose solo cada 3 aperturas.
 
 ### Páginas y navegación
 
@@ -242,7 +242,7 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 ### Worker (`worker/`)
 - Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
-- **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon`, `GET /recuperar`, `GET /registrar-email`
+- **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon` (devuelve `email` si el cupón lo tenía asignado), `GET /recuperar`, `GET /registrar-email`
 - **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `GET /admin/subscribers`, `POST /admin/generar-contenido`
 - Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `ADMIN_SECRET`, `ANTHROPIC_API_KEY`
 - KV namespace: `DONATIONS_KV` (id: `594254b8fb874cea90ae91bb21fa52ad`)
@@ -260,7 +260,7 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - `neo_open_count` — contador de aperturas
 - `neo_donated_at` — timestamp de última donación verificada
 - `neo_donated_plan` — plan activo (`mensual` | `anual`)
-- `neo_email_registered` — `'1'` si el usuario ya registró su email; evita mostrar el modal nuevamente
+- `neo_email_registered` — `'1'` si el usuario ya registró su email; se setea automáticamente si el cupón tenía email asignado desde el admin
 
 ## Dashboard admin (`neocalcu-admin`)
 
@@ -268,7 +268,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 
 ### Secciones
 - **Dashboard** — métricas en tiempo real via Worker: dispositivos totales, membresías activas (mensual/anual), cupones disponibles/usados, ingresos estimados
-- **Cupones** — generar cupones individuales o en lote (hasta 50), tabla de activos/usados, copy directo
+- **Cupones** — generar cupones individuales (con email opcional del destinatario) o en lote (hasta 50), tabla de activos/usados con columna email, copy directo
 - **Contenido** — generador de material para Instagram y WhatsApp via Claude Haiku (`claude-haiku-4-5-20251001`):
   - **Post** → tarjeta visual editable (título/cuerpo/hashtags) → descarga PNG 1080×1080
   - **Reel** → 4 slides editables en formato 9:16 (SLIDE 1–4) → descarga PNG individual para importar en Instagram o CapCut
@@ -288,7 +288,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-12, últ. actualización 2026-05-12 noche — sesión 2)
+## Estado actual (2026-05-13, últ. actualización 2026-05-13 — sesión 3)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -352,7 +352,9 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
 - ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía `MembershipContext` (`useMembership()`)
 - ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
-- ✅ **Registro de email**: tras el primer pago o cupón, `EmailCaptureModal` invita a registrar el email vía `/registrar-email`; se muestra una sola vez
+- ✅ **Verificación robusta**: si no hay membresía en localStorage, el worker se consulta en cada apertura (no solo cada 3) — restaura automáticamente si el device_id sigue en KV
+- ✅ **Registro de email persistente**: `EmailCaptureModal` aparece en cada apertura hasta que el usuario registre su email; no se puede cerrar tocando el backdrop
+- ✅ **Email en cupones**: al generar un cupón en el admin se puede asignar un email de destinatario; al canjearlo, el email se registra automáticamente en KV y la app setea `neo_email_registered='1'` sin mostrar el modal
 - ✅ **Un dispositivo a la vez**: `/recuperar` invalida el dispositivo anterior en KV al transferir la suscripción; imposible tener la misma suscripción activa en dos dispositivos simultáneamente
 
 **Funciones premium (freemium):**
@@ -364,7 +366,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 **Dashboard admin (`neocalcu-admin`):**
 - ✅ Hosteado en Cloudflare Pages, protegido con Cloudflare Access
 - ✅ Dashboard de métricas en tiempo real (dispositivos, membresías, ingresos estimados)
-- ✅ Gestión de cupones: generar individual/lote, tabla de activos/usados
+- ✅ Gestión de cupones: generar individual (con email del destinatario)/lote, tabla de activos/usados con columna email
 - ✅ Suscriptores: lista de usuarios que pagaron con email, búsqueda local, contador activos/total
 - ✅ Generador de contenido con Claude Haiku: Post (PNG 1080×1080), Reel (4 slides PNG 9:16 con labels SLIDE 1-4), Stories, WhatsApp, Release notes
 - ✅ Tono rioplatense, UCIN (no NICU), prompts directos sin frases de marketing
