@@ -101,6 +101,8 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 3 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `onRecover`, `loadingPlan`.
 - **`EmailCaptureModal.tsx`** — modal centrado que aparece una sola vez tras el primer pago verificado o cupón canjeado. Llama a `/registrar-email` en el worker. Al guardar exitosamente escribe `neo_email_registered = '1'` en localStorage para no volver a mostrarse. Props: `onRegister`, `onDismiss`.
 - **`PremiumFeaturesSheet.tsx`** — bottom sheet que se muestra al abrir la app (600ms de delay) si el usuario no tiene membresía activa. Lista las funciones premium disponibles y próximas con badges "Disponible" / "Próximamente". CTA con botones mensual/anual y link "Ahora no". Se cierra tocando el backdrop, el botón X, o el link. Props: `onSubscribe`, `onDismiss`.
+- **`ProcedureNotes.tsx`** — campo de notas libre por procedimiento. Lee/escribe `localStorage` en la clave `neo_procedure_notes` (objeto `{ [procedureId]: string }`). Guarda `onBlur`. Textarea de 1 línea que crece automáticamente al escribir. Gate premium: bloque dashed con candado. Sin relación con el paciente activo — las notas persisten siempre.
+- **`ShareResultButton.tsx`** — botón premium para compartir el resultado de cualquier cálculo. Usa Web Share API si está disponible (abre share sheet nativo); fallback a `navigator.clipboard.writeText()`. Props: `text: string`, `title?: string`. Muestra feedback "Compartido" / "Copiado" por 2s. Gate premium: bloque compacto inline con candado.
 - **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión.
 
 ### Páginas y navegación
@@ -286,7 +288,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-12, últ. actualización 2026-05-12 noche)
+## Estado actual (2026-05-12, últ. actualización 2026-05-12 noche — sesión 2)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -312,6 +314,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ Fórmulas interactivas con cálculo en tiempo real
 - ✅ Pasos, materiales, advertencias y referencias
 - ✅ Referencias de Fototerapia y Exanguinotransfusión actualizadas a NICE CG98 (2023)
+- ✅ **Notas del servicio (premium)** — `ProcedureNotes` al final de cada procedimiento expandido; persiste en `localStorage` independiente del paciente activo
 
 **Calculadoras (CalculadorasPage — tab unificado):**
 - ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, **Bilirrubina NICE CG98 (2023)**, Screening ROP SAP, **Finnegan Modificado (NAS)**
@@ -355,6 +358,8 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 **Funciones premium (freemium):**
 - ✅ **Tabla de velocidades de inotrópicos** — toggle en `InotropicCalculator`, tabla dosis × volumen con flujos en mL/h; candado para no suscriptores
 - ✅ **Múltiples pacientes simultáneos** — `PatientContext` con array, `PatientInput` con barra de tabs, hasta 4 pacientes, nombre editable; candado para no suscriptores
+- ✅ **Notas en procedimientos** — `ProcedureNotes.tsx` al final de cada procedimiento; textarea autoexpandible, guarda `onBlur`, persiste en `neo_procedure_notes` en localStorage
+- ✅ **Compartir resultados de cálculo** — `ShareResultButton.tsx` integrado en DrugDetail, InotropicCalculator, CalculadorasPage (scores y fórmulas), BilirubinCalculator, ROPCalculator y FinnceganCalculator; Web Share API con fallback a clipboard
 
 **Dashboard admin (`neocalcu-admin`):**
 - ✅ Hosteado en Cloudflare Pages, protegido con Cloudflare Access
@@ -371,6 +376,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ PWA con Service Worker offline e íconos PNG nativos (icon-192, icon-512, apple-touch-icon, favicon-32)
 - ✅ Manifest con `start_url` y `scope` correctos → genera acceso directo en lanzador Android/iOS
 - ✅ Google Analytics 4 integrado (ID: `G-V37SQEN7J7`) — snippet en `<head>` de `index.html`
+- ✅ Dominio `neocalcul.pro` — redirect via Cloudflare hacia `https://diegoastein.github.io/neocalcu/` (sin cambios en el código ni el worker)
 
 ## Agregar un medicamento nuevo
 
@@ -400,12 +406,10 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 **Implementadas:**
 - ✅ **Tabla de velocidades de inotrópicos** — `InotropicCalculator.tsx`. Toggle expandible, tabla dosis × volumen, flujos en mL/h.
 - ✅ **Múltiples pacientes simultáneos** — `PatientContext.tsx` + `PatientInput.tsx`. Hasta 4 pacientes, barra de tabs, nombre editable on blur.
+- ✅ **Notas en procedimientos** — `ProcedureNotes.tsx`. Textarea autoexpandible al final de cada procedimiento, guarda `onBlur`, persiste por `procedureId` en `neo_procedure_notes`.
+- ✅ **Compartir resultados de cálculo** — `ShareResultButton.tsx`. Web Share API + fallback clipboard. Integrado en DrugDetail, InotropicCalculator, CalculadorasPage, BilirubinCalculator, ROPCalculator, FinnceganCalculator.
 
-**Pendientes — alta prioridad:**
-- **Exportar resultados de cálculo** — exportar el resultado de cualquier cálculo como texto para copiarlo o compartirlo. Descripción neutral: no enfocar en "indicación médica" ni en apps de mensajería específicas.
-
-**Media prioridad:**
-- **Notas en procedimientos** — campo de texto libre en cada procedimiento para que el médico anote adaptaciones al protocolo local del servicio.
+**Pendientes:**
 - **Calculadora de Nutrición Parenteral completa** — VIG, proteínas g/kg/día, lípidos, volumen total. Más completa que el "Aporte Calórico" actual.
 - **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV. Solo para suscriptores.
 
