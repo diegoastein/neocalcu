@@ -96,5 +96,5 @@ Lista de residencias a contactar (completar):
 ## Notas
 
 - Los cupones no tienen vencimiento — verificar en el admin si se quiere limitar
-- Recuperación de cuenta: el residente contacta por DM y se hace la transferencia manual desde el admin vía `/recuperar`
+- **Recuperación de cuenta:** si el residente pierde la membresía (cambio de celu, reset), puede recuperarla solo desde la app ingresando su email registrado (toast → "Recuperar"). No requiere intervención manual. Solo funciona si registró el email previamente — recordarles que lo hagan cuando la app lo pida.
 - La promo no requiere cambios en el código — todo corre sobre la infraestructura existente
