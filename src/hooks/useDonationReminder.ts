@@ -84,13 +84,16 @@ export function useDonationReminder() {
       const deviceId = getOrCreateDeviceId();
       const favorites = JSON.parse(localStorage.getItem('favorites') || '[]') as string[];
       const notes = JSON.parse(localStorage.getItem('neo_procedure_notes') || '{}') as Record<string, string>;
-      await fetch(`${WORKER_URL}/guardar-datos?device=${deviceId}`, {
+      console.log('[neo] sync →', { deviceId, favorites: favorites.length, notes: Object.keys(notes).length });
+      const res = await fetch(`${WORKER_URL}/guardar-datos?device=${deviceId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ favorites, notes }),
       });
-    } catch {
-      // fail silently
+      const json = await res.json();
+      console.log('[neo] sync ←', json);
+    } catch (e) {
+      console.warn('[neo] sync error', e);
     }
   }, []);
 
@@ -213,6 +216,7 @@ export function useDonationReminder() {
       const deviceId = getOrCreateDeviceId();
       const res = await fetch(`${WORKER_URL}/recuperar?device=${deviceId}&email=${encodeURIComponent(email.trim().toLowerCase())}`);
       const data = await res.json() as { success: boolean; error?: string; plan?: 'mensual' | 'anual'; timestamp?: string; userData?: UserData };
+      console.log('[neo] recover ←', JSON.stringify(data));
       if (data.success) {
         localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
         localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
