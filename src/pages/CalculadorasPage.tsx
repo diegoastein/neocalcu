@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { trackEvent } from '../utils/analytics';
 import PatientInput from '../components/PatientInput';
 import BilirubinCalculator from '../components/BilirubinCalculator';
 import ROPCalculator from '../components/ROPCalculator';
@@ -37,6 +38,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
 
   const handleSelect = (value: string) => {
     const isScore = scores.some((s) => s.id === value);
+    trackEvent('select_calculator', { calculator_id: value, type: isScore ? 'score' : 'formula' });
     setSelectedId(value);
     setSelectedType(isScore ? 'score' : 'formula');
     setScoreState({});

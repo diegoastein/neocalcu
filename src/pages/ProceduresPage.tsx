@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { trackEvent } from '../utils/analytics';
 import PatientInput from '../components/PatientInput';
 import ProcedureNotes from '../components/ProcedureNotes';
 import { procedures } from '../data/procedures';
@@ -20,6 +21,7 @@ export default function ProceduresPage({ initialExpanded = null }: ProceduresPag
     const next = expandedProcedure === id ? null : id;
     setExpandedProcedure(next);
     if (next) {
+      trackEvent('open_procedure', { procedure_id: next });
       setTimeout(() => {
         procedureRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 0);

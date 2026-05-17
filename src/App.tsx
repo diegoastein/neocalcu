@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ActivePage } from './types';
+import { trackEvent } from './utils/analytics';
 import { PatientProvider } from './context/PatientContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import MedicationsPage from './pages/MedicationsPage';
@@ -59,7 +60,14 @@ function AppContent() {
       setInstallPrompt(prompt);
     };
     window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
+
+    const installedHandler = () => trackEvent('pwa_installed');
+    window.addEventListener('appinstalled', installedHandler);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+      window.removeEventListener('appinstalled', installedHandler);
+    };
   }, []);
 
   // Apply theme
@@ -92,7 +100,8 @@ function AppContent() {
   const handleInstall = async () => {
     if (!installPrompt) return;
     await installPrompt.prompt();
-    await installPrompt.userChoice;
+    const { outcome } = await installPrompt.userChoice;
+    trackEvent('pwa_install_prompt', { outcome });
     setInstallPrompt(null);
   };
 
@@ -155,7 +164,7 @@ function AppContent() {
           </div>
         ) : (
           <button
-            onClick={() => handleDonate('mensual')}
+            onClick={() => { trackEvent('click_apoyar', { source: 'header' }); handleDonate('mensual'); }}
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-700 hover:bg-brand-800 dark:bg-brand-800 dark:hover:bg-brand-900 text-white text-xs font-semibold transition-colors"
             aria-label="Apoyá este proyecto"
           >
@@ -190,7 +199,7 @@ function AppContent() {
 
       {showToast && (
         <DonationToast
-          onDonate={handleDonate}
+          onDonate={(plan) => { trackEvent('click_apoyar', { source: 'toast', plan }); handleDonate(plan); }}
           onDismiss={dismissToast}
           onRecover={handleRecover}
           loadingPlan={loadingPlan}
@@ -206,7 +215,7 @@ function AppContent() {
 
       {showPremiumSheet && (
         <PremiumFeaturesSheet
-          onSubscribe={(plan) => { setShowPremiumSheet(false); handleDonate(plan); }}
+          onSubscribe={(plan) => { setShowPremiumSheet(false); trackEvent('click_apoyar', { source: 'premium_sheet', plan }); handleDonate(plan); }}
           onDismiss={() => setShowPremiumSheet(false)}
         />
       )}

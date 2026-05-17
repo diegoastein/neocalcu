@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { trackEvent } from '../utils/analytics';
 import PatientInput from '../components/PatientInput';
 import DrugDetail from '../components/DrugDetail';
 import { drugs, searchDrugs } from '../data/medications';
@@ -11,6 +12,17 @@ export default function MedicationsPage() {
   const { toggleFavorite, isFavorite } = useFavorites();
 
   const results = searchQuery.trim() ? searchDrugs(searchQuery) : drugs;
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (q.length < 3) return;
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = setTimeout(() => {
+      trackEvent('search_drug', { query: q, results_count: results.length });
+    }, 800);
+    return () => { if (searchTimerRef.current) clearTimeout(searchTimerRef.current); };
+  }, [searchQuery, results.length]);
 
   // Agrupar medicamentos por categoría
   const groupByCategory = (drugList: Drug[]) => {
@@ -98,7 +110,7 @@ export default function MedicationsPage() {
                   {drugsInCategory.map((drug) => (
                     <div key={drug.id} className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition border-b border-slate-200 dark:border-slate-700 flex items-start">
                       <button
-                        onClick={() => setSelectedDrug(drug)}
+                        onClick={() => { trackEvent('open_drug', { drug_id: drug.id, drug_name: drug.name }); setSelectedDrug(drug); }}
                         className="flex-1 text-left p-4 border-0"
                       >
                         <h3 className="font-semibold text-slate-900 dark:text-slate-100">{drug.name}</h3>

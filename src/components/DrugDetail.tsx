@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { trackEvent } from '../utils/analytics';
 import { Drug, DosingRule } from '../types';
 import { usePatient } from '../context/PatientContext';
 import { calcDose } from '../utils/calculations';
@@ -13,6 +14,7 @@ interface DrugDetailProps {
 export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
   const { patient } = usePatient();
   const [selectedRuleIndex, setSelectedRuleIndex] = useState(0);
+  const doseTracked = useRef(false);
 
   const rules = drug.dosingRules || [];
   const availableRules =
@@ -35,6 +37,14 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
   const isPerM2 = selectedRule?.unit?.includes('m²') || selectedRule?.unit?.includes('m2');
   const isWeightBased = !!(selectedRule?.unit?.toLowerCase().includes('kg'));
   const calculation = selectedRule && hasValidPreparation && !isPerM2 && isWeightBased ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
+
+  useEffect(() => {
+    if (!doseTracked.current && calculation !== null && patient.weightGrams > 0) {
+      trackEvent('calculate_dose', { drug_id: drug.id, drug_name: drug.name, weight_g: patient.weightGrams });
+      doseTracked.current = true;
+    }
+  }, [calculation, drug.id, drug.name, patient.weightGrams]);
+
   const fixedVolume =
     !isPerM2 && !isWeightBased && selectedRule?.dosePerKg && hasValidPreparation &&
     selectedRule.unit.toLowerCase().includes('mg') && !selectedRule.unit.includes('%') && !selectedRule.unit.toLowerCase().includes('ml')
