@@ -14,6 +14,7 @@ import FirstAccessDisclaimer from './components/FirstAccessDisclaimer';
 import DonationToast from './components/DonationToast';
 import EmailCaptureModal from './components/EmailCaptureModal';
 import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
+import OnboardingTooltip from './components/OnboardingTooltip';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
 
@@ -33,7 +34,7 @@ function AppContent() {
   const [focusedCalculadoraId, setFocusedCalculadoraId] = useState<string | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
+  const [disclaimerAccepted, setDisclaimerAccepted] = useState(() => !!localStorage.getItem('disclaimerAccepted'));
   const [showPremiumSheet, setShowPremiumSheet] = useState(false);
   const {
     showToast, dismissToast,
@@ -196,6 +197,10 @@ function AppContent() {
       />
 
       <FirstAccessDisclaimer onAccept={() => setDisclaimerAccepted(true)} />
+
+      {disclaimerAccepted && activePage === 'medicamentos' && !showPremiumSheet && (
+        <OnboardingTooltip />
+      )}
 
       {showToast && (
         <DonationToast

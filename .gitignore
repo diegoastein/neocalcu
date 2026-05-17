@@ -21,6 +21,9 @@ yarn.lock
 .DS_Store
 Thumbs.db
 
+# Screenshots for Claude (not committed)
+capturas/
+
 # Logs
 *.log
 npm-debug.log*

@@ -62,7 +62,7 @@ export default function PatientInput() {
   const showMultiPatient = isPremium;
 
   return (
-    <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
+    <div data-onboarding="patient-input" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
 
       {/* Barra de pacientes — solo visible para suscriptores o si ya hay varios */}
       {showMultiPatient && (
