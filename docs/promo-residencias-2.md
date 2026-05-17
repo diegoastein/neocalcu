@@ -41,6 +41,8 @@ Ejemplos:
 
 El admin ya muestra columna de cupones usados/activos — con esta convención se puede filtrar visualmente por residencia.
 
+**Campo email del cupón:** dejarlo libre para que el residente ingrese su propio email. Esto le permite recuperar su cuenta si cambia de dispositivo vía `/recuperar`. No usar este campo para notas de residencia — el prefijo en el código es suficiente para el tracking.
+
 ---
 
 ## Copy para DMs
