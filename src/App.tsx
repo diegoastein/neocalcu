@@ -87,6 +87,7 @@ function AppContent() {
   const [focusedCalculadoraId, setFocusedCalculadoraId] = useState<string | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(() => !!localStorage.getItem('disclaimerAccepted'));
   const [showPremiumSheet, setShowPremiumSheet] = useState(false);
   const {
@@ -151,11 +152,28 @@ function AppContent() {
     return () => mq.removeEventListener('change', applySystem);
   }, [themeMode]);
 
+  // Mostrar banner de instalación tras el primer cálculo de dosis
+  useEffect(() => {
+    const handler = () => {
+      if (localStorage.getItem('neo_install_prompted')) return;
+      setTimeout(() => setShowInstallBanner(true), 2000);
+    };
+    window.addEventListener('neo:first_dose', handler);
+    return () => window.removeEventListener('neo:first_dose', handler);
+  }, []);
+
+  const dismissInstallBanner = () => {
+    localStorage.setItem('neo_install_prompted', '1');
+    setShowInstallBanner(false);
+  };
+
   const handleInstall = async () => {
     if (!installPrompt) return;
     await installPrompt.prompt();
     const { outcome } = await installPrompt.userChoice;
     trackEvent('pwa_install_prompt', { outcome });
+    localStorage.setItem('neo_install_prompted', '1');
+    setShowInstallBanner(false);
     setInstallPrompt(null);
   };
 
@@ -233,6 +251,34 @@ function AppContent() {
       <main className="flex-1 overflow-y-auto pb-20">
         {renderPage()}
       </main>
+
+      {showInstallBanner && !!installPrompt && !showToast && (
+        <div className="fixed bottom-16 inset-x-0 z-30 px-3 pb-2">
+          <div className="flex items-center gap-3 bg-brand-800 dark:bg-brand-900 rounded-2xl px-4 py-3 shadow-xl">
+            <div className="shrink-0 bg-white/10 rounded-xl p-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5 text-white">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3m-3 3h3m-3 3h3" />
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-white text-sm font-semibold leading-tight">Instalá NeoCalcu</p>
+              <p className="text-white/70 text-xs">Acceso directo, funciona offline</p>
+            </div>
+            <button
+              onClick={handleInstall}
+              className="shrink-0 bg-white text-brand-800 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
+            >
+              Instalar
+            </button>
+            <button
+              onClick={dismissInstallBanner}
+              className="shrink-0 text-white/50 hover:text-white text-xl leading-none transition-colors"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
 
       <BottomNav activePage={activePage} setActivePage={setActivePage} />
 

@@ -42,6 +42,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
     if (!doseTracked.current && calculation !== null && patient.weightGrams > 0) {
       trackEvent('calculate_dose', { drug_id: drug.id, drug_name: drug.name, weight_g: patient.weightGrams });
       doseTracked.current = true;
+      window.dispatchEvent(new CustomEvent('neo:first_dose'));
     }
   }, [calculation, drug.id, drug.name, patient.weightGrams]);
 
