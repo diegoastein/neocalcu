@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { labCategories } from '../data/laboratory';
 import { LabParameter } from '../types';
+import TooltipHint from '../components/TooltipHint';
+import { useTooltip } from '../hooks/useTooltip';
 
 function ReferenceRow({ param }: { param: LabParameter }) {
   const [expanded, setExpanded] = useState(false);
@@ -100,6 +102,7 @@ export default function LaboratoryPage() {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set([labCategories[0]?.id])
   );
+  const tip = useTooltip('laboratorio');
 
   const q = searchQuery.toLowerCase().trim();
 
@@ -156,6 +159,13 @@ export default function LaboratoryPage() {
           />
         </div>
       </div>
+
+      {tip.visible && (
+        <TooltipHint
+          text="Buscá por nombre o abreviatura. Tocá una categoría para expandirla y ver los valores de referencia neonatal."
+          onDismiss={tip.dismiss}
+        />
+      )}
 
       {/* Contenido */}
       <div className="flex-1 overflow-y-auto">

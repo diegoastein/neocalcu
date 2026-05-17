@@ -5,6 +5,8 @@ import { procedures } from '../data/procedures';
 import { scores } from '../data/scores';
 import { formulas } from '../data/formulas';
 import DrugDetail from '../components/DrugDetail';
+import TooltipHint from '../components/TooltipHint';
+import { useTooltip } from '../hooks/useTooltip';
 import { Drug, ActivePage } from '../types';
 
 type FavoriteItem = { type: 'drug' | 'procedure' | 'score' | 'formula'; id: string; name: string };
@@ -16,6 +18,7 @@ interface FavoritesPageProps {
 export default function FavoritesPage({ onNavigate }: FavoritesPageProps) {
   const { favorites } = useFavorites();
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
+  const tip = useTooltip('favoritos');
 
   const favoriteItems: FavoriteItem[] = [];
 
@@ -84,6 +87,13 @@ export default function FavoritesPage({ onNavigate }: FavoritesPageProps) {
           {favoriteItems.length} elemento{favoriteItems.length !== 1 ? 's' : ''} guardado{favoriteItems.length !== 1 ? 's' : ''}
         </p>
       </div>
+
+      {tip.visible && (
+        <TooltipHint
+          text="Los ítems marcados con ⭐ aparecen acá desde cualquier sección. Tocá uno para ir directo al detalle."
+          onDismiss={tip.dismiss}
+        />
+      )}
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto pb-20">

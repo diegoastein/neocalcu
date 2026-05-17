@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { usePatient, MAX_PATIENTS } from '../context/PatientContext';
 import { useMembership } from '../context/MembershipContext';
+import { useTooltip } from '../hooks/useTooltip';
+import TooltipHint from './TooltipHint';
 
 export default function PatientInput() {
   const { patient, setPatient, savedPatients, activeId, switchPatient, addPatient, removePatient, renamePatient } =
     usePatient();
   const { active: isPremium } = useMembership();
+  const tipMultipaciente = useTooltip('multipaciente');
 
   const [localWeight, setLocalWeight] = useState('');
   const [localGA, setLocalGA] = useState('');
@@ -130,6 +133,14 @@ export default function PatientInput() {
             </div>
           )}
         </div>
+      )}
+
+      {/* Tip multi-paciente — solo para suscriptores, primera vez */}
+      {showMultiPatient && tipMultipaciente.visible && (
+        <TooltipHint
+          text="Podés tener hasta 4 pacientes simultáneos. Tocá + para agregar y el nombre del tab para editarlo."
+          onDismiss={tipMultipaciente.dismiss}
+        />
       )}
 
       {/* Sin suscripción: teaser de la función */}

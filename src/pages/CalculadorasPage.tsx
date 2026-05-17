@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import PatientInput from '../components/PatientInput';
+import TooltipHint from '../components/TooltipHint';
+import { useTooltip } from '../hooks/useTooltip';
 import BilirubinCalculator from '../components/BilirubinCalculator';
 import ROPCalculator from '../components/ROPCalculator';
 import FinnceganCalculator from '../components/FinnceganCalculator';
@@ -112,6 +114,8 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
     return results;
   };
 
+  const tip = useTooltip('calculadoras');
+
   const formulaResult = calculateFormula();
   const allRequiredInputsFilled = currentFormula
     ? currentFormula.inputs.filter((inp) => inp.required).every((inp) => inputs[inp.id] !== undefined && inputs[inp.id] > 0)
@@ -120,6 +124,13 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
       <PatientInput />
+
+      {tip.visible && (
+        <TooltipHint
+          text="Elegí un índice clínico o fórmula en el selector. El peso del paciente activo se completa automáticamente."
+          onDismiss={tip.dismiss}
+        />
+      )}
 
       {/* Selector unificado */}
       <div className="bg-brand-50 dark:bg-slate-900 border-b border-brand-200 dark:border-slate-700 px-4 py-3 sticky top-16 z-10">

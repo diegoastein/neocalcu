@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import PatientInput from '../components/PatientInput';
 import ProcedureNotes from '../components/ProcedureNotes';
+import TooltipHint from '../components/TooltipHint';
+import { useTooltip } from '../hooks/useTooltip';
 import { procedures } from '../data/procedures';
 import { useFavorites } from '../context/FavoritesContext';
 import { usePatient } from '../context/PatientContext';
@@ -15,6 +17,7 @@ export default function ProceduresPage({ initialExpanded = null }: ProceduresPag
   const { toggleFavorite, isFavorite } = useFavorites();
   const { patient } = usePatient();
   const procedureRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const tip = useTooltip('procedimientos');
 
   const toggleProcedure = (id: string) => {
     const next = expandedProcedure === id ? null : id;
@@ -52,6 +55,13 @@ export default function ProceduresPage({ initialExpanded = null }: ProceduresPag
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
       <PatientInput />
+
+      {tip.visible && (
+        <TooltipHint
+          text="Tocá cualquier procedimiento para ver fórmulas, pasos y materiales. Guardá los más usados con ⭐."
+          onDismiss={tip.dismiss}
+        />
+      )}
 
       {/* Procedures list */}
       <div className="flex-1 overflow-y-auto pb-20">
