@@ -199,7 +199,7 @@ function AppContent() {
 
       {showToast && (
         <DonationToast
-          onDonate={(plan) => { trackEvent('click_apoyar', { source: 'toast', plan }); handleDonate(plan); }}
+          onDonate={(plan) => { trackEvent('click_apoyar', { source: 'toast', plan }); return handleDonate(plan); }}
           onDismiss={dismissToast}
           onRecover={handleRecover}
           loadingPlan={loadingPlan}
