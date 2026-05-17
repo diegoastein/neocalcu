@@ -23,23 +23,17 @@ Efecto esperado: si hay 6 residentes en una guardia, 3 pagan y 3 entran gratis �
 3. Residente abre neocalcu.pro → toca **Apoyar** → elige plan → paga por MercadoPago
 4. La app activa la membresía automáticamente con `?paid=1`
 5. Residente avisa por DM que pagó
-6. Generar cupón desde el admin (con nombre de la residencia en el campo de nota/email)
+6. Generar cupón desde el admin (código automático) y anotarlo en la tabla de seguimiento con la residencia correspondiente
 7. Enviar el cupón por DM
 8. El colega lo canjea en la app desde SettingsPanel
 
 ---
 
-## Convención de nombres para cupones
+## Tracking de cupones
 
-Para trackear por residencia usar el formato: `HOSPITAL-XXXX`
+El admin genera códigos automáticos (ej. `AB3K7MNQ`). El mapeo residencia ↔ cupón se lleva en la tabla de seguimiento de este doc.
 
-Ejemplos:
-- `GARRAHAN-XXXX`
-- `POSADAS-XXXX`
-- `SARDÁ-XXXX`
-- `GUTIERREZ-XXXX`
-
-El admin ya muestra columna de cupones usados/activos — con esta convención se puede filtrar visualmente por residencia.
+**Campo email del cupón:** dejarlo libre para que el residente ingrese su propio email. Le permite recuperar su cuenta si cambia de dispositivo. No usarlo para notas internas.
 
 ---
 
@@ -93,7 +87,7 @@ Lista de residencias a contactar (completar):
 
 ## Seguimiento
 
-| Residencia | Contacto | Fecha DM | Pagó | Cupón enviado | Cupón canjeado |
+| Residencia | Contacto | Fecha DM | Pagó | Cupón generado | Cupón canjeado |
 |---|---|---|---|---|---|
 | | | | | | |
 
@@ -101,6 +95,6 @@ Lista de residencias a contactar (completar):
 
 ## Notas
 
-- Si el storage del residente se borra, la membresía se restaura automáticamente — el worker verifica en cada apertura
-- El cupón no tiene vencimiento configurado actualmente — verificar en el admin si se quiere limitar
+- Los cupones no tienen vencimiento — verificar en el admin si se quiere limitar
+- **Recuperación de cuenta:** si el residente pierde la membresía (cambio de celu, reset), puede recuperarla solo desde la app ingresando su email registrado (toast → "Recuperar"). No requiere intervención manual. Solo funciona si registró el email previamente — recordarles que lo hagan cuando la app lo pida.
 - La promo no requiere cambios en el código — todo corre sobre la infraestructura existente
