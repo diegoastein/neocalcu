@@ -1,0 +1,236 @@
+# ----------------------------------------
+# Informe panorámico
+# Cuenta: Neomonitor
+# Propiedad: Neocalcu
+# ----------------------------------------
+#  
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Usuarios activos,Usuarios nuevos,Tiempo de interacción medio por usuario activo,Número de eventos
+392,395,16.915816326530614,2951
+
+#  
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Título de página y clase de pantalla,Vistas,Usuarios activos,Número de eventos,Porcentaje de rebote
+NeoCalcu,995,392,2942,0.6815642458100558
+NeoCalcu - https://diegoastein.github.io/neocalcu/,2,1,9,0.5
+
+#  
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Primera fuente/medio del usuario,Usuarios activos
+(direct) / (none),330
+linktr.ee / referral,33
+ig / social,23
+facebook.com / referral,2
+neocalcu.pro / referral,2
+bing / organic,1
+getneomonitor.pro / referral,1
+
+#  
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Fuente/medio de la sesión,Sesiones
+(direct) / (none),412
+ig / social,34
+linktr.ee / referral,33
+getneomonitor.pro / referral,5
+facebook.com / referral,2
+neocalcu.pro / referral,2
+bing / organic,1
+
+#  
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Día N,new,returning
+0000,0,0
+0001,0,0
+0002,0,0
+0003,0,0
+0004,0,0
+0005,0,0
+0006,0,0
+0007,0,0
+0008,0,0
+0009,0,0
+0010,0,0
+0011,0,0
+0012,0,0
+0013,0,0
+0014,0,0
+0015,0,0
+0016,11,3
+0017,104,16
+0018,8,4
+0019,3,5
+0020,54,8
+0021,28,6
+0022,49,8
+0023,29,7
+0024,51,9
+0025,26,4
+0026,15,5
+0027,14,0
+
+# Datos sobre la actividad en sus plataformas
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Plataforma,Eventos clave
+
+
+#  
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Ciudad,Usuarios activos
+Buenos Aires,78
+Council Bluffs,21
+Mexico City,14
+Warsaw,13
+Asuncion,10
+Rosario,10
+Cali,9
+Guayaquil,7
+Puebla,7
+Boardman,6
+Haedo,6
+San Salvador de Jujuy,6
+Santiago,6
+Bogota,5
+Caseros,5
+Lanus,5
+Merlo,5
+Santa Fe,5
+Cordoba,4
+Ramos Mejia,4
+Santa Cruz De La Sierra,4
+Barranquilla,3
+Ciudad Juarez,3
+Gonzalez Catan,3
+La Paz,3
+Maipu,3
+Medellin,3
+Mendoza,3
+Merida,3
+Neuquen,3
+Pasto,3
+Phoenix,3
+Quito,3
+Vicente Lopez,3
+Anyang-si,2
+Aspen,2
+Burnaby,2
+Castelar,2
+Ciudad Evita,2
+Cochabamba,2
+Coquimbo,2
+Fresnillo,2
+Godoy Cruz,2
+Guadalupe,2
+Ituzaingo,2
+La Plata,2
+Lujan,2
+Monterrey,2
+Montevideo,2
+Moron,2
+Ocana,2
+Pergamino,2
+San Justo,2
+San Mateo Otzacatipan,2
+Tjele,2
+Veracruz,2
+Aguascalientes,1
+Angol,1
+Apizaco,1
+Araruama,1
+Ashburn,1
+Avellaneda,1
+Bahia de Caraquez,1
+Banfield,1
+Barcelona,1
+Belen de Escobar,1
+Calceta,1
+Cartagena,1
+Cayma,1
+Cheyenne,1
+Chihuahua,1
+Ciudad Acuna,1
+Ciudad Apodaca,1
+Ciudad Madero,1
+Ciudad Nicolas Romero,1
+Ciudad Victoria,1
+Ciudadela,1
+Concepcion,1
+Concepcion del Uruguay,1
+Dover,1
+Dublin,1
+El Palomar,1
+Florencio Varela,1
+Flower Mound,1
+Garupa,1
+General Roca,1
+Groningen,1
+Guadalajara,1
+Hermosillo,1
+Heroica Veracruz,1
+Jose C. Paz,1
+Junin,1
+Juriquilla,1
+La Capuera,1
+La Lonja,1
+Lenexa,1
+Lille,1
+Linares,1
+Lomas de Angelopolis,1
+Lomas de Zamora,1
+Lujan de Cuyo,1
+Madrid,1
+Manuel Alberti,1
+Mar del Plata,1
+Mariano Acosta,1
+Marinilla,1
+Martinez,1
+Mercedes,1
+Mexicali,1
+Monteria,1
+Morelia,1
+Moreno,1
+Newport,1
+Nuevo Chimbote,1
+Oakdale,1
+Oaxaca,1
+Obera,1
+Pachuca,1
+Port Neches,1
+Prineville,1
+Quilmes,1
+Quilmes Oeste,1
+Remedios de Escalada,1
+Salta,1
+San Andres de Giles,1
+San Fernando,1
+San Gil,1
+San Miguel,1
+San Miguel de Tucuman,1
+Santiago de Queretaro,1
+Slough,1
+Strasbourg,1
+Tampico,1
+Tarija,1
+Temuco,1
+Tepalcingo,1
+Trujui,1
+Tucson,1
+Tulua,1
+Villa Tesei,1
+Villa del Rosario,1
+Villahermosa,1
+Zacatecas,1
+Zapopan,1
+Zarate,1
+
+#  
+# Fecha de inicio: 20260418
+# Fecha de finalización: 20260515
+Nombre de la audiencia,Usuarios activos
+All Users,392

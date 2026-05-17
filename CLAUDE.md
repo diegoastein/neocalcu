@@ -288,7 +288,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-13, últ. actualización 2026-05-13 — sesión 3)
+## Estado actual (2026-05-13, últ. actualización 2026-05-16 — sesión 4)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -378,7 +378,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ PWA con Service Worker offline e íconos PNG nativos (icon-192, icon-512, apple-touch-icon, favicon-32)
 - ✅ Manifest con `start_url` y `scope` correctos → genera acceso directo en lanzador Android/iOS
 - ✅ Google Analytics 4 integrado (ID: `G-V37SQEN7J7`) — snippet en `<head>` de `index.html`
-- ✅ Dominio `neocalcul.pro` — redirect via Cloudflare hacia `https://diegoastein.github.io/neocalcu/` (sin cambios en el código ni el worker)
+- ✅ Dominio `neocalcu.pro` — redirect via Cloudflare hacia `https://diegoastein.github.io/neocalcu/` (sin cambios en el código ni el worker)
 
 ## Agregar un medicamento nuevo
 
@@ -418,3 +418,34 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 **Largo plazo:**
 - **Historial de cálculos** — últimos N cálculos con fecha y peso.
 - **Temas de color adicionales** — incentivo freemium clásico.
+
+### Retención y descubrimiento (prioridad semana 2026-05-19)
+
+Contexto: analytics (18 abril — 15 mayo) muestra 392 usuarios, 16.9s de sesión promedio, retención casi nula. Tráfico 100% dependiente de posts de Instagram, sin orgánico. Nadie llega al flujo de pago porque el volumen es demasiado chico.
+
+**1. Eventos GA4 — entender qué hace el usuario** ⬅ arrancar por acá
+Sin eventos, se sabe que entran y salen pero no qué tocan. Agregar tracking en:
+- Búsqueda de medicamento (query + resultado)
+- Apertura de DrugDetail
+- Cálculo de dosis (peso ingresado)
+- Expansión de procedimiento
+- Selección de calculadora/score
+- Click en "Apoyar"
+
+Implementar con `gtag('event', ...)` directo en los handlers. No requiere librería externa.
+
+**2. Tooltips de onboarding — mostrar cómo se usa**
+Primera vez que el usuario abre la app, mostrar tooltips contextuales que expliquen el flujo básico:
+- Paso 1: "Ingresá el peso del paciente acá arriba"
+- Paso 2: "Buscá un medicamento"
+- Paso 3: "Obtenés la dosis calculada al instante"
+
+Mostrar solo en el primer acceso (`localStorage` key `neo_onboarding_done`). Tooltip simple con flecha apuntando al elemento, botón "Entendido" para avanzar. Sin librerías — implementar con posicionamiento absoluto sobre un overlay semitransparente.
+
+**3. Prompt de instalación PWA más visible**
+El botón de instalación está escondido en el SettingsPanel. Mostrarlo también después de que el usuario calculó su primera dosis — ese es el momento de mayor valor percibido. Usar el evento `beforeinstallprompt` que ya está capturado en `App.tsx`.
+
+### Google Play Store
+Ver hoja de ruta completa en `docs/ROADMAP_PLAYSTORE.md`.
+
+Decisión de monetización: publicar gratis en Play Store sin flujo de pago interno (MercadoPago viola política de Google). Los suscriptores existentes se desbloquean automáticamente vía `device_id`. Nuevos suscriptores se dirigen a neocalcu.pro desde dentro de la app.
