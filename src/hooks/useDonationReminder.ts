@@ -127,6 +127,17 @@ export function useDonationReminder() {
       });
   }, [refreshMembership, syncUserDataNow]);
 
+  // Sync al salir/minimizar la app para no perder cambios hechos durante la sesión
+  useEffect(() => {
+    const handleHide = () => {
+      if (isDonationActive() && localStorage.getItem(EMAIL_REGISTERED_KEY)) {
+        syncUserDataNow();
+      }
+    };
+    document.addEventListener('visibilitychange', handleHide);
+    return () => document.removeEventListener('visibilitychange', handleHide);
+  }, [syncUserDataNow]);
+
   const dismissToast = useCallback(() => {
     setShowToast(false);
   }, []);
@@ -159,12 +170,16 @@ export function useDonationReminder() {
         if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
         setShowToast(false);
         refreshMembership();
-        if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);
+        if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) {
+          setShowEmailCapture(true);
+        } else {
+          syncUserDataNow();
+        }
       }
     } catch {
       // Sin conexión — falla silenciosamente
     }
-  }, [refreshMembership]);
+  }, [refreshMembership, syncUserDataNow]);
 
   const handleRedeem = useCallback(async (code: string): Promise<RedeemResult> => {
     try {
@@ -178,7 +193,11 @@ export function useDonationReminder() {
         if (data.email) localStorage.setItem(EMAIL_REGISTERED_KEY, '1');
         setShowToast(false);
         refreshMembership();
-        if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);
+        if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) {
+          setShowEmailCapture(true);
+        } else {
+          syncUserDataNow();
+        }
         return 'success';
       }
       if (data.error === 'invalid_code') return 'invalid';
@@ -187,7 +206,7 @@ export function useDonationReminder() {
     } catch {
       return 'error';
     }
-  }, [refreshMembership]);
+  }, [refreshMembership, syncUserDataNow]);
 
   const handleRecover = useCallback(async (email: string): Promise<RecoverResult> => {
     try {
@@ -229,13 +248,15 @@ export function useDonationReminder() {
       if (data.success) {
         localStorage.setItem(EMAIL_REGISTERED_KEY, '1');
         setShowEmailCapture(false);
+        // Ahora que email y dispositivo están vinculados, subir datos inmediatamente
+        syncUserDataNow();
         return 'success';
       }
       return 'error';
     } catch {
       return 'error';
     }
-  }, []);
+  }, [syncUserDataNow]);
 
   return {
     showToast, dismissToast,
