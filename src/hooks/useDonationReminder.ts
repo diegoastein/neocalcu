@@ -60,6 +60,11 @@ interface RedeemResponse {
   error?: string;
 }
 
+interface UserData {
+  favorites: string[];
+  notes: Record<string, string>;
+}
+
 export type RedeemResult = 'success' | 'invalid' | 'used' | 'error';
 export type RecoverResult = 'success' | 'not_found' | 'expired' | 'error';
 export type RegisterEmailResult = 'success' | 'error';
@@ -74,6 +79,21 @@ export function useDonationReminder() {
     setMembership(getMembershipInfo());
   }, []);
 
+  const syncUserDataNow = useCallback(async () => {
+    try {
+      const deviceId = getOrCreateDeviceId();
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]') as string[];
+      const notes = JSON.parse(localStorage.getItem('neo_procedure_notes') || '{}') as Record<string, string>;
+      await fetch(`${WORKER_URL}/guardar-datos?device=${deviceId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ favorites, notes }),
+      });
+    } catch {
+      // fail silently
+    }
+  }, []);
+
   useEffect(() => {
     const count = parseInt(localStorage.getItem(OPEN_COUNT_KEY) || '0') + 1;
     localStorage.setItem(OPEN_COUNT_KEY, count.toString());
@@ -82,9 +102,12 @@ export function useDonationReminder() {
     // Pero si el email no está registrado, recordárselo en cada apertura.
     if (isDonationActive()) {
       if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);
+      // Sincronizar favoritos y notas al worker si el email está registrado
+      if (localStorage.getItem(EMAIL_REGISTERED_KEY)) {
+        syncUserDataNow();
+      }
       return;
     }
-
     // Sin membresía en localStorage: siempre verificar contra el worker.
     // Así se restaura automáticamente si el storage fue borrado pero el device_id sigue en KV.
     const deviceId = getOrCreateDeviceId();
@@ -102,7 +125,7 @@ export function useDonationReminder() {
       .catch(() => {
         // Sin conexión — no molestar al usuario
       });
-  }, [refreshMembership]);
+  }, [refreshMembership, syncUserDataNow]);
 
   const dismissToast = useCallback(() => {
     setShowToast(false);
@@ -170,10 +193,20 @@ export function useDonationReminder() {
     try {
       const deviceId = getOrCreateDeviceId();
       const res = await fetch(`${WORKER_URL}/recuperar?device=${deviceId}&email=${encodeURIComponent(email.trim().toLowerCase())}`);
-      const data = await res.json() as { success: boolean; error?: string; plan?: 'mensual' | 'anual'; timestamp?: string };
+      const data = await res.json() as { success: boolean; error?: string; plan?: 'mensual' | 'anual'; timestamp?: string; userData?: UserData };
       if (data.success) {
         localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
         localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
+        // Restaurar favoritos y notas si el worker los devolvió
+        if (data.userData) {
+          if (data.userData.favorites?.length) {
+            localStorage.setItem('favorites', JSON.stringify(data.userData.favorites));
+          }
+          if (data.userData.notes && Object.keys(data.userData.notes).length) {
+            localStorage.setItem('neo_procedure_notes', JSON.stringify(data.userData.notes));
+          }
+          window.dispatchEvent(new CustomEvent('neo:data-restored'));
+        }
         setShowToast(false);
         refreshMembership();
         return 'success';

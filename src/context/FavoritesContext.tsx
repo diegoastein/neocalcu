@@ -18,6 +18,16 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('favorites', JSON.stringify(Array.from(favorites)));
   }, [favorites]);
 
+  // Escuchar evento de restauración tras recuperar suscripción
+  useEffect(() => {
+    const handler = () => {
+      const stored = localStorage.getItem('favorites');
+      setFavorites(stored ? new Set(JSON.parse(stored)) : new Set());
+    };
+    window.addEventListener('neo:data-restored', handler);
+    return () => window.removeEventListener('neo:data-restored', handler);
+  }, []);
+
   const toggleFavorite = (id: string) => {
     const newFavorites = new Set(favorites);
     if (newFavorites.has(id)) {

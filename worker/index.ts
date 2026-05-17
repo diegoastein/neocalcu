@@ -395,14 +395,30 @@ export default {
         });
       }
 
-      // Invalidar el dispositivo anterior para que la suscripción quede en uno solo
-      if (emailRecord.deviceId && emailRecord.deviceId !== device) {
-        await env.DONATIONS_KV.delete(emailRecord.deviceId);
+      // Copiar datos de usuario del dispositivo anterior al nuevo
+      let userData: { favorites: string[]; notes: Record<string, string> } | null = null;
+      const oldDeviceId = emailRecord.deviceId;
+      if (oldDeviceId && oldDeviceId !== device) {
+        const oldUserDataRaw = await env.DONATIONS_KV.get(`userdata:${oldDeviceId}`);
+        if (oldUserDataRaw) {
+          try {
+            userData = JSON.parse(oldUserDataRaw) as { favorites: string[]; notes: Record<string, string> };
+            await env.DONATIONS_KV.put(`userdata:${device}`, oldUserDataRaw);
+          } catch { /* ignore */ }
+        }
+        // Invalidar el dispositivo anterior
+        await env.DONATIONS_KV.delete(oldDeviceId);
       }
+
       await env.DONATIONS_KV.put(device, JSON.stringify(record));
       await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify({ deviceId: device, ts: emailRecord.ts, plan: emailRecord.plan } as EmailRecord));
 
-      return new Response(JSON.stringify({ success: true, plan: record.plan, timestamp: record.ts.toString() }), {
+      return new Response(JSON.stringify({
+        success: true,
+        plan: record.plan,
+        timestamp: record.ts.toString(),
+        ...(userData ? { userData } : {}),
+      }), {
         headers: { 'Content-Type': 'application/json', ...cors },
       });
     }
@@ -440,6 +456,50 @@ export default {
       return new Response(JSON.stringify({ success: true }), {
         headers: { 'Content-Type': 'application/json', ...cors },
       });
+    }
+
+    // ── Guardar datos de usuario (favoritos + notas) ──────────────────────
+    if (url.pathname === '/guardar-datos' && request.method === 'POST') {
+      const device = url.searchParams.get('device');
+      if (!device) {
+        return new Response(JSON.stringify({ error: 'missing_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const raw = await env.DONATIONS_KV.get(device);
+      if (!raw) {
+        return new Response(JSON.stringify({ error: 'not_found' }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const record = parseDonationRecord(raw);
+      if (!isMembershipActive(record)) {
+        return new Response(JSON.stringify({ error: 'expired' }), {
+          status: 403,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      try {
+        const body = await request.json() as { favorites?: string[]; notes?: Record<string, string> };
+        await env.DONATIONS_KV.put(`userdata:${device}`, JSON.stringify({
+          favorites: body.favorites ?? [],
+          notes: body.notes ?? {},
+          savedAt: Date.now(),
+        }));
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      } catch {
+        return new Response(JSON.stringify({ error: 'invalid_body' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
     }
 
     // ══════════════════════════════════════════════════════════════════════

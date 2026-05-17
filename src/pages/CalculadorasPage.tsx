@@ -124,7 +124,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
       <PatientInput />
 
       {/* Selector unificado */}
-      <div className="bg-brand-50 dark:bg-slate-900 border-b border-brand-200 dark:border-slate-700 px-4 py-3 sticky top-16 z-10">
+      <div data-onboarding="calculadora-select" className="bg-brand-50 dark:bg-slate-900 border-b border-brand-200 dark:border-slate-700 px-4 py-3 sticky top-16 z-10">
         <label className="block text-xs font-semibold text-brand-700 dark:text-brand-400 uppercase tracking-wide mb-2">
           Selecciona índice o fórmula
         </label>

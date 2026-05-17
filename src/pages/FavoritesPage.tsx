@@ -78,7 +78,7 @@ export default function FavoritesPage({ onNavigate }: FavoritesPageProps) {
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
+      <div data-onboarding="favorites-header" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Favoritos</h1>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           {favoriteItems.length} elemento{favoriteItems.length !== 1 ? 's' : ''} guardado{favoriteItems.length !== 1 ? 's' : ''}

@@ -135,7 +135,7 @@ export default function LaboratoryPage() {
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-slate-950 pb-20">
       {/* Header con buscador */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
+      <div data-onboarding="lab-search" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
         <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-3">Valores de referencia neonatal</h1>
         <div className="relative">
           <svg

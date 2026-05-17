@@ -25,6 +25,59 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+const TAB_STEPS: Partial<Record<ActivePage, { target: string; title: string; text: string }[]>> = {
+  medicamentos: [
+    {
+      target: 'patient-input',
+      title: 'Ingresá el peso',
+      text: 'Todos los cálculos se ajustan automáticamente al peso que ingresás acá arriba.',
+    },
+    {
+      target: 'multi-patient',
+      title: 'Múltiples pacientes',
+      text: 'Podés manejar hasta 4 pacientes simultáneos. Cambiá entre ellos sin perder los datos de cada uno.',
+    },
+    {
+      target: 'drug-search',
+      title: 'Buscá un medicamento',
+      text: 'Escribí el nombre y filtramos entre más de 200 drogas de la UCIN al instante.',
+    },
+    {
+      target: 'drug-list',
+      title: 'Dosis al toque',
+      text: 'Tocá cualquier medicamento y obtenés la dosis exacta para el peso que ingresaste.',
+    },
+  ],
+  procedimientos: [
+    {
+      target: 'procedures-list',
+      title: '24 procedimientos bedside',
+      text: 'Vías, surfactante, RCP, nutrición, bilirrubina y más. Tocá cualquiera para ver pasos, fórmulas y materiales.',
+    },
+  ],
+  calculadoras: [
+    {
+      target: 'calculadora-select',
+      title: 'Índices y fórmulas',
+      text: 'Elegí entre índices clínicos (Silverman, Apgar, Bilirrubina) o fórmulas médicas. El peso del paciente se carga automáticamente.',
+    },
+  ],
+  laboratorio: [
+    {
+      target: 'lab-search',
+      title: 'Valores de referencia neonatal',
+      text: 'Buscá entre 85 parámetros en 12 categorías. Sin búsqueda activa, explorá los acordeones por categoría.',
+    },
+  ],
+  favoritos: [
+    {
+      target: 'favorites-header',
+      title: 'Tus accesos rápidos',
+      text: 'Marcá el ⭐ en medicamentos, procedimientos, calculadoras y fórmulas. Al tocarlos acá vas directo a su detalle.',
+    },
+  ],
+};
+
 function AppContent() {
   const [activePage, setActivePage] = useState<ActivePage>('medicamentos');
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
@@ -198,8 +251,13 @@ function AppContent() {
 
       <FirstAccessDisclaimer onAccept={() => setDisclaimerAccepted(true)} />
 
-      {disclaimerAccepted && activePage === 'medicamentos' && !showPremiumSheet && (
-        <OnboardingTooltip />
+      {disclaimerAccepted && !showPremiumSheet && TAB_STEPS[activePage] && (
+        <OnboardingTooltip
+          key={activePage}
+          steps={TAB_STEPS[activePage]!}
+          storageKey={`neo_onboarding_${activePage}`}
+          legacyKey={activePage === 'medicamentos' ? 'neo_onboarding_done' : undefined}
+        />
       )}
 
       {showToast && (
