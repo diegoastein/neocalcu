@@ -1,4 +1,4 @@
-# NeoCalcu → Play Store: Plan de ejecución
+# NeoCalcu — Plan de crecimiento: Play Store + Campaña Residencias
 
 ## Contexto de la decisión
 
@@ -250,3 +250,88 @@ Cuando haya ~1.000 usuarios y se quiera monetizar en Play Store:
 - Digital Asset Links validator: developers.google.com/digital-asset-links/tools/generator
 - Play Console: play.google.com/console
 - Bubblewrap CLI: github.com/GoogleChromeLabs/bubblewrap
+
+---
+
+---
+
+# Campaña 2×1 — Residencias Médicas (agosto)
+
+## Contexto
+
+- Las residencias médicas en Argentina comienzan en **septiembre/octubre**
+- El momento de mayor receptividad es **agosto** — los R1 están equipándose antes de arrancar
+- El contacto a jefes de residentes debe hacerse en **julio**, antes del caos del inicio
+- Canal principal actual: Instagram (ya trae ~400 usuarios/mes)
+
+## Concepto
+
+**"Entrá con tu R"**
+
+Un residente paga, el otro entra gratis. Apunta a la dinámica natural de las residencias: siempre trabajan en duplas, comparten guardias, comparten herramientas.
+
+El framing no es "descuento" — es "invitá a alguien". La app no vale menos; querés que tu colega también la tenga.
+
+## Target
+
+**Residentes de Pediatría y Neonatología, R1 y R2, que rotan por UCIN.**
+
+El decisor no es el hospital — es el **jefe de residentes** o el residente más senior del grupo. Un solo contacto puede activar 4-8 usuarios.
+
+Par natural del 2×1: **R1 que arranca** + **R2 o R3 que lo tutorear**.
+
+## Mecánica
+
+- Un residente paga el plan (mensual o anual)
+- Recibe automáticamente un cupón de regalo para un colega
+- El colega canjea sin pagar — activa su membresía por el mismo período
+- Ninguno puede transferir ni acumular más cupones
+
+⚠️ **Cambio técnico necesario:** hoy el cupón se genera manualmente desde el admin. Para escalar la campaña hay que modificar el worker para que al verificar un pago genere y envíe automáticamente un cupón al email del comprador. Sin esto, cada venta requiere intervención manual.
+
+## Mensajes
+
+**Instagram:**
+> *"En la guardia de UCIN nunca estás solo. Tu suscripción tampoco."*
+> *"Pagá una, úsala dos. Para los que hacen guardia juntos."*
+
+**WhatsApp (el comprador reenvía):**
+> *"Tengo NeoCalcu premium y te mando un cupón para que entres gratis."*
+
+**Directo a jefe de residentes (julio):**
+> *"Si la adoptás en tu residencia, el primero entra gratis."*
+
+**Story/campaña agosto:**
+> *"Empezás la residencia en septiembre. Empezá equipado."*
+
+## Canales y secuencia
+
+| Mes | Acción |
+|-----|--------|
+| Julio | Contacto directo a jefes de residentes (10-15 hospitales clave) |
+| Agosto semana 1 | Lanzar campaña en Instagram + activar 2×1 en el worker |
+| Agosto semanas 2-3 | Stories con countdown, WhatsApp groups |
+| Agosto semana 4 | Cerrar el 2×1, volver a precio normal |
+
+**Hospitales prioritarios para contacto directo:**
+Garrahan, Elizalde, Sardá, Gutiérrez (CABA) + hospitales provinciales con residencia de neonatología activa.
+
+## Duración
+
+3 semanas. Suficiente para generar urgencia sin diluir la oferta.
+
+## Métrica de éxito
+
+En esta etapa no es conversión económica — es **pares activados**:
+- Cuántos cupones 2×1 fueron generados
+- Cuántos fueron canjeados (tasa de activación del segundo usuario)
+- Si el segundo usuario retiene (vuelve después de la primera semana)
+
+Si un par retiene → dos residentes usan NeoCalcu en guardia → la recomiendan a la siguiente cohorte.
+
+## Contenido visual
+
+Generar desde el admin (generador de contenido con Claude) en julio, cerca de agosto. No tiene sentido crearlo antes. Formatos necesarios:
+- 1 Reel: dos residentes en guardia, flujo de uso de la app
+- 2-3 Stories con countdown de duración limitada
+- 1 mensaje de WhatsApp listo para reenviar
