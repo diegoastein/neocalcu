@@ -15,6 +15,7 @@ import DonationToast from './components/DonationToast';
 import EmailCaptureModal from './components/EmailCaptureModal';
 import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
 import OnboardingTooltip from './components/OnboardingTooltip';
+import PromoResidenciasOverlay, { PromoHeaderBadge } from './components/PromoResidenciasOverlay';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
 
@@ -90,6 +91,7 @@ function AppContent() {
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(() => !!localStorage.getItem('disclaimerAccepted'));
   const [showPremiumSheet, setShowPremiumSheet] = useState(false);
+  const [showPromoOverlay, setShowPromoOverlay] = useState(false);
   const {
     showToast, dismissToast,
     showEmailCapture, dismissEmailCapture,
@@ -224,6 +226,8 @@ function AppContent() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </button>
+        <PromoHeaderBadge onClick={() => setShowPromoOverlay(true)} />
+
         {membership.active ? (
           <div
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 text-xs font-semibold select-none"
@@ -326,6 +330,18 @@ function AppContent() {
         <PremiumFeaturesSheet
           onSubscribe={(plan) => { setShowPremiumSheet(false); trackEvent('click_apoyar', { source: 'premium_sheet', plan }); handleDonate(plan); }}
           onDismiss={() => setShowPremiumSheet(false)}
+        />
+      )}
+
+      {showPromoOverlay && (
+        <PromoResidenciasOverlay
+          onClose={() => setShowPromoOverlay(false)}
+          onDonate={(plan) => {
+            setShowPromoOverlay(false);
+            trackEvent('click_apoyar', { source: 'promo_residencias', plan });
+            handleDonate(plan);
+          }}
+          loadingPlan={loadingPlan}
         />
       )}
     </div>
