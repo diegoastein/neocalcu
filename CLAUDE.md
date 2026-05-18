@@ -104,6 +104,7 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`ProcedureNotes.tsx`** — campo de notas libre por procedimiento. Lee/escribe `localStorage` en la clave `neo_procedure_notes` (objeto `{ [procedureId]: string }`). Guarda `onBlur`. Textarea de 1 línea que crece automáticamente al escribir. Gate premium: bloque dashed con candado. Sin relación con el paciente activo — las notas persisten siempre.
 - **`ShareResultButton.tsx`** — botón premium para compartir el resultado de cualquier cálculo. Usa Web Share API si está disponible (abre share sheet nativo); fallback a `navigator.clipboard.writeText()`. Props: `text: string`, `title?: string`. Muestra feedback "Compartido" / "Copiado" por 2s. Gate premium: bloque compacto inline con candado.
 - **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión. **Lógica de verificación:** si hay membresía activa en localStorage → no llama al worker (eficiente), pero sí muestra `EmailCaptureModal` si el email no está registrado. Si no hay membresía → llama al worker en **cada apertura** (no solo cada 3) para restaurar automáticamente si el storage fue borrado. El toast de donación sigue mostrándose solo cada 3 aperturas.
+- **`PromoResidenciasOverlay.tsx`** — sistema de avisos/promociones en el header. Exporta dos elementos: `PromoHeaderBadge` (badge ámbar parpadeante entre hamburguesa y botón derecho, muestra texto + countdown; retorna `null` cuando `EXPIRY` vence) y `PromoResidenciasOverlay` (overlay modal con descripción de la promo, countdown en tiempo real, botones de pago mensual/anual a MercadoPago, y link a Instagram). Visible para todos (suscriptores y no suscriptores). **Para futuras promos:** ajustar `EXPIRY`, el texto del badge y el contenido del overlay — el espacio, colores ámbar y tipografía están definidos para reutilizarse. El overlay se cierra antes de navegar a MercadoPago para evitar que bfcache lo restaure abierto al volver.
 
 ### Páginas y navegación
 
@@ -222,7 +223,7 @@ Metadatos opcionales:
 - Colores `brand-*` (verde esmeralda: `#022c22` a `#ecfdf5`, incluye `950`) como color primario; usar variantes del objeto `brand` en `tailwind.config.js`
 - **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
 - Dark mode con tres modos: **Sistema** (sigue `prefers-color-scheme`), **Día**, **Noche** — controlado desde `SettingsPanel`. El estado `themeMode: 'system'|'light'|'dark'` persiste en `localStorage`
-- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + elemento dinámico en vértice superior derecho: si la membresía está activa → badge verde con corazón "¡Gracias!" (no clickeable); si no → botón **"Apoyar"** (brand colors, ícono SVG de taza) que llama a `handleDonate()`
+- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + **zona central de avisos** (opcional, `PromoHeaderBadge` cuando hay promo activa) + elemento dinámico en vértice superior derecho: si la membresía está activa → badge verde con corazón "¡Gracias!" (no clickeable); si no → botón **"Apoyar"** (brand colors, ícono SVG de taza) que llama a `handleDonate()`
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
@@ -288,7 +289,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-13, últ. actualización 2026-05-16 — sesión 4)
+## Estado actual (2026-05-13, últ. actualización 2026-05-18 — sesión 5)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -356,6 +357,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ **Registro de email persistente**: `EmailCaptureModal` aparece en cada apertura hasta que el usuario registre su email; no se puede cerrar tocando el backdrop
 - ✅ **Email en cupones**: al generar un cupón en el admin se puede asignar un email de destinatario; al canjearlo, el email se registra automáticamente en KV y la app setea `neo_email_registered='1'` sin mostrar el modal
 - ✅ **Un dispositivo a la vez**: `/recuperar` invalida el dispositivo anterior en KV al transferir la suscripción; imposible tener la misma suscripción activa en dos dispositivos simultáneamente
+- ✅ **Promo Residencias 2×1** (activa hasta 2026-06-01): badge ámbar parpadeante en header con countdown; overlay con descripción, countdown, botones de pago y link a Instagram. Visible para todos. `PromoResidenciasOverlay.tsx` reutilizable para futuras promos ajustando `EXPIRY` y texto.
 
 **Funciones premium (freemium):**
 - ✅ **Tabla de velocidades de inotrópicos** — toggle en `InotropicCalculator`, tabla dosis × volumen con flujos en mL/h; candado para no suscriptores
