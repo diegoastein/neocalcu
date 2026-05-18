@@ -1,4 +1,5 @@
 import { ActivePage } from '../types';
+import { trackEvent } from '../utils/analytics';
 
 interface BottomNavProps {
   activePage: ActivePage;
@@ -52,7 +53,7 @@ export default function BottomNav({ activePage, setActivePage }: BottomNavProps)
           return (
             <button
               key={page}
-              onClick={() => setActivePage(page)}
+              onClick={() => { if (page !== activePage) trackEvent('tab_switch', { tab: page }); setActivePage(page); }}
               className={`flex-1 py-3 px-1 flex flex-col items-center gap-1 transition-colors ${
                 active
                   ? 'border-t-2 border-brand-800 dark:border-brand-400 text-brand-800 dark:text-brand-400'

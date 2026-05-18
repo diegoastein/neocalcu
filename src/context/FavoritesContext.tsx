@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
+import { trackEvent } from '../utils/analytics';
 
 interface FavoritesContextType {
   favorites: Set<string>;
@@ -34,6 +35,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
       newFavorites.delete(id);
     } else {
       newFavorites.add(id);
+      trackEvent('favorite_added', { id });
     }
     setFavorites(newFavorites);
   };

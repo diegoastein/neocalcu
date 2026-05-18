@@ -46,6 +46,12 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
     }
   }, [calculation, drug.id, drug.name, patient.weightGrams]);
 
+  useEffect(() => {
+    if (drug.inotropicConfig) {
+      trackEvent('view_inotropic_calculator', { drug_id: drug.id, drug_name: drug.name });
+    }
+  }, [drug.id, drug.name, drug.inotropicConfig]);
+
   const fixedVolume =
     !isPerM2 && !isWeightBased && selectedRule?.dosePerKg && hasValidPreparation &&
     selectedRule.unit.toLowerCase().includes('mg') && !selectedRule.unit.includes('%') && !selectedRule.unit.toLowerCase().includes('ml')

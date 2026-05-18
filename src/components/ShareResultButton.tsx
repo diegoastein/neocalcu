@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMembership } from '../context/MembershipContext';
+import { trackEvent } from '../utils/analytics';
 
 interface Props {
   text: string;
@@ -29,8 +30,10 @@ export default function ShareResultButton({ text, title = 'NeoCalcu' }: Props) {
     try {
       if ('share' in navigator && typeof (navigator as Navigator & { share: unknown }).share === 'function') {
         await navigator.share({ title, text });
+        trackEvent('share_result', { method: 'share' });
       } else {
         await (navigator as Navigator & { clipboard: Clipboard }).clipboard.writeText(text);
+        trackEvent('share_result', { method: 'clipboard' });
       }
       setFeedback('done');
       setTimeout(() => setFeedback('idle'), 2000);
