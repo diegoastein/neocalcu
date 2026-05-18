@@ -289,12 +289,12 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-13, últ. actualización 2026-05-18 — sesión 5)
+## Estado actual (2026-05-13, últ. actualización 2026-05-18 — sesión 6)
 
 **✅ Aplicación completamente funcional y en producción.**
 
 **Medicamentos (MedicationsPage):**
-- ✅ 223 medicamentos de NEOFAX 2024 (limpios, sin duplicados, en español)
+- ✅ 223 medicamentos de referencia neonatal internacional (limpios, sin duplicados, en español)
 - ✅ Buscador por nombre, genérico, indicaciones
 - ✅ Agrupados por categoría: **Antibióticos siempre primero**, resto en orden alfabético; medicamentos dentro de cada categoría también alfabéticos
 - ✅ Filtrado automático por peso, E.G., Días de vida
@@ -357,7 +357,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ **Registro de email persistente**: `EmailCaptureModal` aparece en cada apertura hasta que el usuario registre su email; no se puede cerrar tocando el backdrop
 - ✅ **Email en cupones**: al generar un cupón en el admin se puede asignar un email de destinatario; al canjearlo, el email se registra automáticamente en KV y la app setea `neo_email_registered='1'` sin mostrar el modal
 - ✅ **Un dispositivo a la vez**: `/recuperar` invalida el dispositivo anterior en KV al transferir la suscripción; imposible tener la misma suscripción activa en dos dispositivos simultáneamente
-- ✅ **Promo Residencias 2×1** (activa hasta 2026-06-01): badge ámbar parpadeante en header con countdown; overlay con descripción, countdown, botones de pago y link a Instagram. Visible para todos. `PromoResidenciasOverlay.tsx` reutilizable para futuras promos ajustando `EXPIRY` y texto.
+- ✅ **Promo Residencias 2×1** (activa hasta 2026-06-01): badge ámbar parpadeante en header con countdown; overlay con descripción, countdown, botones de pago y link a Instagram. Visible para todos. `PromoResidenciasOverlay.tsx` reutilizable para futuras promos ajustando `EXPIRY` y texto. Campaña activa desde 2026-05-18: difusión por Instagram + DM manual; el suscriptor recibe un cupón de regalo por DM para compartir con otro residente.
 
 **Funciones premium (freemium):**
 - ✅ **Tabla de velocidades de inotrópicos** — toggle en `InotropicCalculator`, tabla dosis × volumen con flujos en mL/h; candado para no suscriptores
@@ -381,6 +381,8 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ Manifest con `start_url` y `scope` correctos → genera acceso directo en lanzador Android/iOS
 - ✅ Google Analytics 4 integrado (ID: `G-V37SQEN7J7`) — snippet en `<head>` de `index.html`
 - ✅ Dominio `neocalcu.pro` — redirect via Cloudflare hacia `https://diegoastein.github.io/neocalcu/` (sin cambios en el código ni el worker)
+- ✅ **SEO y social sharing** — `index.html` con Open Graph (og:title, og:description, og:image, og:url), Twitter Card, `<link rel="canonical" href="https://neocalcu.pro/">`, structured data JSON-LD (SoftwareApplication / MedicalApplication), title y meta description con keywords clínicos. **No mencionar NEOFAX** en ningún texto público — es marca registrada.
+- ✅ **Google Search Console** — propiedad `neocalcu.pro` verificada automáticamente via GA4. Indexación manual solicitada el 2026-05-18.
 
 ## Agregar un medicamento nuevo
 
@@ -421,31 +423,34 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 - **Historial de cálculos** — últimos N cálculos con fecha y peso.
 - **Temas de color adicionales** — incentivo freemium clásico.
 
-### Retención y descubrimiento (prioridad semana 2026-05-19)
+### Retención y descubrimiento
 
-Contexto: analytics (18 abril — 15 mayo) muestra 392 usuarios, 16.9s de sesión promedio, retención casi nula. Tráfico 100% dependiente de posts de Instagram, sin orgánico. Nadie llega al flujo de pago porque el volumen es demasiado chico.
+Contexto: analytics (18 abril — 15 mayo) muestra 392 usuarios, 16.9s de sesión promedio, retención casi nula. Tráfico 100% dependiente de posts de Instagram (@neomonitor.pro, 780 seguidores), sin orgánico.
 
-**1. Eventos GA4 — entender qué hace el usuario** ⬅ arrancar por acá
-Sin eventos, se sabe que entran y salen pero no qué tocan. Agregar tracking en:
-- Búsqueda de medicamento (query + resultado)
-- Apertura de DrugDetail
-- Cálculo de dosis (peso ingresado)
-- Expansión de procedimiento
-- Selección de calculadora/score
-- Click en "Apoyar"
+**✅ Implementado (sesión 6 — 2026-05-18):**
 
-Implementar con `gtag('event', ...)` directo en los handlers. No requiere librería externa.
+**Eventos GA4** — `src/utils/analytics.ts` exporta `trackEvent()`. Eventos activos:
+- `search_drug` (query + results_count), `open_drug`, `calculate_dose` (drug + weight_g) — `MedicationsPage` / `DrugDetail`
+- `open_procedure` — `ProceduresPage`
+- `select_calculator` — `CalculadorasPage`
+- `tab_switch` (tab) — `BottomNav` (solo al cambiar, no al re-tocar el activo)
+- `view_inotropic_calculator` (drug_id + name) — `DrugDetail`
+- `share_result` (method: share/clipboard) — `ShareResultButton`
+- `favorite_added` (id) — `FavoritesContext`
+- `click_apoyar` (source: header/toast/premium_sheet/promo_residencias, plan) — `App.tsx`
+- `payment_started` (plan) — `useDonationReminder` al redirigir a MercadoPago
+- `payment_success` (plan) — `useDonationReminder` al verificar donación exitosa
+- `coupon_redeemed` (plan) — `useDonationReminder` al canjear cupón
+- `pwa_installed`, `pwa_install_prompt` (outcome) — `App.tsx`
 
-**2. Tooltips de onboarding — mostrar cómo se usa**
-Primera vez que el usuario abre la app, mostrar tooltips contextuales que expliquen el flujo básico:
-- Paso 1: "Ingresá el peso del paciente acá arriba"
-- Paso 2: "Buscá un medicamento"
-- Paso 3: "Obtenés la dosis calculada al instante"
+**Onboarding por tabs** — `OnboardingTooltip` con pasos específicos por sección (medicamentos 4 pasos, procedimientos, calculadoras, laboratorio, favoritos 1 paso cada uno). Se activa tras aceptar el disclaimer, keys `neo_onboarding_${tab}`.
 
-Mostrar solo en el primer acceso (`localStorage` key `neo_onboarding_done`). Tooltip simple con flecha apuntando al elemento, botón "Entendido" para avanzar. Sin librerías — implementar con posicionamiento absoluto sobre un overlay semitransparente.
+**Banner de instalación PWA** — aparece 2s después del primer cálculo de dosis (`neo:first_dose` event). Se suprime con `neo_install_prompted`. Solo visible si `installPrompt` está disponible y no hay toast de donación activo.
 
-**3. Prompt de instalación PWA más visible**
-El botón de instalación está escondido en el SettingsPanel. Mostrarlo también después de que el usuario calculó su primera dosis — ese es el momento de mayor valor percibido. Usar el evento `beforeinstallprompt` que ya está capturado en `App.tsx`.
+**Pendiente:**
+- **Play Store** — ver `docs/ROADMAP_PLAYSTORE.md`. Sin flujo de pago interno (viola política de Google); suscriptores se desbloquean por `device_id`.
+- **Estrategia Instagram** — Reels de formato "escenario clínico → app resuelve en pantalla" (mayor alcance que posts estáticos). Sticker de link directo a `neocalcu.pro` en Stories. Anuncios: mínimo 15 días continuos, objetivo tráfico, link directo (no Linktree).
+- **Próxima auditoría de marketing** — agendada para 2026-06-01 (cierre Promo Residencias). Revisar: cupones canjeados, eventos GA4 de funnel, Search Console, performance de Reels.
 
 ### Google Play Store
 Ver hoja de ruta completa en `docs/ROADMAP_PLAYSTORE.md`.
