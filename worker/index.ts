@@ -105,7 +105,7 @@ function checkAdminAuth(request: Request, url: URL, env: Env): boolean {
   return (secretParam ?? secretHeader) === env.ADMIN_SECRET;
 }
 
-const CONTENT_SYSTEM_PROMPT = `Sos el community manager de NeoCalcu, una app de neonatología usada en Argentina. La usan médicos y enfermeras en la UCIN: calcula dosis de medicamentos, procedimientos neonatales, índices clínicos (Silverman, Apgar, bilirrubina NICE, screening ROP, Finnegan) y laboratorio neonatal. Es gratuita con suscripción voluntaria de $3.500/mes o $28.000/año.
+const CONTENT_SYSTEM_PROMPT = `Sos el community manager de NeoCalcu, una app de neonatología usada en Argentina. La usan médicos y enfermeras en la UCIN: calcula dosis de medicamentos, procedimientos neonatales, índices clínicos (Silverman, Apgar, bilirrubina NICE, screening ROP, Finnegan) y laboratorio neonatal. Tiene período de prueba gratis y cuesta $3.500/mes o $28.000/año. El link es www.neocalcu.pro.
 
 Tono: directo, de colega a colega. Como alguien que trabaja en la UCIN y encontró algo útil. Sin marketing, sin "revolucionario", sin "potente herramienta", sin "nos complace anunciar". Frases cortas y concretas.
 
@@ -133,20 +133,18 @@ Devolvé ÚNICAMENTE este JSON válido, sin markdown, sin texto adicional:
 Devolvé ÚNICAMENTE este JSON válido, sin markdown, sin texto adicional:
 {"slides":[{"label":"SLIDE 1","text":"[pregunta o dato que para el scroll, máx 10 palabras]"},{"label":"SLIDE 2","text":"[el dolor concreto que resuelve, máx 15 palabras]"},{"label":"SLIDE 3","text":"[cómo NeoCalcu lo resuelve, específico, máx 20 palabras]"},{"label":"SLIDE 4","text":"[acción concreta y simple, máx 8 palabras]"}]}`,
 
-    story: `Diseñá una secuencia de 4 stories de Instagram para comunicar:
+    story: `Generá el contenido para 4 stories de Instagram sobre NeoCalcu:
 
 "${contexto}"
 
-Para cada story:
-SLIDE N | TEXTO PRINCIPAL: [1-2 líneas, tipografía grande] | INTERACTIVO: [encuesta/pregunta si aplica]
-
-El último slide tiene CTA con el link de la app. Tono directo, sin frases de relleno.`,
+Devolvé ÚNICAMENTE este JSON válido, sin markdown, sin texto adicional:
+{"slides":[{"label":"STORY 1","text":"[frase de impacto o pregunta que engancha, máx 10 palabras]"},{"label":"STORY 2","text":"[el problema concreto que resuelve, máx 15 palabras]"},{"label":"STORY 3","text":"[cómo NeoCalcu lo resuelve, específico, máx 20 palabras]"},{"label":"STORY 4","text":"[CTA directo — www.neocalcu.pro, máx 8 palabras]"}]}`,
 
     whatsapp: `Redactá un mensaje para grupos de WhatsApp de médicos neonatólogos sobre:
 
 "${contexto}"
 
-Máximo 4 líneas. Profesional y directo. Sin saludos genéricos. Incluí el link: https://diegoastein.github.io/neocalcu/
+Máximo 4 líneas. Profesional y directo. Sin saludos genéricos. Incluí el link: www.neocalcu.pro
 Máximo 2 emojis. Apropiado para grupos con jefes de servicio.
 
 Devolvé solo el mensaje.`,
@@ -516,11 +514,12 @@ export default {
       }
 
       // Listar todas las keys (paginado, máx 1000 por llamada)
+      // Recolectar en un solo paso para poder cruzar cupones canjeados con devices
       let deviceCount = 0;
-      let activeMensual = 0;
-      let activeAnual = 0;
       let couponActive = 0;
       let couponUsed = 0;
+      const deviceActivePlans = new Map<string, 'mensual' | 'anual'>();
+      const couponDeviceIds = new Set<string>();
       let cursor: string | undefined;
 
       do {
@@ -531,7 +530,10 @@ export default {
             if (raw) {
               const c = JSON.parse(raw) as CouponRecord;
               if (c.active) couponActive++;
-              else couponUsed++;
+              else {
+                couponUsed++;
+                if (c.usedBy) couponDeviceIds.add(c.usedBy);
+              }
             }
           } else {
             deviceCount++;
@@ -539,8 +541,7 @@ export default {
             if (raw) {
               const record = parseDonationRecord(raw);
               if (isMembershipActive(record)) {
-                if (record.plan === 'anual') activeAnual++;
-                else activeMensual++;
+                deviceActivePlans.set(key.name, record.plan);
               }
             }
           }
@@ -548,13 +549,31 @@ export default {
         cursor = result.list_complete ? undefined : (result as { cursor?: string }).cursor;
       } while (cursor);
 
-      const revenueEstimate = activeMensual * 3500 + activeAnual * 28000;
+      let activeMensual = 0;
+      let activeAnual = 0;
+      let activeMensualPaid = 0;
+      let activeAnualPaid = 0;
+
+      for (const [deviceId, plan] of deviceActivePlans) {
+        const isCoupon = couponDeviceIds.has(deviceId);
+        if (plan === 'anual') {
+          activeAnual++;
+          if (!isCoupon) activeAnualPaid++;
+        } else {
+          activeMensual++;
+          if (!isCoupon) activeMensualPaid++;
+        }
+      }
+
+      const revenueEstimate = activeMensualPaid * 3500 + activeAnualPaid * 28000;
 
       return new Response(JSON.stringify({
         deviceCount,
         activeMensual,
         activeAnual,
         activeTotal: activeMensual + activeAnual,
+        activeMensualPaid,
+        activeAnualPaid,
         couponActive,
         couponUsed,
         revenueEstimate,
@@ -672,7 +691,7 @@ export default {
 
       // Para post y reel, intentar parsear JSON estructurado
       let structured: Record<string, unknown> | null = null;
-      if (tipo === 'post' || tipo === 'reel') {
+      if (tipo === 'post' || tipo === 'reel' || tipo === 'story') {
         try {
           const jsonMatch = text.match(/\{[\s\S]*\}/);
           if (jsonMatch) structured = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
@@ -695,13 +714,26 @@ export default {
         });
       }
 
+      // Construir el set de deviceIds que canjearon cupones (no son pagos)
+      const couponKeys = await env.DONATIONS_KV.list({ prefix: 'coupon:' });
+      const couponDeviceIds = new Set<string>();
+      await Promise.all(
+        couponKeys.keys.map(async key => {
+          const raw = await env.DONATIONS_KV.get(key.name);
+          if (!raw) return;
+          const c = JSON.parse(raw) as CouponRecord;
+          if (!c.active && c.usedBy) couponDeviceIds.add(c.usedBy);
+        })
+      );
+
       const keys = await env.DONATIONS_KV.list({ prefix: 'email:' });
       const subscribers = await Promise.all(
         keys.keys.map(async key => {
-          const raw = await env.DONATIONS_KV.get(key.name);
           const email = key.name.replace('email:', '');
+          const raw = await env.DONATIONS_KV.get(key.name);
           if (!raw) return null;
           const data = JSON.parse(raw) as EmailRecord;
+          if (couponDeviceIds.has(data.deviceId)) return null;
           const record: DonationRecord = { ts: data.ts, plan: data.plan };
           const duration = data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
           return {
