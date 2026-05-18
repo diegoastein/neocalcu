@@ -61,7 +61,7 @@ export default function SettingsPanel({
   const [recoverResult, setRecoverResult] = useState<RecoverResult | null>(null);
 
   const handleShare = async () => {
-    const url = 'https://diegoastein.github.io/neocalcu/';
+    const url = 'https://www.neocalcu.pro';
     const shareData = { title: 'NeoCalcu', text: 'Calculadora clínica para neonatología', url };
     if (navigator.share) {
       try { await navigator.share(shareData); } catch { /* cancelado */ }
@@ -235,6 +235,19 @@ export default function SettingsPanel({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
               </svg>
               info@neomonitor.pro
+            </a>
+            <a
+              href="https://www.instagram.com/neomonitor.pro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-brand-700 dark:text-brand-400 hover:underline mt-1"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4 shrink-0">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="12" cy="12" r="4" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+              </svg>
+              @neomonitor.pro
             </a>
           </section>
 
