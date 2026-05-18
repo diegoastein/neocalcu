@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { trackEvent } from '../utils/analytics';
 
 const WORKER_URL = 'https://neocalcu-donations.diegosteinberg.workers.dev';
 
@@ -152,6 +153,7 @@ export function useDonationReminder() {
       const deviceId = getOrCreateDeviceId();
       const res = await fetch(`${WORKER_URL}/crear-pago?device=${deviceId}&plan=${plan}`);
       const data: CreatePaymentResponse = await res.json();
+      trackEvent('payment_started', { plan });
       window.location.href = data.init_point;
     } catch {
       // Sin conexión — falla silenciosamente
@@ -168,6 +170,7 @@ export function useDonationReminder() {
       if (data.donated) {
         localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
         if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
+        trackEvent('payment_success', { plan: data.plan ?? 'mensual' });
         setShowToast(false);
         refreshMembership();
         if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) {
@@ -191,6 +194,7 @@ export function useDonationReminder() {
         localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
         // Si el cupón tenía email asignado, ya está registrado en KV — no hace falta el modal
         if (data.email) localStorage.setItem(EMAIL_REGISTERED_KEY, '1');
+        trackEvent('coupon_redeemed', { plan: data.plan ?? 'mensual' });
         setShowToast(false);
         refreshMembership();
         if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) {
