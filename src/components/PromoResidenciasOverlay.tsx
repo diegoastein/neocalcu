@@ -189,7 +189,7 @@ export default function PromoResidenciasOverlay({ onClose, onDonate, loadingPlan
 
           {/* CTA Instagram */}
           <a
-            href="https://www.instagram.com/neocalcu.pro/"
+            href="https://www.instagram.com/neomonitor.pro"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold text-sm py-2.5 rounded-xl transition-opacity hover:opacity-90"
