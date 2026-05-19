@@ -10,9 +10,10 @@ interface OnboardingTooltipProps {
   steps: OnboardingStep[];
   storageKey: string;
   legacyKey?: string;
+  onDone?: () => void;
 }
 
-export default function OnboardingTooltip({ steps, storageKey, legacyKey }: OnboardingTooltipProps) {
+export default function OnboardingTooltip({ steps, storageKey, legacyKey, onDone }: OnboardingTooltipProps) {
   const [done, setDone] = useState(() =>
     !!localStorage.getItem(storageKey) || !!(legacyKey && localStorage.getItem(legacyKey))
   );
@@ -22,7 +23,8 @@ export default function OnboardingTooltip({ steps, storageKey, legacyKey }: Onbo
   const markDone = useCallback(() => {
     localStorage.setItem(storageKey, '1');
     setDone(true);
-  }, [storageKey]);
+    onDone?.();
+  }, [storageKey, onDone]);
 
   const calcPos = useCallback(() => {
     if (done) return;

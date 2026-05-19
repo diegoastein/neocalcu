@@ -18,6 +18,7 @@ import OnboardingTooltip from './components/OnboardingTooltip';
 import PromoResidenciasOverlay, { PromoHeaderBadge } from './components/PromoResidenciasOverlay';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
+import { UIProvider } from './context/UIContext';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -91,6 +92,9 @@ function AppContent() {
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(() => !!localStorage.getItem('disclaimerAccepted'));
   const [showPremiumSheet, setShowPremiumSheet] = useState(false);
+  const [onboardingShowing, setOnboardingShowing] = useState(() =>
+    !localStorage.getItem('neo_onboarding_medicamentos') && !localStorage.getItem('neo_onboarding_done')
+  );
   const [showPromoOverlay, setShowPromoOverlay] = useState(false);
   const {
     showToast, dismissToast,
@@ -211,8 +215,11 @@ function AppContent() {
     }
   };
 
+  const anyModalOpen = !disclaimerAccepted || showPremiumSheet || showToast || showEmailCapture || onboardingShowing;
+
   return (
     <MembershipProvider membership={membership}>
+    <UIProvider value={anyModalOpen}>
     <div className="h-screen flex flex-col bg-white dark:bg-slate-950">
       {/* Header */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-4 py-2 flex items-center justify-between">
@@ -307,6 +314,7 @@ function AppContent() {
           steps={TAB_STEPS[activePage]!}
           storageKey={`neo_onboarding_${activePage}`}
           legacyKey={activePage === 'medicamentos' ? 'neo_onboarding_done' : undefined}
+          onDone={() => setOnboardingShowing(false)}
         />
       )}
 
@@ -345,6 +353,7 @@ function AppContent() {
         />
       )}
     </div>
+    </UIProvider>
     </MembershipProvider>
   );
 }

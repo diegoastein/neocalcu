@@ -1,17 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePatient, MAX_PATIENTS } from '../context/PatientContext';
 import { useMembership } from '../context/MembershipContext';
+import { useAnyModalOpen } from '../context/UIContext';
 
 export default function PatientInput() {
   const { patient, setPatient, savedPatients, activeId, switchPatient, addPatient, removePatient, renamePatient } =
     usePatient();
   const { active: isPremium } = useMembership();
+  const anyModalOpen = useAnyModalOpen();
 
   const [localWeight, setLocalWeight] = useState('');
   const [localGA, setLocalGA] = useState('');
   const [localDOL, setLocalDOL] = useState('');
   const [localLabel, setLocalLabel] = useState('');
   const [isExpanded, setIsExpanded] = useState(true);
+  const weightInputRef = useRef<HTMLInputElement>(null);
 
   // Sincronizar campos solo cuando cambia el paciente activo (no al guardar)
   useEffect(() => {
@@ -25,6 +28,13 @@ export default function PatientInput() {
     setIsExpanded(active.patient.weightGrams <= 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);
+
+  useEffect(() => {
+    if (isExpanded && patient.weightGrams <= 0 && !anyModalOpen) {
+      const timer = setTimeout(() => weightInputRef.current?.focus(), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isExpanded, patient.weightGrams, anyModalOpen]);
 
   const handleLabelBlur = () => {
     const trimmed = localLabel.trim();
@@ -222,11 +232,14 @@ export default function PatientInput() {
             </div>
           )}
 
-          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Datos del paciente</h2>
+          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+            {patient.weightGrams <= 0 ? 'Ingresá el peso para calcular dosis' : 'Datos del paciente'}
+          </h2>
           <div className="grid grid-cols-3 gap-2">
             <div>
               <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Peso (g)</label>
               <input
+                ref={weightInputRef}
                 type="number"
                 value={localWeight}
                 onChange={(e) => setLocalWeight(e.target.value)}
