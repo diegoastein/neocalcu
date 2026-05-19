@@ -157,6 +157,7 @@ export interface Score {
   bilirubinCalculator?: boolean;
   ropCalculator?: boolean;
   finneganCalculator?: boolean;
+  admissionSummary?: boolean;
 }
 
 export interface FormulaInput {

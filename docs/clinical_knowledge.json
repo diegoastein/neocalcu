@@ -1512,6 +1512,59 @@
       ]
     },
     {
+      "id": "surfactante_babyfact",
+      "name": "Surfactante Baby Fact B",
+      "genericName": "Beractant bovino (Baby Fact B)",
+      "category": [
+        "respiratorio",
+        "surfactante"
+      ],
+      "indications": [
+        "SDR neonatal: tratamiento de rescate",
+        "Profilaxis en < 30 semanas con riesgo de SDR"
+      ],
+      "dosingRules": [
+        {
+          "label": "Dosis estándar",
+          "dosePerKg": 100,
+          "unit": "mg/kg/dosis",
+          "frequency": "Hasta 4 dosis en 48 h (mín. 6 h entre dosis)",
+          "routes": [
+            "IT"
+          ],
+          "notes": "100 mg/kg = 3,3 mL/kg. Calentar a temperatura corporal antes de usar"
+        }
+      ],
+      "preparation": {
+        "stockForm": "Vial 90 mg/3 mL · 120 mg/4 mL · 240 mg/8 mL (30 mg/mL). Laboratorio GEMEPE.",
+        "concentrationMgMl": 30,
+        "diluent": "No requiere dilución",
+        "dilutionInstructions": [
+          "Sacar del refrigerador y calentar a temperatura corporal antes de usar",
+          "NO agitar (invertir suavemente si es necesario)",
+          "Dosis = peso (kg) × 3,3 mL/kg",
+          "Instilación IT: dividir en 4 posiciones (OD supino, OI supino, OD decúbito lateral, OI decúbito lateral)",
+          "Ventilar manualmente entre cada posición"
+        ],
+        "stability": "Refrigerado hasta fecha de vencimiento. Una vez abierto: usar de inmediato."
+      },
+      "administration": {
+        "routes": [
+          "IT (intratraqueal)"
+        ],
+        "ivRate": "Instilación lenta durante 2 min por posición"
+      },
+      "monitoring": [
+        "SpO2 y FiO2 antes y post-dosis",
+        "Rx tórax post-dosis",
+        "Ajustar parámetros ventilatorios post-dosis (riesgo de sobredistensión)"
+      ],
+      "references": [
+        "Laboratorio GEMEPE. Ficha técnica Baby Fact B. Argentina.",
+        "Vademecum Argentina 2024"
+      ]
+    },
+    {
       "id": "furosemida",
       "name": "Furosemida",
       "genericName": "Furosemide",
@@ -10137,6 +10190,13 @@
     }
   ],
   "scores": [
+    {
+      "id": "admision_neonatal",
+      "name": "Kit del Paciente Crítico",
+      "description": "Parámetros clínicos clave para cualquier RN crítico, en cualquier momento de la internación: vía aérea (TET y fijación), surfactante (Curosurf, Survanta, Baby Fact B), cafeína (carga y mantenimiento), accesos vasculares (CAV y CVU), inotrópicos (dosis de inicio) y antibióticos empíricos (Ampicilina, Penicilina G acuosa y Gentamicina con dosis y frecuencia ajustadas a peso y EG).",
+      "items": [],
+      "admissionSummary": true
+    },
     {
       "id": "silverman",
       "name": "Silverman-Andersen",
