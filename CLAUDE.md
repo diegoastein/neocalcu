@@ -92,7 +92,7 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 
 - **`DrugDetail.tsx`** — modal de detalle de medicamento. Si el drug tiene `inotropicConfig`, muestra `InotropicCalculator` en lugar de la sección de dosificación estándar.
 - **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: sliders de dosis y flujo, toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`. **Premium:** botón "Tabla de velocidades" expandible que muestra flujos (mL/h) para cada combinación dosis × volumen, usando los mg actuales como preparación base. Sin suscripción muestra un bloque con candado (patrón estándar de gate premium). Usa `useMembership()`.
-- **`PatientInput.tsx`** — barra sticky de datos del paciente activo. **Colapsable:** se colapsa al registrar mostrando barra compacta `Peso / EG / Días` (con labels del mismo tamaño que los valores); campos sin completar en ámbar. Se re-expande al tocar la barra. Auto-colapsa en `onBlur` cuando todos los campos están completos. Botón "Registrar datos" pulsa en verde cuando hay cambios sin guardar (`isDirty`), apagado cuando está sincronizado. **Premium:** barra de tabs horizontal con todos los pacientes guardados (nombre + peso), botón "+" para agregar (hasta `MAX_PATIENTS = 4`), botón "×" para eliminar, campo "Nombre / cama" que se guarda on blur. Sin suscripción muestra bloque con candado. Usa `useMembership()` y la API multi-paciente de `PatientContext`.
+- **`PatientInput.tsx`** — barra sticky de datos del paciente activo. **Colapsable:** se colapsa al registrar mostrando barra compacta `Peso / EG / Días` (con labels del mismo tamaño que los valores); campos sin completar en ámbar. Se re-expande al tocar la barra. Auto-colapsa en `onBlur` cuando todos los campos están completos. Botón "Registrar datos" pulsa en verde cuando hay cambios sin guardar (`isDirty`), apagado cuando está sincronizado. **Autofocus:** cuando el paciente no tiene peso cargado y el form está expandido, el campo de peso recibe foco automáticamente al cerrarse todos los modales (disclaimer, premium sheet, onboarding, toast) — usa `UIContext`. El título del form dice "Ingresá el peso para calcular dosis" si no hay peso, "Datos del paciente" si ya tiene. **Premium:** barra de tabs horizontal con todos los pacientes guardados (nombre + peso), botón "+" para agregar (hasta `MAX_PATIENTS = 4`), botón "×" para eliminar, campo "Nombre / cama" que se guarda on blur. Sin suscripción muestra bloque con candado. Usa `useMembership()` y la API multi-paciente de `PatientContext`.
 - **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según **NICE CG98 (2023)**. ≥38s: valores exactos del Excel oficial NICE (interpolación hora a hora). 35-37s: escalados con fórmula NICE para pretérminos (EG×10−100 µmol/L). Muestra umbrales en mg/dL y µmol/L. 5 zonas: normal / limítrofe / fototerapia / intensiva / exanguino. Factores de monitorización (no modifican umbral, solo frecuencia de control).
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
@@ -291,7 +291,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-13, últ. actualización 2026-05-19 — sesión 7)
+## Estado actual (2026-05-13, últ. actualización 2026-05-19 — sesión 8)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -447,7 +447,11 @@ Contexto: analytics (18 abril — 15 mayo) muestra 392 usuarios, 16.9s de sesió
 - `coupon_redeemed` (plan) — `useDonationReminder` al canjear cupón
 - `pwa_installed`, `pwa_install_prompt` (outcome) — `App.tsx`
 
-**Onboarding por tabs** — `OnboardingTooltip` con pasos específicos por sección (medicamentos 4 pasos, procedimientos, calculadoras, laboratorio, favoritos 1 paso cada uno). Se activa tras aceptar el disclaimer, keys `neo_onboarding_${tab}`.
+**Onboarding por tabs** — `OnboardingTooltip` con pasos específicos por sección (medicamentos 4 pasos, procedimientos, calculadoras, laboratorio, favoritos 1 paso cada uno). Se activa tras aceptar el disclaimer, keys `neo_onboarding_${tab}`. Acepta prop `onDone?: () => void` que se llama al completar o saltear — usado por `App.tsx` para actualizar `anyModalOpen` en `UIContext`.
+
+**UIContext** (`src/context/UIContext.tsx`) — contexto mínimo que expone `anyModalOpen: boolean`. `App.tsx` lo calcula como `!disclaimerAccepted || showPremiumSheet || showToast || showEmailCapture || onboardingShowing` y lo provee vía `UIProvider`. Lo consume `PatientInput` para coordinar el autofocus sin prop drilling.
+
+**Filtro de analytics** — `src/utils/analytics.ts`: si la URL contiene `?debug=1`, `trackEvent()` no envía nada a GA4. Permite que el desarrollador use la app sin contaminar los datos.
 
 **Banner de instalación PWA** — aparece 2s después del primer cálculo de dosis (`neo:first_dose` event). Se suprime con `neo_install_prompted`. Solo visible si `installPrompt` está disponible y no hay toast de donación activo.
 
