@@ -13,7 +13,7 @@ import SettingsPanel from './components/SettingsPanel';
 import FirstAccessDisclaimer from './components/FirstAccessDisclaimer';
 import DonationToast from './components/DonationToast';
 import EmailCaptureModal from './components/EmailCaptureModal';
-import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
+import PremiumFeaturesSheet, { PREMIUM_VERSION } from './components/PremiumFeaturesSheet';
 import OnboardingTooltip from './components/OnboardingTooltip';
 import PromoResidenciasOverlay, { PromoHeaderBadge } from './components/PromoResidenciasOverlay';
 import { useDonationReminder } from './hooks/useDonationReminder';
@@ -179,11 +179,15 @@ function AppContent() {
     setInstallPrompt(null);
   };
 
-  // Mostrar sheet de funciones premium al abrir si no hay membresía activa
+  // Mostrar sheet de funciones premium al abrir si no hay membresía activa,
+  // o si hay una versión premium más nueva que la última vista por el usuario
   useEffect(() => {
     if (!membership.active) {
-      const t = setTimeout(() => setShowPremiumSheet(true), 600);
-      return () => clearTimeout(t);
+      const seen = localStorage.getItem('neo_premium_version');
+      if (seen !== PREMIUM_VERSION) {
+        const t = setTimeout(() => setShowPremiumSheet(true), 600);
+        return () => clearTimeout(t);
+      }
     }
   }, [membership.active]);
 
@@ -328,8 +332,8 @@ function AppContent() {
 
       {showPremiumSheet && (
         <PremiumFeaturesSheet
-          onSubscribe={(plan) => { setShowPremiumSheet(false); trackEvent('click_apoyar', { source: 'premium_sheet', plan }); handleDonate(plan); }}
-          onDismiss={() => setShowPremiumSheet(false)}
+          onSubscribe={(plan) => { localStorage.setItem('neo_premium_version', PREMIUM_VERSION); setShowPremiumSheet(false); trackEvent('click_apoyar', { source: 'premium_sheet', plan }); handleDonate(plan); }}
+          onDismiss={() => { localStorage.setItem('neo_premium_version', PREMIUM_VERSION); setShowPremiumSheet(false); }}
         />
       )}
 
