@@ -382,7 +382,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ Push a `main` → deploy automático en ~1 minuto
 - ✅ PWA con Service Worker offline e íconos PNG nativos (icon-192, icon-512, apple-touch-icon, favicon-32)
 - ✅ Manifest con `start_url` y `scope` correctos → genera acceso directo en lanzador Android/iOS
-- ✅ `apple-mobile-web-app-title` en `index.html` → nombre "NeoCalcu" bajo el ícono en iOS (sin este tag iOS trunca el `<title>` de la página)
+- ✅ Nombre "NeoCalcu" bajo el ícono en iOS y Android: `apple-mobile-web-app-title` en `index.html` (sin este tag iOS trunca el `<title>`); `short_name: 'NeoCalcu'` en el manifest via `vite.config.ts` (Android)
 - ✅ Google Analytics 4 integrado (ID: `G-V37SQEN7J7`) — snippet en `<head>` de `index.html`
 - ✅ Dominio `neocalcu.pro` — redirect via Cloudflare hacia `https://diegoastein.github.io/neocalcu/` (sin cambios en el código ni el worker)
 - ✅ **SEO y social sharing** — `index.html` con Open Graph (og:title, og:description, og:image, og:url), Twitter Card, `<link rel="canonical" href="https://neocalcu.pro/">`, structured data JSON-LD (SoftwareApplication / MedicalApplication), title y meta description con keywords clínicos. **No mencionar NEOFAX** en ningún texto público — es marca registrada.
