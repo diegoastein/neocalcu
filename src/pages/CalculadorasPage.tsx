@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { trackEvent } from '../utils/analytics';
 import PatientInput from '../components/PatientInput';
 import BilirubinCalculator from '../components/BilirubinCalculator';
@@ -11,8 +11,6 @@ import { formulas } from '../data/formulas';
 import { usePatient } from '../context/PatientContext';
 import { useFavorites } from '../context/FavoritesContext';
 
-type ItemType = 'score' | 'formula';
-
 interface ScoreState {
   [itemId: string]: number;
 }
@@ -21,93 +19,95 @@ interface CalculadorasPageProps {
   initialId?: string | null;
 }
 
+const colorMap: { [key: string]: string } = {
+  green: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800 text-green-900 dark:text-green-200',
+  yellow: 'bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-200',
+  orange: 'bg-orange-50 dark:bg-orange-950 border-orange-200 dark:border-orange-800 text-orange-900 dark:text-orange-200',
+  red: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800 text-red-900 dark:text-red-200',
+};
+
+type Section = 'scores' | 'formulas';
+
 export default function CalculadorasPage({ initialId }: CalculadorasPageProps = {}) {
-  const getInitialType = (id: string | null | undefined): ItemType => {
-    if (id && formulas.some((f) => f.id === id)) return 'formula';
-    return 'score';
+  const getInitialSection = (id: string | null | undefined): Section => {
+    if (id && formulas.some((f) => f.id === id)) return 'formulas';
+    return 'scores';
   };
 
-  const [selectedId, setSelectedId] = useState<string>(initialId || scores[0]?.id || '');
-  const [selectedType, setSelectedType] = useState<ItemType>(getInitialType(initialId));
-  const [scoreState, setScoreState] = useState<ScoreState>({});
-  const [inputs, setInputs] = useState<Record<string, number>>({});
+  const [activeSection, setActiveSection] = useState<Section>(getInitialSection(initialId));
+  const [expandedId, setExpandedId] = useState<string | null>(initialId ?? null);
+  const [scoreStates, setScoreStates] = useState<Record<string, ScoreState>>({});
+  const [inputsMap, setInputsMap] = useState<Record<string, Record<string, number>>>({});
   const { patient } = usePatient();
   const { toggleFavorite, isFavorite } = useFavorites();
+  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const currentScore = selectedType === 'score' ? scores.find((s) => s.id === selectedId) : undefined;
-  const currentFormula = selectedType === 'formula' ? formulas.find((f) => f.id === selectedId) : undefined;
-
-  const handleSelect = (value: string) => {
-    const isScore = scores.some((s) => s.id === value);
-    trackEvent('select_calculator', { calculator_id: value, type: isScore ? 'score' : 'formula' });
-    setSelectedId(value);
-    setSelectedType(isScore ? 'score' : 'formula');
-    setScoreState({});
-    setInputs({});
+  const switchSection = (section: Section) => {
+    setActiveSection(section);
+    setExpandedId(null);
   };
 
+  const toggle = (id: string) => {
+    const next = expandedId === id ? null : id;
+    if (next) {
+      trackEvent('select_calculator', {
+        calculator_id: next,
+        type: scores.some((s) => s.id === next) ? 'score' : 'formula',
+      });
+      setTimeout(() => {
+        itemRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 0);
+    }
+    setExpandedId(next);
+  };
+
+  // Pre-fill peso cuando se abre una fórmula que lo requiere
   useEffect(() => {
-    if (currentFormula && currentFormula.inputs.some((inp) => inp.id === 'peso')) {
-      setInputs((prev) => ({ ...prev, peso: patient.weightGrams / 1000 }));
+    if (!expandedId) return;
+    const formula = formulas.find((f) => f.id === expandedId);
+    if (formula?.inputs.some((inp) => inp.id === 'peso')) {
+      setInputsMap((prev) => ({
+        ...prev,
+        [expandedId]: { ...prev[expandedId], peso: patient.weightGrams / 1000 },
+      }));
     }
-  }, [currentFormula, patient.weightGrams]);
+  }, [expandedId, patient.weightGrams]);
 
-  // — Score logic —
-  const currentScoreItems = currentScore?.items || [];
-  const totalScore = Object.values(scoreState).reduce((a, b) => a + b, 0);
-  const allScoreAnswered =
-    currentScoreItems.length > 0 && currentScoreItems.every((item) => scoreState[item.id] !== undefined);
+  const getFormulaInputs = (id: string) => inputsMap[id] ?? {};
+  const getScoreState = (id: string) => scoreStates[id] ?? {};
 
-  const getInterpretation = () => {
-    if (!currentScore) return null;
-    return currentScore.interpretation.find((i) => totalScore >= i.min && totalScore <= i.max);
-  };
-  const interpretation = allScoreAnswered ? getInterpretation() : null;
-
-  const colorMap: { [key: string]: string } = {
-    green: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800 text-green-900 dark:text-green-200',
-    yellow: 'bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-200',
-    orange: 'bg-orange-50 dark:bg-orange-950 border-orange-200 dark:border-orange-800 text-orange-900 dark:text-orange-200',
-    red: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800 text-red-900 dark:text-red-200',
-  };
-
-  // — Formula logic —
-  const calculateFormula = (): number | null => {
-    if (!currentFormula || !currentFormula.formula) return null;
-    const variables: Record<string, number> = { ...inputs };
-    if (currentFormula.formula.includes('peso') && !variables['peso']) {
-      variables['peso'] = patient.weightGrams / 1000;
-    }
+  const calcFormula = (formulaId: string): number | null => {
+    const f = formulas.find((x) => x.id === formulaId);
+    if (!f || !f.formula) return null;
+    const vars: Record<string, number> = { ...getFormulaInputs(formulaId) };
+    if (f.formula.includes('peso') && !vars['peso']) vars['peso'] = patient.weightGrams / 1000;
     try {
       const result = eval(
-        currentFormula.formula.replace(/\b([a-z_][a-z0-9_]*)\b/g, (match) =>
-          variables[match] !== undefined ? variables[match].toString() : match
+        f.formula.replace(/\b([a-z_][a-z0-9_]*)\b/g, (m) =>
+          vars[m] !== undefined ? vars[m].toString() : m
         )
       );
       return typeof result === 'number' ? result : null;
-    } catch {
-      return null;
-    }
+    } catch { return null; }
   };
 
-  const calculateMultipleFormulas = (): Record<string, number> => {
-    if (!currentFormula?.calculations) return {};
-    const variables: Record<string, number> = { ...inputs };
-    if (!variables['peso']) variables['peso'] = patient.weightGrams / 1000;
-    currentFormula.inputs.forEach((inp) => {
-      if (!(inp.id in variables)) variables[inp.id] = 0;
-    });
-    const calculations = currentFormula.calculations as Record<string, string>;
-    const hidden = new Set(currentFormula.calculationsHidden ?? []);
+  const calcMultiple = (formulaId: string): Record<string, number> => {
+    const f = formulas.find((x) => x.id === formulaId);
+    if (!f?.calculations) return {};
+    const vars: Record<string, number> = { ...getFormulaInputs(formulaId) };
+    if (!vars['peso']) vars['peso'] = patient.weightGrams / 1000;
+    f.inputs.forEach((inp) => { if (!(inp.id in vars)) vars[inp.id] = 0; });
+    const calculations = f.calculations as Record<string, string>;
+    const hidden = new Set(f.calculationsHidden ?? []);
     const results: Record<string, number> = {};
     for (const key of Object.keys(calculations)) {
       try {
         const processed = calculations[key].replace(/\b([a-z_][a-z0-9_]*)\b/g, (m) =>
-          variables[m] !== undefined ? variables[m].toString() : m
+          vars[m] !== undefined ? vars[m].toString() : m
         );
         const val = eval(processed);
         if (typeof val === 'number' && !isNaN(val)) {
-          variables[key] = val;
+          vars[key] = val;
           if (!hidden.has(key)) results[key] = val;
         }
       } catch { /* skip */ }
@@ -115,123 +115,76 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
     return results;
   };
 
-  const formulaResult = calculateFormula();
-  const allRequiredInputsFilled = currentFormula
-    ? currentFormula.inputs.filter((inp) => inp.required).every((inp) => inputs[inp.id] !== undefined && inputs[inp.id] > 0)
-    : false;
+  const renderScoreContent = (scoreId: string) => {
+    const score = scores.find((s) => s.id === scoreId)!;
+    const state = getScoreState(scoreId);
+    const total = Object.values(state).reduce((a, b) => a + b, 0);
+    const allAnswered = score.items.length > 0 && score.items.every((item) => state[item.id] !== undefined);
+    const interpretation = allAnswered
+      ? score.interpretation.find((i) => total >= i.min && total <= i.max) ?? null
+      : null;
+    const isSpecial = score.admissionSummary || score.bilirubinCalculator || score.ropCalculator || score.finneganCalculator;
 
-  return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
-      <PatientInput />
+    return (
+      <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 space-y-4">
+        {score.subtitle && <p className="text-sm text-slate-600 dark:text-slate-400">{score.subtitle}</p>}
+        {score.description && <p className="text-xs text-slate-500 dark:text-slate-400">{score.description}</p>}
 
-      {/* Selector unificado */}
-      <div data-onboarding="calculadora-select" className="bg-brand-50 dark:bg-slate-900 border-b border-brand-200 dark:border-slate-700 px-4 py-3 sticky top-16 z-10">
-        <label className="block text-xs font-semibold text-brand-700 dark:text-brand-400 uppercase tracking-wide mb-2">
-          Selecciona índice o fórmula
-        </label>
-        <div className="relative">
-          <select
-            value={selectedId}
-            onChange={(e) => handleSelect(e.target.value)}
-            className="w-full appearance-none px-4 py-3 pr-10 border-2 border-brand-400 dark:border-brand-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium text-base focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
-          >
-            <optgroup label="Índices clínicos">
-              {scores.map((s) => (
-                <option key={s.id} value={s.id}>{s.name}</option>
-              ))}
-            </optgroup>
-            <optgroup label="Fórmulas">
-              {formulas.map((f) => (
-                <option key={f.id} value={f.id}>{f.name}</option>
-              ))}
-            </optgroup>
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <svg className="w-5 h-5 text-brand-500 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
-      </div>
+        {score.admissionSummary && <AdmissionSummary />}
+        {score.bilirubinCalculator && <BilirubinCalculator references={score.references} />}
+        {score.ropCalculator && <ROPCalculator references={score.references} />}
+        {score.finneganCalculator && <FinnceganCalculator references={score.references} />}
 
-      <div className="flex-1 overflow-y-auto pb-20">
-        {/* ——— SCORE ——— */}
-        {currentScore && (
-          <div className="p-4 space-y-4">
-            <section>
-              <div className="flex justify-between items-start gap-2 mb-2">
-                <div className="flex-1">
-                  <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{currentScore.name}</h1>
+        {!isSpecial && (
+          <div className="space-y-4">
+            {score.items.map((item) => (
+              <div key={item.id} className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
+                <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">{item.name}</h3>
+                <div className="space-y-2">
+                  {item.values.map((value) => (
+                    <label key={value.score} className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="radio"
+                        name={`${scoreId}-${item.id}`}
+                        value={value.score}
+                        checked={state[item.id] === value.score}
+                        onChange={() =>
+                          setScoreStates((prev) => ({
+                            ...prev,
+                            [scoreId]: { ...prev[scoreId], [item.id]: value.score },
+                          }))
+                        }
+                        className="w-4 h-4 text-brand-800 dark:text-brand-400 focus:ring-brand-500"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{value.label}</p>
+                        {value.description && (
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{value.description}</p>
+                        )}
+                      </div>
+                      <span className="text-sm font-semibold text-brand-800 dark:text-brand-400 bg-brand-50 dark:bg-slate-800 px-2 py-1 rounded">
+                        {value.score}
+                      </span>
+                    </label>
+                  ))}
                 </div>
-                <button
-                  onClick={() => toggleFavorite(currentScore.id)}
-                  className="text-2xl hover:scale-110 transition flex-shrink-0"
-                  title={isFavorite(currentScore.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
-                >
-                  {isFavorite(currentScore.id) ? '⭐' : '☆'}
-                </button>
               </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{currentScore.subtitle}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">{currentScore.description}</p>
-            </section>
+            ))}
 
-            {currentScore.admissionSummary && <AdmissionSummary />}
-            {currentScore.bilirubinCalculator && (
-              <BilirubinCalculator references={currentScore.references} />
-            )}
-            {currentScore.ropCalculator && (
-              <ROPCalculator references={currentScore.references} />
-            )}
-            {currentScore.finneganCalculator && (
-              <FinnceganCalculator references={currentScore.references} />
-            )}
-
-            <section className="space-y-4">
-              {!currentScore.admissionSummary && !currentScore.bilirubinCalculator && !currentScore.ropCalculator && !currentScore.finneganCalculator && currentScore.items.map((item) => (
-                <div key={item.id} className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">{item.name}</h3>
-                  <div className="space-y-2">
-                    {item.values.map((value) => (
-                      <label key={value.score} className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="radio"
-                          name={item.id}
-                          value={value.score}
-                          checked={scoreState[item.id] === value.score}
-                          onChange={() => setScoreState({ ...scoreState, [item.id]: value.score })}
-                          className="w-4 h-4 text-brand-800 dark:text-brand-400 focus:ring-brand-500"
-                        />
-                        <div className="flex-1">
-                          <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{value.label}</p>
-                          {value.description && (
-                            <p className="text-xs text-slate-500 dark:text-slate-400">{value.description}</p>
-                          )}
-                        </div>
-                        <span className="text-sm font-semibold text-brand-800 dark:text-brand-400 bg-brand-50 dark:bg-slate-800 px-2 py-1 rounded">
-                          {value.score}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </section>
-
-            {!currentScore.admissionSummary && !currentScore.bilirubinCalculator && !currentScore.ropCalculator && !currentScore.finneganCalculator && allScoreAnswered && (
-              <section className="space-y-4">
+            {allAnswered && (
+              <div className="space-y-4">
                 <div className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
                   <p className="text-xs text-brand-600 dark:text-brand-400 mb-1">Puntuación total</p>
-                  <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{totalScore}</p>
+                  <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{total}</p>
                   <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
-                    Rango: {currentScore.minScore}–{currentScore.maxScore}
+                    Rango: {score.minScore}–{score.maxScore}
                   </p>
                 </div>
                 {interpretation && (
                   <div className={`rounded p-4 border ${colorMap[interpretation.color]}`}>
                     <h4 className="font-semibold mb-2">
                       {interpretation.color === 'green' && '✓ '}
-                      {interpretation.color === 'yellow' && '⚠️ '}
-                      {interpretation.color === 'orange' && '⚠️ '}
+                      {(interpretation.color === 'yellow' || interpretation.color === 'orange') && '⚠️ '}
                       {interpretation.color === 'red' && '🚨 '}
                       {interpretation.label}
                     </h4>
@@ -239,141 +192,259 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
                   </div>
                 )}
                 <ShareResultButton
-                  title={currentScore.name}
+                  title={score.name}
                   text={[
-                    `${currentScore.name} — NeoCalcu`,
-                    `Puntuación: ${totalScore} / ${currentScore.maxScore}`,
-                    interpretation ? `${interpretation.label}` : '',
-                    interpretation ? interpretation.action : '',
+                    `${score.name} — NeoCalcu`,
+                    `Puntuación: ${total} / ${score.maxScore}`,
+                    interpretation?.label ?? '',
+                    interpretation?.action ?? '',
                   ].filter(Boolean).join('\n')}
                 />
-                {currentScore.references.length > 0 && (
+                {score.references.length > 0 && (
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    <span className="font-medium">Referencias:</span> {currentScore.references.join(' • ')}
+                    <span className="font-medium">Referencias:</span> {score.references.join(' • ')}
                   </p>
                 )}
-              </section>
+              </div>
             )}
 
-            {!currentScore.admissionSummary && !currentScore.bilirubinCalculator && !currentScore.ropCalculator && !currentScore.finneganCalculator && Object.keys(scoreState).length > 0 && (
+            {Object.keys(state).length > 0 && (
               <button
-                onClick={() => setScoreState({})}
-                className="w-full mt-4 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-sm"
+                onClick={() => setScoreStates((prev) => ({ ...prev, [scoreId]: {} }))}
+                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-sm"
               >
                 Limpiar
               </button>
             )}
           </div>
         )}
+      </div>
+    );
+  };
 
-        {/* ——— FORMULA ——— */}
-        {currentFormula && (
-          <div className="p-4 space-y-4">
-            <section>
-              <div className="flex justify-between items-start gap-2 mb-2">
-                <div className="flex-1">
-                  <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{currentFormula.name}</h1>
-                </div>
-                <button
-                  onClick={() => toggleFavorite(currentFormula.id)}
-                  className="text-2xl hover:scale-110 transition flex-shrink-0"
-                  title={isFavorite(currentFormula.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
-                >
-                  {isFavorite(currentFormula.id) ? '⭐' : '☆'}
-                </button>
-              </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">{currentFormula.description}</p>
-            </section>
+  const renderFormulaContent = (formulaId: string) => {
+    const f = formulas.find((x) => x.id === formulaId)!;
+    const inputs = getFormulaInputs(formulaId);
+    const formulaResult = calcFormula(formulaId);
+    const allFilled = f.inputs.filter((inp) => inp.required).every(
+      (inp) => inputs[inp.id] !== undefined && inputs[inp.id] > 0
+    );
 
-            {currentFormula.formula && (
-              <section className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-3">
-                <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Fórmula</p>
-                <code className="text-sm text-brand-900 dark:text-brand-200 font-mono break-words">
-                  {currentFormula.formula}
-                </code>
-              </section>
-            )}
+    return (
+      <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 space-y-4">
+        {f.description && <p className="text-sm text-slate-600 dark:text-slate-400">{f.description}</p>}
 
-            <section className="space-y-3">
-              <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
-              {currentFormula.inputs.map((input) => (
-                <div key={input.id}>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                    {input.label} ({input.unit})
-                    {input.required && <span className="text-red-500 ml-1">*</span>}
-                  </label>
-                  <input
-                    type="number"
-                    value={inputs[input.id] || ''}
-                    onChange={(e) => {
-                      const value = parseFloat(e.target.value);
-                      if (!isNaN(value)) setInputs({ ...inputs, [input.id]: value });
-                    }}
-                    placeholder={`Ingresa ${input.label.toLowerCase()}`}
-                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
-                  />
+        {f.formula && (
+          <div className="bg-white dark:bg-slate-900 border border-brand-200 dark:border-brand-800 rounded p-3">
+            <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Fórmula</p>
+            <code className="text-sm text-brand-900 dark:text-brand-200 font-mono break-words">{f.formula}</code>
+          </div>
+        )}
+
+        <div className="space-y-3">
+          <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
+          {f.inputs.map((input) => (
+            <div key={input.id}>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                {input.label} ({input.unit})
+                {input.required && <span className="text-red-500 ml-1">*</span>}
+              </label>
+              <input
+                type="number"
+                value={inputs[input.id] || ''}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  if (!isNaN(value))
+                    setInputsMap((prev) => ({
+                      ...prev,
+                      [formulaId]: { ...prev[formulaId], [input.id]: value },
+                    }));
+                }}
+                placeholder={`Ingresa ${input.label.toLowerCase()}`}
+                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
+              />
+            </div>
+          ))}
+        </div>
+
+        {!f.calculations && allFilled && formulaResult !== null && (
+          <div className="space-y-3">
+            <div className="bg-white dark:bg-slate-900 border border-brand-200 dark:border-brand-800 rounded p-4">
+              <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Resultado</p>
+              <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{formulaResult.toFixed(2)}</p>
+              <p className="text-sm text-brand-700 dark:text-brand-300 mt-2">
+                {f.resultLabel}: {f.resultUnit}
+              </p>
+            </div>
+            <ShareResultButton
+              title={f.name}
+              text={`${f.name} — NeoCalcu\n${f.resultLabel}: ${formulaResult.toFixed(2)} ${f.resultUnit}`}
+            />
+          </div>
+        )}
+
+        {f.calculations && allFilled && (() => {
+          const results = calcMultiple(formulaId);
+          const labels = f.calculationsLabels ?? {};
+          const units = f.calculationsUnits ?? {};
+          const lines = Object.entries(results).map(([k, v]) =>
+            `${labels[k] ?? k}: ${v.toFixed(2)}${units[k] ? ' ' + units[k] : ''}`
+          );
+          return (
+            <div className="space-y-3">
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100">Resultados</h3>
+              {Object.entries(results).map(([key, value]) => (
+                <div key={key} className="bg-white dark:bg-slate-900 border border-brand-200 dark:border-brand-800 rounded p-3">
+                  <p className="text-xs text-brand-600 dark:text-brand-400 font-medium mb-1">{labels[key] ?? key}</p>
+                  <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">{value.toFixed(2)}</p>
+                  {units[key] && <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">{units[key]}</p>}
                 </div>
               ))}
-            </section>
+              <ShareResultButton
+                title={f.name}
+                text={`${f.name} — NeoCalcu\n${lines.join('\n')}`}
+              />
+            </div>
+          );
+        })()}
 
-            {!currentFormula.calculations && allRequiredInputsFilled && formulaResult !== null && (
-              <section className="space-y-3">
-                <div className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-4">
-                  <p className="text-xs text-brand-600 dark:text-brand-400 mb-2 font-medium">Resultado</p>
-                  <p className="text-4xl font-bold text-brand-900 dark:text-brand-200">{formulaResult.toFixed(2)}</p>
-                  <p className="text-sm text-brand-700 dark:text-brand-300 mt-2">
-                    {currentFormula.resultLabel}: {currentFormula.resultUnit}
-                  </p>
+        {f.notes && (
+          <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded p-3">
+            <p className="text-xs text-amber-900 dark:text-amber-200">
+              <span className="font-medium">Nota:</span> {f.notes}
+            </p>
+          </div>
+        )}
+
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-medium">Referencia:</span> {f.reference}
+        </p>
+      </div>
+    );
+  };
+
+  const kit = scores.find((s) => s.id === 'admision_neonatal')!;
+  const regularScores = scores.filter((s) => s.id !== 'admision_neonatal');
+
+  return (
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
+      <PatientInput />
+
+      {/* Card Kit del Paciente Crítico */}
+      <div className="px-3 pt-3 pb-0 bg-white dark:bg-slate-950">
+        <div
+          ref={(el) => { itemRefs.current[kit.id] = el; }}
+          className="rounded-xl border-2 border-brand-600 dark:border-brand-500 overflow-hidden"
+        >
+          <button
+            onClick={() => toggle(kit.id)}
+            className="w-full flex items-center gap-3 px-4 py-3 bg-brand-600 dark:bg-brand-700 text-white text-left"
+          >
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span className="flex-1 font-semibold text-sm">{kit.name}</span>
+            <button
+              onClick={(e) => { e.stopPropagation(); toggleFavorite(kit.id); }}
+              className="text-xl hover:scale-110 transition flex-shrink-0 opacity-80 hover:opacity-100"
+              title={isFavorite(kit.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
+            >
+              {isFavorite(kit.id) ? '⭐' : '☆'}
+            </button>
+            <span className="text-xl flex-shrink-0 ml-1 select-none opacity-80">
+              {expandedId === kit.id ? '−' : '+'}
+            </span>
+          </button>
+          {expandedId === kit.id && renderScoreContent(kit.id)}
+        </div>
+      </div>
+
+      {/* Tabs fijos */}
+      <div className="flex border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 sticky top-16 z-10 mt-3">
+        <button
+          onClick={() => switchSection('scores')}
+          className={`flex-1 py-2.5 text-sm font-semibold transition border-b-2 ${
+            activeSection === 'scores'
+              ? 'border-brand-600 text-brand-700 dark:text-brand-400 dark:border-brand-400'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+          }`}
+        >
+          Índices clínicos
+        </button>
+        <button
+          onClick={() => switchSection('formulas')}
+          className={`flex-1 py-2.5 text-sm font-semibold transition border-b-2 ${
+            activeSection === 'formulas'
+              ? 'border-brand-600 text-brand-700 dark:text-brand-400 dark:border-brand-400'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+          }`}
+        >
+          Fórmulas
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto pb-20">
+        {activeSection === 'scores' && (
+          <div data-onboarding="calculadora-select" className="divide-y divide-slate-200 dark:divide-slate-700">
+            {regularScores.map((score) => (
+              <div
+                key={score.id}
+                ref={(el) => { itemRefs.current[score.id] = el; }}
+                className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition"
+              >
+                <div className="flex items-start p-4">
+                  <button onClick={() => toggle(score.id)} className="flex-1 text-left">
+                    <h3 className="font-semibold text-slate-900 dark:text-slate-100">{score.name}</h3>
+                    {score.subtitle && (
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-0.5">{score.subtitle}</p>
+                    )}
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); toggleFavorite(score.id); }}
+                    className="text-2xl hover:scale-110 transition flex-shrink-0 ml-2"
+                    title={isFavorite(score.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
+                  >
+                    {isFavorite(score.id) ? '⭐' : '☆'}
+                  </button>
+                  <span className="text-2xl text-slate-300 dark:text-slate-600 flex-shrink-0 ml-2 select-none">
+                    {expandedId === score.id ? '−' : '+'}
+                  </span>
                 </div>
-                <ShareResultButton
-                  title={currentFormula.name}
-                  text={`${currentFormula.name} — NeoCalcu\n${currentFormula.resultLabel}: ${formulaResult.toFixed(2)} ${currentFormula.resultUnit}`}
-                />
-              </section>
-            )}
+                {expandedId === score.id && renderScoreContent(score.id)}
+              </div>
+            ))}
+          </div>
+        )}
 
-            {currentFormula.calculations && allRequiredInputsFilled && (
-              <section className="space-y-3">
-                <h3 className="font-semibold text-slate-900 dark:text-slate-100">Resultados</h3>
-                {(() => {
-                  const results = calculateMultipleFormulas();
-                  const labels = currentFormula.calculationsLabels ?? {};
-                  const units = currentFormula.calculationsUnits ?? {};
-                  const lines = Object.entries(results).map(([key, value]) =>
-                    `${labels[key] ?? key}: ${value.toFixed(2)}${units[key] ? ' ' + units[key] : ''}`
-                  );
-                  return (
-                    <>
-                      {Object.entries(results).map(([key, value]) => (
-                        <div key={key} className="bg-brand-50 dark:bg-slate-800 border border-brand-200 dark:border-brand-800 rounded p-3">
-                          <p className="text-xs text-brand-600 dark:text-brand-400 font-medium mb-1">{labels[key] ?? key}</p>
-                          <p className="text-2xl font-bold text-brand-900 dark:text-brand-200">{value.toFixed(2)}</p>
-                          {units[key] && <p className="text-xs text-brand-700 dark:text-brand-300 mt-1">{units[key]}</p>}
-                        </div>
-                      ))}
-                      <ShareResultButton
-                        title={currentFormula.name}
-                        text={`${currentFormula.name} — NeoCalcu\n${lines.join('\n')}`}
-                      />
-                    </>
-                  );
-                })()}
-              </section>
-            )}
-
-            {currentFormula.notes && (
-              <section className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded p-3">
-                <p className="text-xs text-amber-900 dark:text-amber-200">
-                  <span className="font-medium">Nota:</span> {currentFormula.notes}
-                </p>
-              </section>
-            )}
-
-            <section>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                <span className="font-medium">Referencia:</span> {currentFormula.reference}
-              </p>
-            </section>
+        {activeSection === 'formulas' && (
+          <div className="divide-y divide-slate-200 dark:divide-slate-700">
+            {formulas.map((formula) => (
+              <div
+                key={formula.id}
+                ref={(el) => { itemRefs.current[formula.id] = el; }}
+                className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition"
+              >
+                <div className="flex items-start p-4">
+                  <button onClick={() => toggle(formula.id)} className="flex-1 text-left">
+                    <h3 className="font-semibold text-slate-900 dark:text-slate-100">{formula.name}</h3>
+                    {formula.description && (
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-0.5 line-clamp-1">{formula.description}</p>
+                    )}
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); toggleFavorite(formula.id); }}
+                    className="text-2xl hover:scale-110 transition flex-shrink-0 ml-2"
+                    title={isFavorite(formula.id) ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
+                  >
+                    {isFavorite(formula.id) ? '⭐' : '☆'}
+                  </button>
+                  <span className="text-2xl text-slate-300 dark:text-slate-600 flex-shrink-0 ml-2 select-none">
+                    {expandedId === formula.id ? '−' : '+'}
+                  </span>
+                </div>
+                {expandedId === formula.id && renderFormulaContent(formula.id)}
+              </div>
+            ))}
           </div>
         )}
       </div>
