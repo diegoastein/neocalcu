@@ -5,8 +5,6 @@ interface Props {
   onDismiss: () => void;
 }
 
-// Subir este número con cada nuevo feature premium para re-mostrar el sheet a usuarios free
-export const PREMIUM_VERSION = '2';
 
 const features = [
   {
