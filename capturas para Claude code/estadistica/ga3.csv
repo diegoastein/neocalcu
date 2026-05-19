@@ -1,0 +1,264 @@
+# ----------------------------------------
+# Informe panorámico
+# Cuenta: Neomonitor
+# Propiedad: Neocalcu
+# ----------------------------------------
+#  
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Usuarios activos,Usuarios nuevos,Tiempo de interacción medio por usuario activo,Número de eventos
+447,450,23.411633109619686,3686
+
+#  
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Título de página y clase de pantalla,Vistas,Usuarios activos,Número de eventos,Porcentaje de rebote
+NeoCalcu,1194,442,3627,0.6619047619047619
+NeoCalcu — Calculadora Bedside para Neonatología,11,6,50,0.42857142857142855
+NeoCalcu - https://diegoastein.github.io/neocalcu/,2,1,9,0.5
+
+#  
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Primera fuente/medio del usuario,Usuarios activos
+(direct) / (none),372
+linktr.ee / referral,37
+ig / social,24
+google / organic,6
+facebook.com / referral,4
+neocalcu.pro / referral,2
+bing / organic,1
+getneomonitor.pro / referral,1
+
+#  
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Fuente/medio de la sesión,Sesiones
+(direct) / (none),485
+linktr.ee / referral,37
+ig / social,36
+promo_residencias / (not set),8
+google / organic,6
+getneomonitor.pro / referral,5
+facebook.com / referral,4
+neocalcu.pro / referral,2
+premium_sheet / (not set),2
+bing / organic,1
+mercadopago.com.ar / referral,1
+
+#  
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Día N,new,returning
+0000,0,0
+0001,0,0
+0002,0,0
+0003,0,0
+0004,0,0
+0005,0,0
+0006,0,0
+0007,0,0
+0008,0,0
+0009,0,0
+0010,0,0
+0011,0,0
+0012,0,0
+0013,0,0
+0014,0,0
+0015,11,3
+0016,104,16
+0017,8,4
+0018,3,5
+0019,54,8
+0020,28,6
+0021,49,8
+0022,29,7
+0023,51,9
+0024,26,4
+0025,15,5
+0026,14,0
+0027,11,3
+0028,15,5
+0029,29,13
+
+# Datos sobre la actividad en sus plataformas
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Plataforma,Eventos clave
+web,5
+
+#  
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Ciudad,Usuarios activos
+Buenos Aires,95
+Council Bluffs,25
+Warsaw,15
+Mexico City,14
+Asuncion,11
+Rosario,10
+Cali,9
+Guayaquil,8
+Haedo,8
+Caseros,7
+Puebla,7
+Boardman,6
+Bogota,6
+San Salvador de Jujuy,6
+Santiago,6
+Lanus,5
+Merlo,5
+Santa Fe,5
+Cordoba,4
+La Paz,4
+Ramos Mejia,4
+Santa Cruz De La Sierra,4
+Barranquilla,3
+Burnaby,3
+Ciudad Juarez,3
+Gonzalez Catan,3
+La Plata,3
+Maipu,3
+Medellin,3
+Mendoza,3
+Merida,3
+Montevideo,3
+Neuquen,3
+Pasto,3
+Phoenix,3
+Quito,3
+Vicente Lopez,3
+Anyang-si,2
+Aspen,2
+Castelar,2
+Ciudad Evita,2
+Cochabamba,2
+Coquimbo,2
+Fresnillo,2
+Godoy Cruz,2
+Guadalupe,2
+Ituzaingo,2
+Lujan,2
+Mar del Plata,2
+Monterrey,2
+Moron,2
+Ocana,2
+Pergamino,2
+Salta,2
+San Justo,2
+San Mateo Otzacatipan,2
+Tjele,2
+Veracruz,2
+Adachi City,1
+Aguascalientes,1
+Angol,1
+Apizaco,1
+Araruama,1
+Ashburn,1
+Avellaneda,1
+Bahia Blanca,1
+Bahia de Caraquez,1
+Banfield,1
+Barcelona,1
+Barrancabermeja,1
+Belen de Escobar,1
+Calceta,1
+Cartagena,1
+Cayma,1
+Cheyenne,1
+Chihuahua,1
+Ciudad Acuna,1
+Ciudad Apodaca,1
+Ciudad Madero,1
+Ciudad Nicolas Romero,1
+Ciudad Victoria,1
+Ciudadela,1
+Concepcion,1
+Concepcion del Uruguay,1
+Corrientes,1
+Cusco,1
+Delta,1
+Dover,1
+Dublin,1
+El Palomar,1
+Florencio Varela,1
+Flower Mound,1
+Forest City,1
+Fort Worth,1
+Garupa,1
+General Roca,1
+Gregorio de Laferrere,1
+Groningen,1
+Guadalajara,1
+Hermosillo,1
+Heroica Veracruz,1
+Idaho Springs,1
+Isidro Casanova,1
+Jose C. Paz,1
+Junin,1
+Juriquilla,1
+Kall,1
+La Capuera,1
+La Lonja,1
+Lenexa,1
+Lille,1
+Linares,1
+Liverpool,1
+Lomas de Angelopolis,1
+Lomas de Zamora,1
+Lujan de Cuyo,1
+Lurin,1
+Machala,1
+Madrid,1
+Manuel Alberti,1
+Mariano Acosta,1
+Marinilla,1
+Martinez,1
+Mercedes,1
+Mexicali,1
+Monteria,1
+Morelia,1
+Moreno,1
+Neihu District,1
+Newport,1
+Nuevo Chimbote,1
+Oakdale,1
+Oaxaca,1
+Obera,1
+Pachuca,1
+Port Neches,1
+Prineville,1
+Quilmes,1
+Quilmes Oeste,1
+Remedios de Escalada,1
+San Andres de Giles,1
+San Fernando,1
+San Gil,1
+San Martin,1
+San Miguel,1
+San Miguel de Tucuman,1
+Santiago de Queretaro,1
+Slough,1
+Strasbourg,1
+Talca,1
+Tampico,1
+Tarija,1
+Temuco,1
+Tepalcingo,1
+Trujillo,1
+Trujui,1
+Tucson,1
+Tulua,1
+Villa Tesei,1
+Villa del Rosario,1
+Villahermosa,1
+Wilde,1
+Zacatecas,1
+Zapopan,1
+Zarate,1
+
+#  
+# Fecha de inicio: 20260419
+# Fecha de finalización: 20260518
+Nombre de la audiencia,Usuarios activos
+All Users,447

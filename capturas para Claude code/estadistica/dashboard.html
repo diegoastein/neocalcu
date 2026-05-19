@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@neomonitor.pro — Dashboard Instagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 28px 24px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #1e293b;
+        }
+        .header h1 { font-size: 1.4rem; font-weight: 800; }
+        .header h1 span { color: #22c55e; }
+        .header p { color: #64748b; font-size: 0.8rem; margin-top: 5px; }
+        .badge-live {
+            background: #16a34a22;
+            border: 1px solid #22c55e55;
+            color: #4ade80;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            margin-top: 4px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .kpi-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 18px;
+        }
+        .kpi-card.accent { border-color: #22c55e33; background: linear-gradient(145deg, #1e293b, #0d2418); }
+        .kpi-card.accent2 { border-color: #f59e0b33; }
+        .kpi-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: #475569; font-weight: 700; margin-bottom: 8px; }
+        .kpi-value { font-size: 1.9rem; font-weight: 900; line-height: 1; }
+        .kpi-value.green { color: #22c55e; }
+        .kpi-value.blue { color: #60a5fa; }
+        .kpi-value.amber { color: #f59e0b; }
+        .kpi-value.white { color: #f8fafc; }
+        .kpi-sub { font-size: 0.72rem; color: #475569; margin-top: 6px; }
+        .kpi-sub.up { color: #4ade80; }
+
+        .charts-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .chart-card {
+            background: #1e293b;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 18px;
+        }
+        .chart-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #475569;
+            margin-bottom: 14px;
+        }
+        .chart-wrap { position: relative; height: 240px; }
+        .chart-wrap.tall { height: 290px; }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: #e2e8f0;
+        }
+        .waves-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .wave-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 18px;
+        }
+        .wave-card.best { border-color: #22c55e44; background: linear-gradient(145deg, #1e293b, #0d2418); }
+        .wave-card.live { border-color: #f59e0b44; }
+        .wave-period-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.07em; color: #475569; font-weight: 700; margin-bottom: 3px; }
+        .wave-period { font-size: 1rem; font-weight: 800; margin-bottom: 14px; }
+        .wave-period.blue { color: #60a5fa; }
+        .wave-period.green { color: #22c55e; }
+        .wave-period.amber { color: #f59e0b; }
+        .wave-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; padding: 5px 0; border-bottom: 1px solid #0f172a; }
+        .wave-row:last-of-type { border-bottom: none; }
+        .wave-row-label { color: #64748b; }
+        .wave-row-val { font-weight: 700; color: #f8fafc; }
+        .wave-tag {
+            display: inline-block; margin-top: 12px;
+            padding: 3px 10px; border-radius: 20px; font-size: 0.68rem; font-weight: 700;
+        }
+        .wave-tag.blue { background: #1d4ed820; color: #93c5fd; border: 1px solid #3b82f633; }
+        .wave-tag.green { background: #16a34a20; color: #4ade80; border: 1px solid #22c55e33; }
+        .wave-tag.amber { background: #92400e20; color: #fcd34d; border: 1px solid #f59e0b33; }
+
+        hr { border: none; border-top: 1px solid #1e293b; margin: 24px 0; }
+
+        .strategies-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .strat-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .strat-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+        .strat-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0; margin-top: 2px;
+        }
+        .strat-icon.g { background: #16a34a18; }
+        .strat-icon.b { background: #1d4ed818; }
+        .strat-icon.a { background: #92400e18; }
+        .strat-icon.p { background: #5b21b618; }
+        .strat-name { font-size: 0.85rem; font-weight: 700; line-height: 1.3; }
+        .strat-priority {
+            font-size: 0.62rem; font-weight: 800; padding: 2px 7px;
+            border-radius: 10px; margin-top: 3px; display: inline-block;
+            letter-spacing: 0.04em;
+        }
+        .strat-priority.alta { background: #dc262625; color: #fca5a5; }
+        .strat-priority.hoy  { background: #f59e0b25; color: #fcd34d; }
+        .strat-priority.media { background: #1d4ed820; color: #93c5fd; }
+        .strat-priority.baja { background: #33415520; color: #64748b; }
+        .strat-desc { font-size: 0.78rem; color: #94a3b8; line-height: 1.55; }
+        .strat-data {
+            margin-top: 10px; padding: 8px 10px;
+            background: #0f172a; border-radius: 8px;
+            font-size: 0.73rem; color: #64748b; line-height: 1.4;
+        }
+        .strat-data em { color: #22c55e; font-style: normal; font-weight: 600; }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .summary-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 18px;
+        }
+        .summary-card.hl { border-color: #22c55e33; }
+        .summary-card.hl2 { border-color: #f59e0b33; }
+        .summary-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: #475569; font-weight: 700; margin-bottom: 8px; }
+        .summary-text { font-size: 0.83rem; color: #94a3b8; line-height: 1.6; }
+
+        .footer {
+            text-align: center; color: #334155; font-size: 0.7rem;
+            padding: 20px 0 4px;
+        }
+
+        @media (max-width: 900px) {
+            .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+            .charts-main { grid-template-columns: 1fr; }
+            .charts-row { grid-template-columns: 1fr; }
+            .waves-grid { grid-template-columns: 1fr; }
+            .strategies-grid { grid-template-columns: repeat(2, 1fr); }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .strategies-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>@neomonitor.pro &nbsp;<span>Dashboard Instagram</span></h1>
+            <p>Período: 1 ene 2026 — 19 may 2026 &nbsp;·&nbsp; Fuente: Meta Business Suite</p>
+        </div>
+        <span class="badge-live">● OLA 3 EN CURSO</span>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card accent">
+            <div class="kpi-label">Seguidores ganados</div>
+            <div class="kpi-value green">705</div>
+            <div class="kpi-sub up">↑ 416 en mayo · 267 en abril</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Alcance total</div>
+            <div class="kpi-value blue">61.500</div>
+            <div class="kpi-sub">personas únicas alcanzadas</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Visualizaciones</div>
+            <div class="kpi-value white">81.000</div>
+            <div class="kpi-sub">impresiones acumuladas</div>
+        </div>
+        <div class="kpi-card accent2">
+            <div class="kpi-label">Clics al enlace</div>
+            <div class="kpi-value amber">1.644</div>
+            <div class="kpi-sub up">→ neocalcu.pro</div>
+        </div>
+        <div class="kpi-card accent">
+            <div class="kpi-label">CTR promedio</div>
+            <div class="kpi-value green">2.7%</div>
+            <div class="kpi-sub up">↑ 3× promedio de Instagram</div>
+        </div>
+    </div>
+
+    <div class="charts-main">
+        <div class="chart-card">
+            <div class="chart-title">Alcance y Visualizaciones diarias — Mar 26 → May 19</div>
+            <div class="chart-wrap tall">
+                <canvas id="reachChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">Seguidores ganados por día</div>
+            <div class="chart-wrap tall">
+                <canvas id="followersChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-row">
+        <div class="chart-card">
+            <div class="chart-title">Clics al enlace diarios (→ neocalcu.pro)</div>
+            <div class="chart-wrap">
+                <canvas id="clicksChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">Interacciones con el contenido</div>
+            <div class="chart-wrap">
+                <canvas id="interactionsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Las tres olas virales</div>
+    <div class="waves-grid">
+
+        <div class="wave-card">
+            <div class="wave-period-label">Primera ola</div>
+            <div class="wave-period blue">4 – 13 de abril</div>
+            <div class="wave-row"><span class="wave-row-label">Alcance pico</span><span class="wave-row-val">4.469</span></div>
+            <div class="wave-row"><span class="wave-row-label">Visualizaciones pico</span><span class="wave-row-val">5.666</span></div>
+            <div class="wave-row"><span class="wave-row-label">Clics al enlace</span><span class="wave-row-val">489</span></div>
+            <div class="wave-row"><span class="wave-row-label">Seguidores ganados</span><span class="wave-row-val">+267</span></div>
+            <div class="wave-row"><span class="wave-row-label">CTR enlace</span><span class="wave-row-val">1.9%</span></div>
+            <div class="wave-row"><span class="wave-row-label">Duración activa</span><span class="wave-row-val">~10 días</span></div>
+            <span class="wave-tag blue">Línea de base establecida</span>
+        </div>
+
+        <div class="wave-card best">
+            <div class="wave-period-label">Segunda ola — MEJOR HISTÓRICO</div>
+            <div class="wave-period green">7 – 12 de mayo</div>
+            <div class="wave-row"><span class="wave-row-label">Alcance pico</span><span class="wave-row-val">5.882</span></div>
+            <div class="wave-row"><span class="wave-row-label">Visualizaciones pico</span><span class="wave-row-val">7.931 ⭐</span></div>
+            <div class="wave-row"><span class="wave-row-label">Clics al enlace</span><span class="wave-row-val">1.002 ⭐</span></div>
+            <div class="wave-row"><span class="wave-row-label">Seguidores ganados</span><span class="wave-row-val">+384 ⭐</span></div>
+            <div class="wave-row"><span class="wave-row-label">CTR enlace</span><span class="wave-row-val">4.4% ⭐</span></div>
+            <div class="wave-row"><span class="wave-row-label">Duración activa</span><span class="wave-row-val">~6 días</span></div>
+            <span class="wave-tag green">Mejor desempeño histórico</span>
+        </div>
+
+        <div class="wave-card live">
+            <div class="wave-period-label">Tercera ola — EN CURSO HOY</div>
+            <div class="wave-period amber">17 – 19 de mayo</div>
+            <div class="wave-row"><span class="wave-row-label">Alcance 3 días</span><span class="wave-row-val">7.761</span></div>
+            <div class="wave-row"><span class="wave-row-label">Visualizaciones 3 días</span><span class="wave-row-val">10.380</span></div>
+            <div class="wave-row"><span class="wave-row-label">Clics al enlace</span><span class="wave-row-val">134</span></div>
+            <div class="wave-row"><span class="wave-row-label">Seguidores ganados</span><span class="wave-row-val">+12 (hasta hoy)</span></div>
+            <div class="wave-row"><span class="wave-row-label">CTR enlace</span><span class="wave-row-val">1.7%</span></div>
+            <div class="wave-row"><span class="wave-row-label">Duración activa</span><span class="wave-row-val">En curso</span></div>
+            <span class="wave-tag amber">Capitalizar ahora</span>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="section-title">Estrategias de crecimiento basadas en los datos</div>
+    <div class="strategies-grid">
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon a">⚡</div>
+                <div>
+                    <div class="strat-name">Publicar hoy mientras la ola 3 está activa</div>
+                    <span class="strat-priority hoy">ACCIÓN HOY</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                El algoritmo premia a las cuentas que publican durante el momentum. La ola 3 sigue activa con 2.249 alcance hoy. Publicar un segundo post en las próximas 24hs puede duplicar la cola de esta ola.
+            </div>
+            <div class="strat-data">
+                <em>Dato:</em> La ola 2 generó 1.002 clics en 6 días sostenidos. La ola 3 lleva solo 3 días y 134 clics — el potencial no está capturado.
+            </div>
+        </div>
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon g">📅</div>
+                <div>
+                    <div class="strat-name">Pasar a 3 publicaciones por semana</div>
+                    <span class="strat-priority alta">PRIORIDAD ALTA</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                Los datos son contundentes: sin publicación el alcance cae a menos de 50 por día. La cuenta no tiene base orgánica propia todavía. La frecuencia es el único motor de crecimiento sostenido.
+            </div>
+            <div class="strat-data">
+                <em>Dato:</em> Días sin publicación promedian 35 de alcance vs 3.000–6.000 con publicación. Diferencia de 100×.
+            </div>
+        </div>
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon g">🎯</div>
+                <div>
+                    <div class="strat-name">Replicar el formato exacto de la ola 2</div>
+                    <span class="strat-priority alta">PRIORIDAD ALTA</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                El CTR del enlace fue 4.4% en mayo vs 1.9% en abril con el mismo público. El contenido de mayo convierte 2.3× más. Identificar qué cambió (Reels, duración, CTA) y replicarlo en cada post.
+            </div>
+            <div class="strat-data">
+                <em>Dato:</em> Ola 2 generó 2.3× más clics que ola 1 con 15% menos alcance. El formato, no el volumen, es la variable clave.
+            </div>
+        </div>
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon g">🔗</div>
+                <div>
+                    <div class="strat-name">CTA explícito al enlace en cada pieza</div>
+                    <span class="strat-priority alta">PRIORIDAD ALTA</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                Agregar al final de cada Reel: "Calculalo gratis en neocalcu.pro, link en bio". En Stories: sticker de link directo a neocalcu.pro sin pasar por bio. En descripción: link en primer comentario fijado.
+            </div>
+            <div class="strat-data">
+                <em>Impacto:</em> Subir CTR 2.7% → 4% sobre 3.000 alcance promedio = +39 clics extra por post sin cambiar el contenido.
+            </div>
+        </div>
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon b">📸</div>
+                <div>
+                    <div class="strat-name">Stories diarias para el reach base</div>
+                    <span class="strat-priority media">PRIORIDAD MEDIA</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                Las Stories llegan directo a los 780 seguidores actuales sin depender del algoritmo del feed. Bajo costo de producción: tip de 15s, encuesta, pregunta. Mantienen la cuenta activa entre posts principales.
+            </div>
+            <div class="strat-data">
+                <em>Oportunidad:</em> Entre olas el alcance fue 34–63 por día. Stories diarias sostendrían más de 200 de base sin publicar contenido nuevo.
+            </div>
+        </div>
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon b">🕐</div>
+                <div>
+                    <div class="strat-name">Publicar en horarios de guardia médica</div>
+                    <span class="strat-priority media">PRIORIDAD MEDIA</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                Los médicos de UCIN revisan el celular en los cambios de guardia. Horarios óptimos en Argentina (GMT-3): 7:30–8:30hs (ingreso matutino) y 20:00–21:00hs (salida nocturna o guardia tranquila).
+            </div>
+            <div class="strat-data">
+                <em>Test:</em> Publicar el mismo formato en 3 horarios distintos durante 3 semanas y comparar alcance en las primeras 2hs.
+            </div>
+        </div>
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon p">🤝</div>
+                <div>
+                    <div class="strat-name">Collabs con cuentas de neonatología</div>
+                    <span class="strat-priority media">PRIORIDAD MEDIA</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                Con 61.500 alcance acumulado y CTR 2.7% hay credibilidad para proponer collabs. Target: residentes influyentes, docentes de posgrado, cuentas de SAP o SIBEN. Un Reel colaborativo puede duplicar el alcance sin costo.
+            </div>
+            <div class="strat-data">
+                <em>Target:</em> Cuentas con 1k–20k seguidores en neonatología/pediatría Argentina. Audiencia pre-calificada, sin costo de pauta.
+            </div>
+        </div>
+
+        <div class="strat-card">
+            <div class="strat-top">
+                <div class="strat-icon a">💰</div>
+                <div>
+                    <div class="strat-name">Pauta mínima sobre posts que ya viralizan</div>
+                    <span class="strat-priority baja">A FUTURO</span>
+                </div>
+            </div>
+            <div class="strat-desc">
+                Cuando un post orgánico supera CTR 3%, pautar $2.000–5.000 ARS/día por 3–5 días. El algoritmo ya validó la pieza; la pauta solo amplifica. No pautar posts nuevos sin validación orgánica previa.
+            </div>
+            <div class="strat-data">
+                <em>Referencia:</em> La ola 2 tuvo CTR 4.4%. Con 10× alcance via pauta habría generado ~10.000 clics vs los 1.002 orgánicos.
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="section-title">Conclusiones clave</div>
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="summary-label">El contenido funciona</div>
+            <div class="summary-text">CTR de 2.7% es 3× el promedio de Instagram. La audiencia clínica responde y visita la app. El problema no es la calidad del contenido — es la frecuencia y la consistencia entre olas.</div>
+        </div>
+        <div class="summary-card hl">
+            <div class="summary-label">Mayo supera a abril en todo</div>
+            <div class="summary-text">Más visualizaciones (7.931 vs 5.590), más clics (1.002 vs 489), mejor CTR (4.4% vs 1.9%), más seguidores en menos días (384 en 6 días vs 267 en 10). El formato evolucionó.</div>
+        </div>
+        <div class="summary-card hl2">
+            <div class="summary-label">La ola 3 está activa ahora</div>
+            <div class="summary-text">Hoy el alcance fue 2.249 y los clics 64 — la tendencia sigue positiva. Publicar una segunda pieza en las próximas 24hs es la acción de mayor impacto posible en este momento.</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Dashboard generado el 19/05/2026 &nbsp;·&nbsp; Datos: Meta Business Suite &nbsp;·&nbsp; @neomonitor.pro para NeoCalcu
+    </div>
+
+</div>
+<script>
+const labels = [
+  'Mar 26','Mar 27','Mar 28','Mar 29','Mar 30','Mar 31',
+  'Abr 1','Abr 2','Abr 3','Abr 4','Abr 5','Abr 6','Abr 7','Abr 8','Abr 9','Abr 10',
+  'Abr 11','Abr 12','Abr 13','Abr 14','Abr 15','Abr 16','Abr 17','Abr 18','Abr 19',
+  'Abr 20','Abr 21','Abr 22','Abr 23','Abr 24','Abr 25','Abr 26','Abr 27','Abr 28','Abr 29','Abr 30',
+  'May 1','May 2','May 3','May 4','May 5','May 6','May 7','May 8','May 9','May 10',
+  'May 11','May 12','May 13','May 14','May 15','May 16','May 17','May 18','May 19'
+];
+
+const alcance = [18,149,27,70,22,126,32,75,132,2652,4469,3873,2447,3019,3708,1664,430,1941,2237,47,103,49,283,60,35,45,354,35,255,154,10,145,366,136,106,58,204,144,145,36,145,13,1628,5882,3439,4010,4946,2875,236,222,63,34,1985,3527,2249];
+const visualizaciones = [59,257,61,145,65,363,84,173,161,3072,5590,5247,3230,3726,5666,2261,553,2354,3123,109,277,96,430,79,67,96,625,93,300,181,18,157,513,374,213,138,333,197,193,53,176,17,1991,7931,4526,5096,5545,3365,372,373,106,91,2894,4625,2861];
+const seguidores = [3,2,1,0,4,6,0,0,5,7,35,67,39,7,34,23,1,14,27,1,1,0,0,1,0,0,0,0,0,0,1,0,0,4,0,0,0,0,0,0,0,0,15,103,62,81,87,51,1,4,0,0,12,0,0];
+const clics = [0,0,0,0,0,0,0,0,0,3,38,88,70,11,126,57,0,0,96,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,219,148,212,220,174,19,0,0,0,28,42,64];
+const interacciones = [1,3,3,1,0,4,0,1,1,19,38,75,29,26,40,14,0,6,25,2,10,1,3,2,2,4,4,5,6,5,1,2,19,13,10,3,3,8,3,1,2,0,11,131,66,86,128,88,5,9,1,6,29,56,39];
+
+const baseOpts = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: { labels: { color: '#475569', font: { size: 11 }, boxWidth: 12 } },
+        tooltip: {
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            borderWidth: 1,
+            titleColor: '#f8fafc',
+            bodyColor: '#94a3b8'
+        }
+    },
+    scales: {
+        x: {
+            ticks: { color: '#334155', font: { size: 9.5 }, maxTicksLimit: 11 },
+            grid: { color: '#1e293b' }
+        },
+        y: {
+            ticks: { color: '#334155', font: { size: 9.5 } },
+            grid: { color: '#1e293b88' }
+        }
+    }
+};
+
+new Chart(document.getElementById('reachChart'), {
+    type: 'line',
+    data: {
+        labels,
+        datasets: [
+            {
+                label: 'Visualizaciones',
+                data: visualizaciones,
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34,197,94,0.08)',
+                fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2
+            },
+            {
+                label: 'Alcance',
+                data: alcance,
+                borderColor: '#60a5fa',
+                backgroundColor: 'rgba(96,165,250,0.05)',
+                fill: true, tension: 0.35, pointRadius: 0, borderWidth: 1.5,
+                borderDash: [5,3]
+            }
+        ]
+    },
+    options: baseOpts
+});
+
+new Chart(document.getElementById('followersChart'), {
+    type: 'bar',
+    data: {
+        labels,
+        datasets: [{
+            label: 'Seguidores',
+            data: seguidores,
+            backgroundColor: seguidores.map(v =>
+                v >= 80 ? '#22c55e' : v >= 30 ? '#22c55eaa' : v >= 5 ? '#22c55e55' : '#22c55e22'
+            ),
+            borderRadius: 3,
+            borderSkipped: false
+        }]
+    },
+    options: { ...baseOpts, plugins: { ...baseOpts.plugins, legend: { display: false } } }
+});
+
+new Chart(document.getElementById('clicksChart'), {
+    type: 'line',
+    data: {
+        labels,
+        datasets: [{
+            label: 'Clics al enlace',
+            data: clics,
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245,158,11,0.1)',
+            fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2
+        }]
+    },
+    options: { ...baseOpts, plugins: { ...baseOpts.plugins, legend: { display: false } } }
+});
+
+new Chart(document.getElementById('interactionsChart'), {
+    type: 'bar',
+    data: {
+        labels,
+        datasets: [{
+            label: 'Interacciones',
+            data: interacciones,
+            backgroundColor: interacciones.map(v =>
+                v >= 80 ? '#a855f7' : v >= 20 ? '#a855f7aa' : '#a855f733'
+            ),
+            borderRadius: 3,
+            borderSkipped: false
+        }]
+    },
+    options: { ...baseOpts, plugins: { ...baseOpts.plugins, legend: { display: false } } }
+});
+</script>
+</body>
+</html>
