@@ -158,6 +158,7 @@ export interface Score {
   ropCalculator?: boolean;
   finneganCalculator?: boolean;
   admissionSummary?: boolean;
+  nptCalculator?: boolean;
 }
 
 export interface FormulaInput {

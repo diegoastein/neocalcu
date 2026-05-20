@@ -5,6 +5,7 @@ import BilirubinCalculator from '../components/BilirubinCalculator';
 import ROPCalculator from '../components/ROPCalculator';
 import FinnceganCalculator from '../components/FinnceganCalculator';
 import AdmissionSummary from '../components/AdmissionSummary';
+import NutricionParenteralCalculator from '../components/NutricionParenteralCalculator';
 import ShareResultButton from '../components/ShareResultButton';
 import { scores } from '../data/scores';
 import { formulas } from '../data/formulas';
@@ -123,7 +124,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
     const interpretation = allAnswered
       ? score.interpretation.find((i) => total >= i.min && total <= i.max) ?? null
       : null;
-    const isSpecial = score.admissionSummary || score.bilirubinCalculator || score.ropCalculator || score.finneganCalculator;
+    const isSpecial = score.admissionSummary || score.bilirubinCalculator || score.ropCalculator || score.finneganCalculator || score.nptCalculator;
 
     return (
       <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 space-y-4">
@@ -134,6 +135,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
         {score.bilirubinCalculator && <BilirubinCalculator references={score.references} />}
         {score.ropCalculator && <ROPCalculator references={score.references} />}
         {score.finneganCalculator && <FinnceganCalculator references={score.references} />}
+        {score.nptCalculator && <NutricionParenteralCalculator references={score.references} />}
 
         {!isSpecial && (
           <div className="space-y-4">
