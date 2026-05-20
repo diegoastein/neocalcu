@@ -90,22 +90,22 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 
 ### Componentes clave
 
-- **`DrugDetail.tsx`** — modal de detalle de medicamento. Si el drug tiene `inotropicConfig`, muestra `InotropicCalculator` en lugar de la sección de dosificación estándar.
-- **`InotropicCalculator.tsx`** — calculador interactivo para inotrópicos: sliders de dosis y flujo, toggle de volumen (12/24/50 mL). Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`. **Premium:** botón "Tabla de velocidades" expandible que muestra flujos (mL/h) para cada combinación dosis × volumen, usando los mg actuales como preparación base. Sin suscripción muestra un bloque con candado (patrón estándar de gate premium). Usa `useMembership()`.
-- **`PatientInput.tsx`** — barra sticky de datos del paciente activo. **Colapsable:** se colapsa al registrar mostrando barra compacta `Peso / EG / Días` (con labels del mismo tamaño que los valores); campos sin completar en ámbar. Se re-expande al tocar la barra. Auto-colapsa en `onBlur` cuando todos los campos están completos. Botón "Registrar datos" pulsa en verde cuando hay cambios sin guardar (`isDirty`), apagado cuando está sincronizado. **Autofocus:** cuando el paciente no tiene peso cargado y el form está expandido, el campo de peso recibe foco automáticamente al cerrarse todos los modales (disclaimer, premium sheet, onboarding, toast) — usa `UIContext`. El título del form dice "Ingresá el peso para calcular dosis" si no hay peso, "Datos del paciente" si ya tiene. **Premium:** barra de tabs horizontal con todos los pacientes guardados (nombre + peso), botón "+" para agregar (hasta `MAX_PATIENTS = 4`), botón "×" para eliminar, campo "Nombre / cama" que se guarda on blur. Sin suscripción muestra bloque con candado. Usa `useMembership()` y la API multi-paciente de `PatientContext`.
-- **`BilirubinCalculator.tsx`** — calculadora de umbrales de fototerapia y exanguinotransfusión según **NICE CG98 (2023)**. ≥38s: valores exactos del Excel oficial NICE (interpolación hora a hora). 35-37s: escalados con fórmula NICE para pretérminos (EG×10−100 µmol/L). Muestra umbrales en mg/dL y µmol/L. 5 zonas: normal / limítrofe / fototerapia / intensiva / exanguino. Factores de monitorización (no modifican umbral, solo frecuencia de control).
-- **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
-- **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
-- **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
-- **`SubscriptionModal.tsx`** — modal central de suscripción. Se abre desde todos los puntos de entrada (header, toast, PremiumFeaturesSheet, PromoResidenciasOverlay, SettingsPanel). **Dos pasos:** paso 1 = selector de región (🇦🇷 Argentina / 🌎 Resto del mundo); paso 2A (Argentina) = botones Mensual $3.500 / Anual $28.000 → flujo MercadoPago con spinner; paso 2B (Internacional) = links Takenos Mensual USD 3 / Anual USD 30 (−20%) que abren en nueva pestaña + aviso de DM por Instagram para activación. Links Takenos hardcodeados como constante `TAKENOS` en el archivo. Props: `onClose`, `onArgentina(plan)`, `loadingPlan`.
-- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate: () => void`, `onRedeem`, `membership`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), sección de apoyo (ver abajo), contacto, enlace Neomonitor, aviso legal. La sección de apoyo es condicional: si `membership.active` muestra una card verde "¡Gracias por apoyar NeoCalcu!" con tipo de plan y fecha de vencimiento; si no, muestra un botón "Suscripción NeoCalcu Pro" que abre `SubscriptionModal` + opciones de cupón y recuperación.
-- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 3 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate: () => void`, `onDismiss`, `onRecover`. (Sin `loadingPlan` — el spinner vive en `SubscriptionModal`.)
-- **`EmailCaptureModal.tsx`** — modal centrado que aparece tras el primer pago verificado o cupón canjeado (y en cada apertura mientras el email no esté registrado). Llama a `/registrar-email` en el worker. Al guardar exitosamente escribe `neo_email_registered = '1'` en localStorage. El backdrop **no cierra** el modal — solo el botón "Lo hago en otro momento". Si el cupón canjeado ya tenía email asignado desde el admin, el modal no aparece y `neo_email_registered` se setea automáticamente. Props: `onRegister`, `onDismiss`.
-- **`PremiumFeaturesSheet.tsx`** — bottom sheet que se muestra al abrir la app (600ms de delay) si el usuario no tiene membresía activa. Lista las funciones premium disponibles y próximas con badges "Disponible" / "Próximamente". CTA con botón único "Ver planes de suscripción" (abre `SubscriptionModal`) y link "Ahora no". Se cierra tocando el backdrop, el botón X, o el link. Props: `onSubscribe: () => void`, `onDismiss`.
-- **`ProcedureNotes.tsx`** — campo de notas libre por procedimiento. Lee/escribe `localStorage` en la clave `neo_procedure_notes` (objeto `{ [procedureId]: string }`). Guarda `onBlur`. Textarea de 1 línea que crece automáticamente al escribir. Gate premium: bloque dashed con candado. Sin relación con el paciente activo — las notas persisten siempre.
-- **`ShareResultButton.tsx`** — botón premium para compartir el resultado de cualquier cálculo. Usa Web Share API si está disponible (abre share sheet nativo); fallback a `navigator.clipboard.writeText()`. Props: `text: string`, `title?: string`. Muestra feedback "Compartido" / "Copiado" por 2s. Gate premium: bloque compacto inline con candado.
-- **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión. **Lógica de verificación:** si hay membresía activa en localStorage → no llama al worker (eficiente), pero sí muestra `EmailCaptureModal` si el email no está registrado. Si no hay membresía → llama al worker en **cada apertura** (no solo cada 3) para restaurar automáticamente si el storage fue borrado. El toast de donación sigue mostrándose solo cada 3 aperturas.
-- **`PromoResidenciasOverlay.tsx`** — sistema de avisos/promociones en el header. Exporta dos elementos: `PromoHeaderBadge` (badge ámbar parpadeante entre hamburguesa y botón derecho, muestra texto + countdown; retorna `null` cuando `EXPIRY` vence) y `PromoResidenciasOverlay` (overlay modal con descripción de la promo, countdown en tiempo real, botón único "Suscribirse" que abre `SubscriptionModal`, y link a Instagram). Visible para todos (suscriptores y no suscriptores). Props: `onClose`, `onDonate: () => void`. **Para futuras promos:** ajustar `EXPIRY`, el texto del badge y el contenido del overlay. El overlay se cierra antes de abrir el modal.
+- **`DrugDetail.tsx`** — modal de medicamento; si hay `inotropicConfig`, renderiza `InotropicCalculator` en lugar de la dosificación estándar.
+- **`InotropicCalculator.tsx`** — sliders dosis/flujo + toggle volumen. Fórmula: `mg = dosis × peso × volumen × 60 / (flujo × 1000)`. Premium: tabla de velocidades expandible.
+- **`PatientInput.tsx`** — barra sticky colapsable. Autofocus al campo peso cuando no hay peso y `anyModalOpen = false` (via `UIContext`). Premium: tabs multi-paciente (hasta 4).
+- **`BilirubinCalculator.tsx`** — umbrales fototerapia/exanguino NICE CG98 2023. ≥38s: valores exactos; 35-37s: escalados con fórmula NICE.
+- **`ROPCalculator.tsx`** — screening ROP SAP 2021; calcula fecha del primer examen.
+- **`FinnceganCalculator.tsx`** — NAS, 22 ítems en 3 secciones, puntaje en tiempo real; verde/ámbar/rojo (0–7 / 8–12 / ≥13).
+- **`SubscriptionModal.tsx`** — dos pasos: región → pago. AR: MercadoPago. Internacional: links Takenos (constante `TAKENOS`) + aviso DM Instagram. Props: `onClose`, `onArgentina(plan)`, `loadingPlan`.
+- **`SettingsPanel.tsx`** — drawer lateral izquierdo. Sección apoyo condicional: card verde (membresía activa) o botón → SubscriptionModal.
+- **`DonationToast.tsx`** — toast fijo sobre BottomNav, countdown 30s, visible cada 3 aperturas sin membresía.
+- **`EmailCaptureModal.tsx`** — aparece tras primer pago/cupón hasta registrar email. Backdrop no cierra. Setea `neo_email_registered='1'` al guardar.
+- **`PremiumFeaturesSheet.tsx`** — bottom sheet al abrir la app (600ms delay) si sin membresía; CTA → SubscriptionModal.
+- **`ProcedureNotes.tsx`** — notas libres por procedimiento; `localStorage neo_procedure_notes`; premium gate.
+- **`ShareResultButton.tsx`** — Web Share API + fallback clipboard; feedback 2s; premium gate.
+- **`useDonationReminder.ts`** — lógica central de membresía. Con membresía en localStorage → no llama worker. Sin membresía → llama en cada apertura para restaurar automáticamente si el `device_id` sigue en KV.
+- **`PromoResidenciasOverlay.tsx`** — badge ámbar parpadeante + overlay modal para promos. Reutilizable: ajustar `EXPIRY` y texto. Visible para todos.
+- **`BottomNav.tsx`** — navegación inferior, 5 tabs, iconos SVG.
 
 ### Páginas y navegación
 
@@ -272,128 +272,8 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 ## Dashboard admin (`neocalcu-admin`)
 
-Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoastein/neocalcu-admin`. Hosteada en Cloudflare Pages, protegida con Cloudflare Access (solo `diegosteinberg@gmail.com`).
+Repo separado (`github.com/diegoastein/neocalcu-admin`), Cloudflare Pages, protegido con Cloudflare Access. No se toca desde este repo.
 
-### Secciones
-- **Dashboard** — métricas en tiempo real via Worker: dispositivos totales, membresías activas (mensual/anual), cupones disponibles/usados, ingresos estimados
-- **Cupones** — generar cupones individuales (con email opcional del destinatario) o en lote (hasta 50), tabla de activos/usados con columna email, copy directo
-- **Contenido** — generador de material para Instagram y WhatsApp via Claude Haiku (`claude-haiku-4-5-20251001`):
-  - **Post** → tarjeta visual editable (título/cuerpo/hashtags) → descarga PNG 1080×1080
-  - **Reel** → 4 slides editables en formato 9:16 (SLIDE 1–4) → descarga PNG individual para importar en Instagram o CapCut
-  - **Stories** → secuencia de 4 slides en texto
-  - **WhatsApp** → mensaje para grupos médicos
-  - **Novedades** → release notes en tono clínico
-
-### Configuración del dashboard
-- `VITE_ADMIN_SECRET` — variable de entorno en Cloudflare Pages (misma clave que `ADMIN_SECRET` del Worker)
-- `ANTHROPIC_API_KEY` — secret en el Worker (no en el frontend)
-- Stack: Vite + React + TypeScript + Tailwind + html-to-image
-- Deploy: push a `main` → Cloudflare Pages rebuilds automáticamente
-
-### Prompts de contenido
-- Tono rioplatense, directo, "de colega a colega"
-- Siempre "UCIN", nunca "NICU"
-- Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
-- Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
-
-## Estado actual (2026-05-13, últ. actualización 2026-05-20 — sesión 9)
-
-**✅ Aplicación completamente funcional y en producción.**
-
-**Medicamentos (MedicationsPage):**
-- ✅ 223 medicamentos de referencia neonatal internacional (limpios, sin duplicados, en español)
-- ✅ Buscador por nombre, genérico, indicaciones
-- ✅ Agrupados por categoría: **Antibióticos siempre primero**, resto en orden alfabético; medicamentos dentro de cada categoría también alfabéticos
-- ✅ Filtrado automático por peso, E.G., Días de vida
-- ✅ Modal con calculadora de dosis
-- ✅ **Calculador inotrópico interactivo** (sliders) para Dopamina, Dobutamina, Adrenalina, Milrinona, Norepinefrina
-- ✅ Dosis por m² (ej. Didanosina): muestran la dosis informativa sin calcular, con aviso de que requieren SC
-
-**Procedimientos (ProceduresPage):**
-- ✅ **24 procedimientos**:
-  - Vías/accesos: Punción Lumbar, Toracocentesis, Paracentesis, Acceso Intraóseo
-  - Vía aérea: Surfactante, VM Convencional (inicio), CPAP Nasal, Cricotiroidotomía
-  - Cardiovascular: Pericardiocentesis, RCP Neonatal
-  - Nutrición: Nutrición Parenteral
-  - Bilirrubina: Fototerapia Intensiva, Exanguinotransfusión Parcial, Exanguinotransfusión Doble Volumen
-  - Metabólico/urgencias: Hipoglucemia, Hiperkalemia, Acidosis Metabólica, Hipotermia Terapéutica
-  - Transporte: Transporte Neonatal
-- ✅ Ordenados alfabéticamente por nombre
-- ✅ Fórmulas interactivas con cálculo en tiempo real
-- ✅ Pasos, materiales, advertencias y referencias
-- ✅ Referencias de Fototerapia y Exanguinotransfusión actualizadas a NICE CG98 (2023)
-- ✅ **Notas del servicio (premium)** — `ProcedureNotes` al final de cada procedimiento expandido; persiste en `localStorage` independiente del paciente activo
-
-**Calculadoras (CalculadorasPage — tab unificado):**
-- ✅ **Índices clínicos**: Silverman-Andersen, Apgar, Sarnat, **Bilirrubina NICE CG98 (2023)**, Screening ROP SAP, **Finnegan Modificado (NAS)**
-- ✅ **Fórmulas** (12): BSA, Clearance Cr, Aporte Calórico, Proteínas, Osmolalidad, IMC, MAP, IO, CaO₂, Balance Hidroelectrolítico, BSA simplificada, Capacidad Cilindro O₂
-- ✅ **Lista de acordeones** (igual a Procedimientos) en lugar de `<select>`: dos tabs fijos ("Índices clínicos" / "Fórmulas"), cada ítem expandible con `+/−`
-- ✅ **Kit del Paciente Crítico** como card destacada verde sobre los tabs — separado visualmente de los índices clínicos, siempre visible
-- ✅ PatientInput siempre visible para auto-rellenar peso
-- ✅ Todos los inputs de fórmulas son visibles y editables (incluyendo peso, pre-poblado desde contexto del paciente)
-- ✅ BSA simplificada corregida: fórmula usa kg directamente (`Math.pow(peso, 0.67) * 4.84 / 100`)
-
-**Laboratorio (LaboratoryPage):**
-- ✅ **12 categorías, 85 parámetros**: Gasometría, Hemograma, Electrolitos, Química básica, Función hepática, Coagulación, Infección/Inflamación, Función tiroidea, LCR, Análisis de orina, Marcadores cardíacos, Metabólico/Endócrino
-- ✅ Buscador cross-categoría (reemplaza pills de categoría) con acordeones colapsables
-- ✅ Parámetros estratificados por EG y edad postnatal
-- ✅ Valores críticos marcados (criticalLow / criticalHigh)
-- ✅ Nota especial sobre pico fisiológico de PCT (0–72h hasta 21 ng/mL)
-- ✅ Fuente primaria: Hospital Garrahan; complementado con Harriet Lane, Gomella, COBICO Argentina
-
-**Favoritos (FavoritesPage):**
-- ✅ Navegación funcional desde favoritos: click en procedimiento → abre `ProceduresPage` expandido; click en índice/fórmula → abre `CalculadorasPage` con el ítem preseleccionado
-
-**Configuración (SettingsPanel):**
-- ✅ Ícono hamburguesa en vértice superior izquierdo del header
-- ✅ Elemento dinámico en vértice superior derecho: badge verde "¡Gracias!" (membresía activa) o botón **"Suscripción"** (sin membresía) — abre `SubscriptionModal`
-- ✅ Selector de tema: Sistema / Día / Noche (persiste en `localStorage`)
-- ✅ Botón de instalación PWA (visible solo cuando el navegador lo permite)
-- ✅ Sección de apoyo condicional en SettingsPanel: card verde con fecha de vencimiento (membresía activa) o botón "Suscripción NeoCalcu Pro" que abre `SubscriptionModal` + cupón + recuperación
-- ✅ Contacto: info@neomonitor.pro
-- ✅ Enlace "Más de Neomonitor" → www.getneomonitor.pro
-- ✅ Aviso legal / disclaimer de responsabilidad
-
-**Sistema de suscripción:**
-- ✅ **`SubscriptionModal`** — modal unificado con selector de región: Argentina (MercadoPago) / Resto del mundo (Takenos). Todos los puntos de entrada lo usan: botón header, toast, PremiumFeaturesSheet, PromoResidenciasOverlay, SettingsPanel
-- ✅ Toast cada **3 aperturas** con countdown de 30s — cubre el BottomNav desde `bottom-0`; no aparece si la membresía está activa
-- ✅ Dos planes Argentina: mensual ($3.500, suprime 30 días) y anual ($28.000 −20%, suprime 365 días)
-- ✅ Dos planes Internacional (Takenos): mensual USD 3 / anual USD 30 −20% — links en nueva pestaña, activación manual vía cupón
-- ✅ Sistema de cupones: `/generar-cupon` (admin) y `/canjear-cupon` (usuario)
-- ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
-- ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía `MembershipContext` (`useMembership()`)
-- ✅ Falla silenciosamente sin conexión (no bloquea funciones clínicas)
-- ✅ **Verificación robusta**: si no hay membresía en localStorage, el worker se consulta en cada apertura (no solo cada 3) — restaura automáticamente si el device_id sigue en KV
-- ✅ **Registro de email persistente**: `EmailCaptureModal` aparece en cada apertura hasta que el usuario registre su email; no se puede cerrar tocando el backdrop
-- ✅ **Email en cupones**: al generar un cupón en el admin se puede asignar un email de destinatario; al canjearlo, el email se registra automáticamente en KV y la app setea `neo_email_registered='1'` sin mostrar el modal
-- ✅ **Un dispositivo a la vez**: `/recuperar` invalida el dispositivo anterior en KV al transferir la suscripción; imposible tener la misma suscripción activa en dos dispositivos simultáneamente
-- ✅ **Promo Residencias 2×1** (activa hasta 2026-06-01): badge ámbar parpadeante en header con countdown; overlay con descripción, countdown, botón "Suscribirse" que abre `SubscriptionModal`, y link a Instagram. Visible para todos. `PromoResidenciasOverlay.tsx` reutilizable para futuras promos ajustando `EXPIRY` y texto. Campaña activa desde 2026-05-18.
-
-**Funciones premium (freemium):**
-- ✅ **Tabla de velocidades de inotrópicos** — toggle en `InotropicCalculator`, tabla dosis × volumen con flujos en mL/h; candado para no suscriptores
-- ✅ **Múltiples pacientes simultáneos** — `PatientContext` con array, `PatientInput` con barra de tabs, hasta 4 pacientes, nombre editable; candado para no suscriptores
-- ✅ **Notas en procedimientos** — `ProcedureNotes.tsx` al final de cada procedimiento; textarea autoexpandible, guarda `onBlur`, persiste en `neo_procedure_notes` en localStorage
-- ✅ **Compartir resultados de cálculo** — `ShareResultButton.tsx` integrado en DrugDetail, InotropicCalculator, CalculadorasPage (scores y fórmulas), BilirubinCalculator, ROPCalculator y FinnceganCalculator; Web Share API con fallback a clipboard
-
-**Dashboard admin (`neocalcu-admin`):**
-- ✅ Hosteado en Cloudflare Pages, protegido con Cloudflare Access
-- ✅ Dashboard de métricas en tiempo real (dispositivos, membresías, ingresos estimados)
-- ✅ Gestión de cupones: generar individual (con email del destinatario)/lote, tabla de activos/usados con columna email
-- ✅ Suscriptores: lista de usuarios que pagaron con email, búsqueda local, contador activos/total
-- ✅ Generador de contenido con Claude Haiku: Post (PNG 1080×1080), Reel (4 slides PNG 9:16 con labels SLIDE 1-4), Stories, WhatsApp, Release notes
-- ✅ Tono rioplatense, UCIN (no NICU), prompts directos sin frases de marketing
-- ✅ Banco de contenido guardado en localStorage
-
-**Deploy:**
-- ✅ GitHub Actions con Actions oficiales de Pages (configure-pages + upload-pages-artifact + deploy-pages)
-- ✅ Push a `main` → deploy automático en ~1 minuto
-- ✅ PWA con Service Worker offline e íconos PNG nativos (icon-192, icon-512, apple-touch-icon, favicon-32)
-- ✅ Manifest con `start_url` y `scope` correctos → genera acceso directo en lanzador Android/iOS
-- ✅ Nombre "NeoCalcu" bajo el ícono en iOS y Android: `apple-mobile-web-app-title` en `index.html` (sin este tag iOS trunca el `<title>`); `short_name: 'NeoCalcu'` en el manifest via `vite.config.ts` (Android)
-- ✅ Google Analytics 4 integrado (ID: `G-V37SQEN7J7`) — snippet en `<head>` de `index.html`
-- ✅ Dominio `neocalcu.pro` — redirect via Cloudflare hacia `https://diegoastein.github.io/neocalcu/` (sin cambios en el código ni el worker)
-- ✅ **SEO y social sharing** — `index.html` con Open Graph (og:title, og:description, og:image, og:url), Twitter Card, `<link rel="canonical" href="https://neocalcu.pro/">`, structured data JSON-LD (SoftwareApplication / MedicalApplication), title y meta description con keywords clínicos. **No mencionar NEOFAX** en ningún texto público — es marca registrada.
-- ✅ **Google Search Console** — propiedad `neocalcu.pro` verificada automáticamente via GA4. Indexación manual solicitada el 2026-05-18.
 
 ## Agregar un medicamento nuevo
 
@@ -420,12 +300,6 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 
 **Patrón de gate premium:** usar `useMembership()` de `MembershipContext`. Sin suscripción mostrar un bloque con `border-2 border-dashed border-slate-300`, ícono candado sobre `bg-brand-700` y texto "Suscriptores" en brand verde.
 
-**Implementadas:**
-- ✅ **Tabla de velocidades de inotrópicos** — `InotropicCalculator.tsx`. Toggle expandible, tabla dosis × volumen, flujos en mL/h.
-- ✅ **Múltiples pacientes simultáneos** — `PatientContext.tsx` + `PatientInput.tsx`. Hasta 4 pacientes, barra de tabs, nombre editable on blur.
-- ✅ **Notas en procedimientos** — `ProcedureNotes.tsx`. Textarea autoexpandible al final de cada procedimiento, guarda `onBlur`, persiste por `procedureId` en `neo_procedure_notes`.
-- ✅ **Compartir resultados de cálculo** — `ShareResultButton.tsx`. Web Share API + fallback clipboard. Integrado en DrugDetail, InotropicCalculator, CalculadorasPage, BilirubinCalculator, ROPCalculator, FinnceganCalculator.
-
 **Pendientes:**
 - **Calculadora de Nutrición Parenteral completa** — VIG, proteínas g/kg/día, lípidos, volumen total. Más completa que el "Aporte Calórico" actual.
 - **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV. Solo para suscriptores.
@@ -434,40 +308,9 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 - **Historial de cálculos** — últimos N cálculos con fecha y peso.
 - **Temas de color adicionales** — incentivo freemium clásico.
 
-### Retención y descubrimiento
+### Analytics (GA4)
 
-Contexto: analytics (18 abril — 15 mayo) muestra 392 usuarios, 16.9s de sesión promedio, retención casi nula. Tráfico 100% dependiente de posts de Instagram (@neomonitor.pro, 780 seguidores), sin orgánico.
-
-**✅ Implementado (sesión 6 — 2026-05-18):**
-
-**Eventos GA4** — `src/utils/analytics.ts` exporta `trackEvent()`. Eventos activos:
-- `search_drug` (query + results_count), `open_drug`, `calculate_dose` (drug + weight_g) — `MedicationsPage` / `DrugDetail`
-- `open_procedure` — `ProceduresPage`
-- `select_calculator` — `CalculadorasPage`
-- `tab_switch` (tab) — `BottomNav` (solo al cambiar, no al re-tocar el activo)
-- `view_inotropic_calculator` (drug_id + name) — `DrugDetail`
-- `share_result` (method: share/clipboard) — `ShareResultButton`
-- `favorite_added` (id) — `FavoritesContext`
-- `click_apoyar` (source: header/toast/premium_sheet/promo_residencias, plan) — `App.tsx`
-- `payment_started` (plan) — `useDonationReminder` al redirigir a MercadoPago
-- `payment_success` (plan) — `useDonationReminder` al verificar donación exitosa
-- `coupon_redeemed` (plan) — `useDonationReminder` al canjear cupón
-- `pwa_installed`, `pwa_install_prompt` (outcome) — `App.tsx`
-
-**Onboarding por tabs** — `OnboardingTooltip` con pasos específicos por sección (medicamentos 4 pasos, procedimientos, calculadoras, laboratorio, favoritos 1 paso cada uno). Se activa tras aceptar el disclaimer, keys `neo_onboarding_${tab}`. Acepta prop `onDone?: () => void` que se llama al completar o saltear — usado por `App.tsx` para actualizar `anyModalOpen` en `UIContext`.
-
-**UIContext** (`src/context/UIContext.tsx`) — contexto mínimo que expone `anyModalOpen: boolean`. `App.tsx` lo calcula como `!disclaimerAccepted || showPremiumSheet || showToast || showEmailCapture || onboardingShowing` y lo provee vía `UIProvider`. Lo consume `PatientInput` para coordinar el autofocus sin prop drilling.
-
-**Filtro de analytics** — `src/utils/analytics.ts`: si la URL contiene `?debug=1`, `trackEvent()` no envía nada a GA4. Permite que el desarrollador use la app sin contaminar los datos.
-
-**Banner de instalación PWA** — aparece 2s después del primer cálculo de dosis (`neo:first_dose` event). Se suprime con `neo_install_prompted`. Solo visible si `installPrompt` está disponible y no hay toast de donación activo.
-
-**Pendiente:**
-- **Play Store** — ver `docs/ROADMAP_PLAYSTORE.md`. Sin flujo de pago interno (viola política de Google); suscriptores se desbloquean por `device_id`.
-- **Estrategia Instagram** — Reels de formato "escenario clínico → app resuelve en pantalla" (mayor alcance que posts estáticos). Sticker de link directo a `neocalcu.pro` en Stories. Anuncios: mínimo 15 días continuos, objetivo tráfico, link directo (no Linktree).
-- **Próxima auditoría de marketing** — agendada para 2026-06-01 (cierre Promo Residencias). Revisar: cupones canjeados, eventos GA4 de funnel, Search Console, performance de Reels.
+`src/utils/analytics.ts` exporta `trackEvent()`. Con `?debug=1` en la URL no envía nada a GA4. Eventos activos: `search_drug`, `open_drug`, `calculate_dose`, `open_procedure`, `select_calculator`, `tab_switch`, `view_inotropic_calculator`, `share_result`, `favorite_added`, `click_apoyar`, `payment_started`, `payment_success`, `coupon_redeemed`, `pwa_installed`, `pwa_install_prompt`.
 
 ### Google Play Store
-Ver hoja de ruta completa en `docs/ROADMAP_PLAYSTORE.md`.
-
-Decisión de monetización: publicar gratis en Play Store sin flujo de pago interno (MercadoPago viola política de Google). Los suscriptores existentes se desbloquean automáticamente vía `device_id`. Nuevos suscriptores se dirigen a neocalcu.pro desde dentro de la app.
+Ver `docs/ROADMAP_PLAYSTORE.md`. Publicar gratis sin flujo de pago interno (MercadoPago viola política de Google); suscriptores se desbloquean vía `device_id`.
