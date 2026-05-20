@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 interface Props {
-  onSubscribe: (plan: 'mensual' | 'anual') => void;
+  onSubscribe: () => void;
   onDismiss: () => void;
 }
 
@@ -181,18 +181,12 @@ export default function PremiumFeaturesSheet({ onSubscribe, onDismiss }: Props) 
 
         {/* CTA — fixed at bottom */}
         <div className="shrink-0 px-5 pt-3 pb-6 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
-          <div className="flex gap-2 mb-2">
+          <div className="mb-2">
             <button
-              onClick={() => onSubscribe('mensual')}
-              className="flex-1 bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-xl py-3 text-sm transition-colors"
+              onClick={onSubscribe}
+              className="w-full bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-xl py-3 text-sm transition-colors"
             >
-              Mensual — $3.500
-            </button>
-            <button
-              onClick={() => onSubscribe('anual')}
-              className="flex-1 bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl py-3 text-sm transition-colors"
-            >
-              Anual — $28.000
+              Ver planes de suscripción
             </button>
           </div>
           <button

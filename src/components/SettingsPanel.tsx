@@ -11,7 +11,7 @@ interface SettingsPanelProps {
   onThemeChange: (mode: ThemeMode) => void;
   canInstall: boolean;
   onInstall: () => void;
-  onDonate: (plan: 'mensual' | 'anual') => Promise<void>;
+  onDonate: () => void;
   onRedeem: (code: string) => Promise<RedeemResult>;
   onRecover: (email: string) => Promise<RecoverResult>;
   membership?: MembershipInfo;
@@ -277,22 +277,13 @@ export default function SettingsPanel({
             ) : (
               <div className="flex flex-col gap-2">
                 <button
-                  onClick={() => { onClose(); onDonate('mensual'); }}
+                  onClick={() => { onClose(); onDonate(); }}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
                     <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
                   </svg>
-                  Apoyo mensual — $3.500
-                </button>
-                <button
-                  onClick={() => { onClose(); onDonate('anual'); }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-800 hover:bg-brand-900 text-white text-sm font-semibold transition-colors"
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                  </svg>
-                  Apoyo anual — $28.000
+                  Suscripción NeoCalcu Pro
                 </button>
 
                 {/* Cupón */}

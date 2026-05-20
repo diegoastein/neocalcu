@@ -4,10 +4,9 @@ import { RecoverResult } from '../hooks/useDonationReminder';
 const COUNTDOWN_SECONDS = 30;
 
 interface Props {
-  onDonate: (plan: 'mensual' | 'anual') => Promise<void>;
+  onDonate: () => void;
   onDismiss: () => void;
   onRecover: (email: string) => Promise<RecoverResult>;
-  loadingPlan: 'mensual' | 'anual' | null;
 }
 
 const recoverMessages: Record<RecoverResult, string> = {
@@ -26,7 +25,7 @@ function Spinner() {
   );
 }
 
-export default function DonationToast({ onDonate, onDismiss, onRecover, loadingPlan }: Props) {
+export default function DonationToast({ onDonate, onDismiss, onRecover }: Props) {
   const [visible, setVisible] = useState(false);
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
   const [recoverOpen, setRecoverOpen] = useState(false);
@@ -64,8 +63,6 @@ export default function DonationToast({ onDonate, onDismiss, onRecover, loadingP
     setRecoverLoading(false);
   };
 
-  const isLoading = loadingPlan !== null;
-
   return (
     <div
       className={`fixed bottom-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
@@ -94,27 +91,10 @@ export default function DonationToast({ onDonate, onDismiss, onRecover, loadingP
 
         <div className="flex flex-col gap-2">
           <button
-            onClick={() => onDonate('mensual')}
-            disabled={isLoading}
-            className="w-full bg-brand-700 hover:bg-brand-800 disabled:opacity-60 text-white font-semibold rounded-xl py-2.5 px-4 transition-colors flex items-center justify-center gap-2 text-sm"
+            onClick={onDonate}
+            className="w-full bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-xl py-2.5 px-4 transition-colors flex items-center justify-center gap-2 text-sm"
           >
-            {loadingPlan === 'mensual' ? (
-              <><Spinner /> Preparando pago...</>
-            ) : (
-              'Apoyo mensual — $3.500'
-            )}
-          </button>
-
-          <button
-            onClick={() => onDonate('anual')}
-            disabled={isLoading}
-            className="w-full bg-brand-800 hover:bg-brand-900 disabled:opacity-60 text-white font-semibold rounded-xl py-2.5 px-4 transition-colors flex items-center justify-center gap-2 text-sm"
-          >
-            {loadingPlan === 'anual' ? (
-              <><Spinner /> Preparando pago...</>
-            ) : (
-              'Apoyo anual — $28.000'
-            )}
+            Suscribirse
           </button>
 
           <button

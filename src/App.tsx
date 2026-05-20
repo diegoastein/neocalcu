@@ -16,6 +16,7 @@ import EmailCaptureModal from './components/EmailCaptureModal';
 import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
 import OnboardingTooltip from './components/OnboardingTooltip';
 import PromoResidenciasOverlay, { PromoHeaderBadge } from './components/PromoResidenciasOverlay';
+import SubscriptionModal from './components/SubscriptionModal';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
 import { UIProvider } from './context/UIContext';
@@ -96,6 +97,7 @@ function AppContent() {
     !localStorage.getItem('neo_onboarding_medicamentos') && !localStorage.getItem('neo_onboarding_done')
   );
   const [showPromoOverlay, setShowPromoOverlay] = useState(false);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const {
     showToast, dismissToast,
     showEmailCapture, dismissEmailCapture,
@@ -215,7 +217,7 @@ function AppContent() {
     }
   };
 
-  const anyModalOpen = !disclaimerAccepted || showPremiumSheet || showToast || showEmailCapture || onboardingShowing;
+  const anyModalOpen = !disclaimerAccepted || showPremiumSheet || showToast || showEmailCapture || onboardingShowing || showSubscriptionModal;
 
   return (
     <MembershipProvider membership={membership}>
@@ -247,14 +249,14 @@ function AppContent() {
           </div>
         ) : (
           <button
-            onClick={() => { trackEvent('click_apoyar', { source: 'header' }); handleDonate('mensual'); }}
+            onClick={() => { trackEvent('click_apoyar', { source: 'header' }); setShowSubscriptionModal(true); }}
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-700 hover:bg-brand-800 dark:bg-brand-800 dark:hover:bg-brand-900 text-white text-xs font-semibold transition-colors"
-            aria-label="Apoyá este proyecto"
+            aria-label="Suscribirse a NeoCalcu Pro"
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
               <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
             </svg>
-            <span>Apoyar</span>
+            <span>Suscripción</span>
           </button>
         )}
       </div>
@@ -320,10 +322,9 @@ function AppContent() {
 
       {showToast && (
         <DonationToast
-          onDonate={(plan) => { trackEvent('click_apoyar', { source: 'toast', plan }); return handleDonate(plan); }}
+          onDonate={() => { trackEvent('click_apoyar', { source: 'toast' }); setShowSubscriptionModal(true); }}
           onDismiss={dismissToast}
           onRecover={handleRecover}
-          loadingPlan={loadingPlan}
         />
       )}
 
@@ -336,7 +337,7 @@ function AppContent() {
 
       {showPremiumSheet && (
         <PremiumFeaturesSheet
-          onSubscribe={(plan) => { setShowPremiumSheet(false); trackEvent('click_apoyar', { source: 'premium_sheet', plan }); handleDonate(plan); }}
+          onSubscribe={() => { setShowPremiumSheet(false); trackEvent('click_apoyar', { source: 'premium_sheet' }); setShowSubscriptionModal(true); }}
           onDismiss={() => setShowPremiumSheet(false)}
         />
       )}
@@ -344,11 +345,18 @@ function AppContent() {
       {showPromoOverlay && (
         <PromoResidenciasOverlay
           onClose={() => setShowPromoOverlay(false)}
-          onDonate={(plan) => {
+          onDonate={() => {
             setShowPromoOverlay(false);
-            trackEvent('click_apoyar', { source: 'promo_residencias', plan });
-            handleDonate(plan);
+            trackEvent('click_apoyar', { source: 'promo_residencias' });
+            setShowSubscriptionModal(true);
           }}
+        />
+      )}
+
+      {showSubscriptionModal && (
+        <SubscriptionModal
+          onClose={() => setShowSubscriptionModal(false)}
+          onArgentina={async (plan) => { await handleDonate(plan); }}
           loadingPlan={loadingPlan}
         />
       )}

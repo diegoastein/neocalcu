@@ -42,8 +42,7 @@ export function PromoHeaderBadge({ onClick }: { onClick: () => void }) {
 
 interface OverlayProps {
   onClose: () => void;
-  onDonate: (plan: 'mensual' | 'anual') => void;
-  loadingPlan: 'mensual' | 'anual' | null;
+  onDonate: () => void;
 }
 
 function Digit({ value, label }: { value: number; label: string }) {
@@ -57,7 +56,7 @@ function Digit({ value, label }: { value: number; label: string }) {
   );
 }
 
-export default function PromoResidenciasOverlay({ onClose, onDonate, loadingPlan }: OverlayProps) {
+export default function PromoResidenciasOverlay({ onClose, onDonate }: OverlayProps) {
   const { days, hours, mins, secs, expired } = useCountdown();
 
   useEffect(() => {
@@ -144,45 +143,18 @@ export default function PromoResidenciasOverlay({ onClose, onDonate, loadingPlan
             </div>
           )}
 
-          {/* Botones de pago */}
+          {/* Botón de suscripción */}
           {!expired && (
-            <div className="space-y-2 mb-4">
+            <div className="mb-4">
               <button
-                onClick={() => onDonate('mensual')}
-                disabled={loadingPlan !== null}
-                className="flex items-center justify-center gap-2 w-full bg-brand-700 hover:bg-brand-800 disabled:opacity-60 text-white font-bold text-sm py-3 rounded-xl transition-colors"
+                onClick={onDonate}
+                className="flex items-center justify-center gap-2 w-full bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm py-3 rounded-xl transition-colors"
               >
-                {loadingPlan === 'mensual' ? (
-                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 shrink-0">
-                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
-                    <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
-                  </svg>
-                )}
-                Mensual — $3.500
-              </button>
-              <button
-                onClick={() => onDonate('anual')}
-                disabled={loadingPlan !== null}
-                className="flex items-center justify-center gap-2 w-full bg-slate-700 hover:bg-slate-800 dark:bg-slate-600 dark:hover:bg-slate-500 disabled:opacity-60 text-white font-bold text-sm py-3 rounded-xl transition-colors"
-              >
-                {loadingPlan === 'anual' ? (
-                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 shrink-0">
-                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
-                    <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
-                  </svg>
-                )}
-                Anual — $28.000
-                <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-md font-normal">-33%</span>
+                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 shrink-0">
+                  <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                  <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
+                </svg>
+                Suscribirse
               </button>
             </div>
           )}
