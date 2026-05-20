@@ -302,7 +302,7 @@ function AppContent() {
         onThemeChange={setThemeMode}
         canInstall={!!installPrompt}
         onInstall={handleInstall}
-        onDonate={handleDonate}
+        onDonate={() => { setIsSettingsOpen(false); trackEvent('click_apoyar', { source: 'settings' }); setShowSubscriptionModal(true); }}
         onRedeem={handleRedeem}
         onRecover={handleRecover}
         membership={membership}
