@@ -97,14 +97,15 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`ROPCalculator.tsx`** — guía de screening ROP según SAP 2021. Criterio obligatorio (EG ≤32s o PN ≤1500g) y condicional (33–36s con factores de riesgo). Calcula fecha del primer examen.
 - **`FinnceganCalculator.tsx`** — evaluación del Síndrome de Abstinencia Neonatal (NAS). 22 ítems hardcodeados en 3 secciones (SNC / Metabólico-Vasomotor-Respiratorio / GI) con puntajes ponderados no lineales (0/2/3, 0/3/4, 0/5). Puntaje en tiempo real con color coding: 0–7 verde / 8–12 ámbar / ≥13 rojo. Activado por `finneganCalculator: true` en el score del JSON.
 - **`BottomNav.tsx`** — navegación inferior con iconos SVG minimalistas (Heroicons).
-- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate`, `onRedeem`, `membership`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), sección de apoyo (ver abajo), contacto, enlace Neomonitor, aviso legal. La sección de apoyo es condicional: si `membership.active` muestra una card verde "¡Gracias por apoyar NeoCalcu!" con tipo de plan y fecha de vencimiento; si no, muestra los botones de pago y el canje de cupón.
-- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 3 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate`, `onDismiss`, `onRecover`, `loadingPlan`.
+- **`SubscriptionModal.tsx`** — modal central de suscripción. Se abre desde todos los puntos de entrada (header, toast, PremiumFeaturesSheet, PromoResidenciasOverlay, SettingsPanel). **Dos pasos:** paso 1 = selector de región (🇦🇷 Argentina / 🌎 Resto del mundo); paso 2A (Argentina) = botones Mensual $3.500 / Anual $28.000 → flujo MercadoPago con spinner; paso 2B (Internacional) = links Takenos Mensual USD 3 / Anual USD 30 (−20%) que abren en nueva pestaña + aviso de DM por Instagram para activación. Links Takenos hardcodeados como constante `TAKENOS` en el archivo. Props: `onClose`, `onArgentina(plan)`, `loadingPlan`.
+- **`SettingsPanel.tsx`** — drawer lateral izquierdo de configuración. Props: `isOpen`, `onClose`, `themeMode`, `onThemeChange`, `canInstall`, `onInstall`, `onDonate: () => void`, `onRedeem`, `membership`. Secciones: selector de tema (Sistema/Día/Noche), instalación PWA (condicional a `canInstall`), sección de apoyo (ver abajo), contacto, enlace Neomonitor, aviso legal. La sección de apoyo es condicional: si `membership.active` muestra una card verde "¡Gracias por apoyar NeoCalcu!" con tipo de plan y fecha de vencimiento; si no, muestra un botón "Suscripción NeoCalcu Pro" que abre `SubscriptionModal` + opciones de cupón y recuperación.
+- **`DonationToast.tsx`** — toast de donación fijo sobre el BottomNav. Se muestra cada 3 aperturas si el usuario no tiene membresía activa. Tiene countdown de 30s y se cierra automáticamente. Props: `onDonate: () => void`, `onDismiss`, `onRecover`. (Sin `loadingPlan` — el spinner vive en `SubscriptionModal`.)
 - **`EmailCaptureModal.tsx`** — modal centrado que aparece tras el primer pago verificado o cupón canjeado (y en cada apertura mientras el email no esté registrado). Llama a `/registrar-email` en el worker. Al guardar exitosamente escribe `neo_email_registered = '1'` en localStorage. El backdrop **no cierra** el modal — solo el botón "Lo hago en otro momento". Si el cupón canjeado ya tenía email asignado desde el admin, el modal no aparece y `neo_email_registered` se setea automáticamente. Props: `onRegister`, `onDismiss`.
-- **`PremiumFeaturesSheet.tsx`** — bottom sheet que se muestra al abrir la app (600ms de delay) si el usuario no tiene membresía activa. Lista las funciones premium disponibles y próximas con badges "Disponible" / "Próximamente". CTA con botones mensual/anual y link "Ahora no". Se cierra tocando el backdrop, el botón X, o el link. Props: `onSubscribe`, `onDismiss`.
+- **`PremiumFeaturesSheet.tsx`** — bottom sheet que se muestra al abrir la app (600ms de delay) si el usuario no tiene membresía activa. Lista las funciones premium disponibles y próximas con badges "Disponible" / "Próximamente". CTA con botón único "Ver planes de suscripción" (abre `SubscriptionModal`) y link "Ahora no". Se cierra tocando el backdrop, el botón X, o el link. Props: `onSubscribe: () => void`, `onDismiss`.
 - **`ProcedureNotes.tsx`** — campo de notas libre por procedimiento. Lee/escribe `localStorage` en la clave `neo_procedure_notes` (objeto `{ [procedureId]: string }`). Guarda `onBlur`. Textarea de 1 línea que crece automáticamente al escribir. Gate premium: bloque dashed con candado. Sin relación con el paciente activo — las notas persisten siempre.
 - **`ShareResultButton.tsx`** — botón premium para compartir el resultado de cualquier cálculo. Usa Web Share API si está disponible (abre share sheet nativo); fallback a `navigator.clipboard.writeText()`. Props: `text: string`, `title?: string`. Muestra feedback "Compartido" / "Copiado" por 2s. Gate premium: bloque compacto inline con candado.
 - **`useDonationReminder.ts`** (`src/hooks/`) — hook que maneja toda la lógica de donación y membresía. Exporta `showToast`, `dismissToast`, `showEmailCapture`, `dismissEmailCapture`, `handleDonate`, `handleVerify`, `handleRedeem`, `handleRecover`, `handleRegisterEmail`, `loadingPlan`, `membership`. La interfaz `MembershipInfo` (`{ active, plan, expiresAt }`) se exporta para usarla como prop en otros componentes. `membership` se recalcula automáticamente tras verificar pago o canjear cupón. Falla silenciosamente sin conexión. **Lógica de verificación:** si hay membresía activa en localStorage → no llama al worker (eficiente), pero sí muestra `EmailCaptureModal` si el email no está registrado. Si no hay membresía → llama al worker en **cada apertura** (no solo cada 3) para restaurar automáticamente si el storage fue borrado. El toast de donación sigue mostrándose solo cada 3 aperturas.
-- **`PromoResidenciasOverlay.tsx`** — sistema de avisos/promociones en el header. Exporta dos elementos: `PromoHeaderBadge` (badge ámbar parpadeante entre hamburguesa y botón derecho, muestra texto + countdown; retorna `null` cuando `EXPIRY` vence) y `PromoResidenciasOverlay` (overlay modal con descripción de la promo, countdown en tiempo real, botones de pago mensual/anual a MercadoPago, y link a Instagram). Visible para todos (suscriptores y no suscriptores). **Para futuras promos:** ajustar `EXPIRY`, el texto del badge y el contenido del overlay — el espacio, colores ámbar y tipografía están definidos para reutilizarse. El overlay se cierra antes de navegar a MercadoPago para evitar que bfcache lo restaure abierto al volver.
+- **`PromoResidenciasOverlay.tsx`** — sistema de avisos/promociones en el header. Exporta dos elementos: `PromoHeaderBadge` (badge ámbar parpadeante entre hamburguesa y botón derecho, muestra texto + countdown; retorna `null` cuando `EXPIRY` vence) y `PromoResidenciasOverlay` (overlay modal con descripción de la promo, countdown en tiempo real, botón único "Suscribirse" que abre `SubscriptionModal`, y link a Instagram). Visible para todos (suscriptores y no suscriptores). Props: `onClose`, `onDonate: () => void`. **Para futuras promos:** ajustar `EXPIRY`, el texto del badge y el contenido del overlay. El overlay se cierra antes de abrir el modal.
 
 ### Páginas y navegación
 
@@ -224,7 +225,7 @@ Metadatos opcionales:
 - **Variantes disponibles en tailwind.config.js**: 50, 100, 200, 300, 500, 700, 800, 900, 950. **No existen brand-400 ni brand-600** — usar brand-500 o brand-700 en su lugar o Tailwind las ignorará silenciosamente.
 - **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
 - Dark mode con tres modos: **Sistema** (sigue `prefers-color-scheme`), **Día**, **Noche** — controlado desde `SettingsPanel`. El estado `themeMode: 'system'|'light'|'dark'` persiste en `localStorage`
-- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + **zona central de avisos** (opcional, `PromoHeaderBadge` cuando hay promo activa) + elemento dinámico en vértice superior derecho: si la membresía está activa → badge verde con corazón "¡Gracias!" (no clickeable); si no → botón **"Apoyar"** (brand colors, ícono SVG de taza) que llama a `handleDonate()`
+- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + **zona central de avisos** (opcional, `PromoHeaderBadge` cuando hay promo activa) + elemento dinámico en vértice superior derecho: si la membresía está activa → badge verde con corazón "¡Gracias!" (no clickeable); si no → botón **"Suscripción"** (brand colors, ícono SVG de taza) que abre `SubscriptionModal`
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
@@ -239,9 +240,13 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 ### Arquitectura
 1. `device_id` único por dispositivo (UUID en localStorage)
-2. Botón "Apoyar" (header) o toast (cada 3 aperturas) → llama al Worker → crea preferencia de pago en MercadoPago
-3. Usuario paga → MercadoPago dispara webhook al Worker → Worker guarda `device_id` en KV Store
-4. App vuelve con `?paid=1` → verifica con Worker → suprime toast 30 días
+2. Botón "Suscripción" (header) o toast (cada 3 aperturas) → abre `SubscriptionModal`
+3. **Argentina:** modal → llama al Worker → crea preferencia de pago en MercadoPago → usuario paga → webhook al Worker → Worker guarda `device_id` en KV → app vuelve con `?paid=1` → verifica → suprime toast 30 días
+4. **Internacional (Takenos):** modal → link en nueva pestaña → usuario paga → DM por Instagram con comprobante → activación manual con cupón generado desde el admin
+
+### Gateways de pago
+- **Argentina:** MercadoPago Checkout Pro (automatizado con webhook)
+- **Internacional:** Takenos — links hardcodeados en `SubscriptionModal.tsx`. Mensual USD 3, Anual USD 30. Activación manual: el usuario paga → DM por Instagram → se genera y envía un cupón desde el admin
 
 ### Worker (`worker/`)
 - Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
@@ -291,7 +296,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - Post y Reel: Claude devuelve JSON estructurado que el Worker parsea antes de enviarlo al frontend
 - Para ajustar prompts: editar `buildContentPrompt()` en `worker/index.ts` y redesployar
 
-## Estado actual (2026-05-13, últ. actualización 2026-05-19 — sesión 8)
+## Estado actual (2026-05-13, últ. actualización 2026-05-20 — sesión 9)
 
 **✅ Aplicación completamente funcional y en producción.**
 
@@ -341,17 +346,19 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 
 **Configuración (SettingsPanel):**
 - ✅ Ícono hamburguesa en vértice superior izquierdo del header
-- ✅ Elemento dinámico en vértice superior derecho: badge verde "¡Gracias!" (membresía activa) o botón "Apoyar" (sin membresía)
+- ✅ Elemento dinámico en vértice superior derecho: badge verde "¡Gracias!" (membresía activa) o botón **"Suscripción"** (sin membresía) — abre `SubscriptionModal`
 - ✅ Selector de tema: Sistema / Día / Noche (persiste en `localStorage`)
 - ✅ Botón de instalación PWA (visible solo cuando el navegador lo permite)
-- ✅ Sección de apoyo condicional en SettingsPanel: card verde con fecha de vencimiento (membresía activa) o botones de pago + cupón (sin membresía)
+- ✅ Sección de apoyo condicional en SettingsPanel: card verde con fecha de vencimiento (membresía activa) o botón "Suscripción NeoCalcu Pro" que abre `SubscriptionModal` + cupón + recuperación
 - ✅ Contacto: info@neomonitor.pro
 - ✅ Enlace "Más de Neomonitor" → www.getneomonitor.pro
 - ✅ Aviso legal / disclaimer de responsabilidad
 
-**Sistema de donación:**
+**Sistema de suscripción:**
+- ✅ **`SubscriptionModal`** — modal unificado con selector de región: Argentina (MercadoPago) / Resto del mundo (Takenos). Todos los puntos de entrada lo usan: botón header, toast, PremiumFeaturesSheet, PromoResidenciasOverlay, SettingsPanel
 - ✅ Toast cada **3 aperturas** con countdown de 30s — cubre el BottomNav desde `bottom-0`; no aparece si la membresía está activa
-- ✅ Dos planes: mensual ($3.500, suprime 30 días) y anual ($28.000, suprime 365 días)
+- ✅ Dos planes Argentina: mensual ($3.500, suprime 30 días) y anual ($28.000 −20%, suprime 365 días)
+- ✅ Dos planes Internacional (Takenos): mensual USD 3 / anual USD 30 −20% — links en nueva pestaña, activación manual vía cupón
 - ✅ Sistema de cupones: `/generar-cupon` (admin) y `/canjear-cupon` (usuario)
 - ✅ Verificación real con Cloudflare Worker + MercadoPago Checkout Pro
 - ✅ `MembershipInfo` (`{ active, plan, expiresAt }`) disponible en toda la app vía `MembershipContext` (`useMembership()`)
@@ -360,7 +367,7 @@ Herramienta externa de gestión, separada de la app. Repo: `github.com/diegoaste
 - ✅ **Registro de email persistente**: `EmailCaptureModal` aparece en cada apertura hasta que el usuario registre su email; no se puede cerrar tocando el backdrop
 - ✅ **Email en cupones**: al generar un cupón en el admin se puede asignar un email de destinatario; al canjearlo, el email se registra automáticamente en KV y la app setea `neo_email_registered='1'` sin mostrar el modal
 - ✅ **Un dispositivo a la vez**: `/recuperar` invalida el dispositivo anterior en KV al transferir la suscripción; imposible tener la misma suscripción activa en dos dispositivos simultáneamente
-- ✅ **Promo Residencias 2×1** (activa hasta 2026-06-01): badge ámbar parpadeante en header con countdown; overlay con descripción, countdown, botones de pago y link a Instagram. Visible para todos. `PromoResidenciasOverlay.tsx` reutilizable para futuras promos ajustando `EXPIRY` y texto. Campaña activa desde 2026-05-18: difusión por Instagram + DM manual; el suscriptor recibe un cupón de regalo por DM para compartir con otro residente.
+- ✅ **Promo Residencias 2×1** (activa hasta 2026-06-01): badge ámbar parpadeante en header con countdown; overlay con descripción, countdown, botón "Suscribirse" que abre `SubscriptionModal`, y link a Instagram. Visible para todos. `PromoResidenciasOverlay.tsx` reutilizable para futuras promos ajustando `EXPIRY` y texto. Campaña activa desde 2026-05-18.
 
 **Funciones premium (freemium):**
 - ✅ **Tabla de velocidades de inotrópicos** — toggle en `InotropicCalculator`, tabla dosis × volumen con flujos en mL/h; candado para no suscriptores
