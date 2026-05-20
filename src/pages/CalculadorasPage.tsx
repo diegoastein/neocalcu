@@ -124,7 +124,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
     const interpretation = allAnswered
       ? score.interpretation.find((i) => total >= i.min && total <= i.max) ?? null
       : null;
-    const isSpecial = score.admissionSummary || score.bilirubinCalculator || score.ropCalculator || score.finneganCalculator || score.nptCalculator;
+    const isSpecial = score.admissionSummary || score.bilirubinCalculator || score.ropCalculator || score.finneganCalculator;
 
     return (
       <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 space-y-4">
@@ -135,7 +135,6 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
         {score.bilirubinCalculator && <BilirubinCalculator references={score.references} />}
         {score.ropCalculator && <ROPCalculator references={score.references} />}
         {score.finneganCalculator && <FinnceganCalculator references={score.references} />}
-        {score.nptCalculator && <NutricionParenteralCalculator references={score.references} />}
 
         {!isSpecial && (
           <div className="space-y-4">
@@ -226,6 +225,16 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
 
   const renderFormulaContent = (formulaId: string) => {
     const f = formulas.find((x) => x.id === formulaId)!;
+
+    if (f.nptCalculator) {
+      return (
+        <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4">
+          {f.description && <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{f.description}</p>}
+          <NutricionParenteralCalculator reference={f.reference} />
+        </div>
+      );
+    }
+
     const inputs = getFormulaInputs(formulaId);
     const formulaResult = calcFormula(formulaId);
     const allFilled = f.inputs.filter((inp) => inp.required).every(

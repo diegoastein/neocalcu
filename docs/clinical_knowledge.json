@@ -10811,22 +10811,6 @@
         "Gomella TL. Neonatología 8ª ed. Capítulo NAS.",
         "Hudak ML, Tan RC; AAP Committee on Drugs. Neonatal drug withdrawal. Pediatrics. 2012;129(2):e540–e560."
       ]
-    },
-    {
-      "id": "npt_calculator",
-      "name": "Nutrición Parenteral Total",
-      "subtitle": "Macronutrientes, electrolitos y aporte calórico",
-      "description": "Cálculo completo de NPT para neonatos: VIG, proteínas, lípidos, electrolitos y aporte calórico en tiempo real.",
-      "nptCalculator": true,
-      "items": [],
-      "interpretation": [],
-      "minScore": 0,
-      "maxScore": 0,
-      "references": [
-        "SEGNNEO 2019. Consenso de Nutrición del Recién Nacido Enfermo.",
-        "ESPGHAN Committee on Nutrition. J Pediatr Gastroenterol Nutr. 2018;66(suppl 1):S1–S86.",
-        "Tsang RC et al. Nutrition of the Preterm Infant. 2005."
-      ]
     }
   ],
   "formulas": [
@@ -11222,6 +11206,14 @@
         "volumen_restante": "L de O₂",
         "duracion": "minutos"
       }
+    },
+    {
+      "id": "npt_calculator",
+      "name": "Nutrición Parenteral Total",
+      "description": "Cálculo completo de NPT para neonatos: flujo de glucosa, proteínas, lípidos, electrolitos y aporte calórico en tiempo real.",
+      "inputs": [],
+      "nptCalculator": true,
+      "reference": "SEGNNEO 2019 · ESPGHAN 2018 · Tsang RC et al. 2005"
     }
   ],
   "laboratory": [

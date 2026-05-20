@@ -4,7 +4,7 @@ import { useMembership } from '../context/MembershipContext';
 import ShareResultButton from './ShareResultButton';
 
 interface Props {
-  references: string[];
+  reference: string;
 }
 
 const LOCK_ICON = (
@@ -60,7 +60,7 @@ function WarnBanner({ text }: { text: string }) {
   );
 }
 
-export default function NutricionParenteralCalculator({ references }: Props) {
+export default function NutricionParenteralCalculator({ reference }: Props) {
   const { patient } = usePatient();
   const membership = useMembership();
 
@@ -68,7 +68,7 @@ export default function NutricionParenteralCalculator({ references }: Props) {
 
   const [peso, setPeso] = useState(weightKg > 0 ? weightKg : 1);
   const [volTotal, setVolTotal] = useState(100);
-  const [vig, setVig] = useState(6);
+  const [flujGlucosa, setFlujGlucosa] = useState(6);
   const [concGlucosa, setConcGlucosa] = useState(10);
   const [proteinas, setProteinas] = useState(2.5);
   const [lipidos, setLipidos] = useState(2);
@@ -90,32 +90,32 @@ export default function NutricionParenteralCalculator({ references }: Props) {
         </div>
         <p className="font-semibold text-slate-800 dark:text-slate-200">Función para suscriptores</p>
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          La calculadora de NPT incluye VIG, proteínas, lípidos, electrolitos y aporte calórico en tiempo real.
+          La calculadora de NPT incluye flujo de glucosa, proteínas, lípidos, electrolitos y aporte calórico en tiempo real.
         </p>
       </div>
     );
   }
 
-  // Cálculos principales
+  // ── Cálculos ──────────────────────────────────────────────────────────────
   const volTotalDia = volTotal * peso;
 
-  // Glucosa: VIG(mg/kg/min) = conc(g%) × vol(mL/h) × 10 / (peso × 6)
-  // → vol_mL/h = VIG × peso × 6 / (conc × 10)
-  const volGlucosaH = (vig * peso * 6) / (concGlucosa * 10);
+  // Flujo de glucosa (mg/kg/min) = conc(g%) × vol(mL/h) × 10 / (peso × 6)
+  // → vol_mL/h = flujoGlucosa × peso × 6 / (conc × 10)
+  const volGlucosaH = (flujGlucosa * peso * 6) / (concGlucosa * 10);
   const volGlucosaDia = volGlucosaH * 24;
 
   // Aminoácidos — Aminoven 10% (0.1 g/mL)
   const volAA = proteinas * peso * 10;
 
-  // Lípidos — Intralipid 20% (0.2 g/mL), infundidos por separado (no van en la bolsa base)
+  // Lípidos — Intralipid 20% (0.2 g/mL), en línea separada
   const volLipidos = lipidos * peso * 5;
 
-  // Agua para completar el volumen base (sin lípidos porque van en línea separada)
+  // Agua para completar el volumen base (lípidos van en línea separada)
   const volBase = volTotalDia - volLipidos;
   const volAgua = Math.max(0, volBase - volGlucosaDia - volAA);
 
   // Aporte calórico
-  const kcalGlucosa = (vig * peso * 1440 * 3.4) / 1000;
+  const kcalGlucosa = (flujGlucosa * peso * 1440 * 3.4) / 1000;
   const kcalAA = proteinas * peso * 4;
   const kcalLipidos = volLipidos * 2; // Intralipid 20% = 2 kcal/mL
   const kcalTotal = kcalGlucosa + kcalAA + kcalLipidos;
@@ -124,25 +124,25 @@ export default function NutricionParenteralCalculator({ references }: Props) {
 
   // Electrolitos totales
   const naTot = na * peso;
-  const kTot = k * peso;
+  const kTot  = k  * peso;
   const caTot = ca * peso;
-  const pTot = p * peso;
+  const pTot  = p  * peso;
   const mgTot = mg * peso;
 
   // Advertencias clínicas
   const warnings: string[] = [];
-  if (vig < 4) warnings.push('VIG < 4 mg/kg/min — riesgo de hipoglucemia.');
-  if (vig > 12) warnings.push('VIG > 12 mg/kg/min — riesgo de hiperglucemia. Titular con insulina si persiste.');
-  if (proteinas > 4) warnings.push('Proteínas > 4 g/kg/día — riesgo de azotemia. Monitorear urea y amonio.');
-  if (lipidos > 3) warnings.push('Lípidos > 3 g/kg/día — supera el límite recomendado para neonatos.');
-  if (volGlucosaDia + volAA > volBase) warnings.push('El volumen de glucosa + AA supera el volumen base disponible. Reducir VIG, concentración de glucosa o macronutrientes.');
+  if (flujGlucosa < 4)  warnings.push('Flujo de glucosa < 4 mg/kg/min — riesgo de hipoglucemia.');
+  if (flujGlucosa > 12) warnings.push('Flujo de glucosa > 12 mg/kg/min — riesgo de hiperglucemia. Titular con insulina si persiste.');
+  if (proteinas > 4)    warnings.push('Proteínas > 4 g/kg/día — riesgo de azotemia. Monitorear urea y amonio.');
+  if (lipidos > 3)      warnings.push('Lípidos > 3 g/kg/día — supera el límite recomendado para neonatos.');
+  if (volGlucosaDia + volAA > volBase) warnings.push('El volumen de glucosa + AA supera el volumen base disponible. Reducir flujo, concentración de glucosa o macronutrientes.');
 
   const shareText = [
     'Nutrición Parenteral Total — NeoCalcu',
     `Peso: ${peso.toFixed(2)} kg`,
     '',
     'MACRONUTRIENTES',
-    `VIG: ${vig} mg/kg/min (D${concGlucosa}% ${volGlucosaDia.toFixed(0)} mL/día)`,
+    `Flujo de glucosa: ${flujGlucosa} mg/kg/min (D${concGlucosa}% ${volGlucosaDia.toFixed(0)} mL/día)`,
     `Aminoácidos 10%: ${volAA.toFixed(0)} mL/día (${proteinas} g/kg/día)`,
     `Lípidos 20%: ${volLipidos.toFixed(0)} mL/día (${lipidos} g/kg/día) — línea separada`,
     `Agua c.s.p.: ${volAgua.toFixed(0)} mL/día`,
@@ -159,6 +159,7 @@ export default function NutricionParenteralCalculator({ references }: Props) {
 
   return (
     <div className="space-y-5">
+
       {/* Paciente */}
       <section className="space-y-3">
         <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-sm uppercase tracking-wide">Paciente</h3>
@@ -170,8 +171,8 @@ export default function NutricionParenteralCalculator({ references }: Props) {
         <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-sm uppercase tracking-wide">Macronutrientes</h3>
         <div className="grid grid-cols-2 gap-3">
           <InputField label="Volumen total" unit="mL/kg/día" value={volTotal} onChange={setVolTotal} min={40} max={200} step={5} hint="60–150 según edad" />
-          <InputField label="VIG" unit="mg/kg/min" value={vig} onChange={setVig} min={1} max={20} step={0.5} hint="Inicio: 4–8" />
-          <InputField label="Glucosa" unit="%" value={concGlucosa} onChange={setConcGlucosa} min={5} max={25} step={5} hint="D5%, D10%, D12.5%, D15%..." />
+          <InputField label="Flujo de glucosa" unit="mg/kg/min" value={flujGlucosa} onChange={setFlujGlucosa} min={1} max={20} step={0.5} hint="Inicio: 4–8" />
+          <InputField label="Concentración glucosa" unit="%" value={concGlucosa} onChange={setConcGlucosa} min={5} max={25} step={5} hint="D5%, D10%, D12.5%..." />
           <InputField label="Proteínas" unit="g/kg/día" value={proteinas} onChange={setProteinas} min={0.5} max={5} step={0.5} hint="1.5–3.5 (Aminoven 10%)" />
           <InputField label="Lípidos" unit="g/kg/día" value={lipidos} onChange={setLipidos} min={0.5} max={4} step={0.5} hint="1–3 (Intralipid 20%)" />
         </div>
@@ -196,14 +197,14 @@ export default function NutricionParenteralCalculator({ references }: Props) {
         </section>
       )}
 
-      {/* Resultados macronutrientes */}
+      {/* Resultados — volúmenes */}
       <section className="space-y-3">
         <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-sm uppercase tracking-wide">Resultados — Volúmenes</h3>
         <ResultCard
           label={`Glucosa D${concGlucosa}%`}
           value={volGlucosaDia.toFixed(0)}
           unit="mL/día"
-          secondary={`${volGlucosaH.toFixed(1)} mL/h · VIG ${vig} mg/kg/min`}
+          secondary={`${volGlucosaH.toFixed(1)} mL/h · flujo ${flujGlucosa} mg/kg/min`}
         />
         <ResultCard
           label="Aminoácidos 10% (Aminoven)"
@@ -218,7 +219,7 @@ export default function NutricionParenteralCalculator({ references }: Props) {
           secondary={`${lipidos} g/kg/día · ${(lipidos * peso).toFixed(1)} g totales`}
         />
         <ResultCard
-          label="Agua para inyección (csp volumen base)"
+          label="Agua para inyección (c.s.p. volumen base)"
           value={volAgua.toFixed(0)}
           unit="mL/día"
         />
@@ -251,9 +252,20 @@ export default function NutricionParenteralCalculator({ references }: Props) {
             </div>
           ))}
         </div>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          Kcal no proteicas: {kcalNoProt.toFixed(0)} kcal/día
-        </p>
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded p-3 grid grid-cols-2 gap-3">
+          <div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Kcal no proteicas</p>
+            <p className="text-lg font-bold text-slate-800 dark:text-slate-200">{kcalNoProt.toFixed(0)}</p>
+            <p className="text-xs text-slate-400">kcal/día</p>
+          </div>
+          <div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Relación NP/P</p>
+            <p className="text-lg font-bold text-slate-800 dark:text-slate-200">
+              {(proteinas * peso) > 0 ? (kcalNoProt / (proteinas * peso)).toFixed(0) : '—'}
+            </p>
+            <p className="text-xs text-slate-400">kcal NP / g proteína</p>
+          </div>
+        </div>
       </section>
 
       {/* Electrolitos totales */}
@@ -261,11 +273,11 @@ export default function NutricionParenteralCalculator({ references }: Props) {
         <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-sm uppercase tracking-wide">Electrolitos Totales</h3>
         <div className="grid grid-cols-2 gap-2">
           {[
-            { label: 'Sodio', val: naTot, unit: 'mEq/día' },
-            { label: 'Potasio', val: kTot, unit: 'mEq/día' },
-            { label: 'Calcio', val: caTot, unit: 'mmol/día' },
-            { label: 'Fósforo', val: pTot, unit: 'mmol/día' },
-            { label: 'Magnesio', val: mgTot, unit: 'mEq/día' },
+            { label: 'Sodio',    val: naTot,  unit: 'mEq/día' },
+            { label: 'Potasio', val: kTot,   unit: 'mEq/día' },
+            { label: 'Calcio',  val: caTot,  unit: 'mmol/día' },
+            { label: 'Fósforo', val: pTot,   unit: 'mmol/día' },
+            { label: 'Magnesio',val: mgTot,  unit: 'mEq/día' },
           ].map(({ label, val, unit }) => (
             <div key={label} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded p-3">
               <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
@@ -278,11 +290,14 @@ export default function NutricionParenteralCalculator({ references }: Props) {
 
       <ShareResultButton title="Nutrición Parenteral Total" text={shareText} />
 
-      {references.length > 0 && (
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          <span className="font-medium">Referencias:</span> {references.join(' • ')}
+      {/* Pie de fuentes */}
+      <footer className="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-1">
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Fuentes</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500">{reference}</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500">
+          Glucosa: 3.4 kcal/g · Proteínas: 4 kcal/g · Intralipid 20%: 2 kcal/mL · Aminoven 10%: 0.1 g/mL
         </p>
-      )}
+      </footer>
     </div>
   );
 }
