@@ -98,7 +98,7 @@ function ReferenceRow({ param }: { param: LabParameter }) {
 export default function LaboratoryPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set([labCategories[0]?.id])
+    new Set()
   );
 
   const q = searchQuery.toLowerCase().trim();

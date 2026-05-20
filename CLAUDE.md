@@ -134,15 +134,19 @@ Cuando un score tiene cualquiera de estos flags, la UI de ítems/resultado/limpi
 
 #### Tab Laboratorio (`LaboratoryPage`)
 
-Buscador cross-categoría: el input filtra simultáneamente en todos los parámetros (`name` y `abbreviation`). Sin búsqueda activa, muestra todas las categorías como acordeones colapsables (la primera expandida por defecto). Al escribir, se expanden todas las categorías con matches y se ocultan las vacías.
+Buscador cross-categoría: el input filtra simultáneamente en todos los parámetros (`name` y `abbreviation`). Sin búsqueda activa, muestra todas las categorías como acordeones colapsables (**todas cerradas por defecto**). Al escribir, se expanden todas las categorías con matches y se ocultan las vacías.
 
-**85 parámetros en 12 categorías:**
+**85 parámetros en 12 categorías (gratuitas):**
 - Gasometría, Hemograma, Electrolitos, Química básica, Función hepática, Coagulación, Infección/Inflamación, Función tiroidea, LCR (originales)
-- **Análisis de orina** (nueva): densidad, pH, proteinuria, hematuria, leucocituria, nitritos, Na urinario, relación Pr/Cr
-- **Marcadores cardíacos** (nueva): Troponina I, NT-proBNP, CK-MB
-- **Metabólico/Endócrino** (nueva): insulina, cortisol, ACTH, 17-OHP
+- **Análisis de orina**: densidad, pH, proteinuria, hematuria, leucocituria, nitritos, Na urinario, relación Pr/Cr
+- **Marcadores cardíacos**: Troponina I, NT-proBNP, CK-MB
+- **Metabólico/Endócrino**: insulina, cortisol, ACTH, 17-OHP
 
 Fuentes: Hospital Garrahan (primaria), Harriet Lane 23ª ed., Gomella 8ª ed., COBICO Argentina.
+
+**Gate premium en laboratorio:** las categorías premium son visibles pero bloqueadas — se muestran con candado y al tocarlas aparece el bloque "Suscriptores". Todas las categorías premium incluyen un disclaimer de texto:
+- Laboratorio: *"Los valores son orientativos y pueden diferir según la institución y el método de laboratorio utilizado."*
+- Bacteriología: *"Los gérmenes prevalentes y los patrones de resistencia antibiótica pueden variar según la epidemiología de cada institución."*
 
 ### PWA / Offline
 
@@ -252,10 +256,22 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 - Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
 - **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon` (devuelve `email` si el cupón lo tenía asignado), `GET /recuperar`, `GET /registrar-email`
 - **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `GET /admin/subscribers`, `POST /admin/generar-contenido`
-- Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `ADMIN_SECRET`, `ANTHROPIC_API_KEY`
+- Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `ADMIN_SECRET`, `ANTHROPIC_API_KEY`, `RESEND_API_KEY`
 - KV namespace: `DONATIONS_KV` (id: `594254b8fb874cea90ae91bb21fa52ad`)
 - CORS: endpoints públicos permiten `https://diegoastein.github.io` + localhost; endpoints admin permiten `*` (protegidos por secret)
 - Para redesployar: `CLOUDFLARE_API_TOKEN=... npx wrangler deploy --cwd worker`
+
+### Emails automáticos (Resend)
+Todos los emails se envían desde `info@neomonitor.pro` vía Resend. Aplican tanto a suscriptores pagos como a usuarios con cupón.
+
+**Mail de bienvenida** (`sendWelcomeEmail`) — se envía en tres situaciones:
+1. Webhook de MercadoPago confirma pago aprobado
+2. Canje de cupón que tiene email asignado
+3. Suscriptor activo registra su email desde la app (`/registrar-email`)
+
+Incluye: tipo de plan, fecha de vencimiento, lista completa de funciones premium y aviso de que las funciones futuras también estarán incluidas.
+
+**Recordatorio de renovación** (`sendRenewalReminderEmail`) — cron diario a las 12:00 UTC (9:00 AM Argentina). Revisa todos los suscriptores con email registrado y envía el recordatorio a los que vencen en las próximas 72–96 horas. Anti-duplicado: guarda clave `reminder:{email}:{ts}` en KV con TTL de 7 días para no enviar dos veces por ciclo.
 
 ### Precio y configuración
 - Plan mensual: **ARS $3.500** | Plan anual: **ARS $28.000** (editar precios en `worker/index.ts` y redesployar)
@@ -302,6 +318,13 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 
 **Pendientes:**
 - **Calculadora de Nutrición Parenteral completa** — VIG, proteínas g/kg/día, lípidos, volumen total. Más completa que el "Aporte Calórico" actual.
+- **Expansión de laboratorio premium** — 6 nuevas categorías con gate de candado visible. Ver memoria `project_laboratorio_premium.md` para contenido completo y disclaimers aprobados:
+  - Hormonas eje somatotrófico y mineral (IGF-1, PTH, vitamina D, aldosterona)
+  - Hormonas gonadal / DSD — mini-pubertad (LH, FSH, testosterona, estradiol, AMH)
+  - Química analítica ampliada (cistatina C, prealbúmina, alfa-1 antitripsina, piruvato, galactosa)
+  - Niveles terapéuticos (fenobarbital, fenitoína, levetiracetam, cafeína, aminoglucósidos, vancomicina, digoxina)
+  - Bacteriología por síndrome (sepsis precoz/tardía, meningitis, ITU, neumonía, candidiasis)
+  - Bacteriología por germen (SGB, E. coli, Listeria, SCN, S. aureus, Klebsiella, Enterococcus, Pseudomonas, Candida, Acinetobacter)
 - **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV. Solo para suscriptores.
 
 **Largo plazo:**

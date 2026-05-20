@@ -4,6 +4,7 @@ interface Env {
   MP_WEBHOOK_SECRET: string;
   ADMIN_SECRET: string;
   ANTHROPIC_API_KEY: string;
+  RESEND_API_KEY: string;
 }
 
 interface DonationRecord {
@@ -167,7 +168,135 @@ Sin jerga técnica. Como se lo contarías a un colega.`,
   return prompts[tipo];
 }
 
+async function sendWelcomeEmail(email: string, plan: 'mensual' | 'anual', ts: number, env: Env): Promise<void> {
+  const planLabel = plan === 'anual' ? 'Anual' : 'Mensual';
+  const duration = plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+  const expiresDate = new Date(ts + duration);
+  const expiresStr = expiresDate.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const html = `
+    <div style="font-family:sans-serif;max-width:520px;margin:0 auto;color:#1e293b;">
+      <h2 style="color:#059669;margin-bottom:8px;">Bienvenido a NeoCalcu</h2>
+      <p>Tu suscripción <strong>${planLabel}</strong> está activa y vence el <strong>${expiresStr}</strong>.</p>
+      <p>Tenés acceso completo a todas las herramientas de la UCIN:</p>
+      <ul style="line-height:1.8;">
+        <li><strong>Medicamentos neonatales</strong> — dosis por peso, infusiones continuas y calculadoras inotrópicas interactivas (dopamina, dobutamina, adrenalina, milrinona, norepinefrina)</li>
+        <li><strong>24 procedimientos</strong> con fórmulas interactivas y pasos detallados</li>
+        <li><strong>Índices clínicos:</strong> Silverman-Anderson, Apgar, Finnegan/NAS, bilirrubina NICE CG98, screening ROP SAP 2021</li>
+        <li><strong>Fórmulas médicas</strong> — superficie corporal, clearance de creatinina, balance hidroelectrolítico, cilindro de O₂ y más</li>
+        <li><strong>Laboratorio neonatal</strong> — 85 valores de referencia en 12 categorías (gasometría, hemograma, electrolitos, coagulación, función hepática, tiroidea, LCR, orina, marcadores cardíacos y más)</li>
+        <li><strong>Multi-paciente</strong> — hasta 4 pacientes simultáneos con datos independientes</li>
+        <li><strong>Favoritos</strong> — acceso rápido a tus herramientas más usadas</li>
+        <li><strong>Notas por procedimiento</strong> — anotaciones libres persistentes</li>
+        <li><strong>Compartir resultados</strong> — compartí cálculos directamente desde la app</li>
+      </ul>
+      <p style="background:#f0fdf4;border-left:4px solid #059669;padding:10px 14px;border-radius:4px;font-size:14px;margin-top:16px;">
+        Todas las funciones que se agreguen en el futuro estarán disponibles automáticamente para todos los usuarios premium sin costo adicional.
+      </p>
+      <p style="margin-top:24px;">
+        <a href="https://www.neocalcu.pro"
+           style="background:#059669;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:600;">
+          Abrir NeoCalcu
+        </a>
+      </p>
+      <p style="color:#64748b;font-size:13px;margin-top:24px;">
+        Si tenés algún problema, duda o inquietud podés plantearlo por este medio o por DM en Instagram.
+      </p>
+    </div>
+  `;
+
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'NeoCalcu <info@neomonitor.pro>',
+        to: email,
+        subject: '¡Bienvenido a NeoCalcu!',
+        html,
+      }),
+    });
+  } catch {
+    // No bloqueamos el flujo si falla el envío
+  }
+}
+
+async function sendRenewalReminderEmail(email: string, plan: 'mensual' | 'anual', expiresAt: Date, env: Env): Promise<void> {
+  const planLabel = plan === 'anual' ? 'Anual' : 'Mensual';
+  const expiresStr = expiresAt.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const html = `
+    <div style="font-family:sans-serif;max-width:520px;margin:0 auto;color:#1e293b;">
+      <h2 style="color:#d97706;margin-bottom:8px;">Tu suscripción vence en 3 días</h2>
+      <p>Tu suscripción <strong>${planLabel}</strong> a NeoCalcu vence el <strong>${expiresStr}</strong>.</p>
+      <p>Para seguir teniendo acceso a todas las herramientas de la UCIN, renovála antes de esa fecha.</p>
+      <p style="margin-top:24px;">
+        <a href="https://www.neocalcu.pro"
+           style="background:#059669;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:600;">
+          Renovar suscripción
+        </a>
+      </p>
+      <p style="color:#64748b;font-size:13px;margin-top:24px;">
+        Si tenés algún problema, duda o inquietud podés plantearlo por este medio o por DM en Instagram.
+      </p>
+    </div>
+  `;
+
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'NeoCalcu <info@neomonitor.pro>',
+        to: email,
+        subject: 'Tu suscripción a NeoCalcu vence en 3 días',
+        html,
+      }),
+    });
+  } catch {
+    // No bloqueamos el flujo si falla el envío
+  }
+}
+
+async function runRenewalReminders(env: Env): Promise<void> {
+  const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+  const now = Date.now();
+  const windowStart = now + THREE_DAYS_MS;
+  const windowEnd = windowStart + 24 * 60 * 60 * 1000;
+
+  const keys = await env.DONATIONS_KV.list({ prefix: 'email:' });
+
+  await Promise.all(
+    keys.keys.map(async key => {
+      const email = key.name.replace('email:', '');
+      const raw = await env.DONATIONS_KV.get(key.name);
+      if (!raw) return;
+
+      const data = JSON.parse(raw) as EmailRecord;
+      const duration = data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+      const expiresAt = data.ts + duration;
+
+      if (expiresAt < windowStart || expiresAt >= windowEnd) return;
+
+      const reminderKey = `reminder:${email}:${data.ts}`;
+      const alreadySent = await env.DONATIONS_KV.get(reminderKey);
+      if (alreadySent) return;
+
+      await sendRenewalReminderEmail(email, data.plan, new Date(expiresAt), env);
+      await env.DONATIONS_KV.put(reminderKey, '1', { expirationTtl: 7 * 24 * 60 * 60 });
+    })
+  );
+}
+
 export default {
+  async scheduled(_event: ScheduledEvent, env: Env): Promise<void> {
+    await runRenewalReminders(env);
+  },
+
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const origin = request.headers.get('Origin') || '';
@@ -265,6 +394,7 @@ export default {
             const emailKey = `email:${payment.payer.email.toLowerCase()}`;
             const emailRecord: EmailRecord = { deviceId: payment.external_reference, ts: record.ts, plan };
             await env.DONATIONS_KV.put(emailKey, JSON.stringify(emailRecord));
+            await sendWelcomeEmail(payment.payer.email.toLowerCase(), plan, record.ts, env);
           }
         }
       }
@@ -358,6 +488,7 @@ export default {
       if (coupon.email) {
         const emailRecord: EmailRecord = { deviceId: device, ts: now, plan };
         await env.DONATIONS_KV.put(`email:${coupon.email}`, JSON.stringify(emailRecord));
+        await sendWelcomeEmail(coupon.email, plan, now, env);
       }
 
       return new Response(JSON.stringify({ success: true, plan, ...(coupon.email ? { email: coupon.email } : {}) }), {
@@ -450,6 +581,7 @@ export default {
 
       const emailRecord: EmailRecord = { deviceId: device, ts: record.ts, plan: record.plan };
       await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify(emailRecord));
+      await sendWelcomeEmail(email, record.plan, record.ts, env);
 
       return new Response(JSON.stringify({ success: true }), {
         headers: { 'Content-Type': 'application/json', ...cors },
