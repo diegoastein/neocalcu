@@ -150,7 +150,7 @@ export default function SubscriptionModal({ onClose, onArgentina, loadingPlan }:
                   onClick={() => trackEvent('click_apoyar', { source: 'subscription_modal', plan: 'anual', gateway: 'takenos' })}
                   className="w-full bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl py-3 text-sm text-center transition-colors block"
                 >
-                  <span>Anual — USD 30 <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-md font-normal">-20%</span></span>
+                  <span>Anual — USD 20 <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-md font-normal">-45%</span></span>
                   <span className="block text-xs font-normal opacity-70">Se abre en nueva pestaña</span>
                 </a>
               </div>
