@@ -3,7 +3,7 @@ import { trackEvent } from '../utils/analytics';
 
 const TAKENOS = {
   mensual: 'https://app.takenos.com/pay/05547496-42c4-440c-877c-b1d3edafe33c',
-  anual: 'https://app.takenos.com/pay/5130a144-17e4-4a33-8991-335111258066',
+  anual: 'https://app.takenos.com/pay/16e073fa-e2c2-4063-a380-817635be14de',
 };
 
 interface Props {
