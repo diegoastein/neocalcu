@@ -97,7 +97,9 @@ function AppContent() {
     !localStorage.getItem('neo_onboarding_medicamentos') && !localStorage.getItem('neo_onboarding_done')
   );
   const [showPromoOverlay, setShowPromoOverlay] = useState(false);
-  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(
+    new URLSearchParams(window.location.search).has('preview_modal')
+  );
   const {
     showToast, dismissToast,
     showEmailCapture, dismissEmailCapture,
