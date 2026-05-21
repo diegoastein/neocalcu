@@ -20,18 +20,35 @@ function InputField({
   onChange: (v: number) => void;
   min?: number; max?: number; step?: number; hint?: string;
 }) {
+  const [raw, setRaw] = useState(value > 0 ? String(value) : '');
+
+  useEffect(() => {
+    // Sync cuando el valor externo cambia (ej: auto-fill de peso)
+    if (parseFloat(raw) !== value) {
+      setRaw(value > 0 ? String(value) : '');
+    }
+  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div>
       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
         {label} <span className="text-slate-400 font-normal">({unit})</span>
       </label>
       <input
-        type="number"
-        value={value}
-        min={min}
-        max={max}
-        step={step ?? 0.1}
-        onChange={(e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) onChange(v); }}
+        type="text"
+        inputMode="decimal"
+        value={raw}
+        onChange={(e) => {
+          const str = e.target.value;
+          setRaw(str);
+          const v = parseFloat(str);
+          if (!isNaN(v)) onChange(v);
+        }}
+        onBlur={() => {
+          const v = parseFloat(raw);
+          if (isNaN(v) || raw === '') setRaw(value > 0 ? String(value) : '');
+          else setRaw(String(v));
+        }}
         className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
       />
       {hint && <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{hint}</p>}

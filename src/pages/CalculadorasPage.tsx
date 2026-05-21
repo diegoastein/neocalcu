@@ -38,7 +38,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
   const [activeSection, setActiveSection] = useState<Section>(getInitialSection(initialId));
   const [expandedId, setExpandedId] = useState<string | null>(initialId ?? null);
   const [scoreStates, setScoreStates] = useState<Record<string, ScoreState>>({});
-  const [inputsMap, setInputsMap] = useState<Record<string, Record<string, number>>>({});
+  const [inputsMap, setInputsMap] = useState<Record<string, Record<string, string>>>({});
   const { patient } = usePatient();
   const { toggleFavorite, isFavorite } = useFavorites();
   const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -69,7 +69,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
     if (formula?.inputs.some((inp) => inp.id === 'peso')) {
       setInputsMap((prev) => ({
         ...prev,
-        [expandedId]: { ...prev[expandedId], peso: patient.weightGrams / 1000 },
+        [expandedId]: { ...prev[expandedId], peso: String(patient.weightGrams / 1000) },
       }));
     }
   }, [expandedId, patient.weightGrams]);
@@ -77,10 +77,19 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
   const getFormulaInputs = (id: string) => inputsMap[id] ?? {};
   const getScoreState = (id: string) => scoreStates[id] ?? {};
 
+  const parseInputs = (formulaId: string): Record<string, number> => {
+    const vars: Record<string, number> = {};
+    for (const [k, v] of Object.entries(getFormulaInputs(formulaId))) {
+      const parsed = parseFloat(v);
+      if (!isNaN(parsed)) vars[k] = parsed;
+    }
+    return vars;
+  };
+
   const calcFormula = (formulaId: string): number | null => {
     const f = formulas.find((x) => x.id === formulaId);
     if (!f || !f.formula) return null;
-    const vars: Record<string, number> = { ...getFormulaInputs(formulaId) };
+    const vars = parseInputs(formulaId);
     if (f.formula.includes('peso') && !vars['peso']) vars['peso'] = patient.weightGrams / 1000;
     try {
       const result = eval(
@@ -95,7 +104,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
   const calcMultiple = (formulaId: string): Record<string, number> => {
     const f = formulas.find((x) => x.id === formulaId);
     if (!f?.calculations) return {};
-    const vars: Record<string, number> = { ...getFormulaInputs(formulaId) };
+    const vars = parseInputs(formulaId);
     if (!vars['peso']) vars['peso'] = patient.weightGrams / 1000;
     f.inputs.forEach((inp) => { if (!(inp.id in vars)) vars[inp.id] = 0; });
     const calculations = f.calculations as Record<string, string>;
@@ -237,9 +246,10 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
 
     const inputs = getFormulaInputs(formulaId);
     const formulaResult = calcFormula(formulaId);
-    const allFilled = f.inputs.filter((inp) => inp.required).every(
-      (inp) => inputs[inp.id] !== undefined && inputs[inp.id] > 0
-    );
+    const allFilled = f.inputs.filter((inp) => inp.required).every((inp) => {
+      const v = parseFloat(inputs[inp.id] ?? '');
+      return !isNaN(v) && v > 0;
+    });
 
     return (
       <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 space-y-4">
@@ -261,15 +271,25 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
                 {input.required && <span className="text-red-500 ml-1">*</span>}
               </label>
               <input
-                type="number"
-                value={inputs[input.id] || ''}
+                type="text"
+                inputMode="decimal"
+                value={inputs[input.id] ?? ''}
                 onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  if (!isNaN(value))
+                  const raw = e.target.value;
+                  setInputsMap((prev) => ({
+                    ...prev,
+                    [formulaId]: { ...prev[formulaId], [input.id]: raw },
+                  }));
+                }}
+                onBlur={(e) => {
+                  const raw = e.target.value;
+                  const v = parseFloat(raw);
+                  if (raw !== '' && !isNaN(v)) {
                     setInputsMap((prev) => ({
                       ...prev,
-                      [formulaId]: { ...prev[formulaId], [input.id]: value },
+                      [formulaId]: { ...prev[formulaId], [input.id]: String(v) },
                     }));
+                  }
                 }}
                 placeholder={`Ingresa ${input.label.toLowerCase()}`}
                 className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
