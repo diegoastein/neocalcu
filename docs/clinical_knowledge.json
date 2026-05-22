@@ -9637,78 +9637,6 @@
       ]
     },
     {
-      "id": "nutricion_parenteral",
-      "name": "Nutrición Parenteral Neonatal",
-      "category": "fluidos",
-      "description": "Cálculo de macronutrientes para nutrición parenteral total o parcial en neonatos",
-      "formulas": [
-        {
-          "label": "Aporte de glucosa inicial (VIG 5 mg/kg/min en D10%)",
-          "description": "VIG de inicio: 4–6 mg/kg/min. Ajustar según glucemias.",
-          "formula": "peso(kg) * 5 * 1.44",
-          "variableLabel": "Peso",
-          "variableUnit": "kg",
-          "resultUnit": "mL/día de D10% (VIG 5 mg/kg/min)",
-          "reference": "SEGNNEO 2019."
-        },
-        {
-          "label": "Aporte proteico inicial",
-          "description": "Inicio día 1: 2–3 g/kg/día. Objetivo prematuro extremo: 3.5–4 g/kg/día.",
-          "formula": "peso(kg) * 3",
-          "variableLabel": "Peso",
-          "variableUnit": "kg",
-          "resultUnit": "g/día de aminoácidos (3 g/kg/día)",
-          "reference": "SEGNNEO 2019."
-        },
-        {
-          "label": "Lípidos IV — dosis de inicio",
-          "description": "Iniciar día 1–2: 1–2 g/kg/día. Progresar hasta 3–3.5 g/kg/día.",
-          "formula": "peso(kg) * 2",
-          "variableLabel": "Peso",
-          "variableUnit": "kg",
-          "resultUnit": "g/día de lípidos (2 g/kg/día = 10 mL/día de Intralipid 20%)",
-          "reference": "SEGNNEO 2019. Intralipid 20% = 0.2 g/mL."
-        }
-      ],
-      "steps": [
-        {
-          "step": "Iniciar aminoácidos desde el día 1 de vida — no esperar."
-        },
-        {
-          "step": "Glucosa: comenzar con VIG 4–6 mg/kg/min. Ajustar según glucemias (objetivo 60–120 mg/dL)."
-        },
-        {
-          "step": "Lípidos: iniciar en primeras 24–48 h por vía separada, en infusión continua de 24 h."
-        },
-        {
-          "step": "Electrolitos: Na y K desde el día 2–3 (K solo con diuresis establecida). Ajustar según ionograma.",
-          "note": "Calcio gluconato: 1–2 mEq/kg/día desde el día 1"
-        },
-        {
-          "step": "Vitaminas y oligoelementos: desde el día 1 si disponibles."
-        },
-        {
-          "step": "Control laboratorio: glucemia cada 6–12 h, ionograma diario, TG y función hepática semanal."
-        }
-      ],
-      "materials": [
-        "Acceso venoso central o periférico adecuado",
-        "Solución de aminoácidos pediátricos",
-        "Solución glucosada (D5%, D10%, D12.5%)",
-        "Intralipid 20%",
-        "Electrolitos, vitaminas, oligoelementos"
-      ],
-      "warnings": [
-        "Concentración máxima periférica: D10–12.5%, aminoácidos ≤ 2%, calcio ≤ 10 mEq/L",
-        "Lípidos IV: no superar 3.5 g/kg/día — riesgo de hipertrigliceridemia",
-        "No agregar K hasta confirmar diuresis establecida"
-      ],
-      "references": [
-        "SEGNNEO 2019",
-        "ESPGHAN/ESPEN Guidelines Parenteral Nutrition 2018"
-      ]
-    },
-    {
       "id": "fototerapia",
       "name": "Fototerapia Intensiva",
       "category": "procedimiento",
@@ -12747,6 +12675,408 @@
             }
           ],
           "notes": "Biomarcador principal del programa de pesquisa de Hiperplasia Suprarrenal Congénita (HCSR). Valor elevado (>30 nmol/L en RN término) requiere confirmación. Prematuros y neonatos enfermos tienen valores fisiológicamente más altos"
+        }
+      ]
+    },
+    {
+      "id": "hormonas_somatotrofico",
+      "name": "Hormonas — Eje somatotrófico y mineral",
+      "source": "Harriet Lane 23ª ed. / Gomella 8ª ed.",
+      "parameters": [
+        {
+          "id": "igf1",
+          "name": "IGF-1 (Factor de crecimiento insulínico tipo 1)",
+          "abbreviation": "IGF-1",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "RN término — semana 1",
+              "min": 40,
+              "max": 200
+            }
+          ],
+          "notes": "Mediador principal de la acción de la GH. Valores bajos en RCIU, malnutrición y déficit de GH. Puede estar elevado en macrosomía. Interpretación siempre en contexto clínico"
+        },
+        {
+          "id": "pth",
+          "name": "Hormona paratiroidea",
+          "abbreviation": "PTH",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "RN (PTH intacta)",
+              "min": 10,
+              "max": 65
+            }
+          ],
+          "notes": "PTH elevada + hipocalcemia = hipoparatiroidismo materno, síndrome de DiGeorge o hipoparatiroidismo neonatal. PTH baja + hipocalcemia = hipoparatiroidismo. Solicitar junto con calcio, fósforo y magnesio",
+          "criticalLow": 5
+        },
+        {
+          "id": "vitamina_d",
+          "name": "25-OH Vitamina D",
+          "abbreviation": "25-OH Vit D",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 20,
+              "max": 50
+            },
+            {
+              "label": "Insuficiencia",
+              "max": 20,
+              "notes": "< 20 ng/mL"
+            },
+            {
+              "label": "Deficiencia grave",
+              "max": 12,
+              "notes": "< 12 ng/mL"
+            }
+          ],
+          "notes": "Deficiencia muy frecuente en RNPT. Suplementar con 400–1000 UI/día según peso y EG. La deficiencia materna se correlaciona directamente con valores neonatales bajos"
+        },
+        {
+          "id": "aldosterona",
+          "name": "Aldosterona",
+          "abbreviation": "Aldost.",
+          "unit": "ng/dL",
+          "references": [
+            {
+              "label": "RN días 1–7 (elevación fisiológica)",
+              "min": 300,
+              "max": 3000
+            }
+          ],
+          "notes": "La aldosterona neonatal es fisiológicamente muy elevada en la primera semana. La pseudohipoaldosteronismo tipo 1 cursa con aldosterona muy alta + hiponatremia + hiperpotasemia. Correlacionar con renina plasmática"
+        }
+      ]
+    },
+    {
+      "id": "hormonas_gonadal",
+      "name": "Hormonas — Gonadal / DSD (mini-pubertad)",
+      "source": "Harriet Lane 23ª ed. / Normas SAP Endocrinología Pediátrica",
+      "parameters": [
+        {
+          "id": "lh",
+          "name": "Hormona luteinizante",
+          "abbreviation": "LH",
+          "unit": "UI/L",
+          "references": [
+            {
+              "label": "Varones — mini-pubertad (1–3 meses)",
+              "min": 0.5,
+              "max": 11.5
+            },
+            {
+              "label": "Niñas — mini-pubertad (1–6 meses)",
+              "min": 0.02,
+              "max": 7
+            }
+          ],
+          "notes": "La mini-pubertad es un fenómeno fisiológico con pico a los 1–3 meses en varones y 1–6 meses en niñas. LH elevada + testosterona baja en varón: sospecha de insuficiencia testicular primaria (anorquia, criptorquidia bilateral)"
+        },
+        {
+          "id": "fsh",
+          "name": "Hormona folículo-estimulante",
+          "abbreviation": "FSH",
+          "unit": "UI/L",
+          "references": [
+            {
+              "label": "Varones — mini-pubertad",
+              "min": 0.2,
+              "max": 4.6
+            },
+            {
+              "label": "Niñas — mini-pubertad",
+              "min": 0.4,
+              "max": 12
+            }
+          ],
+          "notes": "FSH muy elevada en niñas con disgenesia gonadal (Turner). En varones, FSH alta + AMH baja indica ausencia de tejido testicular funcional (prueba de anorquia)"
+        },
+        {
+          "id": "testosterona",
+          "name": "Testosterona",
+          "abbreviation": "Testost.",
+          "unit": "ng/dL",
+          "references": [
+            {
+              "label": "Varones — mini-pubertad (pico 1–3 meses)",
+              "min": 75,
+              "max": 400
+            },
+            {
+              "label": "Niñas",
+              "max": 5
+            }
+          ],
+          "notes": "En varones, el pico de testosterona durante la mini-pubertad es esencial para el desarrollo genital y testicular. Testosterona baja con LH/FSH altas en varón: sospecha de falla gonadal primaria. En DSD 46,XY: solicitar junto con DHT y relación T/DHT"
+        },
+        {
+          "id": "estradiol",
+          "name": "Estradiol",
+          "abbreviation": "E2",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "Varones",
+              "max": 10
+            },
+            {
+              "label": "Niñas — mini-pubertad (1–6 meses)",
+              "min": 5,
+              "max": 185
+            }
+          ],
+          "notes": "Valores muy variables en la mini-pubertad femenina. Puede haber quistes ováricos foliculares funcionales con estradiol elevado. Regresión espontánea. Niveles persistentemente altos en niña con signos de pubertad precoz: derivar a endocrinología"
+        },
+        {
+          "id": "amh",
+          "name": "Hormona antimülleriana",
+          "abbreviation": "AMH",
+          "unit": "pmol/L",
+          "references": [
+            {
+              "label": "Varones (primer año)",
+              "min": 42,
+              "max": 638
+            },
+            {
+              "label": "Niñas (primer año)",
+              "max": 2
+            }
+          ],
+          "notes": "En varones, la AMH es el mejor marcador de presencia y función de células de Sertoli. AMH indetectable en varón = ausencia de tejido testicular (anorquia). Muy útil en DSD para determinar presencia de gónadas testiculares. En niñas, niveles basales bajos"
+        }
+      ]
+    },
+    {
+      "id": "quimica_ampliada",
+      "name": "Química analítica ampliada",
+      "source": "Harriet Lane 23ª ed. / Gomella 8ª ed. / Neofax 2023",
+      "parameters": [
+        {
+          "id": "cistatina_c",
+          "name": "Cistatina C",
+          "abbreviation": "Cist C",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 1.0,
+              "max": 1.8
+            }
+          ],
+          "notes": "Mejor marcador de filtrado glomerular que creatinina en neonatos: no depende de masa muscular, no atraviesa placenta en cantidad significativa. Valores más altos en RNPT. Útil para diagnóstico temprano de injuria renal aguda neonatal (IRAK)",
+          "criticalHigh": 2.5
+        },
+        {
+          "id": "prealbumina",
+          "name": "Prealbúmina (transtirretina)",
+          "abbreviation": "Prealbúm.",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "RN",
+              "min": 70,
+              "max": 180
+            }
+          ],
+          "notes": "Marcador de estado nutricional proteico agudo. Vida media 2–3 días (vs. 21 días de la albúmina): refleja cambios nutricionales recientes. Disminuye en malnutrición proteica, infección activa y hepatopatía. Útil para monitoreo de nutrición parenteral"
+        },
+        {
+          "id": "alfa1_antitripsina",
+          "name": "Alfa-1 antitripsina",
+          "abbreviation": "α1-AT",
+          "unit": "g/L",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 1.0,
+              "max": 2.5
+            },
+            {
+              "label": "Deficiencia",
+              "max": 0.8,
+              "notes": "< 0.8 g/L — confirmar con fenotipo (electroforesis)"
+            }
+          ],
+          "notes": "Déficit de α1-AT es la causa más frecuente de hepatopatía neonatal genética. Colestasis neonatal + valores bajos: solicitar fenotipo (PiZZ = deficiencia grave). Proteína de fase aguda: puede estar elevada en infección, enmascarando déficit leve"
+        },
+        {
+          "id": "piruvato",
+          "name": "Piruvato",
+          "abbreviation": "Pir",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0.3,
+              "max": 0.9
+            }
+          ],
+          "notes": "Solicitar junto con lactato. Ratio Lac/Pir: normal < 20. Ratio elevado (>25) sugiere disfunción de cadena respiratoria mitocondrial. Ratio normal con lactato alto sugiere déficit de piruvato carboxilasa o PDC. Muestra en hielo, procesar de inmediato"
+        },
+        {
+          "id": "galactosa_total",
+          "name": "Galactosa total",
+          "abbreviation": "Galact.",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "max": 3
+            }
+          ],
+          "notes": "Screening de galactosemia clásica (déficit de GALT). Valores > 10 mg/dL en RN con ictericia, hepatomegalia, hipoglucemia o E. coli sepsis: alta sospecha. Suspender lactosa hasta confirmación. Incluida en el Programa Nacional de Pesquisa Neonatal Argentina",
+          "criticalHigh": 10
+        }
+      ]
+    },
+    {
+      "id": "niveles_terapeuticos",
+      "name": "Niveles terapéuticos",
+      "source": "Neofax 2023 / Harriet Lane 23ª ed. / Gomella 8ª ed.",
+      "parameters": [
+        {
+          "id": "fenobarbital_nivel",
+          "name": "Fenobarbital",
+          "abbreviation": "Fenob.",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "Rango terapéutico (convulsiones neonatales)",
+              "min": 15,
+              "max": 40
+            }
+          ],
+          "notes": "Muestra: valle (antes de próxima dosis). Estado estacionario: 5–7 días. Niveles >40 mg/L: riesgo de sedación, depresión respiratoria e hipotensión. En asfixia perinatal con hipotermia: el metabolismo se enlentece, monitorear niveles de cerca",
+          "criticalHigh": 50
+        },
+        {
+          "id": "fenitoina_nivel",
+          "name": "Fenitoína",
+          "abbreviation": "Fenitoína",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "Rango terapéutico total",
+              "min": 10,
+              "max": 20
+            },
+            {
+              "label": "Fracción libre (activa)",
+              "min": 1,
+              "max": 2
+            }
+          ],
+          "notes": "Muestra: valle antes de próxima dosis. En hipoalbuminemia (frecuente en RNPT) solicitar nivel libre: la fracción total puede ser falsamente baja. Toxicidad (nistagmo, ataxia, arritmia) puede ocurrir incluso con niveles en rango si hay hipoalbuminemia",
+          "criticalHigh": 25
+        },
+        {
+          "id": "levetiracetam_nivel",
+          "name": "Levetiracetam",
+          "abbreviation": "LEV",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "Rango de referencia neonatal",
+              "min": 12,
+              "max": 46,
+              "notes": "Evidencia limitada en RN; rango extrapolado de niños"
+            }
+          ],
+          "notes": "Muestra: valle antes de próxima dosis. La evidencia de rango terapéutico en neonatos es limitada; los valores son extrapolados de pediatría. Monitoreo de nivel principalmente útil para evaluar cumplimiento y ajuste en insuficiencia renal"
+        },
+        {
+          "id": "cafeina_nivel",
+          "name": "Cafeína base",
+          "abbreviation": "Cafeína",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "Rango terapéutico (apnea del prematuro)",
+              "min": 5,
+              "max": 13
+            }
+          ],
+          "notes": "Muestra: cualquier horario (vida media neonatal 40–230 horas). No requiere sincronización estricta con dosis. Niveles >20 mg/L: riesgo de taquicardia, irritabilidad y convulsiones. La monitorización rutinaria no es necesaria si la respuesta clínica es buena",
+          "criticalHigh": 20
+        },
+        {
+          "id": "gentamicina_nivel",
+          "name": "Gentamicina",
+          "abbreviation": "Genta",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "Pico (30 min post-infusión)",
+              "min": 8,
+              "max": 12
+            },
+            {
+              "label": "Valle (antes de próxima dosis)",
+              "max": 1
+            }
+          ],
+          "notes": "La dosificación extendida (intervalo 36–48h en RNPT extremo) permite mejor eficacia y menor nefrotoxicidad. Valle >2 mg/L por más de 48h: nefrotoxicidad y ototoxicidad. Ajustar intervalo según función renal y EG. Monitorear diuresis y creatinina",
+          "criticalHigh": 15
+        },
+        {
+          "id": "amikacina_nivel",
+          "name": "Amikacina",
+          "abbreviation": "Amik",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "Pico (30 min post-infusión)",
+              "min": 25,
+              "max": 35
+            },
+            {
+              "label": "Valle (antes de próxima dosis)",
+              "max": 5
+            }
+          ],
+          "notes": "Similar a gentamicina pero con mayor rango terapéutico. Intervalo extendido (36–48h en RNPT) es el esquema recomendado. Valle >10 mg/L por tiempo prolongado: riesgo de toxicidad auditiva y renal. Control de fondo de ojo no aplica para aminoglucósidos",
+          "criticalHigh": 45
+        },
+        {
+          "id": "vancomicina_nivel",
+          "name": "Vancomicina",
+          "abbreviation": "Vanco",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "AUC/MIC objetivo (método preferido)",
+              "min": 400,
+              "max": 600,
+              "notes": "AUC₀₋₂₄/MIC — requiere dos niveles para calcular"
+            },
+            {
+              "label": "Valle tradicional (si no se puede calcular AUC)",
+              "min": 10,
+              "max": 15
+            }
+          ],
+          "notes": "Guías actuales recomiendan monitoreo por AUC/MIC sobre el valle aislado para optimizar eficacia y minimizar nefrotoxicidad. MIC de S. aureus típicamente 1 mg/L. En RNPT con función renal variable: intervalos prolongados (18–24h). Nefrotoxicidad especialmente con furosemida concomitante",
+          "criticalHigh": 25
+        },
+        {
+          "id": "digoxina_nivel",
+          "name": "Digoxina",
+          "abbreviation": "Digox.",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "Rango terapéutico neonatal",
+              "min": 0.8,
+              "max": 2.0
+            }
+          ],
+          "notes": "Muestra: 6–8h post-dosis oral / 1h post-dosis IV (equilibrio de distribución). Niveles >2 ng/mL: riesgo de toxicidad digitálica (bloqueo AV, bradicardia, arritmias). Hipopotasemia e hipomagnesemia potencian la toxicidad. Hipotiroidismo aumenta los niveles",
+          "criticalHigh": 2.5
         }
       ]
     }
