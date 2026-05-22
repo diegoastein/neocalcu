@@ -11675,8 +11675,8 @@
     },
     {
       "id": "quimica",
-      "name": "Química básica",
-      "source": "Hospital Garrahan / Harriet Lane 23ª ed.",
+      "name": "Química",
+      "source": "Hospital Garrahan / Harriet Lane 23ª ed. / Gomella 8ª ed. / Neofax 2023",
       "parameters": [
         {
           "id": "glucosa",
@@ -11836,6 +11836,82 @@
             }
           ],
           "notes": "Elevación sostenida de LDH: pensar hemólisis, daño hepático, asfixia, linfoma/leucemia. Inespecífica como marcador aislado"
+        },
+        {
+          "id": "cistatina_c",
+          "name": "Cistatina C",
+          "abbreviation": "Cist C",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "RN término",
+              "min": 1.0,
+              "max": 1.8
+            }
+          ],
+          "notes": "Mejor marcador de filtrado glomerular que creatinina en neonatos: no depende de masa muscular, no atraviesa placenta en cantidad significativa. Valores más altos en RNPT. Útil para diagnóstico temprano de injuria renal aguda neonatal (IRAK)",
+          "criticalHigh": 2.5
+        },
+        {
+          "id": "prealbumina",
+          "name": "Prealbúmina (transtirretina)",
+          "abbreviation": "Prealbúm.",
+          "unit": "mg/L",
+          "references": [
+            {
+              "label": "RN",
+              "min": 70,
+              "max": 180
+            }
+          ],
+          "notes": "Marcador de estado nutricional proteico agudo. Vida media 2–3 días (vs. 21 días de la albúmina): refleja cambios nutricionales recientes. Disminuye en malnutrición proteica, infección activa y hepatopatía. Útil para monitoreo de nutrición parenteral"
+        },
+        {
+          "id": "alfa1_antitripsina",
+          "name": "Alfa-1 antitripsina",
+          "abbreviation": "α1-AT",
+          "unit": "g/L",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 1.0,
+              "max": 2.5
+            },
+            {
+              "label": "Deficiencia",
+              "max": 0.8,
+              "notes": "< 0.8 g/L — confirmar con fenotipo (electroforesis)"
+            }
+          ],
+          "notes": "Déficit de α1-AT es la causa más frecuente de hepatopatía neonatal genética. Colestasis neonatal + valores bajos: solicitar fenotipo (PiZZ = deficiencia grave). Proteína de fase aguda: puede estar elevada en infección, enmascarando déficit leve"
+        },
+        {
+          "id": "piruvato",
+          "name": "Piruvato",
+          "abbreviation": "Pir",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 0.3,
+              "max": 0.9
+            }
+          ],
+          "notes": "Solicitar junto con lactato. Ratio Lac/Pir: normal < 20. Ratio elevado (>25) sugiere disfunción de cadena respiratoria mitocondrial. Ratio normal con lactato alto sugiere déficit de piruvato carboxilasa o PDC. Muestra en hielo, procesar de inmediato"
+        },
+        {
+          "id": "galactosa_total",
+          "name": "Galactosa total",
+          "abbreviation": "Galact.",
+          "unit": "mg/dL",
+          "references": [
+            {
+              "label": "Normal",
+              "max": 3
+            }
+          ],
+          "notes": "Screening de galactosemia clásica (déficit de GALT). Valores > 10 mg/dL en RN con ictericia, hepatomegalia, hipoglucemia o E. coli sepsis: alta sospecha. Suspender lactosa hasta confirmación. Incluida en el Programa Nacional de Pesquisa Neonatal Argentina",
+          "criticalHigh": 10
         }
       ]
     },
@@ -12183,9 +12259,9 @@
       ]
     },
     {
-      "id": "tiroides",
-      "name": "Función tiroidea",
-      "source": "Programa Nacional de Pesquisa Neonatal Argentina / Harriet Lane 23ª ed.",
+      "id": "endocrinologia",
+      "name": "Endocrinología y Hormonas",
+      "source": "Harriet Lane 23ª ed. / Gomella 8ª ed. / Normas SAP / Programa Pesquisa Neonatal Argentina",
       "parameters": [
         {
           "id": "tsh",
@@ -12268,6 +12344,239 @@
             }
           ],
           "notes": "FT3 baja con TSH normal: síndrome de enfermedad no tiroidea (euthyroid sick syndrome). Común en prematuros graves. No siempre requiere tratamiento"
+        },
+        {
+          "id": "insulina",
+          "name": "Insulina",
+          "abbreviation": "Ins",
+          "unit": "mU/L",
+          "references": [
+            {
+              "label": "RN (ayuno)",
+              "min": 0,
+              "max": 15
+            }
+          ],
+          "notes": "Hiperinsulinismo congénito: insulina >5 mU/L con glucemia <45 mg/dL. Relación glucosa/insulina <3 sugiere hiperinsulinismo. Causa más frecuente de hipoglucemia neonatal persistente",
+          "criticalHigh": 30
+        },
+        {
+          "id": "cortisol",
+          "name": "Cortisol basal",
+          "abbreviation": "Cortisol",
+          "unit": "μg/dL",
+          "references": [
+            {
+              "label": "Respuesta adecuada al estrés",
+              "min": 18,
+              "notes": "Normal en neonato enfermo o estresado"
+            },
+            {
+              "label": "Insuficiencia adrenal relativa (en contexto de hipotensión refractaria)",
+              "max": 15,
+              "notes": "Considerar hidrocortisona empírica"
+            }
+          ],
+          "notes": "Insuficiencia adrenal relativa del prematuro: cortisol <15 μg/dL con hipotensión refractaria a volumen y catecolaminas. Considerar hidrocortisona 1 mg/kg/dosis c/12h según protocolo"
+        },
+        {
+          "id": "acth",
+          "name": "ACTH",
+          "abbreviation": "ACTH",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "Normal (muestra matutina)",
+              "min": 5,
+              "max": 46
+            }
+          ],
+          "notes": "ACTH muy elevada + cortisol bajo = insuficiencia suprarrenal primaria. ACTH baja + cortisol bajo = insuficiencia hipofisaria. Colectar muestra en hielo al laboratorio"
+        },
+        {
+          "id": "17ohp",
+          "name": "17-OH Progesterona",
+          "abbreviation": "17-OHP",
+          "unit": "nmol/L",
+          "references": [
+            {
+              "label": "RN término (>48h)",
+              "min": 0,
+              "max": 10,
+              "notes": "Corte de pesquisa neonatal Argentina"
+            },
+            {
+              "label": "RN prematuro (puede estar elevada fisiológicamente)",
+              "min": 0,
+              "max": 15,
+              "notes": "Ajustar por peso y EG"
+            },
+            {
+              "label": "Sospecha de HCSR (HSC clásica 21-hidroxilasa)",
+              "min": 100,
+              "notes": "Requiere confirmación por laboratorio especializado"
+            }
+          ],
+          "notes": "Biomarcador principal del programa de pesquisa de Hiperplasia Suprarrenal Congénita (HCSR). Valor elevado (>30 nmol/L en RN término) requiere confirmación. Prematuros y neonatos enfermos tienen valores fisiológicamente más altos"
+        },
+        {
+          "id": "igf1",
+          "name": "IGF-1 (Factor de crecimiento insulínico tipo 1)",
+          "abbreviation": "IGF-1",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "RN término — semana 1",
+              "min": 40,
+              "max": 200
+            }
+          ],
+          "notes": "Mediador principal de la acción de la GH. Valores bajos en RCIU, malnutrición y déficit de GH. Puede estar elevado en macrosomía. Interpretación siempre en contexto clínico"
+        },
+        {
+          "id": "pth",
+          "name": "Hormona paratiroidea",
+          "abbreviation": "PTH",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "RN (PTH intacta)",
+              "min": 10,
+              "max": 65
+            }
+          ],
+          "notes": "PTH elevada + hipocalcemia = hipoparatiroidismo materno, síndrome de DiGeorge o hipoparatiroidismo neonatal. PTH baja + hipocalcemia = hipoparatiroidismo. Solicitar junto con calcio, fósforo y magnesio",
+          "criticalLow": 5
+        },
+        {
+          "id": "vitamina_d",
+          "name": "25-OH Vitamina D",
+          "abbreviation": "25-OH Vit D",
+          "unit": "ng/mL",
+          "references": [
+            {
+              "label": "Normal",
+              "min": 20,
+              "max": 50
+            },
+            {
+              "label": "Insuficiencia",
+              "max": 20,
+              "notes": "< 20 ng/mL"
+            },
+            {
+              "label": "Deficiencia grave",
+              "max": 12,
+              "notes": "< 12 ng/mL"
+            }
+          ],
+          "notes": "Deficiencia muy frecuente en RNPT. Suplementar con 400–1000 UI/día según peso y EG. La deficiencia materna se correlaciona directamente con valores neonatales bajos"
+        },
+        {
+          "id": "aldosterona",
+          "name": "Aldosterona",
+          "abbreviation": "Aldost.",
+          "unit": "ng/dL",
+          "references": [
+            {
+              "label": "RN días 1–7 (elevación fisiológica)",
+              "min": 300,
+              "max": 3000
+            }
+          ],
+          "notes": "La aldosterona neonatal es fisiológicamente muy elevada en la primera semana. La pseudohipoaldosteronismo tipo 1 cursa con aldosterona muy alta + hiponatremia + hiperpotasemia. Correlacionar con renina plasmática"
+        },
+        {
+          "id": "lh",
+          "name": "Hormona luteinizante",
+          "abbreviation": "LH",
+          "unit": "UI/L",
+          "references": [
+            {
+              "label": "Varones — mini-pubertad (1–3 meses)",
+              "min": 0.5,
+              "max": 11.5
+            },
+            {
+              "label": "Niñas — mini-pubertad (1–6 meses)",
+              "min": 0.02,
+              "max": 7
+            }
+          ],
+          "notes": "La mini-pubertad es un fenómeno fisiológico con pico a los 1–3 meses en varones y 1–6 meses en niñas. LH elevada + testosterona baja en varón: sospecha de insuficiencia testicular primaria (anorquia, criptorquidia bilateral)"
+        },
+        {
+          "id": "fsh",
+          "name": "Hormona folículo-estimulante",
+          "abbreviation": "FSH",
+          "unit": "UI/L",
+          "references": [
+            {
+              "label": "Varones — mini-pubertad",
+              "min": 0.2,
+              "max": 4.6
+            },
+            {
+              "label": "Niñas — mini-pubertad",
+              "min": 0.4,
+              "max": 12
+            }
+          ],
+          "notes": "FSH muy elevada en niñas con disgenesia gonadal (Turner). En varones, FSH alta + AMH baja indica ausencia de tejido testicular funcional (prueba de anorquia)"
+        },
+        {
+          "id": "testosterona",
+          "name": "Testosterona",
+          "abbreviation": "Testost.",
+          "unit": "ng/dL",
+          "references": [
+            {
+              "label": "Varones — mini-pubertad (pico 1–3 meses)",
+              "min": 75,
+              "max": 400
+            },
+            {
+              "label": "Niñas",
+              "max": 5
+            }
+          ],
+          "notes": "En varones, el pico de testosterona durante la mini-pubertad es esencial para el desarrollo genital y testicular. Testosterona baja con LH/FSH altas en varón: sospecha de falla gonadal primaria. En DSD 46,XY: solicitar junto con DHT y relación T/DHT"
+        },
+        {
+          "id": "estradiol",
+          "name": "Estradiol",
+          "abbreviation": "E2",
+          "unit": "pg/mL",
+          "references": [
+            {
+              "label": "Varones",
+              "max": 10
+            },
+            {
+              "label": "Niñas — mini-pubertad (1–6 meses)",
+              "min": 5,
+              "max": 185
+            }
+          ],
+          "notes": "Valores muy variables en la mini-pubertad femenina. Puede haber quistes ováricos foliculares funcionales con estradiol elevado. Regresión espontánea. Niveles persistentemente altos en niña con signos de pubertad precoz: derivar a endocrinología"
+        },
+        {
+          "id": "amh",
+          "name": "Hormona antimülleriana",
+          "abbreviation": "AMH",
+          "unit": "pmol/L",
+          "references": [
+            {
+              "label": "Varones (primer año)",
+              "min": 42,
+              "max": 638
+            },
+            {
+              "label": "Niñas (primer año)",
+              "max": 2
+            }
+          ],
+          "notes": "En varones, la AMH es el mejor marcador de presencia y función de células de Sertoli. AMH indetectable en varón = ausencia de tejido testicular (anorquia). Muy útil en DSD para determinar presencia de gónadas testiculares. En niñas, niveles basales bajos"
         }
       ]
     },
@@ -12594,343 +12903,6 @@
             }
           ],
           "notes": "CK-MB >10% de CK total o >25 U/L: pensar daño miocárdico. Puede estar elevada en asfixia, miocarditis o cardiomiopatía. Menos específica que troponina"
-        }
-      ]
-    },
-    {
-      "id": "metabolico",
-      "name": "Metabólico / Endócrino",
-      "source": "Programa Nacional de Pesquisa Neonatal Argentina / Harriet Lane 23ª ed.",
-      "parameters": [
-        {
-          "id": "insulina",
-          "name": "Insulina",
-          "abbreviation": "Ins",
-          "unit": "mU/L",
-          "references": [
-            {
-              "label": "RN (ayuno)",
-              "min": 0,
-              "max": 15
-            }
-          ],
-          "notes": "Hiperinsulinismo congénito: insulina >5 mU/L con glucemia <45 mg/dL. Relación glucosa/insulina <3 sugiere hiperinsulinismo. Causa más frecuente de hipoglucemia neonatal persistente",
-          "criticalHigh": 30
-        },
-        {
-          "id": "cortisol",
-          "name": "Cortisol basal",
-          "abbreviation": "Cortisol",
-          "unit": "μg/dL",
-          "references": [
-            {
-              "label": "Respuesta adecuada al estrés",
-              "min": 18,
-              "notes": "Normal en neonato enfermo o estresado"
-            },
-            {
-              "label": "Insuficiencia adrenal relativa (en contexto de hipotensión refractaria)",
-              "max": 15,
-              "notes": "Considerar hidrocortisona empírica"
-            }
-          ],
-          "notes": "Insuficiencia adrenal relativa del prematuro: cortisol <15 μg/dL con hipotensión refractaria a volumen y catecolaminas. Considerar hidrocortisona 1 mg/kg/dosis c/12h según protocolo"
-        },
-        {
-          "id": "acth",
-          "name": "ACTH",
-          "abbreviation": "ACTH",
-          "unit": "pg/mL",
-          "references": [
-            {
-              "label": "Normal (muestra matutina)",
-              "min": 5,
-              "max": 46
-            }
-          ],
-          "notes": "ACTH muy elevada + cortisol bajo = insuficiencia suprarrenal primaria. ACTH baja + cortisol bajo = insuficiencia hipofisaria. Colectar muestra en hielo al laboratorio"
-        },
-        {
-          "id": "17ohp",
-          "name": "17-OH Progesterona",
-          "abbreviation": "17-OHP",
-          "unit": "nmol/L",
-          "references": [
-            {
-              "label": "RN término (>48h)",
-              "min": 0,
-              "max": 10,
-              "notes": "Corte de pesquisa neonatal Argentina"
-            },
-            {
-              "label": "RN prematuro (puede estar elevada fisiológicamente)",
-              "min": 0,
-              "max": 15,
-              "notes": "Ajustar por peso y EG"
-            },
-            {
-              "label": "Sospecha de HCSR (HSC clásica 21-hidroxilasa)",
-              "min": 100,
-              "notes": "Requiere confirmación por laboratorio especializado"
-            }
-          ],
-          "notes": "Biomarcador principal del programa de pesquisa de Hiperplasia Suprarrenal Congénita (HCSR). Valor elevado (>30 nmol/L en RN término) requiere confirmación. Prematuros y neonatos enfermos tienen valores fisiológicamente más altos"
-        }
-      ]
-    },
-    {
-      "id": "hormonas_somatotrofico",
-      "name": "Hormonas — Eje somatotrófico y mineral",
-      "source": "Harriet Lane 23ª ed. / Gomella 8ª ed.",
-      "parameters": [
-        {
-          "id": "igf1",
-          "name": "IGF-1 (Factor de crecimiento insulínico tipo 1)",
-          "abbreviation": "IGF-1",
-          "unit": "ng/mL",
-          "references": [
-            {
-              "label": "RN término — semana 1",
-              "min": 40,
-              "max": 200
-            }
-          ],
-          "notes": "Mediador principal de la acción de la GH. Valores bajos en RCIU, malnutrición y déficit de GH. Puede estar elevado en macrosomía. Interpretación siempre en contexto clínico"
-        },
-        {
-          "id": "pth",
-          "name": "Hormona paratiroidea",
-          "abbreviation": "PTH",
-          "unit": "pg/mL",
-          "references": [
-            {
-              "label": "RN (PTH intacta)",
-              "min": 10,
-              "max": 65
-            }
-          ],
-          "notes": "PTH elevada + hipocalcemia = hipoparatiroidismo materno, síndrome de DiGeorge o hipoparatiroidismo neonatal. PTH baja + hipocalcemia = hipoparatiroidismo. Solicitar junto con calcio, fósforo y magnesio",
-          "criticalLow": 5
-        },
-        {
-          "id": "vitamina_d",
-          "name": "25-OH Vitamina D",
-          "abbreviation": "25-OH Vit D",
-          "unit": "ng/mL",
-          "references": [
-            {
-              "label": "Normal",
-              "min": 20,
-              "max": 50
-            },
-            {
-              "label": "Insuficiencia",
-              "max": 20,
-              "notes": "< 20 ng/mL"
-            },
-            {
-              "label": "Deficiencia grave",
-              "max": 12,
-              "notes": "< 12 ng/mL"
-            }
-          ],
-          "notes": "Deficiencia muy frecuente en RNPT. Suplementar con 400–1000 UI/día según peso y EG. La deficiencia materna se correlaciona directamente con valores neonatales bajos"
-        },
-        {
-          "id": "aldosterona",
-          "name": "Aldosterona",
-          "abbreviation": "Aldost.",
-          "unit": "ng/dL",
-          "references": [
-            {
-              "label": "RN días 1–7 (elevación fisiológica)",
-              "min": 300,
-              "max": 3000
-            }
-          ],
-          "notes": "La aldosterona neonatal es fisiológicamente muy elevada en la primera semana. La pseudohipoaldosteronismo tipo 1 cursa con aldosterona muy alta + hiponatremia + hiperpotasemia. Correlacionar con renina plasmática"
-        }
-      ]
-    },
-    {
-      "id": "hormonas_gonadal",
-      "name": "Hormonas — Gonadal / DSD (mini-pubertad)",
-      "source": "Harriet Lane 23ª ed. / Normas SAP Endocrinología Pediátrica",
-      "parameters": [
-        {
-          "id": "lh",
-          "name": "Hormona luteinizante",
-          "abbreviation": "LH",
-          "unit": "UI/L",
-          "references": [
-            {
-              "label": "Varones — mini-pubertad (1–3 meses)",
-              "min": 0.5,
-              "max": 11.5
-            },
-            {
-              "label": "Niñas — mini-pubertad (1–6 meses)",
-              "min": 0.02,
-              "max": 7
-            }
-          ],
-          "notes": "La mini-pubertad es un fenómeno fisiológico con pico a los 1–3 meses en varones y 1–6 meses en niñas. LH elevada + testosterona baja en varón: sospecha de insuficiencia testicular primaria (anorquia, criptorquidia bilateral)"
-        },
-        {
-          "id": "fsh",
-          "name": "Hormona folículo-estimulante",
-          "abbreviation": "FSH",
-          "unit": "UI/L",
-          "references": [
-            {
-              "label": "Varones — mini-pubertad",
-              "min": 0.2,
-              "max": 4.6
-            },
-            {
-              "label": "Niñas — mini-pubertad",
-              "min": 0.4,
-              "max": 12
-            }
-          ],
-          "notes": "FSH muy elevada en niñas con disgenesia gonadal (Turner). En varones, FSH alta + AMH baja indica ausencia de tejido testicular funcional (prueba de anorquia)"
-        },
-        {
-          "id": "testosterona",
-          "name": "Testosterona",
-          "abbreviation": "Testost.",
-          "unit": "ng/dL",
-          "references": [
-            {
-              "label": "Varones — mini-pubertad (pico 1–3 meses)",
-              "min": 75,
-              "max": 400
-            },
-            {
-              "label": "Niñas",
-              "max": 5
-            }
-          ],
-          "notes": "En varones, el pico de testosterona durante la mini-pubertad es esencial para el desarrollo genital y testicular. Testosterona baja con LH/FSH altas en varón: sospecha de falla gonadal primaria. En DSD 46,XY: solicitar junto con DHT y relación T/DHT"
-        },
-        {
-          "id": "estradiol",
-          "name": "Estradiol",
-          "abbreviation": "E2",
-          "unit": "pg/mL",
-          "references": [
-            {
-              "label": "Varones",
-              "max": 10
-            },
-            {
-              "label": "Niñas — mini-pubertad (1–6 meses)",
-              "min": 5,
-              "max": 185
-            }
-          ],
-          "notes": "Valores muy variables en la mini-pubertad femenina. Puede haber quistes ováricos foliculares funcionales con estradiol elevado. Regresión espontánea. Niveles persistentemente altos en niña con signos de pubertad precoz: derivar a endocrinología"
-        },
-        {
-          "id": "amh",
-          "name": "Hormona antimülleriana",
-          "abbreviation": "AMH",
-          "unit": "pmol/L",
-          "references": [
-            {
-              "label": "Varones (primer año)",
-              "min": 42,
-              "max": 638
-            },
-            {
-              "label": "Niñas (primer año)",
-              "max": 2
-            }
-          ],
-          "notes": "En varones, la AMH es el mejor marcador de presencia y función de células de Sertoli. AMH indetectable en varón = ausencia de tejido testicular (anorquia). Muy útil en DSD para determinar presencia de gónadas testiculares. En niñas, niveles basales bajos"
-        }
-      ]
-    },
-    {
-      "id": "quimica_ampliada",
-      "name": "Química analítica ampliada",
-      "source": "Harriet Lane 23ª ed. / Gomella 8ª ed. / Neofax 2023",
-      "parameters": [
-        {
-          "id": "cistatina_c",
-          "name": "Cistatina C",
-          "abbreviation": "Cist C",
-          "unit": "mg/L",
-          "references": [
-            {
-              "label": "RN término",
-              "min": 1.0,
-              "max": 1.8
-            }
-          ],
-          "notes": "Mejor marcador de filtrado glomerular que creatinina en neonatos: no depende de masa muscular, no atraviesa placenta en cantidad significativa. Valores más altos en RNPT. Útil para diagnóstico temprano de injuria renal aguda neonatal (IRAK)",
-          "criticalHigh": 2.5
-        },
-        {
-          "id": "prealbumina",
-          "name": "Prealbúmina (transtirretina)",
-          "abbreviation": "Prealbúm.",
-          "unit": "mg/L",
-          "references": [
-            {
-              "label": "RN",
-              "min": 70,
-              "max": 180
-            }
-          ],
-          "notes": "Marcador de estado nutricional proteico agudo. Vida media 2–3 días (vs. 21 días de la albúmina): refleja cambios nutricionales recientes. Disminuye en malnutrición proteica, infección activa y hepatopatía. Útil para monitoreo de nutrición parenteral"
-        },
-        {
-          "id": "alfa1_antitripsina",
-          "name": "Alfa-1 antitripsina",
-          "abbreviation": "α1-AT",
-          "unit": "g/L",
-          "references": [
-            {
-              "label": "Normal",
-              "min": 1.0,
-              "max": 2.5
-            },
-            {
-              "label": "Deficiencia",
-              "max": 0.8,
-              "notes": "< 0.8 g/L — confirmar con fenotipo (electroforesis)"
-            }
-          ],
-          "notes": "Déficit de α1-AT es la causa más frecuente de hepatopatía neonatal genética. Colestasis neonatal + valores bajos: solicitar fenotipo (PiZZ = deficiencia grave). Proteína de fase aguda: puede estar elevada en infección, enmascarando déficit leve"
-        },
-        {
-          "id": "piruvato",
-          "name": "Piruvato",
-          "abbreviation": "Pir",
-          "unit": "mg/dL",
-          "references": [
-            {
-              "label": "Normal",
-              "min": 0.3,
-              "max": 0.9
-            }
-          ],
-          "notes": "Solicitar junto con lactato. Ratio Lac/Pir: normal < 20. Ratio elevado (>25) sugiere disfunción de cadena respiratoria mitocondrial. Ratio normal con lactato alto sugiere déficit de piruvato carboxilasa o PDC. Muestra en hielo, procesar de inmediato"
-        },
-        {
-          "id": "galactosa_total",
-          "name": "Galactosa total",
-          "abbreviation": "Galact.",
-          "unit": "mg/dL",
-          "references": [
-            {
-              "label": "Normal",
-              "max": 3
-            }
-          ],
-          "notes": "Screening de galactosemia clásica (déficit de GALT). Valores > 10 mg/dL en RN con ictericia, hepatomegalia, hipoglucemia o E. coli sepsis: alta sospecha. Suspender lactosa hasta confirmación. Incluida en el Programa Nacional de Pesquisa Neonatal Argentina",
-          "criticalHigh": 10
         }
       ]
     },

@@ -176,9 +176,6 @@ export default function LaboratoryPage() {
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-slate-900 dark:text-slate-100">{cat.name}</p>
-                  {cat.source && (
-                    <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{cat.source}</p>
-                  )}
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0 ml-2">
                   <span className="text-xs text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
