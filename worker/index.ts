@@ -22,6 +22,7 @@ interface CouponRecord {
   active: boolean;
   createdAt: number;
   plan: 'mensual' | 'anual';
+  source?: 'regalo' | 'takenos';
   email?: string;
   usedBy?: string;
   usedAt?: number;
@@ -168,7 +169,7 @@ Sin jerga técnica. Como se lo contarías a un colega.`,
   return prompts[tipo];
 }
 
-async function sendWelcomeEmail(email: string, plan: 'mensual' | 'anual', ts: number, env: Env): Promise<void> {
+async function sendWelcomeEmail(email: string, plan: 'mensual' | 'anual', ts: number, env: Env, couponCode?: string): Promise<void> {
   const planLabel = plan === 'anual' ? 'Anual' : 'Mensual';
   const duration = plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
   const expiresDate = new Date(ts + duration);
@@ -191,6 +192,13 @@ async function sendWelcomeEmail(email: string, plan: 'mensual' | 'anual', ts: nu
       </ul>
       <p style="background:#f0fdf4;border-left:4px solid #059669;padding:10px 14px;border-radius:4px;font-size:14px;margin-top:16px;">
         Todas las funciones que se agreguen en el futuro estarán disponibles automáticamente para todos los usuarios premium sin costo adicional.
+      </p>
+      ${couponCode ? `
+      <p style="background:#f8fafc;border:1px solid #e2e8f0;padding:12px 16px;border-radius:6px;font-size:14px;margin-top:16px;">
+        Tu código de acceso: <strong style="font-family:monospace;letter-spacing:0.15em;font-size:16px;">${couponCode}</strong>
+      </p>` : ''}
+      <p style="background:#fefce8;border-left:4px solid #ca8a04;padding:10px 14px;border-radius:4px;font-size:14px;margin-top:16px;">
+        <strong>Guardá este email.</strong> Si cambiás de dispositivo o reinstalás la app, podés recuperar tu suscripción desde la pantalla de inicio ingresando esta dirección de email.
       </p>
       <p style="margin-top:24px;">
         <a href="https://www.neocalcu.pro"
@@ -488,7 +496,7 @@ export default {
       if (coupon.email) {
         const emailRecord: EmailRecord = { deviceId: device, ts: now, plan };
         await env.DONATIONS_KV.put(`email:${coupon.email}`, JSON.stringify(emailRecord));
-        await sendWelcomeEmail(coupon.email, plan, now, env);
+        await sendWelcomeEmail(coupon.email, plan, now, env, code);
       }
 
       return new Response(JSON.stringify({ success: true, plan, ...(coupon.email ? { email: coupon.email } : {}) }), {
@@ -518,12 +526,6 @@ export default {
       const emailRecord = JSON.parse(raw) as EmailRecord;
       const record: DonationRecord = { ts: emailRecord.ts, plan: emailRecord.plan };
 
-      if (!isMembershipActive(record)) {
-        return new Response(JSON.stringify({ success: false, error: 'expired' }), {
-          headers: { 'Content-Type': 'application/json', ...cors },
-        });
-      }
-
       // Copiar datos de usuario del dispositivo anterior al nuevo
       let userData: { favorites: string[]; notes: Record<string, string> } | null = null;
       const oldDeviceId = emailRecord.deviceId;
@@ -546,6 +548,67 @@ export default {
         success: true,
         plan: record.plan,
         timestamp: record.ts.toString(),
+        ...(userData ? { userData } : {}),
+      }), {
+        headers: { 'Content-Type': 'application/json', ...cors },
+      });
+    }
+
+    // ── Recuperar suscripción por código de cupón ────────────────────────
+    if (url.pathname === '/recuperar-cupon' && request.method === 'GET') {
+      const device = url.searchParams.get('device');
+      const code = url.searchParams.get('code')?.toUpperCase();
+
+      if (!device || !code) {
+        return new Response(JSON.stringify({ success: false, error: 'missing_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const couponRaw = await env.DONATIONS_KV.get(`coupon:${code}`);
+      if (!couponRaw) {
+        return new Response(JSON.stringify({ success: false, error: 'not_found' }), {
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const coupon = JSON.parse(couponRaw) as CouponRecord;
+      if (coupon.active || !coupon.usedBy) {
+        return new Response(JSON.stringify({ success: false, error: 'not_redeemed' }), {
+          headers: { 'Content-Type': 'application/json', ...cors },
+        });
+      }
+
+      const oldDeviceId = coupon.usedBy;
+      const plan = coupon.plan;
+      const ts = coupon.usedAt ?? Date.now();
+
+      let userData: { favorites: string[]; notes: Record<string, string> } | null = null;
+      if (oldDeviceId !== device) {
+        const oldUserDataRaw = await env.DONATIONS_KV.get(`userdata:${oldDeviceId}`);
+        if (oldUserDataRaw) {
+          try {
+            userData = JSON.parse(oldUserDataRaw) as { favorites: string[]; notes: Record<string, string> };
+            await env.DONATIONS_KV.put(`userdata:${device}`, oldUserDataRaw);
+          } catch { /* ignore */ }
+        }
+        await env.DONATIONS_KV.delete(oldDeviceId);
+      }
+
+      const record: DonationRecord = { ts, plan };
+      await env.DONATIONS_KV.put(device, JSON.stringify(record));
+      await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify({ ...coupon, usedBy: device }));
+
+      if (coupon.email) {
+        await env.DONATIONS_KV.put(`email:${coupon.email}`, JSON.stringify({ deviceId: device, ts, plan } as EmailRecord));
+      }
+
+      return new Response(JSON.stringify({
+        success: true,
+        plan,
+        timestamp: ts.toString(),
+        hasEmail: !!coupon.email,
         ...(userData ? { userData } : {}),
       }), {
         headers: { 'Content-Type': 'application/json', ...cors },
@@ -645,8 +708,14 @@ export default {
         });
       }
 
-      // Listar todas las keys (paginado, máx 1000 por llamada)
-      // Recolectar en un solo paso para poder cruzar cupones canjeados con devices
+      // Cache de 2 minutos; ?refresh=1 lo bypasea
+      if (!url.searchParams.get('refresh')) {
+        const cached = await env.DONATIONS_KV.get('cache:stats');
+        if (cached) {
+          return new Response(cached, { headers: { 'Content-Type': 'application/json', ...adminCors } });
+        }
+      }
+
       let deviceCount = 0;
       let couponActive = 0;
       let couponUsed = 0;
@@ -656,7 +725,7 @@ export default {
 
       do {
         const result = await env.DONATIONS_KV.list({ cursor, limit: 1000 });
-        for (const key of result.keys) {
+        await Promise.all(result.keys.map(async key => {
           if (key.name.startsWith('coupon:')) {
             const raw = await env.DONATIONS_KV.get(key.name);
             if (raw) {
@@ -667,7 +736,12 @@ export default {
                 if (c.usedBy) couponDeviceIds.add(c.usedBy);
               }
             }
-          } else {
+          } else if (
+            !key.name.startsWith('email:') &&
+            !key.name.startsWith('reminder:') &&
+            !key.name.startsWith('userdata:') &&
+            !key.name.startsWith('cache:')
+          ) {
             deviceCount++;
             const raw = await env.DONATIONS_KV.get(key.name);
             if (raw) {
@@ -677,7 +751,7 @@ export default {
               }
             }
           }
-        }
+        }));
         cursor = result.list_complete ? undefined : (result as { cursor?: string }).cursor;
       } while (cursor);
 
@@ -699,7 +773,7 @@ export default {
 
       const revenueEstimate = activeMensualPaid * 3500 + activeAnualPaid * 28000;
 
-      return new Response(JSON.stringify({
+      const statsPayload = JSON.stringify({
         deviceCount,
         activeMensual,
         activeAnual,
@@ -709,7 +783,10 @@ export default {
         couponActive,
         couponUsed,
         revenueEstimate,
-      }), {
+      });
+      await env.DONATIONS_KV.put('cache:stats', statsPayload, { expirationTtl: 120 });
+
+      return new Response(statsPayload, {
         headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }
@@ -742,6 +819,43 @@ export default {
       });
     }
 
+    // ── Admin: borrar cupón ───────────────────────────────────────────────
+    if (url.pathname === '/admin/delete-cupon' && request.method === 'POST') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const body = (await request.json()) as { code?: string };
+      const code = body.code?.toUpperCase();
+      if (!code) {
+        return new Response(JSON.stringify({ error: 'missing_code' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const existing = await env.DONATIONS_KV.get(`coupon:${code}`);
+      if (existing) {
+        const record = JSON.parse(existing) as CouponRecord;
+        if (record.active || record.email) {
+          return new Response(JSON.stringify({ error: 'not_deletable' }), {
+            status: 403,
+            headers: { 'Content-Type': 'application/json', ...adminCors },
+          });
+        }
+      }
+
+      await env.DONATIONS_KV.delete(`coupon:${code}`);
+      await env.DONATIONS_KV.delete('cache:stats');
+
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
     // ── Admin: generar cupón (desde dashboard) ────────────────────────────
     if (url.pathname === '/admin/generar-cupon' && request.method === 'POST') {
       if (!checkAdminAuth(request, url, env)) {
@@ -751,17 +865,18 @@ export default {
         });
       }
 
-      const body = (await request.json()) as { plan?: string; cantidad?: number; code?: string; email?: string };
+      const body = (await request.json()) as { plan?: string; cantidad?: number; code?: string; email?: string; source?: string };
       const plan: 'mensual' | 'anual' = body.plan === 'anual' ? 'anual' : 'mensual';
       const cantidad = Math.min(Math.max(parseInt(String(body.cantidad ?? 1)), 1), 50);
       const email = body.email?.toLowerCase().trim() || undefined;
+      const source: 'regalo' | 'takenos' | undefined = body.source === 'takenos' ? 'takenos' : body.source === 'regalo' ? 'regalo' : undefined;
 
       const generated: string[] = [];
       for (let i = 0; i < cantidad; i++) {
         const code = body.code ? body.code.toUpperCase() : generateCode();
         const exists = await env.DONATIONS_KV.get(`coupon:${code}`);
         if (!exists) {
-          const record: CouponRecord = { active: true, createdAt: Date.now(), plan, ...(email ? { email } : {}) };
+          const record: CouponRecord = { active: true, createdAt: Date.now(), plan, ...(source ? { source } : {}), ...(email ? { email } : {}) };
           await env.DONATIONS_KV.put(`coupon:${code}`, JSON.stringify(record));
           generated.push(code);
         }
@@ -846,15 +961,19 @@ export default {
         });
       }
 
-      // Construir el set de deviceIds que canjearon cupones (no son pagos)
+      // Construir el set de deviceIds que canjearon cupones y su código
       const couponKeys = await env.DONATIONS_KV.list({ prefix: 'coupon:' });
       const couponDeviceIds = new Set<string>();
+      const couponDeviceToCode = new Map<string, string>();
       await Promise.all(
         couponKeys.keys.map(async key => {
           const raw = await env.DONATIONS_KV.get(key.name);
           if (!raw) return;
           const c = JSON.parse(raw) as CouponRecord;
-          if (!c.active && c.usedBy) couponDeviceIds.add(c.usedBy);
+          if (!c.active && c.usedBy) {
+            couponDeviceIds.add(c.usedBy);
+            couponDeviceToCode.set(c.usedBy, key.name.replace('coupon:', ''));
+          }
         })
       );
 
@@ -865,9 +984,9 @@ export default {
           const raw = await env.DONATIONS_KV.get(key.name);
           if (!raw) return null;
           const data = JSON.parse(raw) as EmailRecord;
-          if (couponDeviceIds.has(data.deviceId)) return null;
           const record: DonationRecord = { ts: data.ts, plan: data.plan };
           const duration = data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+          const viaCoupon = couponDeviceIds.has(data.deviceId);
           return {
             email,
             deviceId: data.deviceId,
@@ -875,6 +994,8 @@ export default {
             ts: data.ts,
             active: isMembershipActive(record),
             expiresAt: new Date(data.ts + duration).toISOString(),
+            viaCoupon,
+            ...(viaCoupon ? { couponCode: couponDeviceToCode.get(data.deviceId) } : {}),
           };
         })
       );
