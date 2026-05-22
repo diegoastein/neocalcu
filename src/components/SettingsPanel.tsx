@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import DisclaimerModal from './DisclaimerModal';
-import { RedeemResult, RecoverResult, MembershipInfo } from '../hooks/useDonationReminder';
+import { RedeemResult, RecoverResult, RecoverByCouponResult, MembershipInfo } from '../hooks/useDonationReminder';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -14,6 +14,7 @@ interface SettingsPanelProps {
   onDonate: () => void;
   onRedeem: (code: string) => Promise<RedeemResult>;
   onRecover: (email: string) => Promise<RecoverResult>;
+  onRecoverByCoupon: (code: string) => Promise<RecoverByCouponResult>;
   membership?: MembershipInfo;
 }
 
@@ -37,6 +38,13 @@ const recoverMessages: Record<RecoverResult, string> = {
   error: 'Sin conexión. Intentá de nuevo.',
 };
 
+const recoverByCouponMessages: Record<RecoverByCouponResult, string> = {
+  success: '¡Suscripción recuperada! Gracias por tu apoyo.',
+  not_found: 'Código no encontrado. Verificá que esté bien escrito.',
+  not_redeemed: 'Ese código todavía no fue canjeado.',
+  error: 'Sin conexión. Intentá de nuevo.',
+};
+
 export default function SettingsPanel({
   isOpen,
   onClose,
@@ -47,6 +55,7 @@ export default function SettingsPanel({
   onDonate,
   onRedeem,
   onRecover,
+  onRecoverByCoupon,
   membership,
 }: SettingsPanelProps) {
   const [copied, setCopied] = useState(false);
@@ -56,9 +65,12 @@ export default function SettingsPanel({
   const [couponLoading, setCouponLoading] = useState(false);
   const [couponResult, setCouponResult] = useState<RedeemResult | null>(null);
   const [recoverOpen, setRecoverOpen] = useState(false);
+  const [recoverMode, setRecoverMode] = useState<'email' | 'code'>('email');
   const [recoverEmail, setRecoverEmail] = useState('');
+  const [recoverCode, setRecoverCode] = useState('');
   const [recoverLoading, setRecoverLoading] = useState(false);
   const [recoverResult, setRecoverResult] = useState<RecoverResult | null>(null);
+  const [recoverByCouponResult, setRecoverByCouponResult] = useState<RecoverByCouponResult | null>(null);
 
   const handleShare = async () => {
     const url = 'https://www.neocalcu.pro';
@@ -91,7 +103,9 @@ export default function SettingsPanel({
   const handleRecoverToggle = () => {
     setRecoverOpen(v => !v);
     setRecoverResult(null);
+    setRecoverByCouponResult(null);
     setRecoverEmail('');
+    setRecoverCode('');
   };
 
   const handleRecoverSubmit = async () => {
@@ -100,6 +114,15 @@ export default function SettingsPanel({
     setRecoverResult(null);
     const result = await onRecover(recoverEmail);
     setRecoverResult(result);
+    setRecoverLoading(false);
+  };
+
+  const handleRecoverByCouponSubmit = async () => {
+    if (!recoverCode.trim()) return;
+    setRecoverLoading(true);
+    setRecoverByCouponResult(null);
+    const result = await onRecoverByCoupon(recoverCode);
+    setRecoverByCouponResult(result);
     setRecoverLoading(false);
   };
 
@@ -118,7 +141,9 @@ export default function SettingsPanel({
       setCouponResult(null);
       setRecoverOpen(false);
       setRecoverEmail('');
+      setRecoverCode('');
       setRecoverResult(null);
+      setRecoverByCouponResult(null);
     }
   }, [isOpen]);
 
@@ -338,33 +363,85 @@ export default function SettingsPanel({
 
                 {recoverOpen && (
                   <div className="space-y-2">
-                    <div className="flex gap-2">
-                      <input
-                        type="email"
-                        value={recoverEmail}
-                        onChange={e => { setRecoverEmail(e.target.value); setRecoverResult(null); }}
-                        onKeyDown={e => e.key === 'Enter' && handleRecoverSubmit()}
-                        placeholder="email con el que pagaste"
-                        className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500"
-                        autoFocus
-                      />
+                    {/* Toggle email / código */}
+                    <div className="flex rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 text-xs">
                       <button
-                        onClick={handleRecoverSubmit}
-                        disabled={recoverLoading || !recoverEmail.trim()}
-                        className="px-3 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
+                        onClick={() => { setRecoverMode('email'); setRecoverResult(null); setRecoverByCouponResult(null); }}
+                        className={`flex-1 py-1.5 font-medium transition-colors ${recoverMode === 'email' ? 'bg-brand-700 text-white' : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-750'}`}
                       >
-                        {recoverLoading ? (
-                          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                          </svg>
-                        ) : 'OK'}
+                        Por email
+                      </button>
+                      <button
+                        onClick={() => { setRecoverMode('code'); setRecoverResult(null); setRecoverByCouponResult(null); }}
+                        className={`flex-1 py-1.5 font-medium transition-colors ${recoverMode === 'code' ? 'bg-brand-700 text-white' : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-750'}`}
+                      >
+                        Por código
                       </button>
                     </div>
-                    {recoverResult && (
-                      <p className={`text-xs px-1 ${recoverResult === 'success' ? 'text-brand-600 dark:text-brand-400' : 'text-red-500 dark:text-red-400'}`}>
-                        {recoverMessages[recoverResult]}
-                      </p>
+
+                    {recoverMode === 'email' ? (
+                      <>
+                        <div className="flex gap-2">
+                          <input
+                            type="email"
+                            value={recoverEmail}
+                            onChange={e => { setRecoverEmail(e.target.value); setRecoverResult(null); }}
+                            onKeyDown={e => e.key === 'Enter' && handleRecoverSubmit()}
+                            placeholder="email con el que pagaste"
+                            className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                            autoFocus
+                          />
+                          <button
+                            onClick={handleRecoverSubmit}
+                            disabled={recoverLoading || !recoverEmail.trim()}
+                            className="px-3 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
+                          >
+                            {recoverLoading ? (
+                              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                              </svg>
+                            ) : 'OK'}
+                          </button>
+                        </div>
+                        {recoverResult && (
+                          <p className={`text-xs px-1 ${recoverResult === 'success' ? 'text-brand-600 dark:text-brand-400' : 'text-red-500 dark:text-red-400'}`}>
+                            {recoverMessages[recoverResult]}
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={recoverCode}
+                            onChange={e => { setRecoverCode(e.target.value.toUpperCase()); setRecoverByCouponResult(null); }}
+                            onKeyDown={e => e.key === 'Enter' && handleRecoverByCouponSubmit()}
+                            placeholder="XXXXXXXX"
+                            maxLength={12}
+                            className="flex-1 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm font-mono tracking-widest placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                            autoFocus
+                          />
+                          <button
+                            onClick={handleRecoverByCouponSubmit}
+                            disabled={recoverLoading || !recoverCode.trim()}
+                            className="px-3 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
+                          >
+                            {recoverLoading ? (
+                              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                              </svg>
+                            ) : 'OK'}
+                          </button>
+                        </div>
+                        {recoverByCouponResult && (
+                          <p className={`text-xs px-1 ${recoverByCouponResult === 'success' ? 'text-brand-600 dark:text-brand-400' : 'text-red-500 dark:text-red-400'}`}>
+                            {recoverByCouponMessages[recoverByCouponResult]}
+                          </p>
+                        )}
+                      </>
                     )}
                   </div>
                 )}

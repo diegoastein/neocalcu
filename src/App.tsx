@@ -103,7 +103,7 @@ function AppContent() {
   const {
     showToast, dismissToast,
     showEmailCapture, dismissEmailCapture,
-    handleDonate, handleVerify, handleRedeem, handleRecover, handleRegisterEmail,
+    handleDonate, handleVerify, handleRedeem, handleRecover, handleRecoverByCoupon, handleRegisterEmail,
     loadingPlan, membership,
   } = useDonationReminder();
 
@@ -307,6 +307,7 @@ function AppContent() {
         onDonate={() => { setIsSettingsOpen(false); trackEvent('click_apoyar', { source: 'settings' }); setShowSubscriptionModal(true); }}
         onRedeem={handleRedeem}
         onRecover={handleRecover}
+        onRecoverByCoupon={handleRecoverByCoupon}
         membership={membership}
       />
 

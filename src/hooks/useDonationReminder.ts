@@ -68,6 +68,7 @@ interface UserData {
 
 export type RedeemResult = 'success' | 'invalid' | 'used' | 'error';
 export type RecoverResult = 'success' | 'not_found' | 'expired' | 'error';
+export type RecoverByCouponResult = 'success' | 'not_found' | 'not_redeemed' | 'error';
 export type RegisterEmailResult = 'success' | 'error';
 
 export function useDonationReminder() {
@@ -242,6 +243,33 @@ export function useDonationReminder() {
     }
   }, [refreshMembership]);
 
+  const handleRecoverByCoupon = useCallback(async (code: string): Promise<RecoverByCouponResult> => {
+    try {
+      const deviceId = getOrCreateDeviceId();
+      const res = await fetch(`${WORKER_URL}/recuperar-cupon?device=${deviceId}&code=${encodeURIComponent(code.trim().toUpperCase())}`);
+      const data = await res.json() as { success: boolean; error?: string; plan?: 'mensual' | 'anual'; timestamp?: string; hasEmail?: boolean; userData?: UserData };
+      if (data.success) {
+        localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
+        localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
+        if (data.hasEmail) localStorage.setItem(EMAIL_REGISTERED_KEY, '1');
+        if (data.userData) {
+          if (data.userData.favorites?.length) localStorage.setItem('favorites', JSON.stringify(data.userData.favorites));
+          if (data.userData.notes && Object.keys(data.userData.notes).length) localStorage.setItem('neo_procedure_notes', JSON.stringify(data.userData.notes));
+          window.dispatchEvent(new CustomEvent('neo:data-restored'));
+        }
+        setShowToast(false);
+        refreshMembership();
+        if (!localStorage.getItem(EMAIL_REGISTERED_KEY)) setShowEmailCapture(true);
+        return 'success';
+      }
+      if (data.error === 'not_found') return 'not_found';
+      if (data.error === 'not_redeemed') return 'not_redeemed';
+      return 'error';
+    } catch {
+      return 'error';
+    }
+  }, [refreshMembership]);
+
   const handleRegisterEmail = useCallback(async (email: string): Promise<RegisterEmailResult> => {
     try {
       const deviceId = getOrCreateDeviceId();
@@ -265,7 +293,7 @@ export function useDonationReminder() {
   return {
     showToast, dismissToast,
     showEmailCapture, dismissEmailCapture,
-    handleDonate, handleVerify, handleRedeem, handleRecover, handleRegisterEmail,
+    handleDonate, handleVerify, handleRedeem, handleRecover, handleRecoverByCoupon, handleRegisterEmail,
     loadingPlan, membership,
   };
 }
