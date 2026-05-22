@@ -191,6 +191,7 @@ function GermCard({ germ }: { germ: BacteriologyGerm }) {
 export default function LaboratoryPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [bacterioView, setBacterioView] = useState<'syndrome' | 'germ'>('syndrome');
   const { active: isPremium } = useMembership();
 
   const q = searchQuery.toLowerCase().trim();
@@ -259,8 +260,8 @@ export default function LaboratoryPage() {
 
         {filteredCategories.map((cat) => {
           const isExpanded = expandedCategories.has(cat.id);
-          const itemCount = cat.isPremium
-            ? (cat.syndromes?.length ?? cat.germs?.length ?? 0)
+          const itemCount = cat.bacteriologyType === 'combined'
+            ? (cat.syndromes?.length ?? 0) + (cat.germs?.length ?? 0)
             : cat.parameters.length;
 
           return (
@@ -312,14 +313,29 @@ export default function LaboratoryPage() {
                     </div>
                   ) : (
                     <>
-                      {/* Contenido de bacteriología */}
-                      {cat.isPremium && cat.bacteriologyType && (
+                      {/* Contenido de bacteriología combinada */}
+                      {cat.bacteriologyType === 'combined' && (
                         <>
+                          {/* Toggle Por síndrome / Por germen */}
+                          <div className="mx-4 mb-3 flex rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
+                            <button
+                              className={`flex-1 py-2.5 text-sm font-semibold transition ${bacterioView === 'syndrome' ? 'bg-brand-700 text-white' : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
+                              onClick={() => setBacterioView('syndrome')}
+                            >
+                              Por síndrome
+                            </button>
+                            <button
+                              className={`flex-1 py-2.5 text-sm font-semibold transition border-l border-slate-200 dark:border-slate-700 ${bacterioView === 'germ' ? 'bg-brand-700 text-white' : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
+                              onClick={() => setBacterioView('germ')}
+                            >
+                              Por germen
+                            </button>
+                          </div>
                           <div className="mx-4 mb-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
-                            {cat.bacteriologyType === 'syndrome' && cat.syndromes?.map((s) => (
+                            {bacterioView === 'syndrome' && cat.syndromes?.map((s) => (
                               <SyndromeCard key={s.id} syndrome={s} />
                             ))}
-                            {cat.bacteriologyType === 'germ' && cat.germs?.map((g) => (
+                            {bacterioView === 'germ' && cat.germs?.map((g) => (
                               <GermCard key={g.id} germ={g} />
                             ))}
                           </div>

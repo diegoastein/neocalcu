@@ -13053,10 +13053,10 @@
       ]
     },
     {
-      "id": "bacteriologia_sindrome",
-      "name": "Bacteriología — Por síndrome",
+      "id": "bacteriologia",
+      "name": "Bacteriología",
       "isPremium": true,
-      "bacteriologyType": "syndrome",
+      "bacteriologyType": "combined",
       "disclaimer": "Los gérmenes prevalentes y los patrones de resistencia antibiótica pueden variar según la epidemiología de cada institución.",
       "parameters": [],
       "syndromes": [
@@ -13109,15 +13109,7 @@
           "treatment": "Anfotericina B liposomal 3–5 mg/kg/día (< 1000 g o SNC); Fluconazol 12 mg/kg/día (> 1000 g sin exposición previa)",
           "notes": "Sospechar ante falla de respuesta ATB, trombocitopenia o hiperglucemia persistente. Siempre fondo de ojo y eco cardíaca. Profilaxis con fluconazol en RNPT < 750 g o < 27 semanas."
         }
-      ]
-    },
-    {
-      "id": "bacteriologia_germen",
-      "name": "Bacteriología — Por germen",
-      "isPremium": true,
-      "bacteriologyType": "germ",
-      "disclaimer": "Los gérmenes prevalentes y los patrones de resistencia antibiótica pueden variar según la epidemiología de cada institución.",
-      "parameters": [],
+      ],
       "germs": [
         {
           "id": "sgb",

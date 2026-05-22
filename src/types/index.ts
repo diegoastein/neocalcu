@@ -226,7 +226,7 @@ export interface LabCategory {
   source?: string;
   isPremium?: boolean;
   disclaimer?: string;
-  bacteriologyType?: 'syndrome' | 'germ';
+  bacteriologyType?: 'combined';
   parameters: LabParameter[];
   syndromes?: BacteriologySyndrome[];
   germs?: BacteriologyGerm[];
