@@ -202,11 +202,34 @@ export interface LabParameter {
   criticalHigh?: number;
 }
 
+export interface BacteriologySyndrome {
+  id: string;
+  name: string;
+  germs: string;
+  treatment: string;
+  notes?: string;
+}
+
+export interface BacteriologyGerm {
+  id: string;
+  name: string;
+  gram: string;
+  firstLine: string;
+  alternative?: string;
+  resistance?: string;
+  notes?: string;
+}
+
 export interface LabCategory {
   id: string;
   name: string;
   source?: string;
+  isPremium?: boolean;
+  disclaimer?: string;
+  bacteriologyType?: 'syndrome' | 'germ';
   parameters: LabParameter[];
+  syndromes?: BacteriologySyndrome[];
+  germs?: BacteriologyGerm[];
 }
 
 export type ActivePage = 'medicamentos' | 'procedimientos' | 'calculadoras' | 'laboratorio' | 'favoritos';

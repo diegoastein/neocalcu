@@ -13051,6 +13051,174 @@
           "criticalHigh": 2.5
         }
       ]
+    },
+    {
+      "id": "bacteriologia_sindrome",
+      "name": "Bacteriología — Por síndrome",
+      "isPremium": true,
+      "bacteriologyType": "syndrome",
+      "disclaimer": "Los gérmenes prevalentes y los patrones de resistencia antibiótica pueden variar según la epidemiología de cada institución.",
+      "parameters": [],
+      "syndromes": [
+        {
+          "id": "sepsis_precoz",
+          "name": "Sepsis precoz (< 72 h)",
+          "germs": "SGB, E. coli, Listeria monocytogenes, Enterococcus spp.",
+          "treatment": "Ampicilina + Gentamicina",
+          "notes": "Primera línea universal. En meningitis asociada agregar Cefotaxima. Suspender si hemocultivos negativos a 48–72 h y buena evolución clínica."
+        },
+        {
+          "id": "sepsis_tardia_rnpt",
+          "name": "Sepsis tardía — RNPT (> 72 h)",
+          "germs": "SCN, S. aureus, Klebsiella, E. coli, Candida spp.",
+          "treatment": "Vancomicina ± Aminoglucósido",
+          "notes": "SCN es el más frecuente en RNPT con CVC. Sospechar Candida si ≥7 días de ATB previos, nutrición parenteral prolongada o trombocitopenia persistente inexplicada."
+        },
+        {
+          "id": "sepsis_tardia_rnt",
+          "name": "Sepsis tardía — RNT (> 72 h)",
+          "germs": "S. aureus, Streptococcus pyogenes, Gram negativos",
+          "treatment": "Ampicilina + Gentamicina (ajustar según antibiograma)",
+          "notes": "Evaluar foco: osteoarticular, cutáneo, endocarditis. Siempre ecocardiograma en bacteriemia por S. aureus."
+        },
+        {
+          "id": "meningitis",
+          "name": "Meningitis neonatal",
+          "germs": "SGB, E. coli K1, Listeria monocytogenes",
+          "treatment": "Ampicilina + Gentamicina + Cefotaxima",
+          "notes": "Duración mínima: 14 días para SGB, 21 días para gram negativos. PL diagnóstica siempre ante sospecha. Eco transfontanelar para descartar ventriculitis."
+        },
+        {
+          "id": "itu",
+          "name": "ITU neonatal",
+          "germs": "E. coli (70–80%), Klebsiella pneumoniae, Enterococcus, Proteus",
+          "treatment": "Ampicilina + Gentamicina empírico (ajustar con urocultivo)",
+          "notes": "Siempre urocultivo por sondaje o SPC antes de iniciar ATB. Eco renal y vesical para descartar anomalía urológica. Profilaxis post-ITU según resultado de CUMS."
+        },
+        {
+          "id": "neumonia_precoz",
+          "name": "Neumonía precoz (< 48 h)",
+          "germs": "SGB, E. coli, Klebsiella, Listeria monocytogenes",
+          "treatment": "Ampicilina + Gentamicina",
+          "notes": "Clínicamente indistinguible de SAM o TTRN en las primeras horas. Iniciar ATB ante cualquier duda. Suspender si cultivos negativos y buena evolución a las 48–72 h."
+        },
+        {
+          "id": "candidiasis",
+          "name": "Candidiasis invasiva neonatal",
+          "germs": "Candida albicans, C. parapsilosis (frecuente en RNPT con CVC)",
+          "treatment": "Anfotericina B liposomal 3–5 mg/kg/día (< 1000 g o SNC); Fluconazol 12 mg/kg/día (> 1000 g sin exposición previa)",
+          "notes": "Sospechar ante falla de respuesta ATB, trombocitopenia o hiperglucemia persistente. Siempre fondo de ojo y eco cardíaca. Profilaxis con fluconazol en RNPT < 750 g o < 27 semanas."
+        }
+      ]
+    },
+    {
+      "id": "bacteriologia_germen",
+      "name": "Bacteriología — Por germen",
+      "isPremium": true,
+      "bacteriologyType": "germ",
+      "disclaimer": "Los gérmenes prevalentes y los patrones de resistencia antibiótica pueden variar según la epidemiología de cada institución.",
+      "parameters": [],
+      "germs": [
+        {
+          "id": "sgb",
+          "name": "Streptococcus agalactiae (SGB)",
+          "gram": "Gram + · Coco",
+          "firstLine": "Ampicilina (100 mg/kg/día c/12 h en sepsis; 200 mg/kg/día c/8 h en meningitis)",
+          "alternative": "Penicilina G + Gentamicina (sinergismo); Cefotaxima en meningitis",
+          "resistance": "Sin resistencias clínicamente relevantes a penicilinas en Argentina",
+          "notes": "Causa principal de sepsis precoz. Profilaxis intraparto indicada si cultivo vagino-rectal positivo entre semana 35–37 o factores de riesgo intraparto."
+        },
+        {
+          "id": "ecoli",
+          "name": "Escherichia coli",
+          "gram": "Gram − · Bacilo",
+          "firstLine": "Ampicilina + Gentamicina (sepsis precoz); Cefotaxima + Gentamicina si sospecha BLEE",
+          "alternative": "Meropenem en productoras de BLEE confirmadas",
+          "resistance": "BLEE creciente en UCIN de Argentina; consultar epidemiología local antes de tratar empíricamente",
+          "notes": "Segunda causa de sepsis precoz; principal causa de meningitis gram negativa (cepa K1). E. coli BLEE frecuente en sepsis tardía nosocomial."
+        },
+        {
+          "id": "listeria",
+          "name": "Listeria monocytogenes",
+          "gram": "Gram + · Bacilo",
+          "firstLine": "Ampicilina 200–400 mg/kg/día + Gentamicina (sinergismo)",
+          "alternative": "TMP-SMX en alérgicos a penicilina (no usar en neonato < 1 mes)",
+          "resistance": "Resistente intrínseco a cefalosporinas — no usar como monoterapia empírica",
+          "notes": "Transmisión transplacentaria o en canal de parto. Granulomatosis infantiséptica = forma grave. Cefalosporinas NO cubren Listeria."
+        },
+        {
+          "id": "scn",
+          "name": "Staphylococcus coagulasa negativos (SCN)",
+          "gram": "Gram + · Coco",
+          "firstLine": "Vancomicina (la mayoría son MRSE — resistentes a meticilina)",
+          "alternative": "Oxacilina si antibiograma confirma MSSE",
+          "resistance": "> 80% de SCN en UCIN son resistentes a meticilina",
+          "notes": "Causa más frecuente de sepsis tardía en RNPT con CVC. Forma biofilm en catéter. Considerar retirar CVC si bacteriemia persistente > 72 h."
+        },
+        {
+          "id": "saureus_mssa",
+          "name": "Staphylococcus aureus MSSA",
+          "gram": "Gram + · Coco",
+          "firstLine": "Oxacilina 150–200 mg/kg/día",
+          "alternative": "Cefalotina; Clindamicina en infecciones de piel y partes blandas",
+          "resistance": "Sensible a meticilina (MSSA); confirmar siempre con antibiograma",
+          "notes": "Puede causar bacteriemia con foco osteoarticular, cutáneo o endocarditis. Siempre ecocardiograma en bacteriemia por S. aureus."
+        },
+        {
+          "id": "saureus_mrsa",
+          "name": "Staphylococcus aureus MRSA",
+          "gram": "Gram + · Coco",
+          "firstLine": "Vancomicina con monitoreo AUC/MIC (objetivo 400–600)",
+          "alternative": "Linezolid (uso restringido); Daptomicina (evidencia limitada en neonatos)",
+          "resistance": "Resistente a todos los betalactámicos; sensibilidad variable a clindamicina",
+          "notes": "Asociado a colonización del personal. Aislar al paciente. Desescalada solo con antibiograma confirmado."
+        },
+        {
+          "id": "klebsiella",
+          "name": "Klebsiella pneumoniae",
+          "gram": "Gram − · Bacilo",
+          "firstLine": "Cefotaxima (si sensible); Meropenem en productoras de BLEE o KPC",
+          "alternative": "Piperacilina-Tazobactam (no en KPC); Amikacina en sinergismo",
+          "resistance": "BLEE muy prevalente en UCIN de Argentina; KPC emergente — consultar infectología",
+          "notes": "Alta mortalidad en RNPT. Brotes nosocomiales por contaminación de superficies y manos. Consultar epidemiología local antes de elegir tratamiento empírico."
+        },
+        {
+          "id": "enterococcus",
+          "name": "Enterococcus spp.",
+          "gram": "Gram + · Coco",
+          "firstLine": "Ampicilina + Gentamicina (sinergismo bactericida)",
+          "alternative": "Vancomicina si resistente a ampicilina (VRE raro en neonatos en Argentina)",
+          "resistance": "Resistente intrínseco a cefalosporinas y aminoglucósidos en monoterapia",
+          "notes": "Causa de sepsis precoz (E. faecalis) y tardía; ITU. No cubren las cefalosporinas."
+        },
+        {
+          "id": "pseudomonas",
+          "name": "Pseudomonas aeruginosa",
+          "gram": "Gram − · Bacilo",
+          "firstLine": "Piperacilina-Tazobactam + Amikacina (doble cobertura empírica)",
+          "alternative": "Meropenem; Ceftazidima solo si sensibilidad confirmada",
+          "resistance": "MDR frecuente; confirmar siempre con antibiograma antes de desescalar",
+          "notes": "Asociada a VM prolongada. Requiere doble cobertura empírica. Brotes por humidificadores o circuitos de ventilación contaminados."
+        },
+        {
+          "id": "candida",
+          "name": "Candida spp.",
+          "gram": "Hongo · Levadura",
+          "firstLine": "Anfotericina B liposomal 3–5 mg/kg/día (< 1000 g o SNC); Fluconazol 12 mg/kg/día (> 1000 g sin exposición previa)",
+          "alternative": "Micafungina; Caspofungina (equinocandinas — segunda línea)",
+          "resistance": "C. krusei intrínseco a fluconazol; C. glabrata con sensibilidad reducida",
+          "notes": "C. parapsilosis frecuente en RNPT con NPT/CVC. Siempre fondo de ojo y eco cardíaca. Profilaxis con fluconazol en RNPT < 750 g o < 27 semanas."
+        },
+        {
+          "id": "acinetobacter",
+          "name": "Acinetobacter baumannii",
+          "gram": "Gram − · Cocobacilo",
+          "firstLine": "Ampicilina-Sulbactam (si sensible); Meropenem",
+          "alternative": "Colistina / Polimixina B (infecciones XDR); Tigeciclina (sin datos neonatales)",
+          "resistance": "Frecuentemente MDR o XDR; sensibilidad muy variable — siempre antibiograma",
+          "notes": "Causa brotes nosocomiales de difícil control. Alta mortalidad en RNPT. Consultar a infectología ante toda sospecha."
+        }
+      ]
     }
   ]
 }
