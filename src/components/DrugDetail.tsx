@@ -5,6 +5,7 @@ import { usePatient } from '../context/PatientContext';
 import { calcDose } from '../utils/calculations';
 import InotropicCalculator from './InotropicCalculator';
 import ShareResultButton from './ShareResultButton';
+import { addHistoryEntry } from '../hooks/useCalculationHistory';
 
 interface DrugDetailProps {
   drug: Drug;
@@ -43,8 +44,17 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
       trackEvent('calculate_dose', { drug_id: drug.id, drug_name: drug.name, weight_g: patient.weightGrams });
       doseTracked.current = true;
       window.dispatchEvent(new CustomEvent('neo:first_dose'));
+      addHistoryEntry({
+        drugId: drug.id,
+        drugName: drug.name,
+        weightGrams: patient.weightGrams,
+        doseTotal: calculation.doseTotal,
+        volumeMl: calculation.volumeMl,
+        unit: selectedRule?.unit ?? '',
+        nursingInstruction: calculation.nursingInstruction ?? '',
+      });
     }
-  }, [calculation, drug.id, drug.name, patient.weightGrams]);
+  }, [calculation, drug.id, drug.name, patient.weightGrams, selectedRule]);
 
   useEffect(() => {
     if (drug.inotropicConfig) {

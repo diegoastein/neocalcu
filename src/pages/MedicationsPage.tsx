@@ -5,6 +5,8 @@ import DrugDetail from '../components/DrugDetail';
 import { drugs, searchDrugs } from '../data/medications';
 import { useFavorites } from '../context/FavoritesContext';
 import { Drug } from '../types';
+import { useMembership } from '../context/MembershipContext';
+import { getHistory, clearHistory, timeAgo, HistoryEntry } from '../hooks/useCalculationHistory';
 
 interface MedicationsPageProps {
   onGoToKit?: () => void;
@@ -13,6 +15,13 @@ interface MedicationsPageProps {
 export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const { active: isPremium } = useMembership();
+
+  useEffect(() => {
+    setHistory(getHistory());
+  }, [selectedDrug]);
   const { toggleFavorite, isFavorite } = useFavorites();
 
   const results = searchQuery.trim() ? searchDrugs(searchQuery) : drugs;
@@ -95,6 +104,75 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
           </svg>
         </button>
       </div>
+
+      {/* Historial de cálculos */}
+      {(isPremium ? history.length > 0 : true) && (
+        <div className="bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800">
+          <button
+            onClick={() => setHistoryOpen((o) => !o)}
+            className="w-full flex items-center justify-between px-4 py-2.5"
+          >
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">Historial reciente</span>
+              {!isPremium && (
+                <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-700 text-white">Pro</span>
+              )}
+            </div>
+            <svg className={`w-4 h-4 text-slate-400 transition-transform ${historyOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+
+          {historyOpen && (
+            <div className="px-4 pb-3">
+              {!isPremium ? (
+                <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center gap-2 text-center">
+                  <div className="w-8 h-8 rounded-full bg-brand-700 flex items-center justify-center">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">Función para suscriptores</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Accedé a los últimos 20 cálculos con dosis, volumen y peso del paciente.</p>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  {history.slice(0, 5).map((entry) => (
+                    <button
+                      key={entry.id}
+                      onClick={() => {
+                        const drug = drugs.find((d) => d.id === entry.drugId);
+                        if (drug) setSelectedDrug(drug);
+                      }}
+                      className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-brand-50 dark:hover:bg-slate-800 transition text-left"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{entry.drugName}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          {entry.doseTotal} mg · {entry.volumeMl} mL · {(entry.weightGrams / 1000).toFixed(2)} kg
+                        </p>
+                      </div>
+                      <span className="text-xs text-slate-400 flex-shrink-0">{timeAgo(entry.timestamp)}</span>
+                    </button>
+                  ))}
+                  {history.length > 5 && (
+                    <p className="text-xs text-slate-400 text-center pt-1">+{history.length - 5} más</p>
+                  )}
+                  <button
+                    onClick={() => { clearHistory(); setHistory([]); }}
+                    className="w-full text-xs text-slate-400 hover:text-red-500 transition pt-1 text-center"
+                  >
+                    Borrar historial
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Search bar */}
       <div data-onboarding="drug-search" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4">
