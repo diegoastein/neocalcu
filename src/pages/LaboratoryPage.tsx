@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { trackEvent } from '../utils/analytics';
 import { labCategories } from '../data/laboratory';
 import { LabParameter, BacteriologySyndrome, BacteriologyGerm } from '../types';
@@ -198,6 +198,15 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [bacterioView, setBacterioView] = useState<'syndrome' | 'germ'>('syndrome');
   const { active: isPremium } = useMembership();
+  const bacterioRef = useRef<HTMLDivElement | null>(null);
+
+  const goToBacteriologia = () => {
+    trackEvent('open_bacteriologia_teaser');
+    setExpandedCategories((prev) => new Set([...prev, 'bacteriologia']));
+    setTimeout(() => {
+      bacterioRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
 
   const q = searchQuery.toLowerCase().trim();
 
@@ -275,6 +284,30 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
         </button>
       </div>
 
+      {/* Bacteriología — teaser para no suscriptores */}
+      {!isPremium && (
+        <div className="px-3 pt-2 pb-0 bg-white dark:bg-slate-950">
+          <button
+            onClick={goToBacteriologia}
+            className="w-full flex items-center gap-3 px-4 py-3 border-2 border-brand-700 dark:border-brand-500 rounded-xl text-left"
+          >
+            <svg className="w-5 h-5 flex-shrink-0 text-brand-700 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Bacteriología clínica</p>
+                <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-700 text-white">Pro</span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Gérmenes por síndrome · perfiles de resistencia</p>
+            </div>
+            <svg className="w-4 h-4 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       <div className="flex-1 overflow-y-auto">
         {filteredCategories.length === 0 && (
           <div className="p-10 text-center">
@@ -289,7 +322,7 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
             : cat.parameters.length;
 
           return (
-            <div key={cat.id} className="border-b border-slate-100 dark:border-slate-800 last:border-0">
+            <div key={cat.id} ref={cat.id === 'bacteriologia' ? bacterioRef : undefined} className="border-b border-slate-100 dark:border-slate-800 last:border-0">
               {/* Cabecera de categoría */}
               <button
                 className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left"
