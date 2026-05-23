@@ -80,7 +80,7 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
       {/* Kit del Paciente Crítico — acceso directo */}
       <div className="px-3 pt-3 pb-0 bg-white dark:bg-slate-950">
         <button
-          onClick={onGoToKit}
+          onClick={() => { trackEvent('open_kit_shortcut', { source: 'medicamentos' }); onGoToKit?.(); }}
           className="w-full flex items-center gap-3 px-4 py-3 bg-brand-700 text-white rounded-xl text-left"
         >
           <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
