@@ -316,19 +316,31 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 
 **Patrón de gate premium:** usar `useMembership()` de `MembershipContext`. Sin suscripción mostrar un bloque con `border-2 border-dashed border-slate-300`, ícono candado sobre `bg-brand-700` y texto "Suscriptores" en brand verde.
 
-**Pendientes:**
-- **Calculadora de Nutrición Parenteral completa** — VIG, proteínas g/kg/día, lípidos, volumen total. Más completa que el "Aporte Calórico" actual.
-- **Expansión de laboratorio premium** — 6 nuevas categorías con gate de candado visible. Ver memoria `project_laboratorio_premium.md` para contenido completo y disclaimers aprobados:
+**Patrón de teaser:** las features premium deben aparecer al **tope de su listado** para no suscriptores (badge "Pro" + card outline con candado que abre el gate al tocarlo). Al agregar una feature premium nueva, ordenar el array de display con `sort((a, b) => !isPremium ? (b.isPremium ? 1 : 0) - (a.isPremium ? 1 : 0) : 0)`.
+
+#### Features implementadas (disponibles para suscriptores activos)
+
+| Feature | Componente / Ubicación | Tab |
+|---|---|---|
+| **Kit del Paciente Crítico** | `AdmissionSummary.tsx` + score `admision_neonatal` | Calculadoras |
+| **Tabla de velocidades de inotrópicos** | `InotropicCalculator.tsx` — sección expandible | Medicamentos (modal) |
+| **Hasta 4 pacientes simultáneos** | `PatientInput.tsx` — tabs multi-paciente | Global (header) |
+| **Exportar / compartir resultados** | `ShareResultButton.tsx` | Calculadoras / Procedimientos |
+| **Notas en procedimientos** | `ProcedureNotes.tsx` | Procedimientos |
+| **Nutrición Parenteral Total** | `NutricionParenteralCalculator.tsx` + fórmula `npt_calculator` | Calculadoras → Fórmulas |
+| **Bacteriología clínica** | Categoría `bacteriologia` en `laboratory[]` (JSON) | Laboratorio |
+| **Historial de cálculos** | `useCalculationHistory.ts` + UI en `MedicationsPage` | Medicamentos |
+| **INTERGROWTH-21st clasificador** | `IntergrowthCalculator.tsx` + score `intergrowth_clasificador` | Calculadoras → Índices |
+
+#### Pendiente / Próximas sesiones
+
+- **INTERGROWTH-21st — talla y perímetro cefálico** — extender `IntergrowthCalculator.tsx` con inputs opcionales de longitud (cm) y PC (cm) y sus tablas de percentiles.
+- **Expansión de laboratorio premium** — 6 nuevas categorías. Ver memoria `project_laboratorio_premium.md`:
   - Hormonas eje somatotrófico y mineral (IGF-1, PTH, vitamina D, aldosterona)
   - Hormonas gonadal / DSD — mini-pubertad (LH, FSH, testosterona, estradiol, AMH)
   - Química analítica ampliada (cistatina C, prealbúmina, alfa-1 antitripsina, piruvato, galactosa)
   - Niveles terapéuticos (fenobarbital, fenitoína, levetiracetam, cafeína, aminoglucósidos, vancomicina, digoxina)
-  - Bacteriología por síndrome (sepsis precoz/tardía, meningitis, ITU, neumonía, candidiasis)
-  - Bacteriología por germen (SGB, E. coli, Listeria, SCN, S. aureus, Klebsiella, Enterococcus, Pseudomonas, Candida, Acinetobacter)
-- **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV. Solo para suscriptores.
-
-**Largo plazo:**
-- **Historial de cálculos** — últimos N cálculos con fecha y peso.
+- **Fichas completas de medicamentos** — diluciones, estabilidad, reconstitución y compatibilidades IV.
 - **Temas de color adicionales** — incentivo freemium clásico.
 
 ### Analytics (GA4)
