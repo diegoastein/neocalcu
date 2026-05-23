@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ShareResultButton from './ShareResultButton';
 
 // INTERGROWTH-21st Newborn Size Standards (intergrowth21st.org.uk)
 // Percentiles: [P3, P10, P50, P90, P97]
@@ -315,6 +316,18 @@ export default function IntergrowthCalculator() {
   const lPct  = lRow  ? estimatePercentile(lNum,  lRow)  : null;
   const hcPct = hcRow ? estimatePercentile(hcNum, hcRow) : null;
 
+  const anyResult = wPct !== null || lPct !== null || hcPct !== null;
+
+  function buildShareText(): string {
+    const sexLabel = needsSex ? (sex === 'M' ? 'Masculino' : 'Femenino') : 'combinado';
+    const lines: string[] = [`INTERGROWTH-21st · EG ${gaNum}s · ${sexLabel}`];
+    if (wPct !== null)  lines.push(`Peso: ${wNum.toFixed(0)} g → P${fmtPct(wPct)} · z: ${pctToZ(wPct)} · ${classify(wPct).label}`);
+    if (lPct !== null)  lines.push(`Longitud: ${lNum.toFixed(1)} cm → P${fmtPct(lPct)} · z: ${pctToZ(lPct)} · ${classify(lPct).label}`);
+    if (hcPct !== null) lines.push(`PC: ${hcNum.toFixed(1)} cm → P${fmtPct(hcPct)} · z: ${pctToZ(hcPct)} · ${classify(hcPct).label}`);
+    lines.push('NeoCalcu · intergrowth21st.org.uk');
+    return lines.join('\n');
+  }
+
   const inputClass = 'w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200';
   const labelClass = 'block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1';
 
@@ -432,6 +445,13 @@ export default function IntergrowthCalculator() {
           percentile={hcPct}
           unit=" cm"
         />
+      )}
+
+      {/* Compartir */}
+      {anyResult && (
+        <div className="flex justify-center">
+          <ShareResultButton text={buildShareText()} title="INTERGROWTH-21st · NeoCalcu" />
+        </div>
       )}
 
       {/* Fuente */}
