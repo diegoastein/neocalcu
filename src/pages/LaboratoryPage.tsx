@@ -221,7 +221,9 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
           ),
         }))
         .filter((cat) => cat.parameters.length > 0 || !!cat.isPremium)
-    : labCategories;
+    : [...labCategories].sort((a, b) =>
+        !isPremium ? (b.isPremium ? 1 : 0) - (a.isPremium ? 1 : 0) : 0
+      );
 
   const toggleCategory = (id: string) => {
     setExpandedCategories((prev) => {

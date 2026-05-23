@@ -396,7 +396,12 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
   };
 
   const kit = scores.find((s) => s.id === 'admision_neonatal')!;
-  const regularScores = scores.filter((s) => s.id !== 'admision_neonatal');
+  const regularScores = scores
+    .filter((s) => s.id !== 'admision_neonatal')
+    .sort((a, b) => (!isPremium ? (b.isPremium ? 1 : 0) - (a.isPremium ? 1 : 0) : 0));
+  const sortedFormulas = [...formulas].sort((a, b) =>
+    !isPremium ? (b.isPremium ? 1 : 0) - (a.isPremium ? 1 : 0) : 0
+  );
 
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
@@ -537,7 +542,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
 
         {activeSection === 'formulas' && (
           <div className="divide-y divide-slate-200 dark:divide-slate-700">
-            {formulas.map((formula) => (
+            {sortedFormulas.map((formula) => (
               <div
                 key={formula.id}
                 ref={(el) => { itemRefs.current[formula.id] = el; }}
