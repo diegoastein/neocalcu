@@ -4,6 +4,7 @@ import PatientInput from '../components/PatientInput';
 import BilirubinCalculator from '../components/BilirubinCalculator';
 import ROPCalculator from '../components/ROPCalculator';
 import FinnceganCalculator from '../components/FinnceganCalculator';
+import IntergrowthCalculator from '../components/IntergrowthCalculator';
 import AdmissionSummary from '../components/AdmissionSummary';
 import NutricionParenteralCalculator from '../components/NutricionParenteralCalculator';
 import ShareResultButton from '../components/ShareResultButton';
@@ -11,6 +12,7 @@ import { scores } from '../data/scores';
 import { formulas } from '../data/formulas';
 import { usePatient } from '../context/PatientContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { useMembership } from '../context/MembershipContext';
 
 interface ScoreState {
   [itemId: string]: number;
@@ -42,6 +44,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
   const [inputsMap, setInputsMap] = useState<Record<string, Record<string, string>>>({});
   const { patient } = usePatient();
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { active: isPremium } = useMembership();
   const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const switchSection = (section: Section) => {
@@ -134,7 +137,25 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
     const interpretation = allAnswered
       ? score.interpretation.find((i) => total >= i.min && total <= i.max) ?? null
       : null;
-    const isSpecial = score.admissionSummary || score.bilirubinCalculator || score.ropCalculator || score.finneganCalculator;
+    const isSpecial = score.admissionSummary || score.bilirubinCalculator || score.ropCalculator || score.finneganCalculator || score.intergrowthCalculator;
+
+    if (score.isPremium && !isPremium) {
+      return (
+        <div className="border-t border-slate-200 dark:border-slate-700 p-4">
+          <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-6 flex flex-col items-center gap-3 text-center">
+            <div className="w-10 h-10 rounded-full bg-brand-700 flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">Función para suscriptores</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Clasificá el peso al nacer como AEG, PEG o GEG con percentil estimado según INTERGROWTH-21st.
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 space-y-4">
@@ -145,6 +166,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
         {score.bilirubinCalculator && <BilirubinCalculator references={score.references} />}
         {score.ropCalculator && <ROPCalculator references={score.references} />}
         {score.finneganCalculator && <FinnceganCalculator references={score.references} />}
+        {score.intergrowthCalculator && <IntergrowthCalculator />}
 
         {!isSpecial && (
           <div className="space-y-4">
@@ -391,6 +413,30 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
         </div>
       </div>
 
+      {/* INTERGROWTH-21st — teaser para no suscriptores */}
+      {!isPremium && (
+        <div className="px-3 pt-2 pb-0 bg-white dark:bg-slate-950">
+          <button
+            onClick={() => { setActiveSection('scores'); toggle('intergrowth_clasificador'); trackEvent('open_intergrowth_teaser'); }}
+            className="w-full flex items-center gap-3 px-4 py-3 border-2 border-brand-700 dark:border-brand-500 rounded-xl text-left"
+          >
+            <svg className="w-5 h-5 flex-shrink-0 text-brand-700 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">INTERGROWTH-21st</p>
+                <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-700 text-white">Pro</span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Clasificador AEG / PEG / GEG con percentil estimado</p>
+            </div>
+            <svg className="w-4 h-4 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* Tabs fijos */}
       <div className="flex border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 sticky top-16 z-10 mt-3">
         <button
@@ -426,7 +472,12 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
               >
                 <div className="flex items-start p-4">
                   <button onClick={() => toggle(score.id)} className="flex-1 text-left">
-                    <h3 className="font-semibold text-slate-900 dark:text-slate-100">{score.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-slate-900 dark:text-slate-100">{score.name}</h3>
+                      {score.isPremium && (
+                        <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-700 text-white flex-shrink-0">Pro</span>
+                      )}
+                    </div>
                     {score.subtitle && (
                       <p className="text-sm text-slate-600 dark:text-slate-400 mt-0.5">{score.subtitle}</p>
                     )}

@@ -10725,6 +10725,22 @@
       ]
     },
     {
+      "id": "intergrowth_clasificador",
+      "name": "INTERGROWTH-21st — Clasificador al nacer",
+      "subtitle": "Clasificación AEG / PEG / GEG con percentil estimado",
+      "description": "",
+      "intergrowthCalculator": true,
+      "isPremium": true,
+      "items": [],
+      "interpretation": [],
+      "minScore": 0,
+      "maxScore": 0,
+      "references": [
+        "Villar J et al. International standards for newborn weight, length, and head circumference by gestational age and sex: INTERGROWTH-21st. Lancet. 2014;384:857-868.",
+        "Villar J et al. INTERGROWTH-21st very preterm size at birth reference charts. Lancet. 2016;387:844-845."
+      ]
+    },
+    {
       "id": "finnegan",
       "name": "Finnegan Modificado (NAS)",
       "subtitle": "Síndrome de abstinencia neonatal",

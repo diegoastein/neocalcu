@@ -158,6 +158,8 @@ export interface Score {
   ropCalculator?: boolean;
   finneganCalculator?: boolean;
   admissionSummary?: boolean;
+  intergrowthCalculator?: boolean;
+  isPremium?: boolean;
 }
 
 export interface FormulaInput {
