@@ -296,12 +296,12 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
                 onClick={() => toggleCategory(cat.id)}
               >
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  {cat.isPremium && (
-                    <svg className="w-4 h-4 text-brand-700 dark:text-brand-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  )}
                   <p className="font-semibold text-slate-900 dark:text-slate-100">{cat.name}</p>
+                  {cat.isPremium && (
+                    <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-700 text-white flex-shrink-0">
+                      Pro
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0 ml-2">
                   <span className="text-xs text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">

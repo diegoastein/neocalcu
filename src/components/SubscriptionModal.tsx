@@ -72,7 +72,7 @@ export default function SubscriptionModal({ onClose, onArgentina, loadingPlan }:
               </div>
               <div className="flex flex-col gap-3">
                 <button
-                  onClick={() => setRegion('ar')}
+                  onClick={() => { trackEvent('subscription_region_selected', { region: 'ar' }); setRegion('ar'); }}
                   className="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-brand-200 dark:border-brand-800 hover:border-brand-500 dark:hover:border-brand-500 bg-brand-50 dark:bg-brand-900/20 text-left transition-colors"
                 >
                   <span className="text-2xl">🇦🇷</span>
@@ -82,7 +82,7 @@ export default function SubscriptionModal({ onClose, onArgentina, loadingPlan }:
                   </div>
                 </button>
                 <button
-                  onClick={() => setRegion('intl')}
+                  onClick={() => { trackEvent('subscription_region_selected', { region: 'intl' }); setRegion('intl'); }}
                   className="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-700/30 text-left transition-colors"
                 >
                   <span className="text-2xl">🌎</span>
@@ -137,7 +137,7 @@ export default function SubscriptionModal({ onClose, onArgentina, loadingPlan }:
                   href={TAKENOS.mensual}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackEvent('click_apoyar', { source: 'subscription_modal', plan: 'mensual', gateway: 'takenos' })}
+                  onClick={() => trackEvent('payment_started', { plan: 'mensual', gateway: 'takenos' })}
                   className="w-full bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-xl py-3 text-sm text-center transition-colors block"
                 >
                   <span>Mensual — USD 3</span>
@@ -147,7 +147,7 @@ export default function SubscriptionModal({ onClose, onArgentina, loadingPlan }:
                   href={TAKENOS.anual}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackEvent('click_apoyar', { source: 'subscription_modal', plan: 'anual', gateway: 'takenos' })}
+                  onClick={() => trackEvent('payment_started', { plan: 'anual', gateway: 'takenos' })}
                   className="w-full bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl py-3 text-sm text-center transition-colors block"
                 >
                   <span>Anual — USD 20 <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-md font-normal">-45%</span></span>
