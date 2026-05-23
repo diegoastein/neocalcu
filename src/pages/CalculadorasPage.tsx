@@ -18,6 +18,7 @@ interface ScoreState {
 
 interface CalculadorasPageProps {
   initialId?: string | null;
+  onOpenSubscription?: () => void;
 }
 
 const colorMap: { [key: string]: string } = {
@@ -29,7 +30,7 @@ const colorMap: { [key: string]: string } = {
 
 type Section = 'scores' | 'formulas';
 
-export default function CalculadorasPage({ initialId }: CalculadorasPageProps = {}) {
+export default function CalculadorasPage({ initialId, onOpenSubscription }: CalculadorasPageProps = {}) {
   const getInitialSection = (id: string | null | undefined): Section => {
     if (id && formulas.some((f) => f.id === id)) return 'formulas';
     return 'scores';
@@ -140,7 +141,7 @@ export default function CalculadorasPage({ initialId }: CalculadorasPageProps = 
         {score.subtitle && <p className="text-sm text-slate-600 dark:text-slate-400">{score.subtitle}</p>}
         {score.description && <p className="text-xs text-slate-500 dark:text-slate-400">{score.description}</p>}
 
-        {score.admissionSummary && <AdmissionSummary />}
+        {score.admissionSummary && <AdmissionSummary onSubscribe={onOpenSubscription} />}
         {score.bilirubinCalculator && <BilirubinCalculator references={score.references} />}
         {score.ropCalculator && <ROPCalculator references={score.references} />}
         {score.finneganCalculator && <FinnceganCalculator references={score.references} />}

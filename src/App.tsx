@@ -207,13 +207,13 @@ function AppContent() {
   const renderPage = () => {
     switch (activePage) {
       case 'medicamentos':
-        return <MedicationsPage />;
+        return <MedicationsPage onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')} />;
       case 'procedimientos':
-        return <ProceduresPage initialExpanded={focusedProcedureId} />;
+        return <ProceduresPage initialExpanded={focusedProcedureId} onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')} />;
       case 'calculadoras':
-        return <CalculadorasPage initialId={focusedCalculadoraId} />;
+        return <CalculadorasPage initialId={focusedCalculadoraId} onOpenSubscription={() => setShowSubscriptionModal(true)} />;
       case 'laboratorio':
-        return <LaboratoryPage />;
+        return <LaboratoryPage onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')} />;
       case 'favoritos':
         return <FavoritesPage onNavigate={navigateToItem} />;
     }

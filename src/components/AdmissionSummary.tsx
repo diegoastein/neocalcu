@@ -133,7 +133,11 @@ function PhpTable({ rows, weightKg }: { rows: PhpRow[]; weightKg: number }) {
   );
 }
 
-export default function AdmissionSummary() {
+interface AdmissionSummaryProps {
+  onSubscribe?: () => void;
+}
+
+export default function AdmissionSummary({ onSubscribe }: AdmissionSummaryProps = {}) {
   const { patient } = usePatient();
   const membership = useMembership();
 
@@ -147,9 +151,17 @@ export default function AdmissionSummary() {
         </div>
         <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">Función para suscriptores</p>
         <p className="text-xs text-slate-500 dark:text-slate-400">
-          El Kit del Paciente Crítico calcula TET, accesos vasculares, surfactante, cafeína, PHP,
+          El Kit calcula TET, accesos vasculares, surfactante, cafeína, PHP,
           inotrópicos y antibióticos según el peso y EG del paciente.
         </p>
+        {onSubscribe && (
+          <button
+            onClick={onSubscribe}
+            className="mt-1 w-full bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold rounded-lg py-2.5 transition-colors"
+          >
+            Ver planes de suscripción
+          </button>
+        )}
       </div>
     );
   }

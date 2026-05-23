@@ -188,7 +188,11 @@ function GermCard({ germ }: { germ: BacteriologyGerm }) {
   );
 }
 
-export default function LaboratoryPage() {
+interface LaboratoryPageProps {
+  onGoToKit?: () => void;
+}
+
+export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [bacterioView, setBacterioView] = useState<'syndrome' | 'germ'>('syndrome');
@@ -251,6 +255,25 @@ export default function LaboratoryPage() {
       </div>
 
       {/* Contenido */}
+      {/* Kit del Paciente Crítico — acceso directo */}
+      <div className="px-3 pt-3 pb-0 bg-white dark:bg-slate-950">
+        <button
+          onClick={onGoToKit}
+          className="w-full flex items-center gap-3 px-4 py-3 bg-brand-700 text-white rounded-xl text-left"
+        >
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-sm">Kit del Paciente Crítico</p>
+            <p className="text-xs text-white/70 truncate">TET · inotrópicos · ATB · accesos vasculares</p>
+          </div>
+          <svg className="w-4 h-4 flex-shrink-0 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
       <div className="flex-1 overflow-y-auto">
         {filteredCategories.length === 0 && (
           <div className="p-10 text-center">
