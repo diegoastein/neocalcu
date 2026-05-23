@@ -330,11 +330,9 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 | **Nutrición Parenteral Total** | `NutricionParenteralCalculator.tsx` + fórmula `npt_calculator` | Calculadoras → Fórmulas |
 | **Bacteriología clínica** | Categoría `bacteriologia` en `laboratory[]` (JSON) | Laboratorio |
 | **Historial de cálculos** | `useCalculationHistory.ts` + UI en `MedicationsPage` | Medicamentos |
-| **INTERGROWTH-21st clasificador** | `IntergrowthCalculator.tsx` + score `intergrowth_clasificador` | Calculadoras → Índices |
+| **INTERGROWTH-21st completo** | `IntergrowthCalculator.tsx` + score `intergrowth_clasificador` — peso, longitud y PC con percentil + z-score + PEG/AEG/GEG (24–42s, por sexo). Fuente: gigs R package (ropensci). Incluye ShareResultButton. | Calculadoras → Índices |
 
 #### Pendiente / Próximas sesiones
-
-- **INTERGROWTH-21st — talla y perímetro cefálico** — extender `IntergrowthCalculator.tsx` con inputs opcionales de longitud (cm) y PC (cm) y sus tablas de percentiles.
 - **Expansión de laboratorio premium** — 6 nuevas categorías. Ver memoria `project_laboratorio_premium.md`:
   - Hormonas eje somatotrófico y mineral (IGF-1, PTH, vitamina D, aldosterona)
   - Hormonas gonadal / DSD — mini-pubertad (LH, FSH, testosterona, estradiol, AMH)
