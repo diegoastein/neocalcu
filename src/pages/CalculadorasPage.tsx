@@ -258,6 +258,24 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
   const renderFormulaContent = (formulaId: string) => {
     const f = formulas.find((x) => x.id === formulaId)!;
 
+    if (f.isPremium && !isPremium) {
+      return (
+        <div className="border-t border-slate-200 dark:border-slate-700 p-4">
+          <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-6 flex flex-col items-center gap-3 text-center">
+            <div className="w-10 h-10 rounded-full bg-brand-700 flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">Función para suscriptores</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Calculá VIG, proteínas, lípidos, electrolitos y aporte calórico de la NPT en tiempo real.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
     if (f.nptCalculator) {
       return (
         <div className="bg-brand-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4">
@@ -413,9 +431,27 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
         </div>
       </div>
 
-      {/* INTERGROWTH-21st — teaser para no suscriptores */}
+      {/* Teasers premium para no suscriptores */}
       {!isPremium && (
-        <div className="px-3 pt-2 pb-0 bg-white dark:bg-slate-950">
+        <div className="px-3 pt-2 pb-0 bg-white dark:bg-slate-950 space-y-2">
+          <button
+            onClick={() => { setActiveSection('formulas'); toggle('npt_calculator'); trackEvent('open_npt_teaser'); }}
+            className="w-full flex items-center gap-3 px-4 py-3 border-2 border-brand-700 dark:border-brand-500 rounded-xl text-left"
+          >
+            <svg className="w-5 h-5 flex-shrink-0 text-brand-700 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Nutrición Parenteral Total</p>
+                <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-700 text-white">Pro</span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">VIG · proteínas · lípidos · electrolitos · aporte calórico</p>
+            </div>
+            <svg className="w-4 h-4 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
           <button
             onClick={() => { setActiveSection('scores'); toggle('intergrowth_clasificador'); trackEvent('open_intergrowth_teaser'); }}
             className="w-full flex items-center gap-3 px-4 py-3 border-2 border-brand-700 dark:border-brand-500 rounded-xl text-left"
@@ -509,7 +545,12 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
               >
                 <div className="flex items-start p-4">
                   <button onClick={() => toggle(formula.id)} className="flex-1 text-left">
-                    <h3 className="font-semibold text-slate-900 dark:text-slate-100">{formula.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-slate-900 dark:text-slate-100">{formula.name}</h3>
+                      {formula.isPremium && (
+                        <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-brand-700 text-white flex-shrink-0">Pro</span>
+                      )}
+                    </div>
                     {formula.description && (
                       <p className="text-sm text-slate-600 dark:text-slate-400 mt-0.5 line-clamp-1">{formula.description}</p>
                     )}

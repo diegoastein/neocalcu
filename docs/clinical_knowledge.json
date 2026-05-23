@@ -11157,6 +11157,7 @@
       "description": "Cálculo completo de NPT para neonatos: flujo de glucosa, proteínas, lípidos, electrolitos y aporte calórico en tiempo real.",
       "inputs": [],
       "nptCalculator": true,
+      "isPremium": true,
       "reference": "SEGNNEO 2019 · ESPGHAN 2018 · Tsang RC et al. 2005"
     }
   ],

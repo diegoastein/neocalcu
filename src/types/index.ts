@@ -184,6 +184,7 @@ export interface Formula {
   notes?: string;
   reference: string;
   nptCalculator?: boolean;
+  isPremium?: boolean;
 }
 
 export interface LabReference {
