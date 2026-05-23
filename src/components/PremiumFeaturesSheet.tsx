@@ -85,8 +85,9 @@ const features = [
       </svg>
     ),
     label: 'INTERGROWTH-21st',
-    description: 'Clasificador AEG / PEG / GEG con percentil estimado al nacer (24 – 42 semanas).',
+    description: 'Peso, longitud y PC al nacer — percentil + z-score — AEG / PEG / GEG (24 – 42 semanas, por sexo).',
     available: true,
+    isNew: true,
   },
   {
     icon: (
