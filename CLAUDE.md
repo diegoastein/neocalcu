@@ -102,7 +102,8 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`EmailCaptureModal.tsx`** — aparece tras primer pago/cupón hasta registrar email. Backdrop no cierra. Setea `neo_email_registered='1'` al guardar.
 - **`PremiumFeaturesSheet.tsx`** — bottom sheet al abrir la app (600ms delay) si sin membresía; CTA → SubscriptionModal.
 - **`ProcedureNotes.tsx`** — notas libres por procedimiento; `localStorage neo_procedure_notes`; premium gate.
-- **`ShareResultButton.tsx`** — Web Share API + fallback clipboard; feedback 2s; premium gate.
+- **`ShareResultButton.tsx`** — Web Share API + fallback clipboard; feedback 2s; premium gate. Usado en `IntergrowthCalculator`, procedimientos y calculadoras.
+- **`IntergrowthCalculator.tsx`** — clasificador INTERGROWTH-21st completo. Inputs: EG (24–42s), sexo (≥33s), peso, longitud y PC. Tablas de percentiles P3/P10/P50/P90/P97 verificadas contra gigs R package (ropensci). Algoritmo Acklam para z-score. Clasificación PEG/AEG/GEG. Incluye `ShareResultButton`. Fuente: intergrowth21st.org.uk.
 - **`useDonationReminder.ts`** — lógica central de membresía. Con membresía en localStorage → no llama worker. Sin membresía → llama en cada apertura para restaurar automáticamente si el `device_id` sigue en KV.
 - **`PromoResidenciasOverlay.tsx`** — badge ámbar parpadeante + overlay modal para promos. Reutilizable: ajustar `EXPIRY` y texto. Visible para todos.
 - **`BottomNav.tsx`** — navegación inferior, 5 tabs, iconos SVG.
