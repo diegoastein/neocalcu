@@ -69,7 +69,12 @@ function generateCode(): string {
 
 function parseDonationRecord(value: string): DonationRecord {
   try {
-    return JSON.parse(value) as DonationRecord;
+    const parsed = JSON.parse(value);
+    // Formato nuevo: objeto JSON con ts y plan
+    if (parsed !== null && typeof parsed === 'object') return parsed as DonationRecord;
+    // Formato legacy: timestamp como número puro
+    const ts = typeof parsed === 'number' ? parsed : parseInt(value);
+    return { ts, plan: 'mensual' };
   } catch {
     return { ts: parseInt(value), plan: 'mensual' };
   }
@@ -1018,6 +1023,48 @@ export default {
       result.sort((a, b) => (b!.ts ?? 0) - (a!.ts ?? 0));
 
       return new Response(JSON.stringify({ subscribers: result }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: activación manual de suscripción ───────────────────────────────
+    if (url.pathname === '/admin/activar-manual' && request.method === 'POST') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const body = (await request.json()) as { email?: string; plan?: string };
+      const email = body.email?.toLowerCase().trim();
+      const plan: 'mensual' | 'anual' = body.plan === 'anual' ? 'anual' : 'mensual';
+
+      if (!email) {
+        return new Response(JSON.stringify({ error: 'missing_email' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const existing = await env.DONATIONS_KV.get(`email:${email}`);
+      if (existing) {
+        return new Response(JSON.stringify({ error: 'already_exists' }), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const deviceId = crypto.randomUUID();
+      const ts = Date.now();
+      const record: DonationRecord = { ts, plan };
+      const emailRecord: EmailRecord = { deviceId, ts, plan };
+
+      await env.DONATIONS_KV.put(deviceId, JSON.stringify(record));
+      await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify(emailRecord));
+      await sendWelcomeEmail(email, plan, ts, env);
+
+      return new Response(JSON.stringify({ ok: true, deviceId }), {
         headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }
