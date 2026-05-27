@@ -1133,6 +1133,59 @@ export default {
       // Muestra todos los aprobados sin email, independientemente de si el webhook llegó
       const needsEmail = enrichedApproved.filter(p => !p.emailInKV);
 
+      // Buscar devices en KV sin email asociado, consultando MP por su external_reference
+      const allKeys = await env.DONATIONS_KV.list({ limit: 1000 });
+      const knownPrefixes = ['email:', 'coupon:', 'reminder:', 'userdata:', 'cache:'];
+      const emailKeysSet = new Set(
+        allKeys.keys.filter(k => k.name.startsWith('email:')).map(k => k.name.replace('email:', ''))
+      );
+      const deviceKeys = allKeys.keys.filter(k => !knownPrefixes.some(p => k.name.startsWith(p)));
+
+      const orphanDevices = await Promise.all(
+        deviceKeys.map(async key => {
+          const deviceId = key.name;
+          // Saltar si ya hay email registrado para este device
+          const hasEmail = [...emailKeysSet].some(async email => {
+            const r = await env.DONATIONS_KV.get(`email:${email}`);
+            if (!r) return false;
+            try { return (JSON.parse(r) as EmailRecord).deviceId === deviceId; } catch { return false; }
+          });
+          if (hasEmail) return null;
+
+          const raw = await env.DONATIONS_KV.get(deviceId);
+          if (!raw) return null;
+          let record: DonationRecord;
+          try { record = parseDonationRecord(raw); } catch { return null; }
+          if (!isMembershipActive(record)) return null;
+
+          // Consultar MP para obtener email del comprador
+          const mpRes = await fetch(
+            `${MP_API}/v1/payments/search?external_reference=${encodeURIComponent(deviceId)}&status=approved&limit=1`,
+            { headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN}` } }
+          );
+          let payerEmail: string | null = null;
+          let payerName: string | null = null;
+          let mpPaymentId: number | null = null;
+          let dateApproved: string | null = null;
+          if (mpRes.ok) {
+            const mpData = (await mpRes.json()) as { results?: MPPaymentRaw[] };
+            const mp = mpData.results?.[0];
+            if (mp) {
+              payerEmail = mp.payer?.email?.toLowerCase() ?? null;
+              payerName = mp.payer?.first_name ? `${mp.payer.first_name} ${mp.payer.last_name ?? ''}`.trim() : null;
+              mpPaymentId = mp.id;
+              dateApproved = mp.date_approved ?? null;
+            }
+          }
+
+          // Si el email ya está registrado (en KV), no mostrar
+          if (payerEmail && emailKeysSet.has(payerEmail)) return null;
+
+          return { deviceId, plan: record.plan, ts: record.ts, payerEmail, payerName, mpPaymentId, dateApproved };
+        })
+      );
+      const activeOrphans = orphanDevices.filter(Boolean);
+
       const pending = pendingResults.map(p => ({
         id: p.id,
         status: p.status as 'in_process' | 'pending',
@@ -1149,7 +1202,7 @@ export default {
         deviceInKV: false,
       }));
 
-      return new Response(JSON.stringify({ needsEmail, pending }), {
+      return new Response(JSON.stringify({ needsEmail, pending, activeOrphans }), {
         headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }
