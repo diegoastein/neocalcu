@@ -977,19 +977,22 @@ export default {
       const couponDeviceToCode = new Map<string, string>();
       await Promise.all(
         couponKeys.keys.map(async key => {
-          const raw = await env.DONATIONS_KV.get(key.name);
-          if (!raw) return;
-          const c = JSON.parse(raw) as CouponRecord;
-          if (!c.active && c.usedBy) {
-            couponDeviceIds.add(c.usedBy);
-            couponDeviceToCode.set(c.usedBy, key.name.replace('coupon:', ''));
-          }
+          try {
+            const raw = await env.DONATIONS_KV.get(key.name);
+            if (!raw) return;
+            const c = JSON.parse(raw) as CouponRecord;
+            if (!c.active && c.usedBy) {
+              couponDeviceIds.add(c.usedBy);
+              couponDeviceToCode.set(c.usedBy, key.name.replace('coupon:', ''));
+            }
+          } catch { /* ignorar entradas corruptas */ }
         })
       );
 
       const keys = await env.DONATIONS_KV.list({ prefix: 'email:' });
       const subscribers = await Promise.all(
         keys.keys.map(async key => {
+          try {
           const email = key.name.replace('email:', '');
           const raw = await env.DONATIONS_KV.get(key.name);
           if (!raw) return null;
@@ -1007,6 +1010,7 @@ export default {
             viaCoupon,
             ...(viaCoupon ? { couponCode: couponDeviceToCode.get(data.deviceId) } : {}),
           };
+          } catch { return null; }
         })
       );
 
@@ -1043,11 +1047,8 @@ export default {
       ]) as [{ results?: MPPaymentRaw[] }, { results?: MPPaymentRaw[] }, { results?: MPPaymentRaw[] }];
 
       const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const VALID_AMOUNTS = new Set([3500, 28000]);
       const isNeoCalcuPayment = (p: MPPaymentRaw) =>
-        !!p.external_reference &&
-        UUID_RE.test(p.external_reference) &&
-        VALID_AMOUNTS.has(p.transaction_amount);
+        !!p.external_reference && UUID_RE.test(p.external_reference);
 
       const approvedResults = (approvedData.results ?? []).filter(isNeoCalcuPayment);
       const pendingResults = [
