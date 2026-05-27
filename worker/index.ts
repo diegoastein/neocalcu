@@ -7,6 +7,16 @@ interface Env {
   RESEND_API_KEY: string;
 }
 
+interface MPPaymentRaw {
+  id: number;
+  status: string;
+  transaction_amount: number;
+  external_reference?: string | null;
+  payer?: { email?: string | null; first_name?: string | null; last_name?: string | null };
+  date_created: string;
+  date_approved?: string | null;
+}
+
 interface DonationRecord {
   ts: number;
   plan: 'mensual' | 'anual';
@@ -1004,6 +1014,140 @@ export default {
       result.sort((a, b) => (b!.ts ?? 0) - (a!.ts ?? 0));
 
       return new Response(JSON.stringify({ subscribers: result }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: pagos MercadoPago ──────────────────────────────────────────────
+    if (url.pathname === '/admin/mp-payments' && request.method === 'GET') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const now = new Date();
+      const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+
+      const [approvedData, inProcessData, pendingData] = await Promise.all([
+        fetch(`${MP_API}/v1/payments/search?sort=date_created&criteria=desc&range=date_created&begin_date=${sixtyDaysAgo.toISOString()}&end_date=${now.toISOString()}&status=approved&limit=50`, {
+          headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN}` },
+        }).then(r => r.json()),
+        fetch(`${MP_API}/v1/payments/search?sort=date_created&criteria=desc&status=in_process&limit=20`, {
+          headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN}` },
+        }).then(r => r.json()),
+        fetch(`${MP_API}/v1/payments/search?sort=date_created&criteria=desc&status=pending&limit=20`, {
+          headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN}` },
+        }).then(r => r.json()),
+      ]) as [{ results?: MPPaymentRaw[] }, { results?: MPPaymentRaw[] }, { results?: MPPaymentRaw[] }];
+
+      const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const VALID_AMOUNTS = new Set([3500, 28000]);
+      const isNeoCalcuPayment = (p: MPPaymentRaw) =>
+        !!p.external_reference &&
+        UUID_RE.test(p.external_reference) &&
+        VALID_AMOUNTS.has(p.transaction_amount);
+
+      const approvedResults = (approvedData.results ?? []).filter(isNeoCalcuPayment);
+      const pendingResults = [
+        ...(inProcessData.results ?? []),
+        ...(pendingData.results ?? []),
+      ].filter(isNeoCalcuPayment)
+        .sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
+
+      const enrichedApproved = await Promise.all(
+        approvedResults.map(async p => {
+          const deviceId = p.external_reference ?? null;
+          const payerEmail = p.payer?.email?.toLowerCase() ?? null;
+          const [emailEntry, deviceEntry] = await Promise.all([
+            payerEmail ? env.DONATIONS_KV.get(`email:${payerEmail}`) : Promise.resolve(null),
+            deviceId ? env.DONATIONS_KV.get(deviceId) : Promise.resolve(null),
+          ]);
+          return {
+            id: p.id,
+            status: 'approved' as const,
+            amount: p.transaction_amount,
+            plan: (p.transaction_amount >= 28000 ? 'anual' : 'mensual') as 'mensual' | 'anual',
+            payerEmail,
+            payerName: p.payer?.first_name
+              ? `${p.payer.first_name} ${p.payer.last_name ?? ''}`.trim()
+              : null,
+            deviceId,
+            dateCreated: p.date_created,
+            dateApproved: p.date_approved ?? null,
+            emailInKV: !!emailEntry,
+            deviceInKV: !!deviceEntry,
+          };
+        })
+      );
+
+      // Muestra todos los aprobados sin email, independientemente de si el webhook llegó
+      const needsEmail = enrichedApproved.filter(p => !p.emailInKV);
+
+      const pending = pendingResults.map(p => ({
+        id: p.id,
+        status: p.status as 'in_process' | 'pending',
+        amount: p.transaction_amount,
+        plan: (p.transaction_amount >= 28000 ? 'anual' : 'mensual') as 'mensual' | 'anual',
+        payerEmail: p.payer?.email?.toLowerCase() ?? null,
+        payerName: p.payer?.first_name
+          ? `${p.payer.first_name} ${p.payer.last_name ?? ''}`.trim()
+          : null,
+        deviceId: p.external_reference ?? null,
+        dateCreated: p.date_created,
+        dateApproved: null,
+        emailInKV: false,
+        deviceInKV: false,
+      }));
+
+      return new Response(JSON.stringify({ needsEmail, pending }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: registrar email manualmente ───────────────────────────────────
+    if (url.pathname === '/admin/registrar-email' && request.method === 'POST') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const body = (await request.json()) as { email?: string; deviceId?: string; plan?: string; dateApproved?: string };
+      const email = body.email?.toLowerCase().trim();
+      const deviceId = body.deviceId?.trim();
+
+      if (!email || !deviceId) {
+        return new Response(JSON.stringify({ error: 'missing_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      let record: DonationRecord;
+      const deviceRaw = await env.DONATIONS_KV.get(deviceId);
+      if (deviceRaw) {
+        record = parseDonationRecord(deviceRaw);
+      } else if (body.plan) {
+        // Webhook falló: crear el device entry manualmente con los datos del pago MP
+        const plan: 'mensual' | 'anual' = body.plan === 'anual' ? 'anual' : 'mensual';
+        const ts = body.dateApproved ? new Date(body.dateApproved).getTime() : Date.now();
+        record = { ts, plan };
+        await env.DONATIONS_KV.put(deviceId, JSON.stringify(record));
+      } else {
+        return new Response(JSON.stringify({ error: 'device_not_found' }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const emailRecord: EmailRecord = { deviceId, ts: record.ts, plan: record.plan };
+      await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify(emailRecord));
+      await sendWelcomeEmail(email, record.plan, record.ts, env);
+
+      return new Response(JSON.stringify({ ok: true }), {
         headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }
