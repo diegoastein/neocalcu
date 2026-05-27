@@ -24,6 +24,9 @@ Thumbs.db
 # Screenshots for Claude (not committed)
 capturas/
 
+# Wrangler local cache
+.wrangler/
+
 # Logs
 *.log
 npm-debug.log*
