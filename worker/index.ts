@@ -15,6 +15,7 @@ interface MPPaymentRaw {
   payer?: { email?: string | null; first_name?: string | null; last_name?: string | null };
   date_created: string;
   date_approved?: string | null;
+  money_release_date?: string | null;
 }
 
 interface DonationRecord {
@@ -1108,10 +1109,19 @@ export default {
         approvedResults.map(async p => {
           const deviceId = p.external_reference ?? null;
           const payerEmail = p.payer?.email?.toLowerCase() ?? null;
-          const [emailEntry, deviceEntry] = await Promise.all([
+          // Fetch individual payment para obtener money_release_date (no viene en search)
+          const [emailEntry, deviceEntry, detailRes] = await Promise.all([
             payerEmail ? env.DONATIONS_KV.get(`email:${payerEmail}`) : Promise.resolve(null),
             deviceId ? env.DONATIONS_KV.get(deviceId) : Promise.resolve(null),
+            fetch(`${MP_API}/v1/payments/${p.id}`, {
+              headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN}` },
+            }),
           ]);
+          let moneyReleaseDate: string | null = null;
+          try {
+            const detail = await detailRes.json() as { money_release_date?: string | null };
+            moneyReleaseDate = detail.money_release_date ?? null;
+          } catch { /* si falla el fetch individual, moneyReleaseDate queda null */ }
           return {
             id: p.id,
             status: 'approved' as const,
@@ -1124,6 +1134,7 @@ export default {
             deviceId,
             dateCreated: p.date_created,
             dateApproved: p.date_approved ?? null,
+            moneyReleaseDate,
             emailInKV: !!emailEntry,
             deviceInKV: !!deviceEntry,
           };
@@ -1132,6 +1143,12 @@ export default {
 
       // Muestra todos los aprobados sin email, independientemente de si el webhook llegó
       const needsEmail = enrichedApproved.filter(p => !p.emailInKV);
+
+      // Aprobados pero con liberación de fondos pendiente (money_release_date futuro)
+      const nowTs = Date.now();
+      const releasing = enrichedApproved.filter(p =>
+        p.moneyReleaseDate && new Date(p.moneyReleaseDate).getTime() > nowTs
+      );
 
       // Buscar devices en KV sin email asociado, consultando MP por su external_reference
       const allKeys = await env.DONATIONS_KV.list({ limit: 1000 });
@@ -1202,7 +1219,7 @@ export default {
         deviceInKV: false,
       }));
 
-      return new Response(JSON.stringify({ needsEmail, pending, activeOrphans }), {
+      return new Response(JSON.stringify({ needsEmail, pending, releasing, activeOrphans }), {
         headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }
