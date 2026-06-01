@@ -1270,6 +1270,90 @@ export default {
       });
     }
 
+    // ── Digital Asset Links (TWA Android) ────────────────────────────────────
+    if (url.pathname === '/.well-known/assetlinks.json') {
+      const assetLinks = [
+        {
+          relation: ['delegate_permission/common.handle_all_urls'],
+          target: {
+            namespace: 'android_app',
+            package_name: 'pro.neocalcul.twa',
+            // SHA-256 se obtiene de Play Console → tu app → Configuración → Integridad de la app
+            sha256_cert_fingerprints: ['PENDIENTE_SHA256_GOOGLE_PLAY_APP_SIGNING'],
+          },
+        },
+      ];
+      return new Response(JSON.stringify(assetLinks, null, 2), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'public, max-age=3600',
+        },
+      });
+    }
+
+    // ── Política de privacidad ─────────────────────────────────────────────
+    if (url.pathname === '/privacy') {
+      const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Política de Privacidad — NeoCalcu</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 720px; margin: 0 auto; padding: 24px 20px 48px; color: #1e293b; line-height: 1.7; }
+    h1 { color: #065f46; font-size: 1.6rem; margin-bottom: 4px; }
+    h2 { color: #047857; font-size: 1.1rem; margin-top: 32px; }
+    p, li { font-size: 0.97rem; }
+    ul { padding-left: 20px; }
+    a { color: #065f46; }
+    .updated { color: #64748b; font-size: 0.85rem; margin-bottom: 32px; }
+  </style>
+</head>
+<body>
+  <h1>Política de Privacidad</h1>
+  <p class="updated">Última actualización: 1 de junio de 2025</p>
+
+  <p>NeoCalcu es una herramienta de apoyo clínico para profesionales de la salud en neonatología. Esta política describe qué datos se recopilan y cómo se utilizan.</p>
+
+  <h2>1. Datos recopilados</h2>
+  <ul>
+    <li><strong>Identificador de dispositivo (<code>device_id</code>):</strong> un UUID generado localmente y almacenado en el dispositivo. Se usa únicamente para verificar el estado de la suscripción. No está vinculado a ninguna identidad personal.</li>
+    <li><strong>Correo electrónico (opcional):</strong> si el usuario elige registrar un email para recibir confirmaciones de suscripción, se almacena en nuestro servidor. No se comparte con terceros ni se usa con fines de marketing sin consentimiento.</li>
+    <li><strong>Datos de pago:</strong> procesados por MercadoPago (Argentina) o Takenos (internacional). NeoCalcu no almacena datos de tarjetas de crédito ni información de pago; estos son manejados íntegramente por los procesadores de pago.</li>
+    <li><strong>Datos clínicos ingresados (peso, edad gestacional, etc.):</strong> se almacenan localmente en el dispositivo mediante <code>localStorage</code> y nunca se transmiten a ningún servidor.</li>
+  </ul>
+
+  <h2>2. Uso de los datos</h2>
+  <ul>
+    <li>Verificar el estado de la suscripción y desbloquear funciones premium.</li>
+    <li>Enviar correo de confirmación y recordatorio de renovación (solo si el usuario proporcionó su email).</li>
+    <li>Estadísticas de uso agregadas y anónimas mediante Google Analytics 4 (sin datos personales identificables).</li>
+  </ul>
+
+  <h2>3. Almacenamiento y seguridad</h2>
+  <p>Los datos del servidor se almacenan en Cloudflare Workers KV, ubicado en servidores de Cloudflare. Los datos locales (peso, pacientes, favoritos) permanecen exclusivamente en el dispositivo del usuario.</p>
+
+  <h2>4. Retención de datos</h2>
+  <p>Los registros de suscripción se conservan mientras la cuenta esté activa. Los datos de email se eliminan a solicitud del usuario. Los datos locales pueden borrarse en cualquier momento limpiando el almacenamiento del navegador o desinstalando la app.</p>
+
+  <h2>5. Derechos del usuario</h2>
+  <p>Podés solicitar la eliminación de tus datos enviando un correo a <a href="mailto:info@neomonitor.pro">info@neomonitor.pro</a>.</p>
+
+  <h2>6. Menores de edad</h2>
+  <p>NeoCalcu está destinada exclusivamente a profesionales de la salud adultos. No recopilamos datos de menores de 18 años de forma intencional.</p>
+
+  <h2>7. Cambios a esta política</h2>
+  <p>Cualquier cambio se publicará en esta página. El uso continuado de la app después de cambios implica aceptación de la política actualizada.</p>
+
+  <h2>8. Contacto</h2>
+  <p>Consultas sobre privacidad: <a href="mailto:info@neomonitor.pro">info@neomonitor.pro</a></p>
+</body>
+</html>`;
+      return new Response(html, {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      });
+    }
+
     return new Response('Not found', { status: 404 });
   },
 };
