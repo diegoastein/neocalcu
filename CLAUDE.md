@@ -348,3 +348,21 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 
 ### Google Play Store
 Ver `docs/ROADMAP_PLAYSTORE.md`. Publicar gratis sin flujo de pago interno (MercadoPago viola política de Google); suscriptores se desbloquean vía `device_id`.
+
+**Estado de implementación (2026-06-01):**
+
+Fase 1 casi completa — commit `657e972`:
+- `public/icon-512-maskable.png` — ícono maskable con safe zone (fondo `#065f46`, logo al 72%). `sharp` instalado como devDependency.
+- `vite.config.ts` — manifest apunta `purpose: 'maskable'` al nuevo ícono separado.
+- `worker/index.ts` — endpoints `GET /privacy` (política de privacidad HTML) y `GET /.well-known/assetlinks.json` (SHA-256 placeholder, se completa tras subir AAB a Play Console).
+- `.github/workflows/build-android.yml` — workflow manual para compilar AAB firmado (requiere secrets `KEYSTORE_BASE64` + `KEYSTORE_PASSWORD` en GitHub).
+
+**Bloqueante actual:** `neocalcu.pro` está en Hostinger y no figura como zona en Cloudflare. Migrar DNS a Cloudflare es prerequisito para que `neocalcu.pro/privacy` y `neocalcu.pro/.well-known/assetlinks.json` funcionen.
+
+**Próximos pasos en orden:**
+1. Migrar DNS `neocalcu.pro` de Hostinger a Cloudflare (manual, usuario)
+2. Agregar ruta `neocalcu.pro/*` en `worker/wrangler.toml` y redeploy del Worker
+3. Fase 2: `bubblewrap init --manifest https://neocalcu.pro/manifest.webmanifest` en GitHub Codespaces (Package ID: `pro.neocalcul.twa`, alias: `neocalcu-key`) → descargar y guardar `signing.keystore`
+4. Cargar secrets en GitHub → correr workflow → obtener AAB
+5. Subir AAB a Play Console → obtener SHA-256 → actualizar placeholder en `worker/index.ts`
+6. Screenshots Android (4-5 capturas) + completar listing en Play Console
