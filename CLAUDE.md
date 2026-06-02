@@ -347,7 +347,25 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 `src/utils/analytics.ts` exporta `trackEvent()`. Con `?debug=1` en la URL no envía nada a GA4. Eventos activos: `search_drug`, `open_drug`, `calculate_dose`, `open_procedure`, `select_calculator`, `tab_switch`, `view_inotropic_calculator`, `share_result`, `favorite_added`, `click_apoyar`, `payment_started`, `payment_success`, `coupon_redeemed`, `pwa_installed`, `pwa_install_prompt`.
 
 ### Google Play Store
-Ver `docs/ROADMAP_PLAYSTORE.md`. Publicar gratis sin flujo de pago interno (MercadoPago viola política de Google); suscriptores se desbloquean vía `device_id`.
+Ver `docs/ROADMAP_PLAYSTORE.md`. La versión de Play Store es un TWA (Trusted Web Activity) que carga `neocalcu.pro`. La app se publica **completamente gratuita** — sin gates premium ni flujos de pago — para cumplir las políticas de Google (MercadoPago y Takenos violan la política de pagos in-app). Google Play Billing se implementará en una versión posterior.
+
+#### Detección de contexto TWA
+
+`src/utils/platform.ts` exporta `isPlayStoreTWA: boolean`. La detección es pasiva: Android inyecta el package ID en `document.referrer` (`android-app://...`) al abrir cualquier TWA.
+
+```ts
+export const isPlayStoreTWA: boolean =
+  typeof document !== 'undefined' &&
+  document.referrer.startsWith('android-app://');
+```
+
+#### Comportamiento en TWA
+
+- **`MembershipContext`** devuelve `{ active: true }` cuando `isPlayStoreTWA` → todos los gates premium se abren automáticamente
+- **`App.tsx`** suprime: `DonationToast`, `PremiumFeaturesSheet`, botón "Suscripción" en header y `SubscriptionModal`
+- **`SettingsPanel`** reemplaza el botón de pago por un aviso: *"Para suscribirte, visitá neocalcu.pro desde tu navegador"*; los campos de cupón y recuperación se mantienen (útiles para usuarios que pagaron por la web)
+
+En la web (`neocalcu.pro`) todo funciona igual — `isPlayStoreTWA` es `false` y el sistema freemium opera con normalidad.
 
 **Estado de implementación (2026-06-02):**
 
@@ -359,11 +377,12 @@ Fase 2 completa:
 - AAB generado con bubblewrap en GitHub Codespaces — Package ID: `pro.neocalcul.twa`, alias: `neocalcu-key`
 - App creada en Play Console (pruebas internas), AAB v2 subido
 - Archivos guardados localmente: `app-release-bundle.aab`, `app-release-signed.apk`, `neocalcu-key.keystore`
+- TWA mode implementado: app completamente libre en Play Store (commit 191f8e4)
 
-**Estrategia de monetización Play Store decidida:**
-- Solo plan anual a USD $7/año via Google Play Billing (implementar después del lanzamiento inicial)
+**Estrategia de monetización Play Store:**
+- Lanzamiento inicial **completamente gratuito** (sin IAP)
+- Futuro: Google Play Billing (Digital Goods API) para suscripción anual a USD $7 — implementar después de tener datos de uso reales
 - Web mantiene precios actuales (ARS $3.500/mes, ARS $28.000/año)
-- Play Store favorece migración por precio
 
 **Bloqueante actual:** Play Console con errores 536E305D / 76D65B8C (problema de Google). Pendiente obtener SHA-256 del certificado de firma desde Configuración → Integridad de la app.
 
