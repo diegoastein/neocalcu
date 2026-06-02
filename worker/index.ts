@@ -1274,12 +1274,22 @@ export default {
     if (url.pathname === '/.well-known/assetlinks.json') {
       const assetLinks = [
         {
+          // Play Store (AAB subido a Google) — package con doble l
+          relation: ['delegate_permission/common.handle_all_urls'],
+          target: {
+            namespace: 'android_app',
+            package_name: 'pro.neocalcul.twa',
+            sha256_cert_fingerprints: [
+              'ED:40:8D:92:44:E2:A0:B8:D5:6F:EF:77:24:D4:6C:CD:A9:07:84:E3:A9:45:AC:53:B9:CE:41:9C:66:94:11:6E',
+            ],
+          },
+        },
+        {
+          // APK sideloaded (build local con bubblewrap) — package con una l
           relation: ['delegate_permission/common.handle_all_urls'],
           target: {
             namespace: 'android_app',
             package_name: 'pro.neocalcu.twa',
-            // SHA-256 se obtiene de Play Console → tu app → Configuración → Integridad de la app
-            // Upload key (APK directo/sideload). Agregar el de Google Play App Signing cuando Play Console funcione.
             sha256_cert_fingerprints: [
               'F3:DA:75:49:2B:C1:8C:B2:41:53:A5:A6:0C:3A:FC:A5:50:D6:72:5E:39:1A:B3:C0:26:69:00:57:66:82:A7:8F',
             ],
