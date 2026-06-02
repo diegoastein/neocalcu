@@ -1277,15 +1277,45 @@ export default {
           relation: ['delegate_permission/common.handle_all_urls'],
           target: {
             namespace: 'android_app',
-            package_name: 'pro.neocalcul.twa',
+            package_name: 'pro.neocalcu.twa',
             // SHA-256 se obtiene de Play Console → tu app → Configuración → Integridad de la app
-            sha256_cert_fingerprints: ['PENDIENTE_SHA256_GOOGLE_PLAY_APP_SIGNING'],
+            // Upload key (APK directo/sideload). Agregar el de Google Play App Signing cuando Play Console funcione.
+            sha256_cert_fingerprints: [
+              'F3:DA:75:49:2B:C1:8C:B2:41:53:A5:A6:0C:3A:FC:A5:50:D6:72:5E:39:1A:B3:C0:26:69:00:57:66:82:A7:8F',
+            ],
           },
         },
       ];
       return new Response(JSON.stringify(assetLinks, null, 2), {
         headers: {
           'Content-Type': 'application/json',
+          'Cache-Control': 'public, max-age=3600',
+        },
+      });
+    }
+
+    // ── Manifest PWA (reescrito para TWA: scope y start_url correctos) ──────
+    if (url.pathname === '/manifest.webmanifest' || url.pathname === '/neocalcu/manifest.webmanifest') {
+      const manifest = {
+        name: 'NeoCalcu - Calculadora Neonatal',
+        short_name: 'NeoCalcu',
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#ecfdf5',
+        lang: 'es',
+        scope: '/',
+        description: 'Calculadora médica bedside para neonatología',
+        theme_color: '#065f46',
+        orientation: 'portrait',
+        icons: [
+          { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'icon-512-maskable.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+      };
+      return new Response(JSON.stringify(manifest), {
+        headers: {
+          'Content-Type': 'application/manifest+json',
           'Cache-Control': 'public, max-age=3600',
         },
       });
@@ -1356,7 +1386,7 @@ export default {
 
     // Proxy neocalcu.pro/* → GitHub Pages (necesario para TWA/assetlinks)
     if (request.headers.get('host')?.includes('neocalcu.pro')) {
-      const path = url.pathname === '/' ? '/neocalcu/' : '/neocalcu' + url.pathname;
+      const path = url.pathname === '/' ? '/neocalcu/' : url.pathname;
       const githubUrl = 'https://diegoastein.github.io' + path + (url.search || '');
       const res = await fetch(githubUrl, { headers: { 'User-Agent': request.headers.get('User-Agent') || '' } });
       return new Response(res.body, {
