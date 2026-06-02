@@ -20,6 +20,7 @@ import SubscriptionModal from './components/SubscriptionModal';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
 import { UIProvider } from './context/UIContext';
+import { isPlayStoreTWA } from './utils/platform';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -187,9 +188,9 @@ function AppContent() {
     setInstallPrompt(null);
   };
 
-  // Mostrar sheet de funciones premium al abrir si no hay membresía activa
+  // Mostrar sheet de funciones premium al abrir si no hay membresía activa (no en TWA)
   useEffect(() => {
-    if (!membership.active) {
+    if (!membership.active && !isPlayStoreTWA) {
       const t = setTimeout(() => setShowPremiumSheet(true), 600);
       return () => clearTimeout(t);
     }
@@ -249,6 +250,8 @@ function AppContent() {
             </svg>
             <span>¡Gracias!</span>
           </div>
+        ) : isPlayStoreTWA ? (
+          <div className="w-8 h-8" aria-hidden />
         ) : (
           <button
             onClick={() => { trackEvent('click_apoyar', { source: 'header' }); setShowSubscriptionModal(true); }}
@@ -323,7 +326,7 @@ function AppContent() {
         />
       )}
 
-      {showToast && (
+      {showToast && !isPlayStoreTWA && (
         <DonationToast
           onDonate={() => { trackEvent('click_apoyar', { source: 'toast' }); setShowSubscriptionModal(true); }}
           onDismiss={dismissToast}
@@ -356,7 +359,7 @@ function AppContent() {
         />
       )}
 
-      {showSubscriptionModal && (
+      {showSubscriptionModal && !isPlayStoreTWA && (
         <SubscriptionModal
           onClose={() => setShowSubscriptionModal(false)}
           onArgentina={async (plan) => { await handleDonate(plan); }}

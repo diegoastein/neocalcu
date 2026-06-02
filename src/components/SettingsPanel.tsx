@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import DisclaimerModal from './DisclaimerModal';
 import { RedeemResult, RecoverResult, RecoverByCouponResult, MembershipInfo } from '../hooks/useDonationReminder';
+import { isPlayStoreTWA } from '../utils/platform';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -301,15 +302,25 @@ export default function SettingsPanel({
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <button
-                  onClick={() => { onClose(); onDonate(); }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors"
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
-                    <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
-                  </svg>
-                  Suscripción NeoCalcu Pro
-                </button>
+                {isPlayStoreTWA ? (
+                  <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-2.5">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Para suscribirte, visitá{' '}
+                      <span className="font-semibold text-brand-700 dark:text-brand-400">neocalcu.pro</span>{' '}
+                      desde el navegador de tu teléfono.
+                    </p>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => { onClose(); onDonate(); }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
+                      <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+                    </svg>
+                    Suscripción NeoCalcu Pro
+                  </button>
+                )}
 
                 {/* Cupón */}
                 <button
