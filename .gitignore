@@ -24,6 +24,11 @@ Thumbs.db
 # Screenshots for Claude (not committed)
 capturas/
 
+# Android / Play Store (no commitear)
+*.keystore
+*.aab
+*.apk
+
 # Logs
 *.log
 npm-debug.log*

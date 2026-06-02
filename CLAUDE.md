@@ -349,20 +349,27 @@ La app es freemium. El core clínico es gratuito; las funciones de productividad
 ### Google Play Store
 Ver `docs/ROADMAP_PLAYSTORE.md`. Publicar gratis sin flujo de pago interno (MercadoPago viola política de Google); suscriptores se desbloquean vía `device_id`.
 
-**Estado de implementación (2026-06-01):**
+**Estado de implementación (2026-06-02):**
 
-Fase 1 casi completa — commit `657e972`:
-- `public/icon-512-maskable.png` — ícono maskable con safe zone (fondo `#065f46`, logo al 72%). `sharp` instalado como devDependency.
-- `vite.config.ts` — manifest apunta `purpose: 'maskable'` al nuevo ícono separado.
-- `worker/index.ts` — endpoints `GET /privacy` (política de privacidad HTML) y `GET /.well-known/assetlinks.json` (SHA-256 placeholder, se completa tras subir AAB a Play Console).
-- `.github/workflows/build-android.yml` — workflow manual para compilar AAB firmado (requiere secrets `KEYSTORE_BASE64` + `KEYSTORE_PASSWORD` en GitHub).
+Fase 2 completa:
+- DNS `neocalcu.pro` migrado de Hostinger a Cloudflare (nameservers: `louis.ns.cloudflare.com`, `ullis.ns.cloudflare.com`)
+- Worker actualizado: proxea `neocalcu.pro/*` a GitHub Pages (en lugar de redirect 301) — necesario para que el TWA cargue la app
+- `worker/wrangler.toml` — ruta `neocalcu.pro/*` activa con `zone_name`
+- `worker/index.ts` — CORS incluye `https://neocalcu.pro`
+- AAB generado con bubblewrap en GitHub Codespaces — Package ID: `pro.neocalcul.twa`, alias: `neocalcu-key`
+- App creada en Play Console (pruebas internas), AAB v2 subido
+- Archivos guardados localmente: `app-release-bundle.aab`, `app-release-signed.apk`, `neocalcu-key.keystore`
 
-**Bloqueante actual:** `neocalcu.pro` está en Hostinger y no figura como zona en Cloudflare. Migrar DNS a Cloudflare es prerequisito para que `neocalcu.pro/privacy` y `neocalcu.pro/.well-known/assetlinks.json` funcionen.
+**Estrategia de monetización Play Store decidida:**
+- Solo plan anual a USD $7/año via Google Play Billing (implementar después del lanzamiento inicial)
+- Web mantiene precios actuales (ARS $3.500/mes, ARS $28.000/año)
+- Play Store favorece migración por precio
+
+**Bloqueante actual:** Play Console con errores 536E305D / 76D65B8C (problema de Google). Pendiente obtener SHA-256 del certificado de firma desde Configuración → Integridad de la app.
 
 **Próximos pasos en orden:**
-1. Migrar DNS `neocalcu.pro` de Hostinger a Cloudflare (manual, usuario)
-2. Agregar ruta `neocalcu.pro/*` en `worker/wrangler.toml` y redeploy del Worker
-3. Fase 2: `bubblewrap init --manifest https://neocalcu.pro/manifest.webmanifest` en GitHub Codespaces (Package ID: `pro.neocalcul.twa`, alias: `neocalcu-key`) → descargar y guardar `signing.keystore`
-4. Cargar secrets en GitHub → correr workflow → obtener AAB
-5. Subir AAB a Play Console → obtener SHA-256 → actualizar placeholder en `worker/index.ts`
-6. Screenshots Android (4-5 capturas) + completar listing en Play Console
+1. Cuando Play Console funcione: ir a Configuración → Integridad de la app → copiar SHA-256
+2. Actualizar placeholder en `worker/index.ts` → `/.well-known/assetlinks.json` → redeploy Worker
+3. Completar listing en Play Console: descripción, screenshots Android (4-5 capturas), categoría (Medicina)
+4. Publicar en pruebas internas → luego producción
+5. Implementar Google Play Billing (Digital Goods API) para suscripción anual USD $7

@@ -1354,9 +1354,15 @@ export default {
       });
     }
 
-    // Redirect neocalcu.pro/* → GitHub Pages
+    // Proxy neocalcu.pro/* → GitHub Pages (necesario para TWA/assetlinks)
     if (request.headers.get('host')?.includes('neocalcu.pro')) {
-      return Response.redirect('https://diegoastein.github.io/neocalcu/', 301);
+      const path = url.pathname === '/' ? '/neocalcu/' : '/neocalcu' + url.pathname;
+      const githubUrl = 'https://diegoastein.github.io' + path + (url.search || '');
+      const res = await fetch(githubUrl, { headers: { 'User-Agent': request.headers.get('User-Agent') || '' } });
+      return new Response(res.body, {
+        status: res.status,
+        headers: res.headers,
+      });
     }
 
     return new Response('Not found', { status: 404 });
