@@ -39,7 +39,7 @@ interface CouponRecord {
   usedAt?: number;
 }
 
-const ALLOWED_ORIGINS = ['https://diegoastein.github.io'];
+const ALLOWED_ORIGINS = ['https://diegoastein.github.io', 'https://neocalcu.pro'];
 const MP_API = 'https://api.mercadopago.com';
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
@@ -1352,6 +1352,11 @@ export default {
       return new Response(html, {
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
       });
+    }
+
+    // Redirect neocalcu.pro/* → GitHub Pages
+    if (request.headers.get('host')?.includes('neocalcu.pro')) {
+      return Response.redirect('https://diegoastein.github.io/neocalcu/', 301);
     }
 
     return new Response('Not found', { status: 404 });

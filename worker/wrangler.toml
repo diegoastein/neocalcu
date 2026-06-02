@@ -2,11 +2,15 @@ name = "neocalcu-donations"
 main = "index.ts"
 compatibility_date = "2024-11-01"
 
+workers_dev = true
+
+routes = [
+  { pattern = "neocalcu.pro/*", zone_name = "neocalcu.pro" }
+]
+
 [[kv_namespaces]]
 binding = "DONATIONS_KV"
 id = "594254b8fb874cea90ae91bb21fa52ad"
-
-workers_dev = true
 
 [triggers]
 crons = ["0 12 * * *"]
