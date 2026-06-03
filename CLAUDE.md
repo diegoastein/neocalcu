@@ -367,15 +367,17 @@ export const isPlayStoreTWA: boolean =
 
 En la web (`neocalcu.pro`) todo funciona igual — `isPlayStoreTWA` es `false` y el sistema freemium opera con normalidad.
 
-**Estado de implementación (2026-06-02):**
+**Estado de implementación (2026-06-03):**
 
-Fase 2 completa:
+Todo completo hasta prueba cerrada:
 - DNS `neocalcu.pro` migrado de Hostinger a Cloudflare (nameservers: `louis.ns.cloudflare.com`, `ullis.ns.cloudflare.com`)
-- Worker actualizado: proxea `neocalcu.pro/*` a GitHub Pages (en lugar de redirect 301) — necesario para que el TWA cargue la app
+- Worker actualizado: proxea `neocalcu.pro/*` a GitHub Pages — necesario para que el TWA cargue la app
 - `worker/wrangler.toml` — ruta `neocalcu.pro/*` activa con `zone_name`
 - `worker/index.ts` — CORS incluye `https://neocalcu.pro`
-- AAB generado con bubblewrap en GitHub Codespaces — Package ID: `pro.neocalcul.twa`, alias: `neocalcu-key`
-- App creada en Play Console (pruebas internas), AAB v2 subido
+- SHA-256 de Google App Signing actualizado en `assetlinks.json` (commit 9b741f8)
+- AAB v3 generado con bubblewrap en GitHub Codespaces — Package ID: `pro.neocalcul.twa`, alias: `neocalcu-key`
+- `twa-manifest.json` — íconos apuntan a `https://diegoastein.github.io/neocalcu/` (el proxy de neocalcu.pro daba 404 al compilar)
+- App en **prueba cerrada (Alpha)** en Play Console — listing completo, AAB v3 (versionCode 3) subido
 - Archivos guardados localmente: `app-release-bundle.aab`, `app-release-signed.apk`, `neocalcu-key.keystore`
 - TWA mode implementado: app completamente libre en Play Store (commit 191f8e4)
 
@@ -384,11 +386,10 @@ Fase 2 completa:
 - Futuro: Google Play Billing (Digital Goods API) para suscripción anual a USD $7 — implementar después de tener datos de uso reales
 - Web mantiene precios actuales (ARS $3.500/mes, ARS $28.000/año)
 
-**Bloqueante actual:** Play Console con errores 536E305D / 76D65B8C (problema de Google). Pendiente obtener SHA-256 del certificado de firma desde Configuración → Integridad de la app.
+**Requisito para producción:** Google exige mínimo **12 testers en prueba cerrada durante 14 días consecutivos** antes de habilitar el track de producción.
 
 **Próximos pasos en orden:**
-1. Cuando Play Console funcione: ir a Configuración → Integridad de la app → copiar SHA-256
-2. Actualizar placeholder en `worker/index.ts` → `/.well-known/assetlinks.json` → redeploy Worker
-3. Completar listing en Play Console: descripción, screenshots Android (4-5 capturas), categoría (Medicina)
-4. Publicar en pruebas internas → luego producción
-5. Implementar Google Play Billing (Digital Goods API) para suscripción anual USD $7
+1. Conseguir 12 testers para la prueba cerrada (colegas, residentes, gente del hospital)
+2. Esperar 14 días con los testers activos
+3. Promover a producción
+4. Implementar Google Play Billing (Digital Goods API) para suscripción anual USD $7
