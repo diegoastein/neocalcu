@@ -21,12 +21,14 @@ interface MPPaymentRaw {
 interface DonationRecord {
   ts: number;
   plan: 'mensual' | 'anual';
+  durationMs?: number;
 }
 
 interface EmailRecord {
   deviceId: string;
   ts: number;
   plan: 'mensual' | 'anual';
+  durationMs?: number;
 }
 
 interface CouponRecord {
@@ -42,6 +44,7 @@ interface CouponRecord {
 const ALLOWED_ORIGINS = ['https://diegoastein.github.io', 'https://neocalcu.pro'];
 const MP_API = 'https://api.mercadopago.com';
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+const THREE_MONTHS_MS = 90 * 24 * 60 * 60 * 1000;
 const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
 function corsHeaders(origin: string): HeadersInit {
@@ -82,7 +85,7 @@ function parseDonationRecord(value: string): DonationRecord {
 }
 
 function isMembershipActive(record: DonationRecord): boolean {
-  const duration = record.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+  const duration = record.durationMs ?? (record.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS);
   return Date.now() - record.ts < duration;
 }
 
@@ -185,9 +188,10 @@ Sin jerga técnica. Como se lo contarías a un colega.`,
   return prompts[tipo];
 }
 
-async function sendWelcomeEmail(email: string, plan: 'mensual' | 'anual', ts: number, env: Env, couponCode?: string): Promise<void> {
-  const planLabel = plan === 'anual' ? 'Anual' : 'Mensual';
-  const duration = plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+async function sendWelcomeEmail(email: string, plan: 'mensual' | 'anual', ts: number, env: Env, couponCode?: string, durationMs?: number): Promise<void> {
+  const isPromo = plan === 'mensual' && durationMs && durationMs > THIRTY_DAYS_MS;
+  const planLabel = plan === 'anual' ? 'Anual' : (isPromo ? 'Mensual · Promo 3×1' : 'Mensual');
+  const duration = durationMs ?? (plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS);
   const expiresDate = new Date(ts + duration);
   const expiresStr = expiresDate.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   const html = `
@@ -301,7 +305,7 @@ async function runRenewalReminders(env: Env): Promise<void> {
       if (!raw) return;
 
       const data = JSON.parse(raw) as EmailRecord;
-      const duration = data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+      const duration = data.durationMs ?? (data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS);
       const expiresAt = data.ts + duration;
 
       if (expiresAt < windowStart || expiresAt >= windowEnd) return;
@@ -412,13 +416,16 @@ export default {
         };
         if (payment.status === 'approved' && payment.external_reference) {
           const plan: 'mensual' | 'anual' = payment.transaction_amount >= 28000 ? 'anual' : 'mensual';
-          const record: DonationRecord = { ts: Date.now(), plan };
+          const promoRaw = await env.DONATIONS_KV.get('promo_3x1_active');
+          const promoActive = promoRaw === '1';
+          const durationMs = plan === 'mensual' && promoActive ? THREE_MONTHS_MS : undefined;
+          const record: DonationRecord = { ts: Date.now(), plan, ...(durationMs ? { durationMs } : {}) };
           await env.DONATIONS_KV.put(payment.external_reference, JSON.stringify(record));
           if (payment.payer?.email) {
             const emailKey = `email:${payment.payer.email.toLowerCase()}`;
-            const emailRecord: EmailRecord = { deviceId: payment.external_reference, ts: record.ts, plan };
+            const emailRecord: EmailRecord = { deviceId: payment.external_reference, ts: record.ts, plan, ...(durationMs ? { durationMs } : {}) };
             await env.DONATIONS_KV.put(emailKey, JSON.stringify(emailRecord));
-            await sendWelcomeEmail(payment.payer.email.toLowerCase(), plan, record.ts, env);
+            await sendWelcomeEmail(payment.payer.email.toLowerCase(), plan, record.ts, env, undefined, durationMs);
           }
         }
       }
@@ -438,7 +445,7 @@ export default {
       const value = await env.DONATIONS_KV.get(device);
       if (value) {
         const record = parseDonationRecord(value);
-        return new Response(JSON.stringify({ donated: true, timestamp: record.ts.toString(), plan: record.plan }), {
+        return new Response(JSON.stringify({ donated: true, timestamp: record.ts.toString(), plan: record.plan, ...(record.durationMs ? { durationMs: record.durationMs } : {}) }), {
           headers: { 'Content-Type': 'application/json', ...cors },
         });
       }
@@ -540,7 +547,7 @@ export default {
       }
 
       const emailRecord = JSON.parse(raw) as EmailRecord;
-      const record: DonationRecord = { ts: emailRecord.ts, plan: emailRecord.plan };
+      const record: DonationRecord = { ts: emailRecord.ts, plan: emailRecord.plan, ...(emailRecord.durationMs ? { durationMs: emailRecord.durationMs } : {}) };
 
       // Copiar datos de usuario del dispositivo anterior al nuevo
       let userData: { favorites: string[]; notes: Record<string, string> } | null = null;
@@ -564,6 +571,7 @@ export default {
         success: true,
         plan: record.plan,
         timestamp: record.ts.toString(),
+        ...(record.durationMs ? { durationMs: record.durationMs } : {}),
         ...(userData ? { userData } : {}),
       }), {
         headers: { 'Content-Type': 'application/json', ...cors },
@@ -658,9 +666,9 @@ export default {
         });
       }
 
-      const emailRecord: EmailRecord = { deviceId: device, ts: record.ts, plan: record.plan };
+      const emailRecord: EmailRecord = { deviceId: device, ts: record.ts, plan: record.plan, ...(record.durationMs ? { durationMs: record.durationMs } : {}) };
       await env.DONATIONS_KV.put(`email:${email}`, JSON.stringify(emailRecord));
-      await sendWelcomeEmail(email, record.plan, record.ts, env);
+      await sendWelcomeEmail(email, record.plan, record.ts, env, undefined, record.durationMs);
 
       return new Response(JSON.stringify({ success: true }), {
         headers: { 'Content-Type': 'application/json', ...cors },
@@ -709,6 +717,14 @@ export default {
           headers: { 'Content-Type': 'application/json', ...cors },
         });
       }
+    }
+
+    // ── Estado de promoción activa ────────────────────────────────────────
+    if (url.pathname === '/promo-status' && request.method === 'GET') {
+      const promoRaw = await env.DONATIONS_KV.get('promo_3x1_active');
+      return new Response(JSON.stringify({ promo3x1: promoRaw === '1' }), {
+        headers: { 'Content-Type': 'application/json', ...cors },
+      });
     }
 
     // ══════════════════════════════════════════════════════════════════════
@@ -1003,8 +1019,8 @@ export default {
           const raw = await env.DONATIONS_KV.get(key.name);
           if (!raw) return null;
           const data = JSON.parse(raw) as EmailRecord;
-          const record: DonationRecord = { ts: data.ts, plan: data.plan };
-          const duration = data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+          const record: DonationRecord = { ts: data.ts, plan: data.plan, ...(data.durationMs ? { durationMs: data.durationMs } : {}) };
+          const duration = data.durationMs ?? (data.plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS);
           const viaCoupon = couponDeviceIds.has(data.deviceId);
           return {
             email,
@@ -1266,6 +1282,36 @@ export default {
       await sendWelcomeEmail(email, record.plan, record.ts, env);
 
       return new Response(JSON.stringify({ ok: true }), {
+        headers: { 'Content-Type': 'application/json', ...adminCors },
+      });
+    }
+
+    // ── Admin: toggle promo 3×1 ──────────────────────────────────────────────
+    if (url.pathname === '/admin/promo' && request.method === 'POST') {
+      if (!checkAdminAuth(request, url, env)) {
+        return new Response(JSON.stringify({ error: 'unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      const key = url.searchParams.get('key');
+      const value = url.searchParams.get('value');
+
+      if (key !== 'promo_3x1_active' || (value !== '0' && value !== '1')) {
+        return new Response(JSON.stringify({ error: 'invalid_params' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...adminCors },
+        });
+      }
+
+      if (value === '1') {
+        await env.DONATIONS_KV.put('promo_3x1_active', '1');
+      } else {
+        await env.DONATIONS_KV.delete('promo_3x1_active');
+      }
+
+      return new Response(JSON.stringify({ ok: true, promo3x1: value === '1' }), {
         headers: { 'Content-Type': 'application/json', ...adminCors },
       });
     }

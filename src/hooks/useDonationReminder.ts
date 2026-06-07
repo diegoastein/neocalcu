@@ -6,6 +6,7 @@ const WORKER_URL = 'https://neocalcu-donations.diegosteinberg.workers.dev';
 const OPEN_COUNT_KEY = 'neo_open_count';
 const DONATED_AT_KEY = 'neo_donated_at';
 const DONATED_PLAN_KEY = 'neo_donated_plan';
+const DONATED_DURATION_MS_KEY = 'neo_donated_duration_ms';
 const DEVICE_ID_KEY = 'neo_device_id';
 const EMAIL_REGISTERED_KEY = 'neo_email_registered';
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
@@ -20,12 +21,17 @@ function getOrCreateDeviceId(): string {
   return id;
 }
 
+function getStoredDuration(plan: string): number {
+  const stored = localStorage.getItem(DONATED_DURATION_MS_KEY);
+  if (stored) return parseInt(stored);
+  return plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+}
+
 function isDonationActive(): boolean {
   const donatedAt = localStorage.getItem(DONATED_AT_KEY);
   if (!donatedAt) return false;
   const plan = localStorage.getItem(DONATED_PLAN_KEY) ?? 'mensual';
-  const duration = plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
-  return Date.now() - parseInt(donatedAt) < duration;
+  return Date.now() - parseInt(donatedAt) < getStoredDuration(plan);
 }
 
 export interface MembershipInfo {
@@ -38,7 +44,7 @@ function getMembershipInfo(): MembershipInfo {
   const donatedAt = localStorage.getItem(DONATED_AT_KEY);
   if (!donatedAt) return { active: false, plan: null, expiresAt: null };
   const plan = (localStorage.getItem(DONATED_PLAN_KEY) ?? 'mensual') as 'mensual' | 'anual';
-  const duration = plan === 'anual' ? ONE_YEAR_MS : THIRTY_DAYS_MS;
+  const duration = getStoredDuration(plan);
   const ts = parseInt(donatedAt);
   const active = Date.now() - ts < duration;
   return { active, plan, expiresAt: new Date(ts + duration) };
@@ -48,6 +54,7 @@ interface VerifyResponse {
   donated: boolean;
   timestamp?: string;
   plan?: 'mensual' | 'anual';
+  durationMs?: number;
 }
 
 interface CreatePaymentResponse {
@@ -119,6 +126,7 @@ export function useDonationReminder() {
         if (data.donated) {
           localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
           if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
+          if (data.durationMs) localStorage.setItem(DONATED_DURATION_MS_KEY, data.durationMs.toString());
           refreshMembership();
         } else if (count % 3 === 0) {
           setShowToast(true);
@@ -171,6 +179,7 @@ export function useDonationReminder() {
       if (data.donated) {
         localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
         if (data.plan) localStorage.setItem(DONATED_PLAN_KEY, data.plan);
+        if (data.durationMs) localStorage.setItem(DONATED_DURATION_MS_KEY, data.durationMs.toString());
         trackEvent('payment_success', { plan: data.plan ?? 'mensual' });
         setShowToast(false);
         refreshMembership();
@@ -217,10 +226,11 @@ export function useDonationReminder() {
     try {
       const deviceId = getOrCreateDeviceId();
       const res = await fetch(`${WORKER_URL}/recuperar?device=${deviceId}&email=${encodeURIComponent(email.trim().toLowerCase())}`);
-      const data = await res.json() as { success: boolean; error?: string; plan?: 'mensual' | 'anual'; timestamp?: string; userData?: UserData };
+      const data = await res.json() as { success: boolean; error?: string; plan?: 'mensual' | 'anual'; timestamp?: string; durationMs?: number; userData?: UserData };
       if (data.success) {
         localStorage.setItem(DONATED_AT_KEY, data.timestamp ?? Date.now().toString());
         localStorage.setItem(DONATED_PLAN_KEY, data.plan ?? 'mensual');
+        if (data.durationMs) localStorage.setItem(DONATED_DURATION_MS_KEY, data.durationMs.toString());
         // Restaurar favoritos y notas si el worker los devolvió
         if (data.userData) {
           if (data.userData.favorites?.length) {

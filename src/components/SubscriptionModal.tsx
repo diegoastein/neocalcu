@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { trackEvent } from '../utils/analytics';
+
+const WORKER_URL = 'https://neocalcu-donations.diegosteinberg.workers.dev';
 
 const TAKENOS = {
   mensual: 'https://app.takenos.com/pay/05547496-42c4-440c-877c-b1d3edafe33c',
@@ -39,7 +41,15 @@ function BackButton({ onClick }: { onClick: () => void }) {
 
 export default function SubscriptionModal({ onClose, onArgentina, loadingPlan }: Props) {
   const [region, setRegion] = useState<Region>(null);
+  const [promo3x1, setPromo3x1] = useState(false);
   const isLoading = loadingPlan !== null;
+
+  useEffect(() => {
+    fetch(`${WORKER_URL}/promo-status`)
+      .then(r => r.json())
+      .then((d: { promo3x1?: boolean }) => { if (d.promo3x1) setPromo3x1(true); })
+      .catch(() => {});
+  }, []);
 
   return (
     <div
@@ -102,13 +112,25 @@ export default function SubscriptionModal({ onClose, onArgentina, loadingPlan }:
                 <h2 className="text-base font-bold text-slate-800 dark:text-white">🇦🇷 Pago con MercadoPago</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Elegí tu plan</p>
               </div>
+              {promo3x1 && (
+                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-xl px-3 py-2 mb-1 text-xs text-center text-amber-800 dark:text-amber-300 font-medium">
+                  Promo especial: pagás 1 mes y accedés 3 meses
+                </div>
+              )}
               <div className="flex flex-col gap-2">
                 <button
                   onClick={() => onArgentina('mensual')}
                   disabled={isLoading}
                   className="w-full bg-brand-700 hover:bg-brand-800 disabled:opacity-60 text-white font-semibold rounded-xl py-3 text-sm transition-colors flex items-center justify-center gap-2"
                 >
-                  {loadingPlan === 'mensual' ? <><Spinner /> Preparando...</> : 'Mensual — $3.500'}
+                  {loadingPlan === 'mensual' ? (
+                    <><Spinner /> Preparando...</>
+                  ) : (
+                    <>
+                      <span>Mensual — $3.500</span>
+                      {promo3x1 && <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-md font-normal">3 meses</span>}
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={() => onArgentina('anual')}
