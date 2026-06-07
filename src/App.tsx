@@ -16,6 +16,7 @@ import EmailCaptureModal from './components/EmailCaptureModal';
 import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
 import OnboardingTooltip from './components/OnboardingTooltip';
 import PromoResidenciasOverlay, { PromoHeaderBadge } from './components/PromoResidenciasOverlay';
+import Promo3x1Overlay, { Promo3x1Badge } from './components/Promo3x1Overlay';
 import SubscriptionModal from './components/SubscriptionModal';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
@@ -98,6 +99,8 @@ function AppContent() {
     !localStorage.getItem('neo_onboarding_medicamentos') && !localStorage.getItem('neo_onboarding_done')
   );
   const [showPromoOverlay, setShowPromoOverlay] = useState(false);
+  const [promo3x1Active, setPromo3x1Active] = useState(false);
+  const [showPromo3x1Overlay, setShowPromo3x1Overlay] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(
     new URLSearchParams(window.location.search).has('preview_modal')
   );
@@ -113,6 +116,14 @@ function AppContent() {
     if (page === 'calculadoras') setFocusedCalculadoraId(itemId || null);
     setActivePage(page);
   };
+
+  useEffect(() => {
+    if (isPlayStoreTWA) return;
+    fetch('https://neocalcu-donations.diegosteinberg.workers.dev/promo-status')
+      .then(r => r.json())
+      .then((d: { promo3x1?: boolean }) => { if (d.promo3x1) setPromo3x1Active(true); })
+      .catch(() => {});
+  }, []);
 
   // Capture PWA install prompt (puede haber disparado antes de que React monte)
   useEffect(() => {
@@ -239,6 +250,9 @@ function AppContent() {
           </svg>
         </button>
         <PromoHeaderBadge onClick={() => setShowPromoOverlay(true)} />
+        {promo3x1Active && !membership.active && !isPlayStoreTWA && (
+          <Promo3x1Badge onClick={() => setShowPromo3x1Overlay(true)} />
+        )}
 
         {membership.active ? (
           <div
@@ -354,6 +368,17 @@ function AppContent() {
           onDonate={() => {
             setShowPromoOverlay(false);
             trackEvent('click_apoyar', { source: 'promo_residencias' });
+            setShowSubscriptionModal(true);
+          }}
+        />
+      )}
+
+      {showPromo3x1Overlay && (
+        <Promo3x1Overlay
+          onClose={() => setShowPromo3x1Overlay(false)}
+          onDonate={() => {
+            setShowPromo3x1Overlay(false);
+            trackEvent('click_apoyar', { source: 'promo_3x1' });
             setShowSubscriptionModal(true);
           }}
         />
