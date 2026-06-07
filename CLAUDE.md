@@ -105,7 +105,8 @@ Las funciones de cálculo de dosis viven en `src/utils/calculations.ts`:
 - **`ShareResultButton.tsx`** — Web Share API + fallback clipboard; feedback 2s; premium gate. Usado en `IntergrowthCalculator`, procedimientos y calculadoras.
 - **`IntergrowthCalculator.tsx`** — clasificador INTERGROWTH-21st completo. Inputs: EG (24–42s), sexo (≥33s), peso, longitud y PC. Tablas de percentiles P3/P10/P50/P90/P97 verificadas contra gigs R package (ropensci). Algoritmo Acklam para z-score. Clasificación PEG/AEG/GEG. Incluye `ShareResultButton`. Fuente: intergrowth21st.org.uk.
 - **`useDonationReminder.ts`** — lógica central de membresía. Con membresía en localStorage → no llama worker. Sin membresía → llama en cada apertura para restaurar automáticamente si el `device_id` sigue en KV.
-- **`PromoResidenciasOverlay.tsx`** — badge ámbar parpadeante + overlay modal para promos. Reutilizable: ajustar `EXPIRY` y texto. Visible para todos.
+- **`PromoResidenciasOverlay.tsx`** — badge ámbar parpadeante + overlay modal para promos con fecha fija. Reutilizable: ajustar `EXPIRY` y texto. Visible para todos.
+- **`Promo3x1Overlay.tsx`** — badge ámbar + overlay para la promo 3×1 (1 mes pago = 3 meses acceso). Controlado dinámicamente por KV (`promo_3x1_active`). Solo visible para no suscriptores fuera de TWA.
 - **`BottomNav.tsx`** — navegación inferior, 5 tabs, iconos SVG.
 
 ### Páginas y navegación
@@ -230,7 +231,7 @@ Metadatos opcionales:
 - **Variantes disponibles en tailwind.config.js**: 50, 100, 200, 300, 500, 700, 800, 900, 950. **No existen brand-400 ni brand-600** — usar brand-500 o brand-700 en su lugar o Tailwind las ignorará silenciosamente.
 - **Nunca usar `dark:bg-brand-950`** — usar `dark:bg-slate-800` como fondo oscuro estándar (brand-950 existe en el config pero puede tener problemas de cacheo en Vite)
 - Dark mode con tres modos: **Sistema** (sigue `prefers-color-scheme`), **Día**, **Noche** — controlado desde `SettingsPanel`. El estado `themeMode: 'system'|'light'|'dark'` persiste en `localStorage`
-- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + **zona central de avisos** (opcional, `PromoHeaderBadge` cuando hay promo activa) + elemento dinámico en vértice superior derecho: si la membresía está activa → badge verde con corazón "¡Gracias!" (no clickeable); si no → botón **"Suscripción"** (brand colors, ícono SVG de taza) que abre `SubscriptionModal`
+- Header superior: ícono hamburguesa (vértice superior izquierdo) que abre `SettingsPanel` + **zona central de avisos** (puede haber hasta dos badges: `PromoHeaderBadge` para promos con fecha fija, `Promo3x1Badge` para la promo 3×1 controlada por KV — solo cuando `promo_3x1_active=1` y el usuario no es suscriptor) + elemento dinámico en vértice superior derecho: si la membresía está activa → badge verde con corazón "¡Gracias!" (no clickeable); si no → botón **"Suscripción"** (brand colors, ícono SVG de taza) que abre `SubscriptionModal`
 - Resultados de dosis en texto grande y negrita — legibilidad bedside en condiciones de luz variable
 - Instrucción de enfermería siempre en un box con borde izquierdo verde — es lo que se transcribe a la indicación médica
 - Warnings clínicos (contraindicaciones, incompatibilidades) en rojo/ámbar prominente
@@ -255,12 +256,12 @@ La app tiene un sistema de donación verificado con backend real — no honor sy
 
 ### Worker (`worker/`)
 - Deployado en Cloudflare Workers: `https://neocalcu-donations.diegosteinberg.workers.dev`
-- **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /generar-cupon`, `GET /canjear-cupon` (devuelve `email` si el cupón lo tenía asignado), `GET /recuperar`, `GET /registrar-email`
-- **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `GET /admin/subscribers`, `POST /admin/generar-contenido`
+- **Endpoints públicos:** `GET /crear-pago`, `POST /webhook`, `GET /verificar`, `GET /promo-status`, `GET /generar-cupon`, `GET /canjear-cupon` (devuelve `email` si el cupón lo tenía asignado), `GET /recuperar`, `GET /registrar-email`
+- **Endpoints admin** (requieren `ADMIN_SECRET`): `GET /admin/stats`, `GET /admin/coupons`, `POST /admin/generar-cupon`, `GET /admin/subscribers`, `POST /admin/generar-contenido`, `POST /admin/promo`
 - Secrets configurados en Cloudflare: `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET`, `ADMIN_SECRET`, `ANTHROPIC_API_KEY`, `RESEND_API_KEY`
 - KV namespace: `DONATIONS_KV` (id: `594254b8fb874cea90ae91bb21fa52ad`)
 - CORS: endpoints públicos permiten `https://diegoastein.github.io` + localhost; endpoints admin permiten `*` (protegidos por secret)
-- Para redesployar: `CLOUDFLARE_API_TOKEN=... npx wrangler deploy --cwd worker`
+- Para redesployar: `CLOUDFLARE_API_TOKEN=... npx wrangler deploy --cwd worker` (requiere Node.js ≥ 22 — usar `nvm use 22`)
 
 ### Emails automáticos (Resend)
 Todos los emails se envían desde `info@neomonitor.pro` vía Resend. Aplican tanto a suscriptores pagos como a usuarios con cupón.
@@ -280,11 +281,41 @@ Incluye: tipo de plan, fecha de vencimiento, lista completa de funciones premium
 - Toast cada **3 aperturas** (editar `% 3` en `src/hooks/useDonationReminder.ts`)
 - Supresión de **30 días** tras donación verificada (`THIRTY_DAYS_MS` en el hook)
 
+### Promo 3×1 (1 mes pago = 3 meses de acceso)
+
+La promo se activa y desactiva **sin deploy**, escribiendo una clave en KV desde el terminal.
+
+**Activar:**
+```bash
+curl -X POST "https://neocalcu-donations.diegosteinberg.workers.dev/admin/promo?key=promo_3x1_active&value=1&secret=ADMIN_SECRET"
+```
+
+**Desactivar:**
+```bash
+curl -X POST "https://neocalcu-donations.diegosteinberg.workers.dev/admin/promo?key=promo_3x1_active&value=0&secret=ADMIN_SECRET"
+```
+
+**Verificar estado actual:**
+```bash
+curl "https://neocalcu-donations.diegosteinberg.workers.dev/promo-status"
+# → {"promo3x1":true} o {"promo3x1":false}
+```
+
+Cuando está activa:
+- El webhook guarda `durationMs = 90 días` en el `DonationRecord` del KV para pagos mensuales con MercadoPago
+- `SubscriptionModal` muestra un banner y badge "3 meses" en el plan mensual (fetcha `/promo-status` al montar)
+- `Promo3x1Badge` aparece en el header para no suscriptores; al tocarlo abre `Promo3x1Overlay`
+- El email de bienvenida dice "Mensual · Promo 3×1" con la fecha de vencimiento correcta (3 meses)
+- `useDonationReminder` guarda `neo_donated_duration_ms` en localStorage para que el cliente calcule el vencimiento correctamente sin necesitar el worker
+
+La promo **no aplica** a cupones ni a Takenos — solo a pagos MercadoPago plan mensual.
+
 ### localStorage keys
 - `neo_device_id` — UUID del dispositivo
 - `neo_open_count` — contador de aperturas
 - `neo_donated_at` — timestamp de última donación verificada
 - `neo_donated_plan` — plan activo (`mensual` | `anual`)
+- `neo_donated_duration_ms` — duración real de la suscripción en ms (puede diferir del plan si hubo promo activa al momento del pago)
 - `neo_email_registered` — `'1'` si el usuario ya registró su email; se setea automáticamente si el cupón tenía email asignado desde el admin
 
 ## Dashboard admin (`neocalcu-admin`)
