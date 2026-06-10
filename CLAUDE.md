@@ -162,6 +162,8 @@ Fuentes: Hospital Garrahan (primaria), Harriet Lane 23ª ed., Gomella 8ª ed., C
 
 **Instalación PWA desde la app**: `App.tsx` captura el evento `beforeinstallprompt` y expone `handleInstall()` al `SettingsPanel`. El botón de instalación solo aparece cuando el evento está disponible (`canInstall = true`).
 
+**Actualización automática**: `src/main.tsx` escucha el evento `controllerchange` del SW — cuando un nuevo service worker toma el control, recarga la página automáticamente. Esto garantiza que las PWAs instaladas reciban los cambios sin intervención del usuario.
+
 ## Lógica de dosificación
 
 ### Drogas en bolo (`dosingRules`)
