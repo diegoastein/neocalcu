@@ -67,6 +67,22 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
     selectedRule.unit.toLowerCase().includes('mg') && !selectedRule.unit.includes('%') && !selectedRule.unit.toLowerCase().includes('ml')
       ? parseFloat((selectedRule.dosePerKg / (drug.preparation?.concentrationMgMl ?? 1)).toFixed(2))
       : null;
+  const categoryLabels: Record<string, string> = {
+    antibiotico: 'Antibiótico',
+    antiviral: 'Antiviral',
+    antifungico: 'Antifúngico',
+    cardiovascular: 'Cardiovascular',
+    analgesico_sedante: 'Analgésico/Sedante',
+    diuretico: 'Diurético',
+    surfactante: 'Surfactante',
+    respiratorio: 'Respiratorio',
+    emergencia: 'Emergencia',
+    vitaminas_electrolitos: 'Vitaminas y Electrolitos',
+    inmunologico: 'Inmunológico',
+    nutricion: 'Nutrición',
+    otros: 'Otros',
+  };
+
   const categoryBadgeColor: { [key: string]: string } = {
     antibiotico: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
     antiviral: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
@@ -78,6 +94,8 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
     respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200',
     emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-200',
     vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200',
+    inmunologico: 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
+    nutricion: 'bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200',
   };
 
   return (
@@ -91,7 +109,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
             <div className="flex flex-wrap gap-2 mt-2">
               {drug.category.map((cat) => (
                 <span key={cat} className={`text-xs font-semibold px-2 py-1 rounded ${categoryBadgeColor[cat] || 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'}`}>
-                  {cat}
+                  {categoryLabels[cat] || cat}
                 </span>
               ))}
             </div>

@@ -2058,8 +2058,7 @@
       "name": "Acetaminofeno",
       "genericName": "Acetaminophen",
       "category": [
-        "analgesic",
-        "antipyretic"
+        "analgesico_sedante"
       ],
       "indications": [
         "Dolor leve a moderado",
@@ -2103,8 +2102,7 @@
       "name": "Acetazolamida",
       "genericName": "Acetazolamide",
       "category": [
-        "diuretic",
-        "carbonic_anhydrase_inhibitor"
+        "diuretico"
       ],
       "indications": [
         "Alcalosis metabólica",
@@ -2137,7 +2135,7 @@
       "name": "Adenosina",
       "genericName": "Adenosine",
       "category": [
-        "antiarrhythmic"
+        "cardiovascular"
       ],
       "indications": [
         "Taquicardia supraventricular",
@@ -2168,8 +2166,7 @@
       "name": "Albumina",
       "genericName": "Albumin (Human)",
       "category": [
-        "colloid",
-        "plasma_expander"
+        "vitaminas_electrolitos"
       ],
       "indications": [
         "Hipoalbuminemia",
@@ -2200,8 +2197,7 @@
       "name": "Albuterol",
       "genericName": "Albuterol (Salbutamol)",
       "category": [
-        "bronchodilator",
-        "beta2_agonist"
+        "respiratorio"
       ],
       "indications": [
         "Broncoespasmo",
@@ -2232,7 +2228,7 @@
       "name": "Alteplasa",
       "genericName": "Alteplase",
       "category": [
-        "thrombolytic"
+        "cardiovascular"
       ],
       "indications": [
         "Trombosis neonatal",
@@ -2263,7 +2259,7 @@
       "name": "Ácido aminocaproico",
       "genericName": "Aminocaproic Acid",
       "category": [
-        "fibrinolysis_inhibitor"
+        "cardiovascular"
       ],
       "indications": [
         "Sangrado con hiperfibrinólisis",
@@ -2294,8 +2290,7 @@
       "name": "Aminofilina",
       "genericName": "Aminophylline",
       "category": [
-        "bronchodilator",
-        "theophylline"
+        "respiratorio"
       ],
       "indications": [
         "Apnea del prematuro",
@@ -2327,7 +2322,7 @@
       "name": "Amiodarona",
       "genericName": "Amiodarone",
       "category": [
-        "antiarrhythmic"
+        "cardiovascular"
       ],
       "indications": [
         "Arritmias supraventriculares refractarias",
@@ -2358,8 +2353,7 @@
       "name": "Amoxicilina",
       "genericName": "Amoxicillin",
       "category": [
-        "antibiotic",
-        "penicillin"
+        "antibiotico"
       ],
       "indications": [
         "Infecciones gram-positivas",
@@ -2391,7 +2385,7 @@
       "name": "Anfotericina B Complejo Lipídico",
       "genericName": "Amphotericin B Lipid Complex",
       "category": [
-        "antifungal"
+        "antifungico"
       ],
       "indications": [
         "Candidemia",
@@ -2422,7 +2416,7 @@
       "name": "Anfotericina B Liposomal",
       "genericName": "Amphotericin B Liposome",
       "category": [
-        "antifungal"
+        "antifungico"
       ],
       "indications": [
         "Candidemia",
@@ -2453,7 +2447,7 @@
       "name": "Anfotericina B",
       "genericName": "Amphotericin B",
       "category": [
-        "antifungal"
+        "antifungico"
       ],
       "indications": [
         "Candidemia neonatal",
@@ -2484,8 +2478,7 @@
       "name": "Anidulafungina",
       "genericName": "Anidulafungin",
       "category": [
-        "antifungal",
-        "echinocandin"
+        "antifungico"
       ],
       "indications": [
         "Candidemia",
@@ -2516,8 +2509,7 @@
       "name": "Arginina",
       "genericName": "Arginine",
       "category": [
-        "amino_acid",
-        "supplement"
+        "vitaminas_electrolitos"
       ],
       "indications": [
         "Hipergicinemia",
@@ -2548,8 +2540,7 @@
       "name": "Ácido Ascórbico",
       "genericName": "Ascorbic Acid",
       "category": [
-        "vitamin",
-        "antioxidant"
+        "vitaminas_electrolitos"
       ],
       "indications": [
         "Deficiencia de vitamina C",
@@ -2581,8 +2572,8 @@
       "name": "Aspirina",
       "genericName": "Aspirin",
       "category": [
-        "nsaid",
-        "antiplatelet"
+        "analgesico_sedante",
+        "cardiovascular"
       ],
       "indications": [
         "Profilaxis trombótica",
@@ -2614,7 +2605,7 @@
       "name": "Atropina",
       "genericName": "Atropine",
       "category": [
-        "anticholinergic"
+        "otros"
       ],
       "indications": [
         "Bradicardia sintomática",
@@ -2646,8 +2637,7 @@
       "name": "Azitromicina",
       "genericName": "Azithromycin",
       "category": [
-        "antibiotic",
-        "macrolide"
+        "antibiotico"
       ],
       "indications": [
         "Infecciones por atípicos",
@@ -2680,8 +2670,7 @@
       "name": "Aztreonam",
       "genericName": "Aztreonam",
       "category": [
-        "antibiotic",
-        "beta_lactam"
+        "antibiotico"
       ],
       "indications": [
         "Infecciones gram-negativas",
@@ -2715,7 +2704,7 @@
       "name": "Beractanto",
       "genericName": "Beractant (Surfactant)",
       "category": [
-        "pulmonary_surfactant"
+        "surfactante"
       ],
       "indications": [
         "Síndrome de distress respiratorio",
@@ -2746,8 +2735,8 @@
       "name": "Bevacizumab",
       "genericName": "Bevacizumab",
       "category": [
-        "monoclonal_antibody",
-        "antiangiogenic"
+        "inmunologico",
+        "otros"
       ],
       "indications": [
         "Retinopatía del prematuro avanzada"
@@ -2777,7 +2766,7 @@
       "name": "Bumetanida",
       "genericName": "Bumetanide",
       "category": [
-        "loop_diuretic"
+        "diuretico"
       ],
       "indications": [
         "Sobrecarga de volumen",
@@ -2810,7 +2799,7 @@
       "name": "Bupivacaína",
       "genericName": "Bupivacaine",
       "category": [
-        "local_anesthetic"
+        "analgesico_sedante"
       ],
       "indications": [
         "Anestesia local",
@@ -2844,7 +2833,7 @@
       "name": "Buprenorfina",
       "genericName": "Buprenorphine",
       "category": [
-        "opioid"
+        "analgesico_sedante"
       ],
       "indications": [
         "Dolor moderado a severo",
@@ -3127,7 +3116,7 @@
       "name": "Hidrato de Cloral",
       "genericName": "Chloral Hydrate",
       "category": [
-        "sedante"
+        "analgesico_sedante"
       ],
       "indications": [
         "Sedación para procedimientos",
@@ -3194,7 +3183,7 @@
       ],
       "indications": [
         "Infecciones por atípicos",
-        "Prophylaxis de MAC"
+        "Profilaxis de MAC"
       ],
       "dosingRules": [
         {
@@ -3264,7 +3253,7 @@
       "name": "Clopidogrel",
       "genericName": "Clopidogrel",
       "category": [
-        "antiplatelet"
+        "cardiovascular"
       ],
       "indications": [
         "Trombosis neonatal",
@@ -3902,7 +3891,7 @@
       "name": "Glutamina",
       "genericName": "L-Glutamine",
       "category": [
-        "amino_acid"
+        "vitaminas_electrolitos"
       ],
       "indications": [
         "Soporte nutricional",
@@ -4349,7 +4338,7 @@
       "name": "Lorazepam",
       "genericName": "Lorazepam",
       "category": [
-        "sedante"
+        "analgesico_sedante"
       ],
       "indications": [
         "Sedación prolongada",
@@ -4473,7 +4462,7 @@
       "name": "Metadona",
       "genericName": "Methadone",
       "category": [
-        "opioid"
+        "analgesico_sedante"
       ],
       "indications": [
         "Síndrome de abstinencia neonatal",
@@ -4687,7 +4676,7 @@
       "name": "Mupirocina",
       "genericName": "Mupirocin",
       "category": [
-        "antibiotico_topico"
+        "antibiotico"
       ],
       "indications": [
         "Infecciones de piel",
@@ -5506,7 +5495,7 @@
       "name": "Pentobarbital",
       "genericName": "Pentobarbital",
       "category": [
-        "sedante"
+        "analgesico_sedante"
       ],
       "indications": [
         "Sedación profunda",
@@ -5538,7 +5527,7 @@
       "name": "Fenitoína",
       "genericName": "Phenytoin",
       "category": [
-        "anticonvulsivante"
+        "analgesico_sedante"
       ],
       "indications": [
         "Convulsiones",
@@ -5698,7 +5687,7 @@
       "name": "Fosfenitoína",
       "genericName": "Fosphenytoin",
       "category": [
-        "anticonvulsivante"
+        "analgesico_sedante"
       ],
       "indications": [
         "Convulsiones (alternativa a fenitoína IV)"
@@ -5729,7 +5718,7 @@
       "genericName": "Acetylcysteine",
       "category": [
         "emergencia",
-        "mucolytic"
+        "respiratorio"
       ],
       "indications": [
         "Sobredosis de paracetamol",
@@ -5740,7 +5729,7 @@
           "label": "Sobredosis de paracetamol - Carga",
           "dosePerKg": 150,
           "unit": "mg/kg",
-          "frequency": "once",
+          "frequency": "única",
           "routes": [
             "IV",
             "Oral"
@@ -5750,7 +5739,7 @@
         {
           "label": "Sobredosis de paracetamol - Mantenimiento",
           "dosePerKg": 50,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/4-6h",
           "routes": [
             "IV",
@@ -5787,7 +5776,7 @@
         {
           "label": "Hipocalcemia",
           "dosePerKg": 10,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6-12h",
           "routes": [
             "IV"
@@ -5822,8 +5811,8 @@
         {
           "label": "Hipocalcemia",
           "dosePerKg": 40,
-          "unit": "mg/kg/day",
-          "frequency": "divided doses",
+          "unit": "mg/kg/día",
+          "frequency": "dosis divididas",
           "routes": [
             "Oral"
           ],
@@ -5851,14 +5840,14 @@
       ],
       "dosingRules": [
         {
-          "label": "RDS prophylaxis or treatment",
+          "label": "Profilaxis o tratamiento de SDR",
           "dosePerKg": 105,
           "unit": "mg/kg",
           "frequency": "c/12h × 2 dosis, luego c/24h",
           "routes": [
             "Intratracheal"
           ],
-          "notes": "Max 4 doses total"
+          "notes": "Máximo 4 dosis en total"
         }
       ],
       "preparation": {
@@ -5886,7 +5875,7 @@
         {
           "label": "Hypertension",
           "dosePerKg": 0.3,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6-12h",
           "routes": [
             "Oral"
@@ -5898,7 +5887,7 @@
         "stockForm": "Tablet 6.25, 12.5, 25, 50 mg",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Can crush and dissolve in water"
+          "Se puede triturar y disolver en agua"
         ]
       },
       "references": [
@@ -5910,7 +5899,7 @@
       "name": "Ácido Carglúmico",
       "genericName": "Carglumic acid",
       "category": [
-        "metabolic"
+        "otros"
       ],
       "indications": [
         "Hiperamonemia",
@@ -5920,8 +5909,8 @@
         {
           "label": "Hiperamonemia",
           "dosePerKg": 100,
-          "unit": "mg/kg/day",
-          "frequency": "divided doses (3-4 times daily)",
+          "unit": "mg/kg/día",
+          "frequency": "dosis divididas (3-4 veces al día)",
           "routes": [
             "Oral"
           ],
@@ -5956,7 +5945,7 @@
           "weightMaxG": 2000,
           "dolMax": 7,
           "dosePerKg": 25,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "IV"
@@ -5967,7 +5956,7 @@
           "weightMinG": 2000,
           "dolMax": 7,
           "dosePerKg": 25,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/8h",
           "routes": [
             "IV"
@@ -5978,7 +5967,7 @@
         "stockForm": "Vial 1 g (powder)",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "Reconstitute 1 g vial with 10 mL sterile water → 100 mg/mL"
+          "Reconstituir vial de 1 g con 10 mL de agua destilada estéril → 100 mg/mL"
         ]
       },
       "references": [
@@ -6001,8 +5990,8 @@
         {
           "label": "Diuresis",
           "dosePerKg": 20,
-          "unit": "mg/kg/day",
-          "frequency": "once or twice daily",
+          "unit": "mg/kg/día",
+          "frequency": "una vez o dos veces al día",
           "routes": [
             "Oral",
             "IV"
@@ -6036,7 +6025,7 @@
         {
           "label": "Abstinencia neonatal",
           "dosePerKg": 0.5,
-          "unit": "mcg/kg/dose",
+          "unit": "mcg/kg/dosis",
           "frequency": "c/4-6h",
           "routes": [
             "Oral"
@@ -6104,7 +6093,7 @@
           "label": "Intoxicación por digoxina",
           "dosePerKg": null,
           "unit": "mg/kg or vials",
-          "frequency": "once",
+          "frequency": "única",
           "routes": [
             "IV"
           ],
@@ -6136,8 +6125,8 @@
         {
           "label": "Exposición/tratamiento de VIH neonatal",
           "dosePerKg": 3,
-          "unit": "mg/kg/day",
-          "frequency": "once daily",
+          "unit": "mg/kg/día",
+          "frequency": "una vez al día",
           "routes": [
             "Oral"
           ],
@@ -6170,7 +6159,7 @@
         {
           "label": "IV Hypertension",
           "dosePerKg": 5,
-          "unit": "mcg/kg/dose",
+          "unit": "mcg/kg/dosis",
           "frequency": "c/8-24h",
           "routes": [
             "IV"
@@ -6182,7 +6171,7 @@
         "stockForm": "Vial 1.25 mg/mL",
         "concentrationMgMl": 1.25,
         "dilutionInstructions": [
-          "Can give undiluted or dilute in NS"
+          "Se puede administrar sin diluir o diluido en SF"
         ]
       },
       "references": [
@@ -6218,7 +6207,7 @@
           "label": "Infusión shock refractario",
           "dosePerKg": 0.1,
           "unit": "mcg/kg/min",
-          "frequency": "continuous",
+          "frequency": "continuo",
           "routes": [
             "IV"
           ],
@@ -6236,7 +6225,7 @@
         }
       ],
       "preparation": {
-        "stockForm": "1:1000 (1 mg/mL) for bolus; 1:10000 (0.1 mg/mL) for infusion",
+        "stockForm": "1:1000 (1 mg/mL) para bolo; 1:10000 (0.1 mg/mL) para infusión",
         "concentrationMgMl": 1,
         "dilutionInstructions": [
           "Para infusión: diluir solución 1:1000 en SF 0.9% a 0.1 mg/mL (1:10000)"
@@ -6285,7 +6274,7 @@
       "name": "Factor IX (Recombinante)",
       "genericName": "Factor IX concentrate",
       "category": [
-        "coagulation"
+        "otros"
       ],
       "indications": [
         "Deficiencia de Factor IX (Hemofilia B)",
@@ -6319,7 +6308,7 @@
       "name": "Factor VIIa (Recombinante)",
       "genericName": "Factor VIIa concentrate",
       "category": [
-        "coagulation"
+        "otros"
       ],
       "indications": [
         "Deficiencia de Factor VII",
@@ -6354,7 +6343,7 @@
       "name": "Factor X Humano",
       "genericName": "Factor X concentrate",
       "category": [
-        "coagulation"
+        "otros"
       ],
       "indications": [
         "Deficiencia de Factor X"
@@ -6387,7 +6376,7 @@
       "name": "Concentrado de Factor XIII Humano",
       "genericName": "Factor XIII concentrate",
       "category": [
-        "coagulation"
+        "otros"
       ],
       "indications": [
         "Deficiencia de Factor XIII",
@@ -6421,7 +6410,7 @@
       "name": "Emulsión de Lípidos",
       "genericName": "Lipid emulsion (soybean, safflower, fish oil-based)",
       "category": [
-        "nutrition"
+        "nutricion"
       ],
       "indications": [
         "Nutrición parenteral",
@@ -6431,8 +6420,8 @@
         {
           "label": "Suplementación de NPT",
           "dosePerKg": 3,
-          "unit": "g/kg/day",
-          "frequency": "as part of TPN",
+          "unit": "g/kg/día",
+          "frequency": "como parte de la NPT",
           "routes": [
             "IV"
           ],
@@ -6466,8 +6455,8 @@
         {
           "label": "TSV/Arritmia",
           "dosePerKg": 2,
-          "unit": "mg/kg/day",
-          "frequency": "divided 3 times daily",
+          "unit": "mg/kg/día",
+          "frequency": "dividido 3 veces al día",
           "routes": [
             "Oral",
             "IV"
@@ -6501,7 +6490,7 @@
         {
           "label": "Terapia antifúngica",
           "dosePerKg": 25,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6h",
           "routes": [
             "Oral",
@@ -6530,7 +6519,7 @@
       ],
       "indications": [
         "Hypoglycemia (refractory)",
-        "Beta-blocker overdose"
+        "Sobredosis de betabloqueantes"
       ],
       "dosingRules": [
         {
@@ -6550,7 +6539,7 @@
         "stockForm": "Vial 1 mg (lyophilized)",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Reconstitute 1 mg vial with 1 mL diluent → 1 mg/mL"
+          "Reconstituir vial de 1 mg con 1 mL de diluyente → 1 mg/mL"
         ]
       },
       "references": [
@@ -6562,7 +6551,7 @@
       "name": "Inmunoglobulina contra Hepatitis B",
       "genericName": "Hepatitis B Immune Globulin (HBIG)",
       "category": [
-        "immunobiologico"
+        "inmunologico"
       ],
       "indications": [
         "Madre HBsAg positiva",
@@ -6573,7 +6562,7 @@
           "label": "Madre HBsAg+",
           "dosePerKg": 10,
           "unit": "IU/kg",
-          "frequency": "at birth (within 12h) and 1 month",
+          "frequency": "al nacer (dentro de las 12 h) y al mes",
           "routes": [
             "IM"
           ],
@@ -6596,7 +6585,7 @@
       "name": "Vacuna contra Hepatitis B",
       "genericName": "Hepatitis B vaccine (recombinant)",
       "category": [
-        "immunobiologico"
+        "inmunologico"
       ],
       "indications": [
         "Inmunización neonatal universal"
@@ -6606,7 +6595,7 @@
           "label": "Dosis al nacer",
           "dosePerKg": null,
           "unit": "0.5 mL",
-          "frequency": "at birth (within 24h)",
+          "frequency": "al nacer (dentro de las 24 h)",
           "routes": [
             "IM"
           ],
@@ -6629,7 +6618,7 @@
       "name": "Vacuna combinada Hib/Hepatitis B",
       "genericName": "Haemophilus influenzae b and Hepatitis B vaccine",
       "category": [
-        "immunobiologico"
+        "inmunologico"
       ],
       "indications": [
         "Inmunización combinada contra Hib y VHB"
@@ -6639,7 +6628,7 @@
           "label": "Vacuna combinada (no para dosis al nacer)",
           "dosePerKg": null,
           "unit": "0.5 mL",
-          "frequency": "per schedule (typically 2, 4 months)",
+          "frequency": "según esquema (típicamente a los 2, 4 meses)",
           "routes": [
             "IM"
           ],
@@ -6662,29 +6651,29 @@
       "name": "Hyaluronidase",
       "genericName": "Hyaluronidase",
       "category": [
-        "altro"
+        "otros"
       ],
       "indications": [
         "Extravasation (adjunct)",
-        "Subcutaneous fluid administration"
+        "Administración de fluidos subcutáneos"
       ],
       "dosingRules": [
         {
-          "label": "Extravasation treatment",
+          "label": "Tratamiento de extravasación",
           "dosePerKg": 150,
           "unit": "IU/kg",
-          "frequency": "infiltrate area",
+          "frequency": "infiltrar el área",
           "routes": [
             "SC"
           ],
-          "notes": "Add 1 mL (150 IU) to 1 mL 1% lidocaine; infiltrate margins"
+          "notes": "Añadir 1 mL (150 UI) a 1 mL de lidocaína al 1%; infiltrar márgenes"
         }
       ],
       "preparation": {
         "stockForm": "Vial 150 IU/mL",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Mix with anesthetic before SC administration"
+          "Mezclar con anestésico antes de la administración SC"
         ]
       },
       "references": [
@@ -6706,7 +6695,7 @@
         {
           "label": "Hipertensión",
           "dosePerKg": 0.25,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6-8h",
           "routes": [
             "IV",
@@ -6743,8 +6732,8 @@
         {
           "label": "Diuresis/HTA",
           "dosePerKg": 1,
-          "unit": "mg/kg/day",
-          "frequency": "once or twice daily",
+          "unit": "mg/kg/día",
+          "frequency": "una vez o dos veces al día",
           "routes": [
             "Oral"
           ],
@@ -6767,7 +6756,7 @@
       "name": "Hidrocortisona",
       "genericName": "Hydrocortisone",
       "category": [
-        "corticosteroid"
+        "otros"
       ],
       "indications": [
         "Insuficiencia adrenal",
@@ -6778,7 +6767,7 @@
         {
           "label": "Crisis adrenal aguda",
           "dosePerKg": 50,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6h",
           "routes": [
             "IV"
@@ -6788,8 +6777,8 @@
         {
           "label": "Mantenimiento",
           "dosePerKg": 25,
-          "unit": "mg/kg/day",
-          "frequency": "divided every 6-12h",
+          "unit": "mg/kg/día",
+          "frequency": "dividido cada 6-12 h",
           "routes": [
             "IV",
             "Oral"
@@ -6813,7 +6802,7 @@
       "name": "Ibuprofen",
       "genericName": "Ibuprofen",
       "category": [
-        "nsaid"
+        "analgesico_sedante"
       ],
       "indications": [
         "Patent ductus arteriosus (PDA) closure",
@@ -6829,24 +6818,24 @@
           "routes": [
             "Oral"
           ],
-          "notes": "Success rate 70-80%; contraindicated in active infection/bleeding"
+          "notes": "Tasa de éxito 70-80%; contraindicado en infección activa o sangrado"
         },
         {
           "label": "Fever/analgesia",
           "dosePerKg": 5,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6-8h",
           "routes": [
             "Oral"
           ],
-          "notes": "Max 4 doses/day"
+          "notes": "Máximo 4 dosis al día"
         }
       ],
       "preparation": {
         "stockForm": "Suspension 100 mg/5 mL",
         "concentrationMgMl": 20,
         "dilutionInstructions": [
-          "Ready to use suspension"
+          "Suspensión lista para usar"
         ]
       },
       "references": [
@@ -6855,7 +6844,7 @@
     },
     {
       "id": "imipenem_cilastatin",
-      "name": "Imipenem/Cilastatin",
+      "name": "Imipenem/Cilastatina",
       "genericName": "Imipenem/Cilastatin",
       "category": [
         "antibiotico"
@@ -6871,7 +6860,7 @@
           "weightMaxG": 1200,
           "dolMax": 7,
           "dosePerKg": 20,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "IV"
@@ -6883,7 +6872,7 @@
           "weightMaxG": 2000,
           "dolMax": 7,
           "dosePerKg": 25,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "IV"
@@ -6894,7 +6883,7 @@
         "stockForm": "Vial 250 mg, 500 mg",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Reconstitute 250 mg with 2.4 mL → 100 mg/mL, then dilute to 10 mg/mL"
+          "Reconstituir 250 mg con 2.4 mL → 100 mg/mL, luego diluir a 10 mg/mL"
         ]
       },
       "references": [
@@ -6906,7 +6895,7 @@
       "name": "Inmunoglobulina Humana",
       "genericName": "Immune Globulin IV (IGIV)",
       "category": [
-        "immunoglobulina"
+        "inmunologico"
       ],
       "indications": [
         "Sepsis (profilaxis/tratamiento)",
@@ -6927,7 +6916,7 @@
           "label": "Tratamiento de anemia hemolítica",
           "dosePerKg": 500,
           "unit": "mg/kg",
-          "frequency": "daily",
+          "frequency": "diario",
           "routes": [
             "IV"
           ],
@@ -6947,32 +6936,32 @@
     },
     {
       "id": "infuvite_pediatric",
-      "name": "INFUVITE Pediatric",
+      "name": "INFUVITE Pediátrico",
       "genericName": "Multivitamin infusion (Pediatric)",
       "category": [
-        "vitamin"
+        "vitaminas_electrolitos"
       ],
       "indications": [
         "Parenteral nutrition",
-        "Vitamin supplementation"
+        "Suplementación de vitaminas"
       ],
       "dosingRules": [
         {
-          "label": "Pediatric TPN",
+          "label": "NPT Pediátrica",
           "dosePerKg": null,
-          "unit": "1 vial/day",
-          "frequency": "daily",
+          "unit": "1 vial/día",
+          "frequency": "diario",
           "routes": [
             "IV"
           ],
-          "notes": "Mix into TPN; vial contains A, D, E, K, C, B-complex"
+          "notes": "Mezclar en la NPT; el vial contiene vitaminas A, D, E, K, C y complejo B"
         }
       ],
       "preparation": {
-        "stockForm": "Vial 5 mL (single dose)",
+        "stockForm": "Vial 5 mL (monodosis)",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Add to TPN bag or infuse separately"
+          "Añadir a la bolsa de NPT o infundir por separado"
         ]
       },
       "references": [
@@ -6994,7 +6983,7 @@
         {
           "label": "Corrección de hiperglucemia",
           "dosePerKg": 0.1,
-          "unit": "unit/kg/dose",
+          "unit": "unidad/kg/dosis",
           "frequency": "c/6h",
           "routes": [
             "IV",
@@ -7006,7 +6995,7 @@
           "label": "Infusión en NPT",
           "dosePerKg": null,
           "unit": "units/mL",
-          "frequency": "continuous",
+          "frequency": "continuo",
           "routes": [
             "IV"
           ],
@@ -7026,21 +7015,21 @@
     },
     {
       "id": "iron_dextran",
-      "name": "Iron Dextran",
+      "name": "Hierro Dextrano",
       "genericName": "Iron dextran",
       "category": [
         "hematinico"
       ],
       "indications": [
         "Iron deficiency anemia",
-        "Preterm iron supplementation"
+        "Suplementación de hierro en prematuros"
       ],
       "dosingRules": [
         {
           "label": "Iron supplementation",
           "dosePerKg": 2,
-          "unit": "mg/kg/day",
-          "frequency": "once daily",
+          "unit": "mg/kg/día",
+          "frequency": "una vez al día",
           "routes": [
             "IM",
             "IV"
@@ -7052,7 +7041,7 @@
         "stockForm": "Vial 50 mg/mL",
         "concentrationMgMl": 50,
         "dilutionInstructions": [
-          "Ready to use; can dilute in NS for IV"
+          "Listo para usar; se puede diluir en SF para uso IV"
         ]
       },
       "references": [
@@ -7074,7 +7063,7 @@
         {
           "label": "VIH/VHB neonatal",
           "dosePerKg": 4,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "Oral"
@@ -7102,14 +7091,14 @@
       ],
       "indications": [
         "Gastroesophageal reflux",
-        "GI bleeding prophylaxis"
+        "Profilaxis de sangrado gastrointestinal"
       ],
       "dosingRules": [
         {
-          "label": "GERD/GIB prophylaxis",
+          "label": "Profilaxis de ERGE/HDA",
           "dosePerKg": 1.5,
-          "unit": "mg/kg/day",
-          "frequency": "once or twice daily",
+          "unit": "mg/kg/día",
+          "frequency": "una vez o dos veces al día",
           "routes": [
             "Oral"
           ],
@@ -7120,7 +7109,7 @@
         "stockForm": "Capsule 15, 30 mg",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Can open capsule and dissolve in water/juice"
+          "Se puede abrir la cápsula y disolver en agua/jugo"
         ]
       },
       "references": [
@@ -7132,17 +7121,17 @@
       "name": "LevETIRAcetam",
       "genericName": "Levetiracetam",
       "category": [
-        "anticonvulsivo"
+        "analgesico_sedante"
       ],
       "indications": [
         "Neonatal seizures (adjunctive)",
-        "Seizure prophylaxis"
+        "Profilaxis de convulsiones"
       ],
       "dosingRules": [
         {
           "label": "Seizures",
           "dosePerKg": 10,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "Oral",
@@ -7211,7 +7200,7 @@
       "name": "Lidocaína - Anestésico local",
       "genericName": "Lidocaine",
       "category": [
-        "local_anesthetic"
+        "analgesico_sedante"
       ],
       "indications": [
         "Anestesia local",
@@ -7247,7 +7236,7 @@
       "name": "Lidocaína/Prilocaína",
       "genericName": "Lidocaine/Prilocaine cream (EMLA)",
       "category": [
-        "local_anesthetic"
+        "analgesico_sedante"
       ],
       "indications": [
         "Anestesia tópica (venopunción, procedimientos)"
@@ -7257,7 +7246,7 @@
           "label": "Anestesia tópica",
           "dosePerKg": null,
           "unit": "1 g per 10 cm2",
-          "frequency": "apply 60 min before procedure",
+          "frequency": "aplicar 60 min antes del procedimiento",
           "routes": [
             "Topical"
           ],
@@ -7283,14 +7272,14 @@
         "antiviral"
       ],
       "indications": [
-        "HIV treatment",
+        "Tratamiento de VIH",
         "Neonatal HIV"
       ],
       "dosingRules": [
         {
           "label": "Neonatal HIV (with other agents)",
           "dosePerKg": 4.3,
-          "unit": "mg/kg/dose (lopinavir)",
+          "unit": "mg/kg/dosis (lopinavir)",
           "frequency": "c/12h",
           "routes": [
             "Oral"
@@ -7302,7 +7291,7 @@
         "stockForm": "Solution 80 mg/20 mg per 1 mL (LPV/RTV)",
         "concentrationMgMl": 80,
         "dilutionInstructions": [
-          "Ready to use liquid; refrigerate"
+          "Líquido listo para usar; refrigerar"
         ]
       },
       "references": [
@@ -7314,7 +7303,7 @@
       "name": "Aceite MCT",
       "genericName": "Medium-chain triglyceride oil",
       "category": [
-        "nutrition"
+        "nutricion"
       ],
       "indications": [
         "Malabsorción de grasas",
@@ -7324,8 +7313,8 @@
         {
           "label": "Suplemento nutricional",
           "dosePerKg": null,
-          "unit": "10-40 mL/day",
-          "frequency": "divided with feeds",
+          "unit": "10-40 mL/día",
+          "frequency": "dividido con las tomas",
           "routes": [
             "Oral"
           ],
@@ -7348,7 +7337,7 @@
       "name": "Microlipid",
       "genericName": "Lipid emulsion 20%",
       "category": [
-        "nutrition"
+        "nutricion"
       ],
       "indications": [
         "Fat supplementation",
@@ -7358,8 +7347,8 @@
         {
           "label": "Lipid supplementation",
           "dosePerKg": 1,
-          "unit": "g/kg/day",
-          "frequency": "as part of nutrition",
+          "unit": "g/kg/día",
+          "frequency": "como parte de la nutrición",
           "routes": [
             "Oral",
             "NG tube"
@@ -7371,7 +7360,7 @@
         "stockForm": "Bottle 30 mL",
         "concentrationMgMl": 200,
         "dilutionInstructions": [
-          "Ready to use; can mix with feeds"
+          "Listo para usar; se puede mezclar con las tomas"
         ]
       },
       "references": [
@@ -7393,8 +7382,8 @@
         {
           "label": "Suplemento vitamínico oral",
           "dosePerKg": null,
-          "unit": "1 mL/day",
-          "frequency": "daily",
+          "unit": "1 mL/día",
+          "frequency": "diario",
           "routes": [
             "Oral"
           ],
@@ -7428,7 +7417,7 @@
           "label": "Preparación para íleo meconial",
           "dosePerKg": 0.1,
           "unit": "mg/kg",
-          "frequency": "before contrast enema",
+          "frequency": "antes del enema de contraste",
           "routes": [
             "IV",
             "IM"
@@ -7455,13 +7444,13 @@
         "antiviral"
       ],
       "indications": [
-        "Influenza treatment/prophylaxis"
+        "Tratamiento/profilaxis de influenza"
       ],
       "dosingRules": [
         {
-          "label": "Influenza treatment",
+          "label": "Tratamiento de influenza",
           "dosePerKg": 2,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h × 5 días",
           "routes": [
             "Oral"
@@ -7473,7 +7462,7 @@
         "stockForm": "Capsule 75 mg; Suspension 12 mg/mL (requires reconstitution)",
         "concentrationMgMl": 12,
         "dilutionInstructions": [
-          "Reconstitute with water per package insert"
+          "Reconstituir con agua según el prospecto"
         ]
       },
       "references": [
@@ -7532,8 +7521,8 @@
         "antibiotico"
       ],
       "indications": [
-        "Pseudomonas infection",
-        "Broad-spectrum coverage"
+        "Infección por Pseudomonas",
+        "Cobertura de amplio espectro"
       ],
       "dosingRules": [
         {
@@ -7541,7 +7530,7 @@
           "weightMaxG": 2000,
           "dolMax": 7,
           "dosePerKg": 75,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "IV",
@@ -7553,7 +7542,7 @@
           "weightMinG": 2000,
           "dolMax": 7,
           "dosePerKg": 75,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/8h",
           "routes": [
             "IV",
@@ -7565,7 +7554,7 @@
         "stockForm": "Vial 2 g, 3 g, 4 g",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "Reconstitute 2g with 4 mL → 500 mg/mL, dilute to 100 mg/mL"
+          "Reconstituir 2 g con 4 mL → 500 mg/mL, diluir a 100 mg/mL"
         ]
       },
       "references": [
@@ -7590,7 +7579,7 @@
           "weightMaxG": 2000,
           "dolMax": 7,
           "dosePerKg": 80,
-          "unit": "mg/kg/dose (piperacillin)",
+          "unit": "mg/kg/dosis (piperacilina)",
           "frequency": "c/12h",
           "routes": [
             "IV"
@@ -7601,7 +7590,7 @@
           "weightMinG": 2000,
           "dolMax": 7,
           "dosePerKg": 80,
-          "unit": "mg/kg/dose (piperacillin)",
+          "unit": "mg/kg/dosis (piperacilina)",
           "frequency": "c/8h",
           "routes": [
             "IV"
@@ -7612,7 +7601,7 @@
         "stockForm": "Vial 2/0.25g, 3/0.375g, 4/0.5g",
         "concentrationMgMl": 100,
         "dilutionInstructions": [
-          "Reconstitute 2/0.25g with 5 mL → 400/50 mg/mL, dilute"
+          "Reconstituir 2/0.25 g con 5 mL → 400/50 mg/mL, diluir"
         ]
       },
       "references": [
@@ -7634,8 +7623,8 @@
         {
           "label": "Reemplazo por hipopotasemia",
           "dosePerKg": 0.5,
-          "unit": "mEq/kg/day",
-          "frequency": "divided doses",
+          "unit": "mEq/kg/día",
+          "frequency": "dosis divididas",
           "routes": [
             "IV",
             "Oral"
@@ -7669,7 +7658,7 @@
         {
           "label": "Protección/saturación tiroidea",
           "dosePerKg": 0.2,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6h",
           "routes": [
             "Oral"
@@ -7748,7 +7737,7 @@
         {
           "label": "HTN/arrhythmia",
           "dosePerKg": 0.01,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6-8h",
           "routes": [
             "IV",
@@ -7761,7 +7750,7 @@
         "stockForm": "Vial 1 mg/mL (IV), Tablet 10, 20, 40 mg, Solution 4 mg/5 mL",
         "concentrationMgMl": 1,
         "dilutionInstructions": [
-          "IV: slow push undiluted or in NS; Oral: solution ready"
+          "IV: bolo lento sin diluir o en SF; Oral: solución lista"
         ]
       },
       "references": [
@@ -7783,7 +7772,7 @@
           "label": "Reversión de heparina",
           "dosePerKg": 1,
           "unit": "mg protamine per 100 unit heparin",
-          "frequency": "once",
+          "frequency": "única",
           "routes": [
             "IV"
           ],
@@ -7806,7 +7795,7 @@
       "name": "Concentrado de Proteína C (Humana)",
       "genericName": "Protein C concentrate",
       "category": [
-        "coagulation"
+        "otros"
       ],
       "indications": [
         "Deficiencia de proteína C",
@@ -7850,7 +7839,7 @@
         {
           "label": "Convulsiones dependientes de piridoxina",
           "dosePerKg": 50,
-          "unit": "mg/kg/day",
+          "unit": "mg/kg/día",
           "frequency": "única o dividida",
           "routes": [
             "Oral",
@@ -7872,7 +7861,7 @@
     },
     {
       "id": "quinupristin_dalfopristin",
-      "name": "Quinupristin/Dalfopristin",
+      "name": "Quinupristina/Dalfopristina",
       "genericName": "Quinupristin/Dalfopristin",
       "category": [
         "antibiotico"
@@ -7885,7 +7874,7 @@
         {
           "label": "Infección por ERV",
           "dosePerKg": 7.5,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/8-12h",
           "routes": [
             "IV"
@@ -7897,7 +7886,7 @@
         "stockForm": "Vial 500 mg (150/350 mg quinupristin/dalfopristin)",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Reconstitute with 5 mL sterile water, dilute in D5W to ≤2 mg/mL"
+          "Reconstituir con 5 mL de agua destilada estéril, diluir en D5% a ≤2 mg/mL"
         ]
       },
       "references": [
@@ -7917,7 +7906,7 @@
       ],
       "dosingRules": [
         {
-          "label": "ROP treatment",
+          "label": "Tratamiento de ROP",
           "dosePerKg": null,
           "unit": "0.2 mg/0.02 mL",
           "frequency": "intravitreal injection",
@@ -7931,7 +7920,7 @@
         "stockForm": "Vial 0.2 mL",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Ready to inject intravitreally; refrigerated"
+          "Listo para inyección intravítrea; refrigerar"
         ]
       },
       "references": [
@@ -7954,7 +7943,7 @@
         {
           "label": "Protección gástrica",
           "dosePerKg": 2,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6-8h",
           "routes": [
             "IV",
@@ -7984,14 +7973,14 @@
       "indications": [
         "TB (neonatal exposure)",
         "Staphylococcal infections (adjunct)",
-        "Meningitis prophylaxis"
+        "Profilaxis de meningitis"
       ],
       "dosingRules": [
         {
-          "label": "Tuberculosis/severe infection",
+          "label": "Tuberculosis o infección grave",
           "dosePerKg": 10,
-          "unit": "mg/kg/day",
-          "frequency": "once daily",
+          "unit": "mg/kg/día",
+          "frequency": "una vez al día",
           "routes": [
             "Oral",
             "IV"
@@ -8003,7 +7992,7 @@
         "stockForm": "Capsule 150, 300 mg; Powder for IV",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Oral: capsules can be opened and mixed; IV: reconstitute"
+          "Oral: las cápsulas se pueden abrir y mezclar; IV: reconstituir"
         ]
       },
       "references": [
@@ -8012,24 +8001,24 @@
     },
     {
       "id": "rocuronium",
-      "name": "Rocuronium",
+      "name": "Rocuronio",
       "genericName": "Rocuronium bromide",
       "category": [
-        "paralytic"
+        "otros"
       ],
       "indications": [
-        "Muscle relaxation (intubation, mechanical ventilation)"
+        "Relajación muscular (intubación, ventilación mecánica)"
       ],
       "dosingRules": [
         {
-          "label": "Intubation/paralysis",
+          "label": "Intubación y parálisis",
           "dosePerKg": 0.6,
           "unit": "mg/kg",
           "frequency": "única para intubación; repetir 0.075 mg/kg según necesidad",
           "routes": [
             "IV"
           ],
-          "notes": "Non-depolarizing agent; use with sedation"
+          "notes": "Agente no despolarizante; usar con sedación"
         }
       ],
       "preparation": {
@@ -8051,27 +8040,27 @@
         "cardiovascular"
       ],
       "indications": [
-        "Pulmonary hypertension",
-        "Persistent pulmonary hypertension of newborn (PPHN)"
+        "Hipertensión pulmonar",
+        "Hipertensión pulmonar persistente del recién nacido (HAPPRN)"
       ],
       "dosingRules": [
         {
-          "label": "Pulmonary HTN",
+          "label": "Hipertensión pulmonar",
           "dosePerKg": 0.4,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/4-6h",
           "routes": [
             "Oral",
             "IV"
           ],
-          "notes": "Phosphodiesterase-5 inhibitor; use with caution"
+          "notes": "Inhibidor de la fosfodiesterasa-5; usar con precaución"
         }
       ],
       "preparation": {
         "stockForm": "Tablet 20, 25, 50 mg; Suspension 10 mg/mL",
         "concentrationMgMl": 10,
         "dilutionInstructions": [
-          "Can crush tablets and dissolve in water"
+          "Se puede triturar las tabletas y disolver en agua"
         ]
       },
       "references": [
@@ -8095,7 +8084,7 @@
           "label": "Alivio de gases",
           "dosePerKg": null,
           "unit": "20 mg/0.3 mL",
-          "frequency": "with meals and at bedtime",
+          "frequency": "con las comidas y al acostarse",
           "routes": [
             "Oral"
           ],
@@ -8141,7 +8130,7 @@
           "label": "Líquidos de mantenimiento",
           "dosePerKg": null,
           "unit": "calculated per weight",
-          "frequency": "continuous",
+          "frequency": "continuo",
           "routes": [
             "IV"
           ],
@@ -8174,8 +8163,8 @@
         {
           "label": "Suplementación de fosfato",
           "dosePerKg": 1.5,
-          "unit": "mmol/kg/day",
-          "frequency": "continuous (TPN)",
+          "unit": "mmol/kg/día",
+          "frequency": "continuo (NPT)",
           "routes": [
             "IV"
           ],
@@ -8208,8 +8197,8 @@
         {
           "label": "Hiperamonemia aguda",
           "dosePerKg": 250,
-          "unit": "mg/kg IV loading",
-          "frequency": "then 125 mg/kg maintenance",
+          "unit": "carga IV de mg/kg",
+          "frequency": "luego 125 mg/kg de mantenimiento",
           "routes": [
             "IV"
           ],
@@ -8242,13 +8231,13 @@
         {
           "label": "Arrhythmia control",
           "dosePerKg": 2,
-          "unit": "mg/kg/day",
-          "frequency": "divided every 12h",
+          "unit": "mg/kg/día",
+          "frequency": "dividido cada 12 h",
           "routes": [
             "Oral",
             "IV"
           ],
-          "notes": "Beta-blocker + Class III properties; proarrhythmic risk"
+          "notes": "Betabloqueante + propiedades Clase III; riesgo proarrítmico"
         }
       ],
       "preparation": {
@@ -8278,7 +8267,7 @@
         {
           "label": "Diuresis en DBP/EPC",
           "dosePerKg": 1,
-          "unit": "mg/kg/day",
+          "unit": "mg/kg/día",
           "frequency": "única o dividida",
           "routes": [
             "Oral"
@@ -8313,7 +8302,7 @@
           "label": "ISR/intubación de emergencia",
           "dosePerKg": 1,
           "unit": "mg/kg IV",
-          "frequency": "once",
+          "frequency": "única",
           "routes": [
             "IV"
           ],
@@ -8336,29 +8325,29 @@
       "name": "Sucrose",
       "genericName": "Sucrose",
       "category": [
-        "analgesico"
+        "analgesico_sedante"
       ],
       "indications": [
         "Procedural analgesia (pacification)",
-        "Pain reduction during procedures"
+        "Reducción del dolor durante procedimientos"
       ],
       "dosingRules": [
         {
           "label": "Procedural analgesia",
           "dosePerKg": null,
           "unit": "24% solution",
-          "frequency": "2 min before/during procedure",
+          "frequency": "2 min antes/durante el procedimiento",
           "routes": [
             "Oral"
           ],
-          "notes": "Give on pacifier or small dose orally; minimal systemic absorption"
+          "notes": "Administrar en chupete o dosis oral pequeña; absorción sistémica mínima"
         }
       ],
       "preparation": {
-        "stockForm": "Solution 24% (0.5-1 mL doses)",
+        "stockForm": "Solución 24% (dosis de 0.5-1 mL)",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Ready to use 24% solution"
+          "Solución al 24% lista para usar"
         ]
       },
       "references": [
@@ -8381,7 +8370,7 @@
           "label": "Acidosis grave",
           "dosePerKg": 1,
           "unit": "mL/kg of 0.3 M solution",
-          "frequency": "once or repeated",
+          "frequency": "única o repetir",
           "routes": [
             "IV"
           ],
@@ -8416,7 +8405,7 @@
           "weightMaxG": 2000,
           "dolMax": 7,
           "dosePerKg": 75,
-          "unit": "mg/kg/dose (ticarcillin)",
+          "unit": "mg/kg/dosis (ticarcilina)",
           "frequency": "c/12h",
           "routes": [
             "IV",
@@ -8428,7 +8417,7 @@
           "weightMinG": 2000,
           "dolMax": 7,
           "dosePerKg": 75,
-          "unit": "mg/kg/dose (ticarcillin)",
+          "unit": "mg/kg/dosis (ticarcilina)",
           "frequency": "c/8h",
           "routes": [
             "IV",
@@ -8449,7 +8438,7 @@
     },
     {
       "id": "tobramycin",
-      "name": "Tobramycin",
+      "name": "Tobramicina",
       "genericName": "Tobramycin",
       "category": [
         "antibiotico"
@@ -8464,7 +8453,7 @@
           "weightMaxG": 2000,
           "dolMax": 7,
           "dosePerKg": 4,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "IV",
@@ -8476,7 +8465,7 @@
           "weightMinG": 2000,
           "dolMax": 7,
           "dosePerKg": 4,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/8h",
           "routes": [
             "IV",
@@ -8500,7 +8489,7 @@
       "name": "Topiramato",
       "genericName": "Topiramate",
       "category": [
-        "anticonvulsivo"
+        "analgesico_sedante"
       ],
       "indications": [
         "Convulsiones (terapia coadyuvante)"
@@ -8509,8 +8498,8 @@
         {
           "label": "Terapia coadyuvante de convulsiones",
           "dosePerKg": 1,
-          "unit": "mg/kg/day",
-          "frequency": "divided twice daily",
+          "unit": "mg/kg/día",
+          "frequency": "dividido dos veces al día",
           "routes": [
             "Oral"
           ],
@@ -8563,29 +8552,29 @@
     },
     {
       "id": "ursodiol",
-      "name": "Ursodiol",
-      "genericName": "Ursodeoxycholic acid",
+      "name": "Ácido ursodesoxicólico",
+      "genericName": "Ursodiol",
       "category": [
         "hepatico"
       ],
       "indications": [
-        "Cholestasis",
-        "Short bowel syndrome (associated cholestasis)"
+        "Colestasis",
+        "Síndrome de intestino corto (colestasis asociada)"
       ],
       "dosingRules": [
         {
-          "label": "Cholestasis/NEC prophylaxis",
+          "label": "Profilaxis de colestasis/ECN",
           "dosePerKg": 15,
-          "unit": "mg/kg/day",
-          "frequency": "divided 2-3 times daily",
+          "unit": "mg/kg/día",
+          "frequency": "dividido 2-3 veces al día",
           "routes": [
             "Oral"
           ],
-          "notes": "Hydrophilic bile acid; decreases toxic bile acids"
+          "notes": "Ácido biliar hidrofílico; disminuye los ácidos biliares tóxicos"
         }
       ],
       "preparation": {
-        "stockForm": "Tablet 250, 500 mg; Suspension 50 mg/mL",
+        "stockForm": "Comprimidos de 250 y 500 mg; Suspensión de 50 mg/mL",
         "concentrationMgMl": 50,
         "dilutionInstructions": [
           "Comprimidos pueden triturarse; suspensión lista para usar"
@@ -8603,14 +8592,14 @@
         "antiviral"
       ],
       "indications": [
-        "CMV infection/treatment",
-        "CMV prophylaxis in congenital CMV"
+        "Infección/tratamiento de CMV",
+        "Profilaxis de CMV en CMV congénito"
       ],
       "dosingRules": [
         {
-          "label": "Congenital CMV treatment",
+          "label": "Tratamiento de CMV congénito",
           "dosePerKg": 16,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "Oral"
@@ -8631,31 +8620,31 @@
     },
     {
       "id": "vecuronium",
-      "name": "Vecuronium",
+      "name": "Vecuronio",
       "genericName": "Vecuronium",
       "category": [
-        "paralytic"
+        "otros"
       ],
       "indications": [
-        "Muscle relaxation (intubation, mechanical ventilation)"
+        "Relajación muscular (intubación, ventilación mecánica)"
       ],
       "dosingRules": [
         {
-          "label": "Intubation/paralysis",
+          "label": "Intubación y parálisis",
           "dosePerKg": 0.1,
           "unit": "mg/kg",
           "frequency": "única para intubación; repetir 0.03 mg/kg/dosis c/1-2h",
           "routes": [
             "IV"
           ],
-          "notes": "Non-depolarizing agent; requires acetylcholinesterase inhibitor for reversal"
+          "notes": "Agente no despolarizante; requiere inhibidor de la acetilcolinesterasa para revertir"
         }
       ],
       "preparation": {
         "stockForm": "Vial 4 mg (powder)",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Reconstitute with sterile water per package insert"
+          "Reconstituir con agua destilada estéril según el prospecto"
         ]
       },
       "references": [
@@ -8667,30 +8656,30 @@
       "name": "Vitamin A",
       "genericName": "Retinol (Vitamin A)",
       "category": [
-        "vitamin"
+        "vitaminas_electrolitos"
       ],
       "indications": [
-        "Vitamin A supplementation",
-        "Chronic lung disease prevention/treatment"
+        "Suplementación de vitamina A",
+        "Prevención/tratamiento de enfermedad pulmonar crónica"
       ],
       "dosingRules": [
         {
-          "label": "CLD prophylaxis",
+          "label": "Profilaxis de EPC",
           "dosePerKg": 5000,
-          "unit": "IU/kg/dose",
-          "frequency": "three times weekly x 4 weeks",
+          "unit": "UI/kg/dosis",
+          "frequency": "tres veces por semana x 4 semanas",
           "routes": [
             "IM",
             "Oral"
           ],
-          "notes": "Higher doses in supplemented formulas"
+          "notes": "Dosis más altas en fórmulas suplementadas"
         }
       ],
       "preparation": {
         "stockForm": "Vial 50,000 IU/mL (IM), Liquid 5,000 IU/0.1 mL (oral)",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Ready to use IM or oral solution"
+          "Solución lista para usar IM u oral"
         ]
       },
       "references": [
@@ -8702,18 +8691,18 @@
       "name": "Vitamin D",
       "genericName": "Calciferol (Vitamin D)",
       "category": [
-        "vitamin"
+        "vitaminas_electrolitos"
       ],
       "indications": [
-        "Vitamin D supplementation",
-        "Prevention of rickets of prematurity"
+        "Suplementación de vitamina D",
+        "Prevención del raquitismo del prematuro"
       ],
       "dosingRules": [
         {
           "label": "Supplementation",
           "dosePerKg": 400,
-          "unit": "IU/kg/day",
-          "frequency": "daily",
+          "unit": "UI/kg/día",
+          "frequency": "diario",
           "routes": [
             "Oral"
           ],
@@ -8724,7 +8713,7 @@
         "stockForm": "Drops 400 IU/drop, 1000 IU/drop",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Ready to use drops; add to feeds"
+          "Gotas listas para usar; añadir a las tomas"
         ]
       },
       "references": [
@@ -8736,30 +8725,30 @@
       "name": "Vitamin E",
       "genericName": "Alpha-tocopherol (Vitamin E)",
       "category": [
-        "vitamin"
+        "vitaminas_electrolitos"
       ],
       "indications": [
-        "Vitamin E supplementation",
-        "Antioxidant in preterm infants"
+        "Suplementación de vitamina E",
+        "Antioxidante en recién nacidos prematuros"
       ],
       "dosingRules": [
         {
           "label": "Supplementation",
           "dosePerKg": 5,
-          "unit": "IU/kg/day",
-          "frequency": "daily",
+          "unit": "UI/kg/día",
+          "frequency": "diario",
           "routes": [
             "Oral",
             "IM"
           ],
-          "notes": "Preterm infants have higher requirements"
+          "notes": "Los recién nacidos prematuros tienen mayores requerimientos"
         }
       ],
       "preparation": {
         "stockForm": "Solution 50 IU/mL, Drops 400 IU/mL",
         "concentrationMgMl": null,
         "dilutionInstructions": [
-          "Ready to use; add to feeds or give directly"
+          "Listo para usar; añadir a las tomas o administrar directamente"
         ]
       },
       "references": [
@@ -8771,19 +8760,19 @@
       "name": "Vitamin K1",
       "genericName": "Phytonadione (Vitamin K1)",
       "category": [
-        "vitamin"
+        "vitaminas_electrolitos"
       ],
       "indications": [
-        "Hemorrhagic disease prevention",
-        "Vitamin K deficiency",
+        "Prevención de la enfermedad hemorrágica",
+        "Deficiencia de vitamina K",
         "Reversal of warfarin (adjunct)"
       ],
       "dosingRules": [
         {
-          "label": "Prophylaxis (birth)",
+          "label": "Profilaxis (al nacer)",
           "dosePerKg": null,
           "unit": "0.5-1 mg",
-          "frequency": "once at birth",
+          "frequency": "única al nacer",
           "routes": [
             "IM",
             "Oral"
@@ -8791,9 +8780,9 @@
           "notes": "IM preferred for optimal absorption; IV only in emergency"
         },
         {
-          "label": "Treatment of deficiency",
+          "label": "Tratamiento de deficiencia",
           "dosePerKg": 0.1,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/12h",
           "routes": [
             "IV",
@@ -8829,7 +8818,7 @@
         {
           "label": "Prevención de VIH neonatal (transmisión materna)",
           "dosePerKg": 4,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6h",
           "routes": [
             "Oral"
@@ -8839,7 +8828,7 @@
         {
           "label": "Tratamiento de VIH (activo)",
           "dosePerKg": 4,
-          "unit": "mg/kg/dose",
+          "unit": "mg/kg/dosis",
           "frequency": "c/6h",
           "routes": [
             "Oral",

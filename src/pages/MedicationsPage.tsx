@@ -66,6 +66,8 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
     respiratorio: 'Respiratorio',
     emergencia: 'Emergencia',
     vitaminas_electrolitos: 'Vitaminas y Electrolitos',
+    inmunologico: 'Inmunológicos',
+    nutricion: 'Nutrición',
     otros: 'Otros',
   };
 
@@ -80,6 +82,8 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
     respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-100',
     emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-100',
     vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-100',
+    inmunologico: 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-100',
+    nutricion: 'bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-100',
   };
 
   return (
