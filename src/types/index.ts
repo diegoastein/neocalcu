@@ -167,6 +167,8 @@ export interface FormulaInput {
   label: string;
   unit: string;
   required: boolean;
+  defaultValue?: number;
+  premiumOnly?: boolean;
 }
 
 export interface Formula {

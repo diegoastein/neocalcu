@@ -110,7 +110,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
     if (!f?.calculations) return {};
     const vars = parseInputs(formulaId);
     if (!vars['peso']) vars['peso'] = patient.weightGrams / 1000;
-    f.inputs.forEach((inp) => { if (!(inp.id in vars)) vars[inp.id] = 0; });
+    f.inputs.forEach((inp) => { if (!(inp.id in vars)) vars[inp.id] = inp.defaultValue ?? 0; });
     const calculations = f.calculations as Record<string, string>;
     const hidden = new Set(f.calculationsHidden ?? []);
     const results: Record<string, number> = {};
@@ -305,38 +305,62 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
 
         <div className="space-y-3">
           <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
-          {f.inputs.map((input) => (
-            <div key={input.id}>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                {input.label} ({input.unit})
-                {input.required && <span className="text-red-500 ml-1">*</span>}
-              </label>
-              <input
-                type="text"
-                inputMode="decimal"
-                value={inputs[input.id] ?? ''}
-                onChange={(e) => {
-                  const raw = e.target.value;
-                  setInputsMap((prev) => ({
-                    ...prev,
-                    [formulaId]: { ...prev[formulaId], [input.id]: raw },
-                  }));
-                }}
-                onBlur={(e) => {
-                  const raw = e.target.value;
-                  const v = parseFloat(raw);
-                  if (raw !== '' && !isNaN(v)) {
+          {f.inputs.map((input) => {
+            if (input.premiumOnly && !isPremium) {
+              return (
+                <div key={input.id}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                      {input.label} ({input.unit})
+                    </label>
+                    <span className="text-xs font-semibold bg-brand-700 text-white px-1.5 py-0.5 rounded">Pro</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onOpenSubscription?.()}
+                    className="w-full flex items-center justify-between px-3 py-2 border border-dashed border-slate-300 dark:border-slate-600 rounded text-sm bg-slate-50 dark:bg-slate-900 text-slate-400 dark:text-slate-500"
+                  >
+                    <span>{input.defaultValue} {input.unit}</span>
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </button>
+                </div>
+              );
+            }
+            return (
+              <div key={input.id}>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  {input.label} ({input.unit})
+                  {input.required && <span className="text-red-500 ml-1">*</span>}
+                </label>
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={inputs[input.id] ?? ''}
+                  onChange={(e) => {
+                    const raw = e.target.value;
                     setInputsMap((prev) => ({
                       ...prev,
-                      [formulaId]: { ...prev[formulaId], [input.id]: String(v) },
+                      [formulaId]: { ...prev[formulaId], [input.id]: raw },
                     }));
-                  }
-                }}
-                placeholder={`Ingresa ${input.label.toLowerCase()}`}
-                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
-              />
-            </div>
-          ))}
+                  }}
+                  onBlur={(e) => {
+                    const raw = e.target.value;
+                    const v = parseFloat(raw);
+                    if (raw !== '' && !isNaN(v)) {
+                      setInputsMap((prev) => ({
+                        ...prev,
+                        [formulaId]: { ...prev[formulaId], [input.id]: String(v) },
+                      }));
+                    }
+                  }}
+                  placeholder={input.defaultValue !== undefined ? String(input.defaultValue) : `Ingresa ${input.label.toLowerCase()}`}
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
+                />
+              </div>
+            );
+          })}
         </div>
 
         {!f.calculations && allFilled && formulaResult !== null && (

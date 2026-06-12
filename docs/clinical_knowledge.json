@@ -11019,13 +11019,21 @@
     {
       "id": "balance_hidroelectrolitico",
       "name": "Balance Hidroelectrolitico",
-      "description": "Balance de liquidos en 24 hs",
+      "description": "Balance de liquidos. Los resultados de ingreso y egreso se extrapolan a 24 hs.",
       "inputs": [
         {
           "id": "peso",
           "label": "Peso",
           "unit": "kg",
           "required": true
+        },
+        {
+          "id": "horas",
+          "label": "Período",
+          "unit": "hs",
+          "required": false,
+          "defaultValue": 24,
+          "premiumOnly": true
         },
         {
           "id": "ingreso1",
@@ -11067,10 +11075,10 @@
       "calculations": {
         "ingreso_total": "ingreso1 + ingreso2 + ingreso3",
         "egreso_total": "diuresis + catarsis + otros",
-        "ingreso_kg": "ingreso_total / peso",
-        "egreso_kg": "egreso_total / peso",
+        "ingreso_kg": "ingreso_total / peso / horas * 24",
+        "egreso_kg": "egreso_total / peso / horas * 24",
         "relacion_ei": "egreso_total / ingreso_total",
-        "ritmo_diuretico": "diuresis / peso / 24"
+        "ritmo_diuretico": "diuresis / peso / horas"
       },
       "resultLabel": "Balance Detallado",
       "resultUnit": "Variables",
