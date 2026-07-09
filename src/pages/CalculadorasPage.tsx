@@ -67,13 +67,23 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
   };
 
   // Pre-fill peso cuando se abre una fórmula que lo requiere
+  // Resetear otros campos a vacío al abrir la fórmula
   useEffect(() => {
     if (!expandedId) return;
     const formula = formulas.find((f) => f.id === expandedId);
     if (formula?.inputs.some((inp) => inp.id === 'peso')) {
+      // Resetear inputsMap para esta fórmula: solo peso pre-relleno, resto vacío
+      const newInputs: Record<string, string> = {};
+      newInputs.peso = String(patient.weightGrams / 1000);
+      // Todos los demás campos vacíos
+      formula.inputs.forEach((inp) => {
+        if (inp.id !== 'peso' && !(inp.id in newInputs)) {
+          newInputs[inp.id] = '';
+        }
+      });
       setInputsMap((prev) => ({
         ...prev,
-        [expandedId]: { ...prev[expandedId], peso: String(patient.weightGrams / 1000) },
+        [expandedId]: newInputs,
       }));
     }
   }, [expandedId, patient.weightGrams]);
