@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import DisclaimerModal from './DisclaimerModal';
 import { RedeemResult, RecoverResult, RecoverByCouponResult, MembershipInfo } from '../hooks/useDonationReminder';
 import { isPlayStoreTWA } from '../utils/platform';
+import { usePatient } from '../context/PatientContext';
+import { useMembership } from '../context/MembershipContext';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -59,6 +61,8 @@ export default function SettingsPanel({
   onRecoverByCoupon,
   membership,
 }: SettingsPanelProps) {
+  const { savedPatients, removeAllPatients } = usePatient();
+  const { active: isMember } = useMembership();
   const [copied, setCopied] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(false);
   const [couponOpen, setCouponOpen] = useState(false);
@@ -72,6 +76,9 @@ export default function SettingsPanel({
   const [recoverLoading, setRecoverLoading] = useState(false);
   const [recoverResult, setRecoverResult] = useState<RecoverResult | null>(null);
   const [recoverByCouponResult, setRecoverByCouponResult] = useState<RecoverByCouponResult | null>(null);
+  const [deleteAllConfirmOpen, setDeleteAllConfirmOpen] = useState(false);
+  const [deleteAllLoading, setDeleteAllLoading] = useState(false);
+  const [deleteAllDone, setDeleteAllDone] = useState(false);
 
   const handleShare = async () => {
     const url = 'https://www.neocalcu.pro';
@@ -125,6 +132,22 @@ export default function SettingsPanel({
     const result = await onRecoverByCoupon(recoverCode);
     setRecoverByCouponResult(result);
     setRecoverLoading(false);
+  };
+
+  const handleDeleteAllPatients = async () => {
+    setDeleteAllLoading(true);
+    try {
+      removeAllPatients();
+      setDeleteAllDone(true);
+      setTimeout(() => {
+        setDeleteAllConfirmOpen(false);
+        setDeleteAllDone(false);
+      }, 1500);
+    } catch (error) {
+      console.error('Error al borrar pacientes:', error);
+    } finally {
+      setDeleteAllLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -460,6 +483,24 @@ export default function SettingsPanel({
             )}
           </section>
 
+          {/* Datos del paciente (Premium) */}
+          {isMember && (
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+                Datos del paciente
+              </h3>
+              <button
+                onClick={() => setDeleteAllConfirmOpen(true)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-colors"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Borrar todos los pacientes
+              </button>
+            </section>
+          )}
+
           {/* Más de Neomonitor */}
           <section>
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
@@ -494,6 +535,66 @@ export default function SettingsPanel({
       </aside>
 
       <DisclaimerModal isOpen={disclaimerOpen} onClose={() => setDisclaimerOpen(false)} />
+
+      {/* Modal de confirmación — Borrar todos los pacientes */}
+      {deleteAllConfirmOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg max-w-sm w-full p-6 space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="rounded-full bg-red-100 dark:bg-red-900/30 p-2 shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5 text-red-600 dark:text-red-400">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 1.677A9.75 9.75 0 1 1 21 12a.75.75 0 0 0-.75.75" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                  {deleteAllDone ? '¡Borrados!' : '¿Borrar todos los pacientes?'}
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                  {deleteAllDone
+                    ? 'Se borraron todos los pacientes. Se creó un nuevo paciente por defecto.'
+                    : `Se borrarán ${savedPatients.length} paciente${savedPatients.length !== 1 ? 's' : ''} y se creará uno nuevo por defecto. Esta acción no se puede deshacer.`}
+                </p>
+              </div>
+            </div>
+
+            {deleteAllDone ? (
+              <div className="flex items-center justify-center py-2">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-brand-600 dark:text-brand-400 animate-bounce">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+              </div>
+            ) : (
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => setDeleteAllConfirmOpen(false)}
+                  disabled={deleteAllLoading}
+                  className="flex-1 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleDeleteAllPatients}
+                  disabled={deleteAllLoading}
+                  className="flex-1 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  {deleteAllLoading ? (
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  )}
+                  {deleteAllLoading ? 'Borrando...' : 'Confirmar'}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
