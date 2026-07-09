@@ -3,11 +3,32 @@ import { usePatient, MAX_PATIENTS } from '../context/PatientContext';
 import { useMembership } from '../context/MembershipContext';
 import { useAnyModalOpen } from '../context/UIContext';
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return window.innerWidth < 768;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile;
+}
+
 export default function PatientInput() {
   const { patient, setPatient, savedPatients, activeId, switchPatient, addPatient, removePatient, renamePatient } =
     usePatient();
   const { active: isPremium } = useMembership();
   const anyModalOpen = useAnyModalOpen();
+  const isMobile = useIsMobile();
+
+  // Gate: non-premium users limited to 4, premium users up to 10
+  const effectiveMaxPatients = isPremium ? MAX_PATIENTS : 4;
 
   const [localWeight, setLocalWeight] = useState('');
   const [localGA, setLocalGA] = useState('');
@@ -82,7 +103,7 @@ export default function PatientInput() {
     removePatient(id);
   };
 
-  const canAdd = savedPatients.length < MAX_PATIENTS;
+  const canAdd = savedPatients.length < effectiveMaxPatients;
   const showMultiPatient = isPremium;
 
   const savedWeight = patient.weightGrams > 0 ? patient.weightGrams.toString() : '';
@@ -95,70 +116,108 @@ export default function PatientInput() {
 
       {/* Barra de pacientes — solo visible para suscriptores o si ya hay varios */}
       {showMultiPatient && (
-        <div className="flex items-center gap-1.5 px-3 pt-2.5 pb-1 overflow-x-auto scrollbar-hide">
-          {savedPatients.map((sp) => {
-            const isActive = sp.id === activeId;
-            const weightLabel = sp.patient.weightGrams > 0 ? ` · ${sp.patient.weightGrams}g` : '';
-            return (
-              <div key={sp.id} className="flex items-center shrink-0">
-                <button
-                  onClick={() => switchPatient(sp.id)}
-                  className={`flex items-center gap-1 pl-3 pr-2 py-1.5 rounded-l-full text-xs font-semibold transition ${
-                    isActive
-                      ? 'bg-brand-800 dark:bg-brand-700 text-white'
-                      : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                  }`}
-                >
-                  <span className="max-w-[72px] truncate">{sp.label}</span>
-                  <span className={`text-[10px] ${isActive ? 'text-brand-200' : 'text-slate-400'}`}>
-                    {weightLabel}
-                  </span>
-                </button>
+        <>
+          {/* MÓVIL: Select dropdown */}
+          {isMobile && (
+            <div className="px-3 pt-2.5 pb-1">
+              <select
+                value={activeId}
+                onChange={(e) => switchPatient(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold"
+              >
+                {savedPatients.map((sp) => {
+                  const weightLabel = sp.patient.weightGrams > 0 ? ` (${sp.patient.weightGrams}g)` : '';
+                  return (
+                    <option key={sp.id} value={sp.id}>
+                      {sp.label}{weightLabel}
+                    </option>
+                  );
+                })}
+              </select>
+              <div className="flex gap-2 mt-2">
+                {isPremium && (
+                  <button
+                    onClick={handleAdd}
+                    disabled={!canAdd}
+                    className={`flex-1 py-2 rounded text-sm font-semibold transition ${
+                      canAdd
+                        ? 'bg-brand-500 hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600 text-white'
+                        : 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-600 cursor-not-allowed'
+                    }`}
+                    title={canAdd ? 'Agregar paciente' : `Máximo ${effectiveMaxPatients} pacientes`}
+                  >
+                    + Paciente
+                  </button>
+                )}
                 {savedPatients.length > 1 && (
                   <button
-                    onClick={() => handleRemove(sp.id)}
-                    className={`pr-2 py-1.5 rounded-r-full text-xs transition ${
-                      isActive
-                        ? 'bg-brand-800 dark:bg-brand-700 text-brand-300 hover:text-white'
-                        : 'bg-slate-100 dark:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-                    }`}
-                    title="Eliminar paciente"
+                    onClick={() => handleRemove(activeId)}
+                    className="px-4 py-2 rounded text-sm font-semibold bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 transition"
+                    title="Eliminar paciente actual"
                   >
-                    ×
+                    ✕ Eliminar
                   </button>
                 )}
               </div>
-            );
-          })}
-
-          {/* Botón + */}
-          {isPremium ? (
-            <button
-              onClick={handleAdd}
-              disabled={!canAdd}
-              className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-base font-bold transition ${
-                canAdd
-                  ? 'bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 hover:bg-brand-200 dark:hover:bg-brand-800'
-                  : 'bg-slate-100 dark:bg-slate-700 text-slate-300 dark:text-slate-600 cursor-not-allowed'
-              }`}
-              title={canAdd ? 'Agregar paciente' : `Máximo ${MAX_PATIENTS} pacientes`}
-            >
-              +
-            </button>
-          ) : (
-            <div
-              className="shrink-0 flex items-center gap-1.5 pl-2 pr-3 py-1.5 rounded-full bg-slate-50 dark:bg-slate-800 border border-dashed border-slate-300 dark:border-slate-600 text-xs text-slate-400 dark:text-slate-500 select-none"
-              title="Múltiples pacientes disponible para suscriptores"
-            >
-              <div className="bg-brand-700 dark:bg-brand-600 rounded p-0.5">
-                <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <span className="font-semibold text-brand-600 dark:text-brand-400">+paciente</span>
             </div>
           )}
-        </div>
+
+          {/* DESKTOP: Tabs horizontales */}
+          {!isMobile && (
+            <div className="flex items-center gap-1.5 px-3 pt-2.5 pb-1 overflow-x-auto scrollbar-hide">
+              {savedPatients.map((sp) => {
+                const isActive = sp.id === activeId;
+                const weightLabel = sp.patient.weightGrams > 0 ? ` · ${sp.patient.weightGrams}g` : '';
+                return (
+                  <div key={sp.id} className="flex items-center shrink-0">
+                    <button
+                      onClick={() => switchPatient(sp.id)}
+                      className={`flex items-center gap-1 pl-3 pr-2 py-1.5 rounded-l-full text-xs font-semibold transition ${
+                        isActive
+                          ? 'bg-brand-800 dark:bg-brand-700 text-white'
+                          : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
+                      }`}
+                    >
+                      <span className="max-w-[72px] truncate">{sp.label}</span>
+                      <span className={`text-[10px] ${isActive ? 'text-brand-200' : 'text-slate-400'}`}>
+                        {weightLabel}
+                      </span>
+                    </button>
+                    {savedPatients.length > 1 && (
+                      <button
+                        onClick={() => handleRemove(sp.id)}
+                        className={`pr-2 py-1.5 rounded-r-full text-xs transition ${
+                          isActive
+                            ? 'bg-brand-800 dark:bg-brand-700 text-brand-300 hover:text-white'
+                            : 'bg-slate-100 dark:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+                        }`}
+                        title="Eliminar paciente"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Botón + */}
+              {isPremium && (
+                <button
+                  onClick={handleAdd}
+                  disabled={!canAdd}
+                  className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-base font-bold transition ${
+                    canAdd
+                      ? 'bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 hover:bg-brand-200 dark:hover:bg-brand-800'
+                      : 'bg-slate-100 dark:bg-slate-700 text-slate-300 dark:text-slate-600 cursor-not-allowed'
+                  }`}
+                  title={canAdd ? 'Agregar paciente' : `Máximo ${effectiveMaxPatients} pacientes`}
+                >
+                  +
+                </button>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {/* Sin suscripción: teaser de la función */}
