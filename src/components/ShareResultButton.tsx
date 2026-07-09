@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMembership } from '../context/MembershipContext';
+import { usePatient } from '../context/PatientContext';
 import { trackEvent } from '../utils/analytics';
 
 interface Props {
@@ -9,7 +10,12 @@ interface Props {
 
 export default function ShareResultButton({ text, title = 'NeoCalcu' }: Props) {
   const { active: isPremium } = useMembership();
+  const { savedPatients, activeId } = usePatient();
   const [feedback, setFeedback] = useState<'idle' | 'done'>('idle');
+
+  // Obtener el label del paciente activo
+  const activePatient = savedPatients.find((p) => p.id === activeId);
+  const patientLabel = activePatient?.label || 'Paciente';
 
   if (!isPremium) {
     return (
@@ -28,11 +34,12 @@ export default function ShareResultButton({ text, title = 'NeoCalcu' }: Props) {
   async function handleShare() {
     if (feedback === 'done') return;
     try {
+      const shareText = `Paciente: ${patientLabel}\n\n${text}`;
       if ('share' in navigator && typeof (navigator as Navigator & { share: unknown }).share === 'function') {
-        await navigator.share({ title, text });
+        await navigator.share({ title, text: shareText });
         trackEvent('share_result', { method: 'share' });
       } else {
-        await (navigator as Navigator & { clipboard: Clipboard }).clipboard.writeText(text);
+        await (navigator as Navigator & { clipboard: Clipboard }).clipboard.writeText(shareText);
         trackEvent('share_result', { method: 'clipboard' });
       }
       setFeedback('done');
