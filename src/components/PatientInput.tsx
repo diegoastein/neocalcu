@@ -21,7 +21,7 @@ function useIsMobile() {
 }
 
 export default function PatientInput() {
-  const { patient, setPatient, savedPatients, activeId, switchPatient, addPatient, removePatient, renamePatient } =
+  const { patient, setPatient, setPatientDebounced, savedPatients, activeId, switchPatient, addPatient, removePatient, renamePatient } =
     usePatient();
   const { active: isPremium } = useMembership();
   const anyModalOpen = useAnyModalOpen();
@@ -33,9 +33,12 @@ export default function PatientInput() {
   const [localWeight, setLocalWeight] = useState('');
   const [localGA, setLocalGA] = useState('');
   const [localDOL, setLocalDOL] = useState('');
+  const [localWeightDelta, setLocalWeightDelta] = useState('');
   const [localLabel, setLocalLabel] = useState('');
   const [isExpanded, setIsExpanded] = useState(true);
+  const [showSaveIndicator, setShowSaveIndicator] = useState(false);
   const weightInputRef = useRef<HTMLInputElement>(null);
+  const saveIndicatorTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Sincronizar campos solo cuando cambia el paciente activo (no al guardar)
   useEffect(() => {
@@ -45,6 +48,7 @@ export default function PatientInput() {
     setLocalWeight(active.patient.weightGrams > 0 ? active.patient.weightGrams.toString() : '');
     setLocalGA(active.patient.gestAgeWeeks?.toString() ?? '');
     setLocalDOL(active.patient.dayOfLife?.toString() ?? '');
+    setLocalWeightDelta(active.patient.previousDayWeightDelta?.toString() ?? '');
     // Al cambiar de paciente: expandir si no tiene peso, colapsar si ya tiene
     setIsExpanded(active.patient.weightGrams <= 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,6 +86,7 @@ export default function PatientInput() {
       weightGrams: weight,
       gestAgeWeeks: localGA ? parseInt(localGA, 10) : undefined,
       dayOfLife: localDOL ? parseInt(localDOL, 10) : undefined,
+      previousDayWeightDelta: isPremium && localWeightDelta ? parseInt(localWeightDelta, 10) : undefined,
     });
     setIsExpanded(false);
   };
@@ -90,7 +95,31 @@ export default function PatientInput() {
     setLocalWeight('');
     setLocalGA('');
     setLocalDOL('');
+    setLocalWeightDelta('');
     setPatient({ weightGrams: 0 });
+  };
+
+  const showSaveIndicatorBriefly = () => {
+    setShowSaveIndicator(true);
+    if (saveIndicatorTimeoutRef.current) {
+      clearTimeout(saveIndicatorTimeoutRef.current);
+    }
+    saveIndicatorTimeoutRef.current = setTimeout(() => {
+      setShowSaveIndicator(false);
+    }, 1500);
+  };
+
+  const handleAutoSave = (weight: string, ga: string, dol: string, weightDelta: string) => {
+    const w = parseInt(weight, 10);
+    if (w > 0) {
+      setPatientDebounced({
+        weightGrams: w,
+        gestAgeWeeks: ga ? parseInt(ga, 10) : undefined,
+        dayOfLife: dol ? parseInt(dol, 10) : undefined,
+        previousDayWeightDelta: weightDelta ? parseInt(weightDelta, 10) : undefined,
+      });
+      showSaveIndicatorBriefly();
+    }
   };
 
   const handleAdd = () => {
@@ -109,7 +138,8 @@ export default function PatientInput() {
   const savedWeight = patient.weightGrams > 0 ? patient.weightGrams.toString() : '';
   const savedGA = patient.gestAgeWeeks?.toString() ?? '';
   const savedDOL = patient.dayOfLife?.toString() ?? '';
-  const isDirty = localWeight !== savedWeight || localGA !== savedGA || localDOL !== savedDOL;
+  const savedWeightDelta = patient.previousDayWeightDelta?.toString() ?? '';
+  const isDirty = localWeight !== savedWeight || localGA !== savedGA || localDOL !== savedDOL || (isPremium && localWeightDelta !== savedWeightDelta);
 
   return (
     <div data-onboarding="patient-input" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
@@ -301,8 +331,11 @@ export default function PatientInput() {
                 ref={weightInputRef}
                 type="number"
                 value={localWeight}
-                onChange={(e) => setLocalWeight(e.target.value)}
-                onBlur={(e) => trySaveAndCollapse(e.target.value, localGA, localDOL)}
+                onChange={(e) => {
+                  setLocalWeight(e.target.value);
+                  if (isPremium) handleAutoSave(e.target.value, localGA, localDOL, localWeightDelta);
+                }}
+                onBlur={(e) => !isPremium && trySaveAndCollapse(e.target.value, localGA, localDOL)}
                 className="w-full px-2 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
                 placeholder="2500"
               />
@@ -312,8 +345,11 @@ export default function PatientInput() {
               <input
                 type="number"
                 value={localGA}
-                onChange={(e) => setLocalGA(e.target.value)}
-                onBlur={(e) => trySaveAndCollapse(localWeight, e.target.value, localDOL)}
+                onChange={(e) => {
+                  setLocalGA(e.target.value);
+                  if (isPremium) handleAutoSave(localWeight, e.target.value, localDOL, localWeightDelta);
+                }}
+                onBlur={(e) => !isPremium && trySaveAndCollapse(localWeight, e.target.value, localDOL)}
                 className="w-full px-2 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
                 placeholder="—"
               />
@@ -323,31 +359,83 @@ export default function PatientInput() {
               <input
                 type="number"
                 value={localDOL}
-                onChange={(e) => setLocalDOL(e.target.value)}
-                onBlur={(e) => trySaveAndCollapse(localWeight, localGA, e.target.value)}
+                onChange={(e) => {
+                  setLocalDOL(e.target.value);
+                  if (isPremium) handleAutoSave(localWeight, localGA, e.target.value, localWeightDelta);
+                }}
+                onBlur={(e) => !isPremium && trySaveAndCollapse(localWeight, localGA, e.target.value)}
                 className="w-full px-2 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
                 placeholder="—"
               />
             </div>
           </div>
+
+          {/* Variación de peso — solo para suscriptores */}
+          {isPremium && (
+            <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
+                Variación de peso del día anterior (g)
+              </label>
+              <input
+                type="number"
+                value={localWeightDelta}
+                onChange={(e) => {
+                  setLocalWeightDelta(e.target.value);
+                  if (isPremium) handleAutoSave(localWeight, localGA, localDOL, e.target.value);
+                }}
+                className="w-full px-2 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
+                placeholder="Ej: +50 o -30 (opcional)"
+              />
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                Positivo para aumento, negativo para pérdida. Campo opcional.
+              </p>
+            </div>
+          )}
+
           <div className="mt-3 flex gap-2">
-            <button
-              onClick={handleSave}
-              className={`flex-1 text-white font-semibold py-2 rounded transition ${
-                isDirty
-                  ? 'bg-brand-500 hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600 animate-pulse'
-                  : 'bg-brand-800 hover:bg-brand-900 dark:bg-brand-700 dark:hover:bg-brand-600 opacity-50'
-              }`}
-            >
-              {isDirty ? '⬤ Registrar datos' : 'Registrar datos'}
-            </button>
-            <button
-              onClick={handleReset}
-              className="px-4 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 font-semibold py-2 rounded transition"
-              title="Resetear datos del paciente"
-            >
-              ↻
-            </button>
+            {!isPremium ? (
+              <>
+                <button
+                  onClick={handleSave}
+                  className={`flex-1 text-white font-semibold py-2 rounded transition ${
+                    isDirty
+                      ? 'bg-brand-500 hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600 animate-pulse'
+                      : 'bg-brand-800 hover:bg-brand-900 dark:bg-brand-700 dark:hover:bg-brand-600 opacity-50'
+                  }`}
+                >
+                  {isDirty ? '⬤ Registrar datos' : 'Registrar datos'}
+                </button>
+                <button
+                  onClick={handleReset}
+                  className="px-4 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 font-semibold py-2 rounded transition"
+                  title="Resetear datos del paciente"
+                >
+                  ↻
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="flex-1 px-4 py-2 bg-brand-50 dark:bg-slate-800/50 rounded flex items-center justify-center text-xs font-medium text-brand-700 dark:text-brand-400">
+                  {showSaveIndicator ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Guardado
+                    </span>
+                  ) : (
+                    <span className="text-slate-500 dark:text-slate-400">Auto guardado</span>
+                  )}
+                </div>
+                <button
+                  onClick={handleReset}
+                  className="px-4 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 font-semibold py-2 rounded transition"
+                  title="Resetear datos del paciente"
+                >
+                  ↻
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
