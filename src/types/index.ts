@@ -2,6 +2,7 @@ export interface Patient {
   weightGrams: number;
   gestAgeWeeks?: number;
   dayOfLife?: number;
+  previousDayWeightDelta?: number;
 }
 
 export type DrugCategory =
