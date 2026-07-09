@@ -11020,6 +11020,7 @@
       "id": "balance_hidroelectrolitico",
       "name": "Balance Hidroelectrolitico",
       "description": "Balance de liquidos. Los resultados de ingreso y egreso se extrapolan a 24 hs.",
+      "isPremium": true,
       "inputs": [
         {
           "id": "peso",
