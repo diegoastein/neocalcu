@@ -156,7 +156,7 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{entry.drugName}</p>
                         <p className="text-xs text-slate-500 dark:text-slate-400">
-                          {entry.doseTotal} mg · {entry.volumeMl} mL · {(entry.weightGrams / 1000).toFixed(2)} kg
+                          {entry.doseTotal} {entry.unit} · {entry.volumeMl} mL · {(entry.weightGrams / 1000).toFixed(2)} kg
                         </p>
                       </div>
                       <span className="text-xs text-slate-400 flex-shrink-0">{timeAgo(entry.timestamp)}</span>

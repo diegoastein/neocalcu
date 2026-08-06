@@ -37,7 +37,11 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
   const hasValidPreparation = drug.preparation && drug.preparation.concentrationMgMl;
   const isPerM2 = selectedRule?.unit?.includes('m²') || selectedRule?.unit?.includes('m2');
   const isWeightBased = !!(selectedRule?.unit?.toLowerCase().includes('kg'));
-  const calculation = selectedRule && hasValidPreparation && !isPerM2 && isWeightBased ? calcDose(selectedRule, drug.preparation, patient.weightGrams) : null;
+  const hasNumericDose = typeof selectedRule?.dosePerKg === 'number';
+  const calculation =
+    selectedRule && hasValidPreparation && !isPerM2 && isWeightBased && hasNumericDose
+      ? calcDose(selectedRule, drug.preparation, patient.weightGrams)
+      : null;
 
   useEffect(() => {
     if (!doseTracked.current && calculation !== null && patient.weightGrams > 0) {
@@ -50,7 +54,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
         weightGrams: patient.weightGrams,
         doseTotal: calculation.doseTotal,
         volumeMl: calculation.volumeMl,
-        unit: selectedRule?.unit ?? '',
+        unit: calculation.unit,
         nursingInstruction: calculation.nursingInstruction ?? '',
       });
     }
@@ -192,7 +196,9 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                   <div className="grid grid-cols-2 gap-2">
                     <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
                       <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis</p>
-                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} {selectedRule.unit}</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">
+                        {typeof selectedRule.dosePerKg === 'number' ? `${selectedRule.dosePerKg} ${selectedRule.unit}` : selectedRule.unit}
+                      </p>
                     </div>
                     <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
                       <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
@@ -260,7 +266,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
 
                   <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
                     <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis calculada</p>
-                    <p className="text-3xl font-bold text-brand-900 dark:text-brand-200">{calculation.doseTotal} mg</p>
+                    <p className="text-3xl font-bold text-brand-900 dark:text-brand-200">{calculation.doseTotal} {calculation.unit}</p>
                     <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{calculation.volumeMl} mL</p>
                   </div>
 
@@ -284,7 +290,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                     text={[
                       `${drug.name} — NeoCalcu`,
                       `Peso: ${patient.weightGrams}g (${(patient.weightGrams / 1000).toFixed(2)} kg)`,
-                      `Dosis: ${selectedRule.dosePerKg} ${selectedRule.unit} → ${calculation.doseTotal} mg`,
+                      `Dosis: ${selectedRule.dosePerKg} ${selectedRule.unit} → ${calculation.doseTotal} ${calculation.unit}`,
                       `Volumen: ${calculation.volumeMl} mL`,
                       calculation.nursingInstruction,
                     ].join('\n')}
@@ -292,9 +298,36 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                 </div>
               )}
 
-              {!isPerM2 && isWeightBased && !calculation && (
-                <div className="text-sm text-slate-600 dark:text-slate-400 p-3 bg-white dark:bg-slate-800 rounded">
-                  Datos de dosis disponibles pero sin información de preparación.
+              {/* Reglas por kg sin volumen calculable: falta concentración (ya se avisa arriba)
+                  o la regla es puramente informativa (dosePerKg ausente, p. ej. un aditivo
+                  de NPT). Antes esto ocultaba dosis/intervalo/notas por completo. */}
+              {!isPerM2 && isWeightBased && !calculation && selectedRule && (
+                <div className="space-y-3">
+                  {hasNumericDose ? (
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Dosis</p>
+                        <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.dosePerKg} {selectedRule.unit}</p>
+                      </div>
+                      <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
+                        <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.frequency}</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-white dark:bg-slate-800 rounded p-3 border-l-4 border-brand-800 dark:border-brand-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Intervalo</p>
+                      <p className="text-lg font-bold text-brand-900 dark:text-brand-200">{selectedRule.frequency}</p>
+                    </div>
+                  )}
+
+                  {selectedRule.notes && (
+                    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded p-2">
+                      <p className="text-xs text-yellow-800 dark:text-yellow-300">
+                        <strong>Nota:</strong> {selectedRule.notes}
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </section>
@@ -312,7 +345,7 @@ export default function DrugDetail({ drug, onClose }: DrugDetailProps) {
                 )}
                 {drug.preparation.concentrationMgMl && (
                   <p>
-                    <span className="font-medium text-slate-700 dark:text-slate-300">Concentración:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.concentrationMgMl} mg/mL</span>
+                    <span className="font-medium text-slate-700 dark:text-slate-300">Concentración:</span> <span className="text-slate-700 dark:text-slate-300">{drug.preparation.concentrationMgMl} {drug.preparation.concentrationUnit ?? 'mg/mL'}</span>
                   </p>
                 )}
                 {drug.preparation.reconstitution && (

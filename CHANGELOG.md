@@ -17,6 +17,18 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Fix (capa 2, red de seguridad): el email del suscriptor se guarda también en una cookie de larga duración (`neo_email_backup`, 400 días), independiente de `localStorage`. Si al abrir la app el `device_id` no está reconocido por el worker, se intenta automáticamente `/recuperar` con ese email en segundo plano — sin mostrarle ningún modal al usuario
   - Refactor: `applyDonationData()` / `applyRestoredUserData()` centralizan la escritura de los campos de membresía y la restauración de favoritos/notas, antes duplicada en `handleVerify`, `handleRedeem`, `handleRecover` y `handleRecoverByCoupon`
 
+#### 💊 Etiquetado de unidad incorrecto en dosis calculadas ("mg" fijo)
+- **Causa:** `calcDose()` escribía literalmente "mg" en la dosis calculada y la instrucción de enfermería sin mirar la unidad real de la regla (`rule.unit`)
+- **Impacto real verificado contra los datos:** 30 reglas de dosificación de drogas reales mostraban una unidad incorrecta en pantalla — fentanilo, digoxina y clonidina (mcg), heparina, penicilinas y vitaminas (U/UI/IU), bicarbonato y KCl (mEq), albúmina y dextrosa (g), sodium glycerophosphate (mmol), entre otras
+- Fix: nueva `extractDoseUnit()` en `src/utils/calculations.ts` extrae la unidad real del string `rule.unit` (validada contra las 29 variantes de unidad presentes en `clinical_knowledge.json`); `calcDose()` ahora devuelve `unit` y lo usa en `nursingInstruction`
+- Se actualizaron todos los puntos de renderizado que tenían "mg" hardcodeado: `DrugDetail.tsx` (caja "Dosis calculada", texto de `ShareResultButton`) y el historial de cálculos en `MedicationsPage.tsx`
+
+#### 💊 Insulina — entrada vacía / duplicada
+- Causa: existían **dos entradas duplicadas** de insulina en el JSON, ambas mal formadas para la UI — una con `doseMin/doseMax` en vez de `dosePerKg` (calculaba `NaN`), la otra con `concentrationMgMl: null` a propósito, lo que hacía que la UI ocultara dosis, frecuencia y notas por completo
+- Se consolidaron en una única entrada (`id: insulina`, se preserva para no romper favoritos existentes) con tres reglas: bolo de corrección (0.1 U/kg/dosis, calcula volumen), infusión IV continua (0.01–0.1 U/kg/h, informativa) y aditivo en NPT (informativa)
+- Nuevo campo opcional `concentrationUnit` en `DrugPreparation` — permite mostrar "100 U/mL" en vez de "100 mg/mL" para drogas que no se dosifican en mg (por ahora solo insulina lo usa)
+- Fix general (beneficia a ~28 drogas más, no solo insulina): cuando una regla por kg no tiene volumen calculable (falta concentración, o la regla es puramente informativa como un aditivo de NPT), la UI ahora sigue mostrando dosis/intervalo/notas en vez de ocultar todo detrás de un cartel genérico — afectaba entre otras a captopril, vitamina D, cloruro de potasio y vecuronio
+
 ## [2026-07-09]
 
 ### Added (Premium - Suscriptores)

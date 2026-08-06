@@ -4051,29 +4051,59 @@
     {
       "id": "insulina",
       "name": "Insulina",
-      "genericName": "Insulin",
+      "genericName": "Insulina humana regular",
       "category": [
-        "endocrino"
+        "otros"
       ],
       "indications": [
         "Hiperglucemia neonatal grave",
-        "Hipoglucemia con hiperinsulinismo"
+        "Control glucémico en nutrición parenteral"
       ],
       "dosingRules": [
         {
-          "label": "IV infusión",
-          "doseMin": 0.01,
-          "doseMax": 0.1,
+          "label": "Corrección de hiperglucemia (bolo)",
+          "dosePerKg": 0.1,
+          "unit": "unidad/kg/dosis",
+          "frequency": "c/6h",
+          "routes": [
+            "IV",
+            "SC"
+          ],
+          "notes": "Titular según glucosa; dosis más altas en shock/sepsis"
+        },
+        {
+          "label": "Infusión IV continua",
           "unit": "U/kg/h",
           "frequency": "continuo",
           "routes": [
             "IV"
-          ]
+          ],
+          "notes": "Rango habitual 0.01–0.1 U/kg/h; titular según glucemia. Diluir en SF 0.9%."
+        },
+        {
+          "label": "Aditivo en nutrición parenteral",
+          "unit": "unidad por g de glucosa",
+          "frequency": "continuo",
+          "routes": [
+            "IV"
+          ],
+          "notes": "Agregar 1 unidad por cada 1 gramo de glucosa en la NPT"
         }
       ],
       "preparation": {
-        "stockForm": "Vial 100 U/mL",
-        "concentrationMgMl": 100
+        "stockForm": "Vial de 100 unidades/mL",
+        "concentrationMgMl": 100,
+        "concentrationUnit": "U/mL",
+        "diluent": "SF 0.9%",
+        "dilutionInstructions": [
+          "Diluir en SF 0.9% para infusión IV; usar sin diluir para bolo IV/SC"
+        ]
+      },
+      "administration": {
+        "routes": [
+          "IV",
+          "SC"
+        ]
       },
       "references": [
         "NEOFAX 2024 p. 513"
@@ -6966,51 +6996,6 @@
       },
       "references": [
         "NEOFAX 2024 p. 509"
-      ]
-    },
-    {
-      "id": "insulin_human_regular",
-      "name": "Insulina Humana Regular",
-      "genericName": "Insulin regular",
-      "category": [
-        "metabolico"
-      ],
-      "indications": [
-        "Hiperglucemia",
-        "Control glucémico en NPT"
-      ],
-      "dosingRules": [
-        {
-          "label": "Corrección de hiperglucemia",
-          "dosePerKg": 0.1,
-          "unit": "unidad/kg/dosis",
-          "frequency": "c/6h",
-          "routes": [
-            "IV",
-            "SC"
-          ],
-          "notes": "Titular según glucosa; dosis más altas en shock/sepsis"
-        },
-        {
-          "label": "Infusión en NPT",
-          "dosePerKg": null,
-          "unit": "units/mL",
-          "frequency": "continuo",
-          "routes": [
-            "IV"
-          ],
-          "notes": "Agregar 1 unidad por cada 1 gramo de glucosa en la NPT"
-        }
-      ],
-      "preparation": {
-        "stockForm": "Vial de 100 unidades/mL",
-        "concentrationMgMl": null,
-        "dilutionInstructions": [
-          "Diluir en SF 0.9% para IV; usar sin diluir para SC"
-        ]
-      },
-      "references": [
-        "NEOFAX 2024 p. 513"
       ]
     },
     {

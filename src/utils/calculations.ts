@@ -27,7 +27,25 @@ export function matchDosingRule(rules: DosingRule[], patient: Patient): DosingRu
 interface DoseCalculation {
   doseTotal: number;
   volumeMl: number;
+  unit: string;
   nursingInstruction: string;
+}
+
+// Tokens de unidad conocidos, del más específico al menos específico. Se usan para
+// extraer la unidad real de dosis (mg, mcg, mEq, U, UI, IU, g, mmol, mL) a partir del
+// string libre `rule.unit` (p. ej. "mcg/kg/dosis", "U/kg/h", "carga IV de mg/kg").
+// Antes calcDose asumía "mg" siempre — mostraba mal la unidad en ~30 reglas reales
+// (fentanilo en mcg, digoxina en mcg, heparina en U, bicarbonato en mEq, etc.).
+const DOSE_UNIT_TOKENS = ['mcg', 'mEq', 'mmol', 'UI', 'IU', 'mg', 'mL', 'U', 'g'];
+
+export function extractDoseUnit(unit: string): string {
+  const firstSegment = (unit ?? '').split('/')[0].trim();
+  if (DOSE_UNIT_TOKENS.includes(firstSegment)) return firstSegment;
+  for (const token of DOSE_UNIT_TOKENS) {
+    const re = new RegExp(`(?:^|[^a-zA-Z])${token}(?:[^a-zA-Z]|$)`);
+    if (re.test(firstSegment)) return token;
+  }
+  return firstSegment || 'mg';
 }
 
 export function calcDose(
@@ -38,11 +56,13 @@ export function calcDose(
   const weightKg = weightGrams / 1000;
   const doseTotal = rule.dosePerKg * weightKg;
   const volumeMl = doseTotal / preparation.concentrationMgMl;
+  const unit = extractDoseUnit(rule.unit);
 
   return {
     doseTotal: parseFloat(doseTotal.toFixed(2)),
     volumeMl: parseFloat(volumeMl.toFixed(2)),
-    nursingInstruction: `${doseTotal.toFixed(2)} mg (${volumeMl.toFixed(2)} mL) ${rule.frequency}`,
+    unit,
+    nursingInstruction: `${doseTotal.toFixed(2)} ${unit} (${volumeMl.toFixed(2)} mL) ${rule.frequency}`,
   };
 }
 

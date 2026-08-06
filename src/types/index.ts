@@ -66,6 +66,9 @@ export interface DrugPreparation {
   stockForm: string;
   reconstitution?: string;
   concentrationMgMl: number;
+  // Unidad real de `concentrationMgMl` cuando la droga no se dosifica en mg (p. ej.
+  // insulina en U/mL). Si se omite, la UI asume "mg/mL" — el default histórico.
+  concentrationUnit?: string;
   diluent: string;
   dilutionInstructions: string[];
   stability?: string;
