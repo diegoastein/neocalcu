@@ -5,6 +5,18 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-08-06]
+
+### Fixed
+
+#### 🔐 Pérdida de membresía por purga de storage en Android
+- **Persistencia de storage + auto-recuperación silenciosa por email**
+  - Causa: la membresía vivía solo en `localStorage` (`neo_device_id` incluido); Chrome/Android puede purgar el storage de un sitio bajo presión de espacio o bajo engagement, regenerando el `device_id` y desvinculando al usuario de su suscripción activa en el worker
+  - Síntoma: suscriptores que dejaban de usar la app un tiempo volvían a ver el flujo de "Suscripción"/"Recuperar" como si nunca hubieran pagado
+  - Fix (capa 1): `navigator.storage.persist()` al bootstrap (`src/main.tsx`) — reduce la probabilidad de que Chrome purgue el storage del sitio
+  - Fix (capa 2, red de seguridad): el email del suscriptor se guarda también en una cookie de larga duración (`neo_email_backup`, 400 días), independiente de `localStorage`. Si al abrir la app el `device_id` no está reconocido por el worker, se intenta automáticamente `/recuperar` con ese email en segundo plano — sin mostrarle ningún modal al usuario
+  - Refactor: `applyDonationData()` / `applyRestoredUserData()` centralizan la escritura de los campos de membresía y la restauración de favoritos/notas, antes duplicada en `handleVerify`, `handleRedeem`, `handleRecover` y `handleRecoverByCoupon`
+
 ## [2026-07-09]
 
 ### Added (Premium - Suscriptores)
