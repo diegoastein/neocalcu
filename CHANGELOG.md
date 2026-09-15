@@ -5,6 +5,16 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+#### 🫀 Kit del Paciente Crítico — goteo de prostaglandinas (PGE1)
+- Nueva sección "Prostaglandinas (PGE1)" para cardiopatías ductus-dependientes, entre Inotrópicos y Antibióticos
+- Selector con dos formas de preparar Alprostadil (ampolla 500 mcg/mL), cada una con su tabla de flujos 0,01–0,1 mcg/kg/min:
+  - **Concentración fija (por defecto):** 250 mcg (0,5 mL) + 49,5 mL de D5% o SF 0,9% = 5 mcg/mL; flujo (mL/h) = dosis × kg × 12. Una misma jeringa sirve para cualquier peso
+  - **Regla por peso:** 72 mcg × kg llevado a 24 mL → 1 mL/h = 0,05 mcg/kg/min; 24 mL a 1 mL/h dura 24 h (estabilidad)
+- Se muestra una sola tabla a la vez para evitar confundir columnas de flujo entre preparaciones
+- Pautas de inicio/mantenimiento y alerta de apnea con monitoreo
+
 ## [2026-08-06]
 
 ### Fixed

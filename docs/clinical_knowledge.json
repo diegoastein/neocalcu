@@ -10095,7 +10095,7 @@
     {
       "id": "admision_neonatal",
       "name": "Kit del Paciente Crítico",
-      "description": "Parámetros clínicos clave para cualquier RN crítico, en cualquier momento de la internación: vía aérea (TET y fijación), surfactante (Curosurf, Survanta, Baby Fact B), cafeína (carga y mantenimiento), accesos vasculares (CAV y CVU), inotrópicos (dosis de inicio) y antibióticos empíricos (Ampicilina, Penicilina G acuosa y Gentamicina con dosis y frecuencia ajustadas a peso y EG).",
+      "description": "Parámetros clínicos clave para cualquier RN crítico, en cualquier momento de la internación: vía aérea (TET y fijación), surfactante (Curosurf, Survanta, Baby Fact B), cafeína (carga y mantenimiento), accesos vasculares (CAV y CVU), inotrópicos (dosis de inicio), prostaglandinas (goteo de PGE1 para cardiopatía ductus-dependiente) y antibióticos empíricos (Ampicilina, Penicilina G acuosa y Gentamicina con dosis y frecuencia ajustadas a peso y EG).",
       "items": [],
       "admissionSummary": true
     },
