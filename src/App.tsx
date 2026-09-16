@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { ActivePage } from './types';
 import { trackEvent } from './utils/analytics';
 import { PatientProvider } from './context/PatientContext';
@@ -116,6 +116,12 @@ function AppContent() {
     if (page === 'calculadoras') setFocusedCalculadoraId(itemId || null);
     setActivePage(page);
   };
+
+  // Cada página arranca con el scroll arriba (las páginas pueden luego enfocar un ítem)
+  const mainRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  }, [activePage]);
 
   useEffect(() => {
     if (isPlayStoreTWA) return;
@@ -280,7 +286,7 @@ function AppContent() {
         )}
       </div>
 
-      <main className="flex-1 overflow-y-auto pb-20">
+      <main ref={mainRef} className="flex-1 overflow-y-auto pb-20">
         {renderPage()}
       </main>
 
@@ -312,7 +318,7 @@ function AppContent() {
         </div>
       )}
 
-      <BottomNav activePage={activePage} setActivePage={setActivePage} />
+      <BottomNav activePage={activePage} setActivePage={(page) => navigateToItem(page)} />
 
       <SettingsPanel
         isOpen={isSettingsOpen}

@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { trackEvent } from '../utils/analytics';
 import PatientInput from '../components/PatientInput';
 import ProcedureNotes from '../components/ProcedureNotes';
 import { procedures } from '../data/procedures';
 import { useFavorites } from '../context/FavoritesContext';
 import { usePatient } from '../context/PatientContext';
+import { scrollToElementAfterRender } from '../utils/scroll';
 
 interface ProceduresPageProps {
   initialExpanded?: string | null;
@@ -23,11 +24,15 @@ export default function ProceduresPage({ initialExpanded = null, onGoToKit }: Pr
     setExpandedProcedure(next);
     if (next) {
       trackEvent('open_procedure', { procedure_id: next });
-      setTimeout(() => {
-        procedureRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 0);
+      scrollToElementAfterRender(() => procedureRefs.current[next]);
     }
   };
+
+  // Al llegar desde Favoritos, enfocar el procedimiento abierto
+  useEffect(() => {
+    if (initialExpanded) scrollToElementAfterRender(() => procedureRefs.current[initialExpanded]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const calculateFormula = (formula: string, input: number, allInputs?: Record<string, number>): string => {
     const patientKg = patient.weightGrams / 1000;
@@ -53,7 +58,7 @@ export default function ProceduresPage({ initialExpanded = null, onGoToKit }: Pr
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Kit del Paciente Crítico — acceso directo */}
@@ -76,7 +81,7 @@ export default function ProceduresPage({ initialExpanded = null, onGoToKit }: Pr
       </div>
 
       {/* Procedures list */}
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="min-h-screen">
         <div data-onboarding="procedures-list" className="divide-y divide-slate-200 dark:divide-slate-700">
           {[...procedures].sort((a, b) => a.name.localeCompare(b.name, 'es')).map((proc) => (
             <div key={proc.id} ref={el => { procedureRefs.current[proc.id] = el; }} className="bg-white dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-slate-800 transition">

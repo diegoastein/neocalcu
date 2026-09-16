@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { trackEvent } from '../utils/analytics';
+import { scrollToElementAfterRender } from '../utils/scroll';
 import { labCategories } from '../data/laboratory';
 import { LabParameter, BacteriologySyndrome, BacteriologyGerm } from '../types';
 import { useMembership } from '../context/MembershipContext';
@@ -199,13 +200,18 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
   const [bacterioView, setBacterioView] = useState<'syndrome' | 'germ'>('syndrome');
   const { active: isPremium } = useMembership();
   const bacterioRef = useRef<HTMLDivElement | null>(null);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
+
+  // Al buscar, llevar los resultados justo debajo del buscador
+  useEffect(() => {
+    if (!searchQuery.trim()) return;
+    scrollToElementAfterRender(() => resultsRef.current, 'auto');
+  }, [searchQuery]);
 
   const goToBacteriologia = () => {
     trackEvent('open_bacteriologia_teaser');
     setExpandedCategories((prev) => new Set([...prev, 'bacteriologia']));
-    setTimeout(() => {
-      bacterioRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+    scrollToElementAfterRender(() => bacterioRef.current);
   };
 
   const q = searchQuery.toLowerCase().trim();
@@ -242,9 +248,9 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950 pb-20">
+    <div className="flex flex-col bg-white dark:bg-slate-950">
       {/* Header con buscador */}
-      <div data-onboarding="lab-search" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
+      <div data-sticky data-onboarding="lab-search" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4 sticky top-0 z-10">
         <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-3">Valores de referencia neonatal</h1>
         <div className="relative">
           <svg
@@ -310,7 +316,7 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto">
+      <div ref={resultsRef} className="min-h-screen">
         {filteredCategories.length === 0 && (
           <div className="p-10 text-center">
             <p className="text-slate-400 dark:text-slate-500 text-sm">Sin resultados para "{searchQuery}"</p>

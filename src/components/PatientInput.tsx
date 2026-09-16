@@ -38,7 +38,20 @@ export default function PatientInput() {
   const [isExpanded, setIsExpanded] = useState(true);
   const [showSaveIndicator, setShowSaveIndicator] = useState(false);
   const weightInputRef = useRef<HTMLInputElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const saveIndicatorTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Exponer la altura de la barra sticky para que otros encabezados sticky se apilen debajo
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const root = document.documentElement;
+    const update = () => root.style.setProperty('--patient-input-h', `${el.offsetHeight}px`);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Sincronizar campos solo cuando cambia el paciente activo (no al guardar)
   useEffect(() => {
@@ -142,7 +155,7 @@ export default function PatientInput() {
   const isDirty = localWeight !== savedWeight || localGA !== savedGA || localDOL !== savedDOL || (isPremium && localWeightDelta !== savedWeightDelta);
 
   return (
-    <div data-onboarding="patient-input" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
+    <div ref={rootRef} data-sticky data-onboarding="patient-input" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
 
       {/* Barra de pacientes — solo visible para suscriptores o si ya hay varios */}
       {showMultiPatient && (

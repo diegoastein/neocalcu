@@ -13,6 +13,7 @@ import { formulas } from '../data/formulas';
 import { usePatient } from '../context/PatientContext';
 import { useFavorites } from '../context/FavoritesContext';
 import { useMembership } from '../context/MembershipContext';
+import { scrollToElementAfterRender } from '../utils/scroll';
 
 interface ScoreState {
   [itemId: string]: number;
@@ -59,12 +60,16 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
         calculator_id: next,
         type: scores.some((s) => s.id === next) ? 'score' : 'formula',
       });
-      setTimeout(() => {
-        itemRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 0);
+      scrollToElementAfterRender(() => itemRefs.current[next]);
     }
     setExpandedId(next);
   };
+
+  // Al llegar desde Favoritos o un acceso directo, enfocar el ítem abierto
+  useEffect(() => {
+    if (initialId) scrollToElementAfterRender(() => itemRefs.current[initialId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Pre-fill peso cuando se abre una fórmula que lo requiere
   // Resetear otros campos a vacío al abrir la fórmula
@@ -438,7 +443,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
   );
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Card Kit del Paciente Crítico */}
@@ -513,7 +518,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
       )}
 
       {/* Tabs fijos */}
-      <div className="flex border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 sticky top-16 z-10 mt-3">
+      <div data-sticky style={{ top: 'var(--patient-input-h, 0px)' }} className="flex border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 sticky z-10 mt-3">
         <button
           onClick={() => switchSection('scores')}
           className={`flex-1 py-2.5 text-sm font-semibold transition border-b-2 ${
@@ -536,7 +541,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="min-h-screen">
         {activeSection === 'scores' && (
           <div data-onboarding="calculadora-select" className="divide-y divide-slate-200 dark:divide-slate-700">
             {regularScores.map((score) => (

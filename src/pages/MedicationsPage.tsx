@@ -7,6 +7,7 @@ import { useFavorites } from '../context/FavoritesContext';
 import { Drug } from '../types';
 import { useMembership } from '../context/MembershipContext';
 import { getHistory, clearHistory, timeAgo, HistoryEntry } from '../hooks/useCalculationHistory';
+import { scrollToElementAfterRender } from '../utils/scroll';
 
 interface MedicationsPageProps {
   onGoToKit?: () => void;
@@ -26,6 +27,13 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
 
   const results = searchQuery.trim() ? searchDrugs(searchQuery) : drugs;
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchBarRef = useRef<HTMLDivElement>(null);
+
+  // Al buscar, llevar el buscador al tope para que los resultados queden a la vista
+  useEffect(() => {
+    if (!searchQuery.trim()) return;
+    scrollToElementAfterRender(() => searchBarRef.current, 'auto');
+  }, [searchQuery]);
 
   useEffect(() => {
     const q = searchQuery.trim();
@@ -87,7 +95,7 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Kit del Paciente Crítico — acceso directo */}
@@ -179,7 +187,7 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
       )}
 
       {/* Search bar */}
-      <div data-onboarding="drug-search" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4">
+      <div ref={searchBarRef} data-onboarding="drug-search" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4">
         <input
           type="text"
           placeholder="Buscar medicamento..."
@@ -193,7 +201,7 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
       </div>
 
       {/* Results list */}
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="min-h-screen">
         {results.length === 0 ? (
           <div className="p-8 text-center">
             <p className="text-slate-500 dark:text-slate-400">No se encontraron medicamentos</p>
