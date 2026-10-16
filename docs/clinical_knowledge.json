@@ -10022,6 +10022,22 @@
           "step": "Monitorización continua: temperatura, FC, SpO₂, PA, glucemia y diuresis."
         },
         {
+          "step": "Controles de laboratorio al ingreso: EAB, ácido láctico, hemograma con recuento de plaquetas, coagulograma, glucemia, hepatograma (GOT/GPT), urea, creatinina, enzimas cardíacas y hemocultivos.",
+          "note": "SAP/CEFEN 2017 — Tabla 3. Realizar antes de iniciar o al inicio del enfriamiento"
+        },
+        {
+          "step": "A las 12 h de tratamiento: repetir EAB y ácido láctico. Glucemia cada 6 h durante todo el tratamiento (riesgo de hipoglucemia inicial e hiperglucemia durante el mantenimiento por enlentecimiento metabólico).",
+          "note": "SAP/CEFEN 2017 — Tabla 3"
+        },
+        {
+          "step": "A las 24 h de tratamiento: repetir EAB, ácido láctico, hemograma con plaquetas, coagulograma, glucemia, hepatograma, urea y creatinina. Incorporar ionograma, calcemia, amonio y fosfatemia/magnesemia (no se solicitan al ingreso).",
+          "note": "SAP/CEFEN 2017 — Tabla 3. Si hay alteraciones del EAB o del medio interno, aumentar la frecuencia de los controles"
+        },
+        {
+          "step": "Durante el recalentamiento: intensificar el control de potasio sérico (riesgo de hiperkalemia por redistribución) y de presión arterial (riesgo de hipotensión por vasodilatación periférica). Vigilancia estrecha de convulsiones — aumenta el metabolismo cerebral.",
+          "note": "SAP/CEFEN 2017"
+        },
+        {
           "step": "EEG de amplitud (aEEG) o EEG convencional para detección de convulsiones subclínicas."
         },
         {
@@ -10041,12 +10057,14 @@
       "warnings": [
         "Ventana terapéutica: iniciar antes de las 6 h de vida — después pierde efectividad",
         "Contraindicaciones: EG < 36 semanas, malformaciones congénitas mayores, coagulopatía grave",
-        "Efectos esperables: bradicardia sinusal (tolerada si FC > 80), hipotensión, leve coagulopatía"
+        "Efectos esperables: bradicardia sinusal (tolerada si FC > 80), hipotensión, leve coagulopatía",
+        "La hipotermia puede reducir el recuento plaquetario hasta un 40% y prolongar TP/KPTT — corregir con transfusión de plasma y/o plaquetas si hay sangrado o alteración significativa"
       ],
       "references": [
         "CoolCap Trial. Gluckman et al. Lancet 2005",
         "TOBY Trial. Azzopardi et al. NEJM 2008",
-        "NEOFAX 2024"
+        "NEOFAX 2024",
+        "SAP/CEFEN. Recomendación para el tratamiento con hipotermia en recién nacidos con encefalopatía hipóxico-isquémica. Arch Argent Pediatr 2017;115 Supl 3:s38-s52"
       ]
     },
     {
