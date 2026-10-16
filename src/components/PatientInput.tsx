@@ -15,6 +15,8 @@ export default function PatientInput() {
   const [localLabel, setLocalLabel] = useState('');
   const [isExpanded, setIsExpanded] = useState(true);
   const weightInputRef = useRef<HTMLInputElement>(null);
+  const labelInputRef = useRef<HTMLInputElement>(null);
+  const justAddedRef = useRef(false);
 
   // Sincronizar campos solo cuando cambia el paciente activo (no al guardar)
   useEffect(() => {
@@ -30,11 +32,17 @@ export default function PatientInput() {
   }, [activeId]);
 
   useEffect(() => {
-    if (isExpanded && patient.weightGrams <= 0 && !anyModalOpen) {
+    if (!isExpanded || anyModalOpen) return;
+    if (justAddedRef.current) {
+      justAddedRef.current = false;
+      const timer = setTimeout(() => labelInputRef.current?.focus(), 300);
+      return () => clearTimeout(timer);
+    }
+    if (patient.weightGrams <= 0) {
       const timer = setTimeout(() => weightInputRef.current?.focus(), 300);
       return () => clearTimeout(timer);
     }
-  }, [isExpanded, patient.weightGrams, anyModalOpen]);
+  }, [isExpanded, patient.weightGrams, anyModalOpen, activeId]);
 
   const handleLabelBlur = () => {
     const trimmed = localLabel.trim();
@@ -74,6 +82,7 @@ export default function PatientInput() {
 
   const handleAdd = () => {
     if (!isPremium) return;
+    justAddedRef.current = true;
     addPatient();
   };
 
@@ -221,9 +230,11 @@ export default function PatientInput() {
             <div className="mb-3">
               <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Nombre / cama</label>
               <input
+                ref={labelInputRef}
                 type="text"
                 value={localLabel}
                 onChange={(e) => setLocalLabel(e.target.value)}
+                onFocus={(e) => e.target.select()}
                 onBlur={handleLabelBlur}
                 className="w-full px-2 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
                 placeholder="Ej: Cama 3, García"
