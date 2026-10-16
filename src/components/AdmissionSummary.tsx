@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { usePatient } from '../context/PatientContext';
 import { useMembership } from '../context/MembershipContext';
 
@@ -133,6 +134,71 @@ function PhpTable({ rows, weightKg }: { rows: PhpRow[]; weightKg: number }) {
   );
 }
 
+// Alprostadil PGE1 — ampolla 500 mcg/mL. Dos formas de preparar:
+// 'fija': 250 mcg (0,5 mL) en 50 mL = 5 mcg/mL — concentración fija, flujo según peso
+// 'peso': 72 mcg × kg en 24 mL → 1 mL/h = 0,05 mcg/kg/min — flujo independiente del peso
+const PGE_DOSES = [0.01, 0.02, 0.03, 0.05, 0.075, 0.1];
+
+function ProstaglandinPrep({ weightKg }: { weightKg: number }) {
+  const [mode, setMode] = useState<'fija' | 'peso'>('fija');
+
+  const fmtFlow = (flow: number) => (flow < 1 ? flow.toFixed(2) : flow.toFixed(1));
+  const weightMcg = 72 * weightKg;
+
+  const prep =
+    mode === 'fija'
+      ? {
+          main: '250 mcg = 0,5 mL de ampolla',
+          diluent: '+ 49,5 mL de D5% o SF 0,9% → 50 mL (5 mcg/mL)',
+          rule: `Flujo (mL/h) = dosis × ${Number(weightKg.toFixed(2))} kg × 12`,
+          tableLabel: '250 mcg en 50 mL',
+          flow: (dose: number) => fmtFlow(dose * weightKg * 12),
+        }
+      : {
+          main: `${weightMcg.toFixed(0)} mcg = ${(weightMcg / 500).toFixed(2)} mL de ampolla`,
+          diluent: `+ ${(24 - weightMcg / 500).toFixed(1)} mL de D5% o SF 0,9% → 24 mL`,
+          rule: '1 mL/h = 0,05 mcg/kg/min',
+          tableLabel: `${weightMcg.toFixed(0)} mcg en 24 mL`,
+          flow: (dose: number) => fmtFlow(dose * 20),
+        };
+
+  const tabClass = (active: boolean) =>
+    `flex-1 text-xs font-semibold rounded-md py-1.5 transition-colors ${
+      active
+        ? 'bg-brand-700 text-white'
+        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+    }`;
+
+  return (
+    <>
+      <div className="flex gap-1 p-1 rounded-lg bg-slate-100 dark:bg-slate-800">
+        <button type="button" className={tabClass(mode === 'fija')} onClick={() => setMode('fija')}>
+          Concentración fija
+        </button>
+        <button type="button" className={tabClass(mode === 'peso')} onClick={() => setMode('peso')}>
+          Regla por peso
+        </button>
+      </div>
+      <div className="border-l-4 border-brand-500 bg-brand-50 dark:bg-slate-800 rounded-r-lg px-3 py-2">
+        <p className="text-xs font-semibold text-brand-800 dark:text-brand-200 uppercase tracking-wide mb-1">Preparación</p>
+        <p className="text-base font-bold text-slate-900 dark:text-white">{prep.main}</p>
+        <p className="text-sm text-slate-700 dark:text-slate-300">{prep.diluent}</p>
+        <p className="text-sm font-semibold text-brand-700 dark:text-brand-300 mt-1">{prep.rule}</p>
+      </div>
+      <InotropicTable
+        label="Alprostadil"
+        prepLabel={prep.tableLabel}
+        rows={PGE_DOSES.map(dose => ({ dose: `${dose}`, flow: prep.flow(dose) }))}
+      />
+      <p className="text-xs text-slate-400 dark:text-slate-500 px-1">
+        {mode === 'fija'
+          ? 'Concentración fija y flujo según peso. Una jeringa sirve para cualquier peso.'
+          : 'Preparación según peso: el flujo no depende del peso y la jeringa de 24 mL dura 24 h a 1 mL/h. Hay que rehacerla si cambia el peso.'}
+      </p>
+    </>
+  );
+}
+
 interface AdmissionSummaryProps {
   onSubscribe?: () => void;
 }
@@ -152,7 +218,7 @@ export default function AdmissionSummary({ onSubscribe }: AdmissionSummaryProps 
         <p className="text-sm font-semibold text-brand-800 dark:text-brand-200">Función para suscriptores</p>
         <p className="text-xs text-slate-500 dark:text-slate-400">
           El Kit calcula TET, accesos vasculares, surfactante, cafeína, PHP,
-          inotrópicos y antibióticos según el peso y EG del paciente.
+          inotrópicos, prostaglandinas y antibióticos según el peso y EG del paciente.
         </p>
         {onSubscribe && (
           <button
@@ -366,6 +432,34 @@ export default function AdmissionSummary({ onSubscribe }: AdmissionSummaryProps 
         <p className="text-xs text-slate-500 dark:text-slate-400 px-1 mt-1">
           Para ajuste fino de dosis y volumen, buscá la droga en la tab Medicamentos.
         </p>
+      </Section>
+
+      {/* PROSTAGLANDINAS */}
+      <Section
+        title="Prostaglandinas (PGE1)"
+        icon={
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h4l3-8 4 16 3-8h4" />
+          </svg>
+        }
+      >
+        <p className="text-xs text-slate-500 dark:text-slate-400 px-1">
+          Cardiopatía ductus-dependiente — Alprostadil (Prostin VR) ampolla 500 mcg/mL
+        </p>
+        <ProstaglandinPrep weightKg={weightKg} />
+        <p className="text-xs text-slate-500 dark:text-slate-400 px-1">
+          Inicio 0,05–0,1 mcg/kg/min (hasta 0,1 si el ductus está cerrado o hay shock). Una vez estable, bajar a la mínima
+          efectiva: 0,01–0,05 mcg/kg/min. Máx. 0,4 mcg/kg/min. Estabilidad 24 h.
+        </p>
+        <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-3 py-2">
+          <p className="text-xs font-semibold text-red-700 dark:text-red-300">
+            ⚠ Apnea en 10–20 % (más frecuente en &lt;2 kg y en las primeras horas): tener la vía aérea preparada.
+          </p>
+          <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+            Vía exclusiva, no pasar bolos por la línea ni suspender la infusión. Controlar SpO₂ pre/posductal, TA,
+            temperatura (fiebre) y glucemia.
+          </p>
+        </div>
       </Section>
 
       {/* ANTIBIÓTICOS */}

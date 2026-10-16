@@ -1,9 +1,9 @@
 import data from '../../docs/clinical_knowledge.json';
-import { Drug, DrugCategory } from '../types';
+import { Drug } from '../types';
 
 export const drugs: Drug[] = data.drugs as Drug[];
 
-export const drugCategoryLabels: Record<DrugCategory | 'otros', string> = {
+export const drugCategoryLabels: Record<string, string> = {
   antibiotico: 'Antibióticos',
   antiviral: 'Antivirales',
   antifungico: 'Antifúngicos',
@@ -14,6 +14,8 @@ export const drugCategoryLabels: Record<DrugCategory | 'otros', string> = {
   respiratorio: 'Respiratorio',
   emergencia: 'Emergencia',
   vitaminas_electrolitos: 'Vitaminas y Electrolitos',
+  inmunologico: 'Inmunológicos',
+  nutricion: 'Nutrición',
   otros: 'Otros',
 };
 

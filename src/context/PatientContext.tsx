@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState, useRef, useCallback } from 'react';
 import { Patient } from '../types';
 
 export interface SavedPatient {
@@ -10,17 +10,19 @@ export interface SavedPatient {
 interface PatientContextType {
   patient: Patient;
   setPatient: (patient: Patient) => void;
+  setPatientDebounced: (patient: Patient) => void;
   savedPatients: SavedPatient[];
   activeId: string;
   switchPatient: (id: string) => void;
   addPatient: () => string;
   removePatient: (id: string) => void;
   renamePatient: (id: string, label: string) => void;
+  removeAllPatients: () => void;
 }
 
 const STORAGE_KEY = 'neo_patients';
 const ACTIVE_KEY = 'neo_active_patient';
-const MAX_PATIENTS = 4;
+const MAX_PATIENTS = 10;
 
 export { MAX_PATIENTS };
 
@@ -67,6 +69,7 @@ const PatientContext = createContext<PatientContextType | undefined>(undefined);
 export function PatientProvider({ children }: { children: ReactNode }) {
   const [savedPatients, setSavedPatients] = useState<SavedPatient[]>(() => init().patients);
   const [activeId, setActiveId] = useState<string>(() => init().activeId);
+  const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const persist = (patients: SavedPatient[]) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(patients));
@@ -79,6 +82,18 @@ export function PatientProvider({ children }: { children: ReactNode }) {
   const setPatient = (newPatient: Patient) => {
     persist(savedPatients.map((p) => (p.id === activeId ? { ...p, patient: newPatient } : p)));
   };
+
+  const setPatientDebounced = useCallback(
+    (newPatient: Patient) => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+      debounceTimeoutRef.current = setTimeout(() => {
+        persist(savedPatients.map((p) => (p.id === activeId ? { ...p, patient: newPatient } : p)));
+      }, 500);
+    },
+    [activeId, savedPatients]
+  );
 
   const switchPatient = (id: string) => {
     localStorage.setItem(ACTIVE_KEY, id);
@@ -110,9 +125,20 @@ export function PatientProvider({ children }: { children: ReactNode }) {
     persist(savedPatients.map((p) => (p.id === id ? { ...p, label } : p)));
   };
 
+  const removeAllPatients = () => {
+    const id = generateId();
+    const defaultPatient: SavedPatient = {
+      id,
+      label: 'Paciente',
+      patient: { weightGrams: 0 },
+    };
+    persist([defaultPatient]);
+    switchPatient(id);
+  };
+
   return (
     <PatientContext.Provider
-      value={{ patient, setPatient, savedPatients, activeId, switchPatient, addPatient, removePatient, renamePatient }}
+      value={{ patient, setPatient, setPatientDebounced, savedPatients, activeId, switchPatient, addPatient, removePatient, renamePatient, removeAllPatients }}
     >
       {children}
     </PatientContext.Provider>

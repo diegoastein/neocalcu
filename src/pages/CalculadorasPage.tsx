@@ -13,6 +13,7 @@ import { formulas } from '../data/formulas';
 import { usePatient } from '../context/PatientContext';
 import { useFavorites } from '../context/FavoritesContext';
 import { useMembership } from '../context/MembershipContext';
+import { scrollToElementAfterRender } from '../utils/scroll';
 
 interface ScoreState {
   [itemId: string]: number;
@@ -59,21 +60,35 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
         calculator_id: next,
         type: scores.some((s) => s.id === next) ? 'score' : 'formula',
       });
-      setTimeout(() => {
-        itemRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 0);
+      scrollToElementAfterRender(() => itemRefs.current[next]);
     }
     setExpandedId(next);
   };
 
+  // Al llegar desde Favoritos o un acceso directo, enfocar el ítem abierto
+  useEffect(() => {
+    if (initialId) scrollToElementAfterRender(() => itemRefs.current[initialId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Pre-fill peso cuando se abre una fórmula que lo requiere
+  // Resetear otros campos a vacío al abrir la fórmula
   useEffect(() => {
     if (!expandedId) return;
     const formula = formulas.find((f) => f.id === expandedId);
     if (formula?.inputs.some((inp) => inp.id === 'peso')) {
+      // Resetear inputsMap para esta fórmula: solo peso pre-relleno, resto vacío
+      const newInputs: Record<string, string> = {};
+      newInputs.peso = String(patient.weightGrams / 1000);
+      // Todos los demás campos vacíos
+      formula.inputs.forEach((inp) => {
+        if (inp.id !== 'peso' && !(inp.id in newInputs)) {
+          newInputs[inp.id] = '';
+        }
+      });
       setInputsMap((prev) => ({
         ...prev,
-        [expandedId]: { ...prev[expandedId], peso: String(patient.weightGrams / 1000) },
+        [expandedId]: newInputs,
       }));
     }
   }, [expandedId, patient.weightGrams]);
@@ -110,7 +125,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
     if (!f?.calculations) return {};
     const vars = parseInputs(formulaId);
     if (!vars['peso']) vars['peso'] = patient.weightGrams / 1000;
-    f.inputs.forEach((inp) => { if (!(inp.id in vars)) vars[inp.id] = 0; });
+    f.inputs.forEach((inp) => { if (!(inp.id in vars)) vars[inp.id] = inp.defaultValue ?? 0; });
     const calculations = f.calculations as Record<string, string>;
     const hidden = new Set(f.calculationsHidden ?? []);
     const results: Record<string, number> = {};
@@ -305,38 +320,62 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
 
         <div className="space-y-3">
           <h3 className="font-semibold text-slate-900 dark:text-slate-100">Datos de entrada</h3>
-          {f.inputs.map((input) => (
-            <div key={input.id}>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                {input.label} ({input.unit})
-                {input.required && <span className="text-red-500 ml-1">*</span>}
-              </label>
-              <input
-                type="text"
-                inputMode="decimal"
-                value={inputs[input.id] ?? ''}
-                onChange={(e) => {
-                  const raw = e.target.value;
-                  setInputsMap((prev) => ({
-                    ...prev,
-                    [formulaId]: { ...prev[formulaId], [input.id]: raw },
-                  }));
-                }}
-                onBlur={(e) => {
-                  const raw = e.target.value;
-                  const v = parseFloat(raw);
-                  if (raw !== '' && !isNaN(v)) {
+          {f.inputs.map((input) => {
+            if (input.premiumOnly && !isPremium) {
+              return (
+                <div key={input.id}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                      {input.label} ({input.unit})
+                    </label>
+                    <span className="text-xs font-semibold bg-brand-700 text-white px-1.5 py-0.5 rounded">Pro</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onOpenSubscription?.()}
+                    className="w-full flex items-center justify-between px-3 py-2 border border-dashed border-slate-300 dark:border-slate-600 rounded text-sm bg-slate-50 dark:bg-slate-900 text-slate-400 dark:text-slate-500"
+                  >
+                    <span>{input.defaultValue} {input.unit}</span>
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </button>
+                </div>
+              );
+            }
+            return (
+              <div key={input.id}>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  {input.label} ({input.unit})
+                  {input.required && <span className="text-red-500 ml-1">*</span>}
+                </label>
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={inputs[input.id] ?? ''}
+                  onChange={(e) => {
+                    const raw = e.target.value;
                     setInputsMap((prev) => ({
                       ...prev,
-                      [formulaId]: { ...prev[formulaId], [input.id]: String(v) },
+                      [formulaId]: { ...prev[formulaId], [input.id]: raw },
                     }));
-                  }
-                }}
-                placeholder={`Ingresa ${input.label.toLowerCase()}`}
-                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
-              />
-            </div>
-          ))}
+                  }}
+                  onBlur={(e) => {
+                    const raw = e.target.value;
+                    const v = parseFloat(raw);
+                    if (raw !== '' && !isNaN(v)) {
+                      setInputsMap((prev) => ({
+                        ...prev,
+                        [formulaId]: { ...prev[formulaId], [input.id]: String(v) },
+                      }));
+                    }
+                  }}
+                  placeholder={input.defaultValue !== undefined ? String(input.defaultValue) : `Ingresa ${input.label.toLowerCase()}`}
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
+                />
+              </div>
+            );
+          })}
         </div>
 
         {!f.calculations && allFilled && formulaResult !== null && (
@@ -404,7 +443,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
   );
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Card Kit del Paciente Crítico */}
@@ -479,7 +518,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
       )}
 
       {/* Tabs fijos */}
-      <div className="flex border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 sticky top-16 z-10 mt-3">
+      <div data-sticky style={{ top: 'var(--patient-input-h, 0px)' }} className="flex border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 sticky z-10 mt-3">
         <button
           onClick={() => switchSection('scores')}
           className={`flex-1 py-2.5 text-sm font-semibold transition border-b-2 ${
@@ -502,7 +541,7 @@ export default function CalculadorasPage({ initialId, onOpenSubscription }: Calc
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="min-h-screen">
         {activeSection === 'scores' && (
           <div data-onboarding="calculadora-select" className="divide-y divide-slate-200 dark:divide-slate-700">
             {regularScores.map((score) => (

@@ -2,6 +2,7 @@ export interface Patient {
   weightGrams: number;
   gestAgeWeeks?: number;
   dayOfLife?: number;
+  previousDayWeightDelta?: number;
 }
 
 export type DrugCategory =
@@ -65,6 +66,9 @@ export interface DrugPreparation {
   stockForm: string;
   reconstitution?: string;
   concentrationMgMl: number;
+  // Unidad real de `concentrationMgMl` cuando la droga no se dosifica en mg (p. ej.
+  // insulina en U/mL). Si se omite, la UI asume "mg/mL" — el default histórico.
+  concentrationUnit?: string;
   diluent: string;
   dilutionInstructions: string[];
   stability?: string;
@@ -167,6 +171,8 @@ export interface FormulaInput {
   label: string;
   unit: string;
   required: boolean;
+  defaultValue?: number;
+  premiumOnly?: boolean;
 }
 
 export interface Formula {

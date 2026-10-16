@@ -70,10 +70,12 @@ export default function MedicationsPage({ onGoToKit, onOpenGlobalSearch, initial
     respiratorio: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-100',
     emergencia: 'bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-100',
     vitaminas_electrolitos: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-100',
+    inmunologico: 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-100',
+    nutricion: 'bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-100',
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col bg-white dark:bg-slate-950">
       <PatientInput />
 
       {/* Kit del Paciente Crítico — acceso directo */}
@@ -142,7 +144,7 @@ export default function MedicationsPage({ onGoToKit, onOpenGlobalSearch, initial
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{entry.drugName}</p>
                         <p className="text-xs text-slate-500 dark:text-slate-400">
-                          {entry.doseTotal} mg · {entry.volumeMl} mL · {(entry.weightGrams / 1000).toFixed(2)} kg
+                          {entry.doseTotal} {entry.unit} · {entry.volumeMl} mL · {(entry.weightGrams / 1000).toFixed(2)} kg
                         </p>
                       </div>
                       <span className="text-xs text-slate-400 flex-shrink-0">{timeAgo(entry.timestamp)}</span>
@@ -181,7 +183,7 @@ export default function MedicationsPage({ onGoToKit, onOpenGlobalSearch, initial
       </div>
 
       {/* Results list */}
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="min-h-screen">
         {results.length === 0 ? (
           <div className="p-8 text-center">
             <p className="text-slate-500 dark:text-slate-400">No se encontraron medicamentos</p>
