@@ -1,7 +1,21 @@
 import data from '../../docs/clinical_knowledge.json';
-import { Drug } from '../types';
+import { Drug, DrugCategory } from '../types';
 
 export const drugs: Drug[] = data.drugs as Drug[];
+
+export const drugCategoryLabels: Record<DrugCategory | 'otros', string> = {
+  antibiotico: 'Antibióticos',
+  antiviral: 'Antivirales',
+  antifungico: 'Antifúngicos',
+  cardiovascular: 'Cardiovascular',
+  analgesico_sedante: 'Analgésicos y Sedantes',
+  diuretico: 'Diuréticos',
+  surfactante: 'Surfactantes',
+  respiratorio: 'Respiratorio',
+  emergencia: 'Emergencia',
+  vitaminas_electrolitos: 'Vitaminas y Electrolitos',
+  otros: 'Otros',
+};
 
 export function getDrugById(id: string): Drug | undefined {
   return drugs.find((d) => d.id === id);

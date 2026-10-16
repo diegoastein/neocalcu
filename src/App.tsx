@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ActivePage } from './types';
 import { trackEvent } from './utils/analytics';
+import { GlobalSearchResult } from './utils/search';
 import { PatientProvider } from './context/PatientContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import MedicationsPage from './pages/MedicationsPage';
@@ -15,6 +16,7 @@ import DonationToast from './components/DonationToast';
 import EmailCaptureModal from './components/EmailCaptureModal';
 import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
 import OnboardingTooltip from './components/OnboardingTooltip';
+import GlobalSearchModal from './components/GlobalSearchModal';
 import PromoResidenciasOverlay, { PromoHeaderBadge } from './components/PromoResidenciasOverlay';
 import Promo3x1Overlay, { Promo3x1Badge } from './components/Promo3x1Overlay';
 import SubscriptionModal from './components/SubscriptionModal';
@@ -90,6 +92,9 @@ function AppContent() {
   });
   const [focusedProcedureId, setFocusedProcedureId] = useState<string | null>(null);
   const [focusedCalculadoraId, setFocusedCalculadoraId] = useState<string | null>(null);
+  const [pendingDrugId, setPendingDrugId] = useState<string | null>(null);
+  const [pendingLabTarget, setPendingLabTarget] = useState<{ categoryId: string; paramId: string } | null>(null);
+  const [showGlobalSearch, setShowGlobalSearch] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
@@ -115,6 +120,22 @@ function AppContent() {
     if (page === 'procedimientos') setFocusedProcedureId(itemId || null);
     if (page === 'calculadoras') setFocusedCalculadoraId(itemId || null);
     setActivePage(page);
+  };
+
+  const handleSearchResultSelect = (result: GlobalSearchResult) => {
+    trackEvent('search_global_select', { result_type: result.type, result_id: result.id });
+    setShowGlobalSearch(false);
+    if (result.type === 'drug') {
+      setPendingDrugId(result.id);
+      setActivePage('medicamentos');
+    } else if (result.type === 'procedure') {
+      navigateToItem('procedimientos', result.id);
+    } else if (result.type === 'calculadora') {
+      navigateToItem('calculadoras', result.id);
+    } else if (result.type === 'laboratorio') {
+      setPendingLabTarget({ categoryId: result.categoryId!, paramId: result.id });
+      setActivePage('laboratorio');
+    }
   };
 
   useEffect(() => {
@@ -219,19 +240,33 @@ function AppContent() {
   const renderPage = () => {
     switch (activePage) {
       case 'medicamentos':
-        return <MedicationsPage onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')} />;
+        return (
+          <MedicationsPage
+            onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')}
+            onOpenGlobalSearch={() => setShowGlobalSearch(true)}
+            initialDrugId={pendingDrugId}
+            onInitialDrugConsumed={() => setPendingDrugId(null)}
+          />
+        );
       case 'procedimientos':
         return <ProceduresPage initialExpanded={focusedProcedureId} onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')} />;
       case 'calculadoras':
         return <CalculadorasPage initialId={focusedCalculadoraId} onOpenSubscription={() => setShowSubscriptionModal(true)} />;
       case 'laboratorio':
-        return <LaboratoryPage onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')} />;
+        return (
+          <LaboratoryPage
+            onGoToKit={() => navigateToItem('calculadoras', 'admision_neonatal')}
+            initialCategoryId={pendingLabTarget?.categoryId ?? null}
+            initialParamId={pendingLabTarget?.paramId ?? null}
+            onInitialTargetConsumed={() => setPendingLabTarget(null)}
+          />
+        );
       case 'favoritos':
         return <FavoritesPage onNavigate={navigateToItem} />;
     }
   };
 
-  const anyModalOpen = !disclaimerAccepted || showPremiumSheet || showToast || showEmailCapture || onboardingShowing || showSubscriptionModal;
+  const anyModalOpen = !disclaimerAccepted || showPremiumSheet || showToast || showEmailCapture || onboardingShowing || showSubscriptionModal || showGlobalSearch;
 
   return (
     <MembershipProvider membership={membership}>
@@ -239,20 +274,30 @@ function AppContent() {
     <div className="h-screen flex flex-col bg-white dark:bg-slate-950">
       {/* Header */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-4 py-2 flex items-center justify-between">
-        <button
-          onClick={() => setIsSettingsOpen(true)}
-          className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-          title="Configuración"
-          aria-label="Abrir configuración"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
+        <div className="flex items-center gap-0.5">
+          <button
+            onClick={() => setIsSettingsOpen(true)}
+            className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            title="Configuración"
+            aria-label="Abrir configuración"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+          <button
+            onClick={() => { trackEvent('open_global_search'); setShowGlobalSearch(true); }}
+            className="flex items-center gap-1.5 pl-2 pr-3 py-1.5 rounded-full bg-brand-700 dark:bg-brand-600 hover:bg-brand-800 dark:hover:bg-brand-500 transition-colors"
+            title="Buscar"
+            aria-label="Buscar en toda la app"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4 text-white shrink-0">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+            </svg>
+            <span className="text-xs font-semibold text-white">Buscar</span>
+          </button>
+        </div>
         <PromoHeaderBadge onClick={() => setShowPromoOverlay(true)} />
-        {promo3x1Active && !membership.active && !isPlayStoreTWA && (
-          <Promo3x1Badge onClick={() => setShowPromo3x1Overlay(true)} />
-        )}
 
         {membership.active ? (
           <div
@@ -389,6 +434,13 @@ function AppContent() {
           onClose={() => setShowSubscriptionModal(false)}
           onArgentina={async (plan) => { await handleDonate(plan); }}
           loadingPlan={loadingPlan}
+        />
+      )}
+
+      {showGlobalSearch && (
+        <GlobalSearchModal
+          onClose={() => setShowGlobalSearch(false)}
+          onSelect={handleSearchResultSelect}
         />
       )}
     </div>

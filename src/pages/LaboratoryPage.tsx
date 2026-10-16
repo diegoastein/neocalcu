@@ -1,16 +1,19 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { trackEvent } from '../utils/analytics';
 import { labCategories } from '../data/laboratory';
 import { LabParameter, BacteriologySyndrome, BacteriologyGerm } from '../types';
 import { useMembership } from '../context/MembershipContext';
 
-function ReferenceRow({ param }: { param: LabParameter }) {
+function ReferenceRow({ param, highlighted, rowRef }: { param: LabParameter; highlighted?: boolean; rowRef?: (el: HTMLDivElement | null) => void }) {
   const [expanded, setExpanded] = useState(false);
   const mainRef = param.references[0];
   const hasMultiple = param.references.length > 1;
 
   return (
-    <div className="border-b border-slate-100 dark:border-slate-800 last:border-0">
+    <div
+      ref={rowRef}
+      className={`border-b border-slate-100 dark:border-slate-800 last:border-0 transition-colors ${highlighted ? 'bg-brand-50 dark:bg-brand-900/30 ring-2 ring-inset ring-brand-500' : ''}`}
+    >
       <button
         className="w-full text-left p-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
         onClick={() => hasMultiple && setExpanded(!expanded)}
@@ -191,14 +194,38 @@ function GermCard({ germ }: { germ: BacteriologyGerm }) {
 
 interface LaboratoryPageProps {
   onGoToKit?: () => void;
+  initialCategoryId?: string | null;
+  initialParamId?: string | null;
+  onInitialTargetConsumed?: () => void;
 }
 
-export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) {
+export default function LaboratoryPage({ onGoToKit, initialCategoryId, initialParamId, onInitialTargetConsumed }: LaboratoryPageProps = {}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [bacterioView, setBacterioView] = useState<'syndrome' | 'germ'>('syndrome');
+  const [highlightedParamId, setHighlightedParamId] = useState<string | null>(null);
   const { active: isPremium } = useMembership();
   const bacterioRef = useRef<HTMLDivElement | null>(null);
+  const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const paramRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // Abrir una categoría/parámetro específico cuando se llega desde el buscador global
+  useEffect(() => {
+    if (!initialCategoryId) return;
+    setSearchQuery('');
+    setExpandedCategories((prev) => new Set([...prev, initialCategoryId]));
+    if (initialParamId) setHighlightedParamId(initialParamId);
+    trackEvent('open_lab_param', { category_id: initialCategoryId, param_id: initialParamId ?? '', source: 'search_global' });
+
+    const timer = setTimeout(() => {
+      const paramEl = initialParamId ? paramRefs.current[initialParamId] : undefined;
+      (paramEl ?? categoryRefs.current[initialCategoryId])?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+    const clearHighlight = setTimeout(() => setHighlightedParamId(null), 3000);
+    onInitialTargetConsumed?.();
+    return () => { clearTimeout(timer); clearTimeout(clearHighlight); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialCategoryId, initialParamId]);
 
   const goToBacteriologia = () => {
     trackEvent('open_bacteriologia_teaser');
@@ -324,7 +351,14 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
             : cat.parameters.length;
 
           return (
-            <div key={cat.id} ref={cat.id === 'bacteriologia' ? bacterioRef : undefined} className="border-b border-slate-100 dark:border-slate-800 last:border-0">
+            <div
+              key={cat.id}
+              ref={(el) => {
+                categoryRefs.current[cat.id] = el;
+                if (cat.id === 'bacteriologia') bacterioRef.current = el;
+              }}
+              className="border-b border-slate-100 dark:border-slate-800 last:border-0"
+            >
               {/* Cabecera de categoría */}
               <button
                 className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left"
@@ -410,7 +444,12 @@ export default function LaboratoryPage({ onGoToKit }: LaboratoryPageProps = {}) 
                       {!cat.isPremium && (
                         <div className="mx-4 mb-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
                           {cat.parameters.map((param) => (
-                            <ReferenceRow key={param.id} param={param} />
+                            <ReferenceRow
+                              key={param.id}
+                              param={param}
+                              highlighted={highlightedParamId === param.id}
+                              rowRef={(el) => { paramRefs.current[param.id] = el; }}
+                            />
                           ))}
                         </div>
                       )}

@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { trackEvent } from '../utils/analytics';
 import PatientInput from '../components/PatientInput';
 import DrugDetail from '../components/DrugDetail';
-import { drugs, searchDrugs } from '../data/medications';
+import { drugs, drugCategoryLabels } from '../data/medications';
 import { useFavorites } from '../context/FavoritesContext';
 import { Drug } from '../types';
 import { useMembership } from '../context/MembershipContext';
@@ -10,10 +10,12 @@ import { getHistory, clearHistory, timeAgo, HistoryEntry } from '../hooks/useCal
 
 interface MedicationsPageProps {
   onGoToKit?: () => void;
+  onOpenGlobalSearch?: () => void;
+  initialDrugId?: string | null;
+  onInitialDrugConsumed?: () => void;
 }
 
-export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}) {
-  const [searchQuery, setSearchQuery] = useState('');
+export default function MedicationsPage({ onGoToKit, onOpenGlobalSearch, initialDrugId, onInitialDrugConsumed }: MedicationsPageProps = {}) {
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -24,18 +26,18 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
   }, [selectedDrug]);
   const { toggleFavorite, isFavorite } = useFavorites();
 
-  const results = searchQuery.trim() ? searchDrugs(searchQuery) : drugs;
-  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
+  // Abrir un medicamento específico cuando se llega desde el buscador global
   useEffect(() => {
-    const q = searchQuery.trim();
-    if (q.length < 3) return;
-    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
-    searchTimerRef.current = setTimeout(() => {
-      trackEvent('search_drug', { query: q, results_count: results.length });
-    }, 800);
-    return () => { if (searchTimerRef.current) clearTimeout(searchTimerRef.current); };
-  }, [searchQuery, results.length]);
+    if (!initialDrugId) return;
+    const drug = drugs.find((d) => d.id === initialDrugId);
+    if (drug) {
+      trackEvent('open_drug', { drug_id: drug.id, drug_name: drug.name, source: 'search_global' });
+      setSelectedDrug(drug);
+    }
+    onInitialDrugConsumed?.();
+  }, [initialDrugId]);
+
+  const results = drugs;
 
   // Agrupar medicamentos por categoría
   const groupByCategory = (drugList: Drug[]) => {
@@ -55,19 +57,7 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
   };
 
   const groupedDrugs = groupByCategory(results);
-  const categoryLabels: Record<string, string> = {
-    antibiotico: 'Antibióticos',
-    antiviral: 'Antivirales',
-    antifungico: 'Antifúngicos',
-    cardiovascular: 'Cardiovascular',
-    analgesico_sedante: 'Analgésicos y Sedantes',
-    diuretico: 'Diuréticos',
-    surfactante: 'Surfactantes',
-    respiratorio: 'Respiratorio',
-    emergencia: 'Emergencia',
-    vitaminas_electrolitos: 'Vitaminas y Electrolitos',
-    otros: 'Otros',
-  };
+  const categoryLabels: Record<string, string> = drugCategoryLabels;
 
   const categoryBadgeColor: { [key: string]: string } = {
     antibiotico: 'bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-100',
@@ -174,17 +164,19 @@ export default function MedicationsPage({ onGoToKit }: MedicationsPageProps = {}
         </div>
       )}
 
-      {/* Search bar */}
+      {/* Buscador global — reemplaza al buscador local de medicamentos */}
       <div data-onboarding="drug-search" className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-4">
-        <input
-          type="text"
-          placeholder="Buscar medicamento..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:text-slate-200"
-        />
+        <button
+          onClick={onOpenGlobalSearch}
+          className="w-full flex items-center gap-2 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-left text-slate-400 dark:text-slate-500 hover:border-brand-500 hover:text-slate-500 dark:hover:text-slate-400 transition-colors dark:bg-slate-800"
+        >
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+          </svg>
+          <span className="text-sm">Buscar en toda la app...</span>
+        </button>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
-          {results.length} resultado{results.length !== 1 ? 's' : ''}
+          {results.length} medicamento{results.length !== 1 ? 's' : ''}
         </p>
       </div>
 
