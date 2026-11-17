@@ -277,13 +277,13 @@ export default function SettingsPanel({
               Contacto
             </h3>
             <a
-              href="mailto:info@neomonitor.pro"
+              href="mailto:info@dastudio.com.ar"
               className="flex items-center gap-2 text-sm text-brand-700 dark:text-brand-400 hover:underline"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4 shrink-0">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
               </svg>
-              info@neomonitor.pro
+              info@dastudio.com.ar
             </a>
             <a
               href="https://www.instagram.com/neomonitor.pro"
