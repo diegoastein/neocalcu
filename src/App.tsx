@@ -23,7 +23,7 @@ import SubscriptionModal from './components/SubscriptionModal';
 import { useDonationReminder } from './hooks/useDonationReminder';
 import { MembershipProvider } from './context/MembershipContext';
 import { UIProvider } from './context/UIContext';
-import { isPlayStoreTWA } from './utils/platform';
+import { hideMonetization } from './utils/platform';
 
 type ThemeMode = 'system' | 'light' | 'dark';
 
@@ -145,7 +145,7 @@ function AppContent() {
   }, [activePage]);
 
   useEffect(() => {
-    if (isPlayStoreTWA) return;
+    if (hideMonetization) return;
     fetch('https://neocalcu-donations.diegosteinberg.workers.dev/promo-status')
       .then(r => r.json())
       .then((d: { promo3x1?: boolean }) => { if (d.promo3x1) setPromo3x1Active(true); })
@@ -228,7 +228,7 @@ function AppContent() {
 
   // Mostrar sheet de funciones premium al abrir si no hay membresía activa (no en TWA)
   useEffect(() => {
-    if (!membership.active && !isPlayStoreTWA) {
+    if (!membership.active && !hideMonetization) {
       const t = setTimeout(() => setShowPremiumSheet(true), 600);
       return () => clearTimeout(t);
     }
@@ -303,7 +303,7 @@ function AppContent() {
             <span className="text-xs font-semibold text-white">Buscar</span>
           </button>
         </div>
-        <PromoHeaderBadge onClick={() => setShowPromoOverlay(true)} />
+        {!hideMonetization && <PromoHeaderBadge onClick={() => setShowPromoOverlay(true)} />}
 
         {membership.active ? (
           <div
@@ -315,7 +315,7 @@ function AppContent() {
             </svg>
             <span>¡Gracias!</span>
           </div>
-        ) : isPlayStoreTWA ? (
+        ) : hideMonetization ? (
           <div className="w-8 h-8" aria-hidden />
         ) : (
           <button
@@ -391,7 +391,7 @@ function AppContent() {
         />
       )}
 
-      {showToast && !isPlayStoreTWA && (
+      {showToast && !hideMonetization && (
         <DonationToast
           onDonate={() => { trackEvent('click_apoyar', { source: 'toast' }); setShowSubscriptionModal(true); }}
           onDismiss={dismissToast}
@@ -435,7 +435,7 @@ function AppContent() {
         />
       )}
 
-      {showSubscriptionModal && !isPlayStoreTWA && (
+      {showSubscriptionModal && !hideMonetization && (
         <SubscriptionModal
           onClose={() => setShowSubscriptionModal(false)}
           onArgentina={async (plan) => { await handleDonate(plan); }}

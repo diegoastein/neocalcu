@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import DisclaimerModal from './DisclaimerModal';
 import { RedeemResult, RecoverResult, RecoverByCouponResult, MembershipInfo } from '../hooks/useDonationReminder';
-import { isPlayStoreTWA } from '../utils/platform';
+import { FREE_MODE, isPlayStoreTWA } from '../utils/platform';
 import { usePatient } from '../context/PatientContext';
 import { useMembership } from '../context/MembershipContext';
 
@@ -300,8 +300,8 @@ export default function SettingsPanel({
             </a>
           </section>
 
-          {/* Donación / Membresía */}
-          <section>
+          {/* Donación / Membresía (oculta en modo libre) */}
+          <section className={FREE_MODE && !membership?.active ? 'hidden' : undefined}>
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
               {membership?.active ? 'Membresía' : 'Apoyá el proyecto'}
             </h3>
@@ -530,6 +530,18 @@ export default function SettingsPanel({
           </button>
           <p className="text-xs text-center text-slate-300 dark:text-slate-600">
             NeoCalcu · Neomonitor
+          </p>
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500">
+            Desarrollado por{' '}
+            <a
+              href="https://www.instagram.com/dastudioweb"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-brand-700 dark:text-brand-400 hover:underline"
+            >
+              dastudioweb
+            </a>{' '}
+            · @dastudioweb
           </p>
         </div>
       </aside>

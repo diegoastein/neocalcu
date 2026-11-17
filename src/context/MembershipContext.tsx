@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { MembershipInfo } from '../hooks/useDonationReminder';
-import { isPlayStoreTWA } from '../utils/platform';
+import { hideMonetization } from '../utils/platform';
 
 const MembershipContext = createContext<MembershipInfo>({ active: false, plan: null, expiresAt: null });
 
@@ -8,7 +8,7 @@ const TWA_MEMBERSHIP: MembershipInfo = { active: true, plan: null, expiresAt: nu
 
 export function MembershipProvider({ membership, children }: { membership: MembershipInfo; children: ReactNode }) {
   return (
-    <MembershipContext.Provider value={isPlayStoreTWA ? TWA_MEMBERSHIP : membership}>
+    <MembershipContext.Provider value={hideMonetization ? TWA_MEMBERSHIP : membership}>
       {children}
     </MembershipContext.Provider>
   );

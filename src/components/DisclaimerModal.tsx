@@ -85,6 +85,22 @@ export default function DisclaimerModal({ isOpen, onClose }: DisclaimerModalProp
                     Esta aplicación es un proyecto independiente y no cuenta con el aval oficial, patrocinio ni afiliación con la Sociedad Argentina de Pediatría (SAP) ni con los editores de Neofax.
                   </p>
                 </div>
+
+                <div>
+                  <h4 className="font-semibold text-slate-900 dark:text-white mb-2">6. Desarrollo</h4>
+                  <p className="text-sm leading-relaxed">
+                    Aplicación desarrollada por{' '}
+                    <a
+                      href="https://www.instagram.com/dastudioweb"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-brand-700 dark:text-brand-400 hover:underline"
+                    >
+                      dastudioweb
+                    </a>{' '}
+                    (@dastudioweb).
+                  </p>
+                </div>
               </div>
             </section>
           </div>
