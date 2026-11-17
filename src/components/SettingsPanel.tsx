@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import DisclaimerModal from './DisclaimerModal';
 import { RedeemResult, RecoverResult, RecoverByCouponResult, MembershipInfo } from '../hooks/useDonationReminder';
+import { sponsors } from '../data/sponsors';
 import { FREE_MODE, isPlayStoreTWA } from '../utils/platform';
 import { usePatient } from '../context/PatientContext';
 import { useMembership } from '../context/MembershipContext';
@@ -300,8 +301,35 @@ export default function SettingsPanel({
             </a>
           </section>
 
-          {/* Búsqueda de apoyo institucional (solo en modo libre) */}
-          {FREE_MODE && !membership?.active && (
+          {/* Apoyo institucional: lista de apoyos o, si no hay, invitación a apoyar (solo en modo libre) */}
+          {FREE_MODE && sponsors.length > 0 && (
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+                Con el apoyo de
+              </h3>
+              <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 space-y-2">
+                {sponsors.map(sp => {
+                  const content = sp.logo ? (
+                    <img src={sp.logo} alt={sp.name} className="h-10 w-auto object-contain" />
+                  ) : (
+                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">{sp.name}</span>
+                  );
+                  return sp.url ? (
+                    <a key={sp.name} href={sp.url} target="_blank" rel="noopener noreferrer" className="flex justify-center hover:opacity-80 transition-opacity">
+                      {content}
+                    </a>
+                  ) : (
+                    <div key={sp.name} className="flex justify-center">{content}</div>
+                  );
+                })}
+                <p className="text-[11px] text-center text-slate-400 dark:text-slate-500 leading-snug">
+                  El apoyo no condiciona el contenido clínico de NeoCalcu.
+                </p>
+              </div>
+            </section>
+          )}
+
+          {FREE_MODE && sponsors.length === 0 && !membership?.active && (
             <section>
               <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
                 Apoyá NeoCalcu

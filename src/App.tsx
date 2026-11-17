@@ -18,6 +18,7 @@ import PremiumFeaturesSheet from './components/PremiumFeaturesSheet';
 import OnboardingTooltip from './components/OnboardingTooltip';
 import GlobalSearchModal from './components/GlobalSearchModal';
 import PromoResidenciasOverlay, { PromoHeaderBadge } from './components/PromoResidenciasOverlay';
+import SponsorStrip from './components/SponsorStrip';
 import Promo3x1Overlay, { Promo3x1Badge } from './components/Promo3x1Overlay';
 import SubscriptionModal from './components/SubscriptionModal';
 import { useDonationReminder } from './hooks/useDonationReminder';
@@ -330,6 +331,8 @@ function AppContent() {
           </button>
         )}
       </div>
+
+      <SponsorStrip />
 
       <main ref={mainRef} className="flex-1 overflow-y-auto pb-20">
         {renderPage()}
