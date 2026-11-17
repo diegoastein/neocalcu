@@ -300,6 +300,27 @@ export default function SettingsPanel({
             </a>
           </section>
 
+          {/* Búsqueda de apoyo institucional (solo en modo libre) */}
+          {FREE_MODE && !membership?.active && (
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+                Apoyá NeoCalcu
+              </h3>
+              <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 space-y-2.5">
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  NeoCalcu es gratuita y se mantiene sin publicidad. Si sos parte de una institución,
+                  sociedad científica o empresa y querés apoyar el proyecto, escribinos.
+                </p>
+                <a
+                  href="mailto:info@dastudio.com.ar?subject=Apoyo%20a%20NeoCalcu"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors"
+                >
+                  Contactar
+                </a>
+              </div>
+            </section>
+          )}
+
           {/* Donación / Membresía (oculta en modo libre) */}
           <section className={FREE_MODE && !membership?.active ? 'hidden' : undefined}>
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
